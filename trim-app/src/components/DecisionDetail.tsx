@@ -479,7 +479,7 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
           className={`w-full rounded-lg py-4 text-lg font-bold transition-colors mb-4 ${
             localDecision.options.some(opt => opt.isSelected)
               ? 'bg-stretchLimo text-white hover:bg-opacity-90'
-              : 'bg-gray-100 text-micron cursor-not-allowed'
+              : 'bg-gray-100 text-micron cursor-not-allowed border-2 border-gray-200'
           }`}
         >
           TRIM
@@ -492,7 +492,7 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
           className={`w-full rounded-lg py-4 text-base font-medium mb-8 flex items-center justify-center gap-2 transition-colors ${
             localDecision.options.length >= 2
               ? 'bg-white text-stretchLimo hover:bg-gray-50 border-2 border-stretchLimo'
-              : 'bg-gray-100 text-micron cursor-not-allowed'
+              : 'bg-gray-100 text-micron cursor-not-allowed border-2 border-gray-200'
           }`}
         >
           <span className="text-xl">🎲</span>
