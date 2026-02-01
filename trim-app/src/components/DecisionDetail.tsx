@@ -583,14 +583,16 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
         {/* Options List */}
         <div className="space-y-3 mb-6">
           {localDecision.options.map((option) => (
-            <div key={option.id}>
-              <div
-                className={`rounded-lg p-4 flex items-center gap-3 group transition-colors ${
-                  option.isSelected 
-                    ? 'bg-stretchLimo bg-opacity-10 border-2 border-stretchLimo' 
-                    : 'bg-white'
-                }`}
-              >
+            <div
+              key={option.id}
+              className={`rounded-lg p-4 group transition-colors ${
+                option.isSelected 
+                  ? 'bg-stretchLimo bg-opacity-10 border-2 border-stretchLimo' 
+                  : 'bg-white'
+              }`}
+            >
+              {/* Option Header */}
+              <div className="flex items-center gap-3">
                 <button
                   onClick={() => handleOptionSelect(option.id)}
                   className={`w-5 h-5 rounded-full border-2 border-stretchLimo flex-shrink-0 flex items-center justify-center ${
@@ -635,19 +637,19 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
 
               {/* Option Links */}
               {option.links && option.links.length > 0 && (
-                <div className="mt-2 ml-8 space-y-2">
+                <div className="mt-3 space-y-2">
                   {option.links.map((link) => (
                     <a
                       key={link.id}
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block bg-gray-50 rounded-lg overflow-hidden hover:bg-gray-100 transition-colors group"
+                      className="block bg-gray-100 rounded-lg overflow-hidden hover:bg-gray-200 transition-colors relative group/link"
                     >
                       <div className="flex items-start gap-3 p-3">
                         {/* Thumbnail Image */}
                         {link.image && (
-                          <div className="w-16 h-16 flex-shrink-0 rounded overflow-hidden bg-gray-200">
+                          <div className="w-16 h-16 flex-shrink-0 rounded overflow-hidden bg-gray-300">
                             <img 
                               src={link.image} 
                               alt="" 
@@ -684,7 +686,7 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
                             e.stopPropagation();
                             handleDeleteOptionLink(option.id, link.id);
                           }}
-                          className="p-1 opacity-0 group-hover:opacity-100 hover:bg-scarletSmile hover:bg-opacity-10 rounded transition-opacity flex-shrink-0"
+                          className="p-1 opacity-0 group-hover/link:opacity-100 hover:bg-scarletSmile hover:bg-opacity-10 rounded transition-opacity flex-shrink-0"
                         >
                           <Trash2 className="w-3 h-3 text-scarletSmile" />
                         </button>
@@ -700,7 +702,7 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
                   value={option.memo || ''}
                   onChange={(e) => handleOptionMemoChange(option.id, e.target.value)}
                   placeholder="Add notes about this option..."
-                  className="w-full mt-2 px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none"
+                  className="w-full mt-3 px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none"
                   rows={2}
                 />
               )}
