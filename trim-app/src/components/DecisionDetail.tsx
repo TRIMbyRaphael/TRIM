@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { ArrowLeft, MoreVertical, Plus, ChevronDown, ChevronRight, Info, Clock, FileText, Trash2, Link as LinkIcon, ExternalLink } from 'lucide-react';
+import { ArrowLeft, MoreVertical, Plus, ChevronDown, ChevronRight, Info, Clock, FileText, Trash2, Link as LinkIcon, ExternalLink, Edit } from 'lucide-react';
 import { Decision, IMPORTANCE_LEVELS, ImportanceLevel, Link } from '../types/decision';
 import TimeBudgetModal from './TimeBudgetModal';
 import { fetchOpenGraphData } from '../utils/linkPreview';
@@ -25,6 +25,7 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
   const [showLinkModal, setShowLinkModal] = useState(false);
   const [linkModalType, setLinkModalType] = useState<'decision' | 'option'>('decision');
   const [linkModalOptionId, setLinkModalOptionId] = useState<string | null>(null);
+  const [editingLinkId, setEditingLinkId] = useState<string | null>(null);
   const [linkUrl, setLinkUrl] = useState('');
   const [linkTitle, setLinkTitle] = useState('');
   const [linkDescription, setLinkDescription] = useState('');
@@ -97,14 +98,28 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
   };
 
   // Link functions
-  const openLinkModal = (type: 'decision' | 'option', optionId?: string) => {
+  const openLinkModal = (type: 'decision' | 'option', optionId?: string, existingLink?: Link) => {
     setLinkModalType(type);
     setLinkModalOptionId(optionId || null);
-    setLinkUrl('');
-    setLinkTitle('');
-    setLinkDescription('');
-    setLinkImage('');
-    setLinkSiteName('');
+    
+    if (existingLink) {
+      // 기존 링크 편집 모드
+      setEditingLinkId(existingLink.id);
+      setLinkUrl(existingLink.url);
+      setLinkTitle(existingLink.title || '');
+      setLinkDescription(existingLink.description || '');
+      setLinkImage(existingLink.image || '');
+      setLinkSiteName(existingLink.siteName || '');
+    } else {
+      // 새 링크 추가 모드
+      setEditingLinkId(null);
+      setLinkUrl('');
+      setLinkTitle('');
+      setLinkDescription('');
+      setLinkImage('');
+      setLinkSiteName('');
+    }
+    
     setIsLoadingPreview(false);
     setShowLinkModal(true);
   };
@@ -114,6 +129,11 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
     
     // URL이 유효한 형식인지 확인
     if (!url.trim() || !url.match(/^https?:\/\//)) {
+      // URL 형식이 아니면 기존 프리뷰 데이터 초기화
+      setLinkTitle('');
+      setLinkDescription('');
+      setLinkImage('');
+      setLinkSiteName('');
       return;
     }
 
@@ -122,12 +142,18 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
     try {
       const ogData = await fetchOpenGraphData(url);
       
-      if (ogData.title) setLinkTitle(ogData.title);
-      if (ogData.description) setLinkDescription(ogData.description);
-      if (ogData.image) setLinkImage(ogData.image);
-      if (ogData.siteName) setLinkSiteName(ogData.siteName);
+      // OG 데이터는 항상 최소한 title과 siteName을 포함 (fallback 처리됨)
+      setLinkTitle(ogData.title || '');
+      setLinkDescription(ogData.description || '');
+      setLinkImage(ogData.image || '');
+      setLinkSiteName(ogData.siteName || '');
     } catch (error) {
       console.error('Failed to fetch preview:', error);
+      // 에러 발생 시에도 기본 정보 설정
+      setLinkTitle(getDomain(url));
+      setLinkSiteName(getDomain(url));
+      setLinkDescription('');
+      setLinkImage('');
     } finally {
       setIsLoadingPreview(false);
     }
@@ -136,32 +162,53 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
   const handleSaveLink = () => {
     if (!linkUrl.trim()) return;
 
-    const newLink: Link = {
-      id: Date.now().toString(),
-      url: linkUrl.trim(),
-      title: linkTitle.trim() || undefined,
+    const url = linkUrl.trim();
+    const domain = getDomain(url);
+
+    // 최소한의 데이터 보장: title이나 siteName이 없으면 domain 사용
+    const linkData: Link = {
+      id: editingLinkId || Date.now().toString(),  // 편집 중이면 기존 ID 사용
+      url: url,
+      title: linkTitle.trim() || domain,  // title이 없으면 domain 사용
       description: linkDescription.trim() || undefined,
       image: linkImage.trim() || undefined,
-      siteName: linkSiteName.trim() || undefined,
+      siteName: linkSiteName.trim() || domain,  // siteName이 없으면 domain 사용
     };
 
     if (linkModalType === 'decision') {
-      setLocalDecision({
-        ...localDecision,
-        links: [...(localDecision.links || []), newLink],
-      });
+      if (editingLinkId) {
+        // 기존 링크 업데이트
+        setLocalDecision({
+          ...localDecision,
+          links: (localDecision.links || []).map(link => 
+            link.id === editingLinkId ? linkData : link
+          ),
+        });
+      } else {
+        // 새 링크 추가
+        setLocalDecision({
+          ...localDecision,
+          links: [...(localDecision.links || []), linkData],
+        });
+      }
     } else if (linkModalOptionId) {
       setLocalDecision({
         ...localDecision,
         options: localDecision.options.map((opt) =>
           opt.id === linkModalOptionId
-            ? { ...opt, links: [...(opt.links || []), newLink] }
+            ? {
+                ...opt,
+                links: editingLinkId
+                  ? (opt.links || []).map(link => link.id === editingLinkId ? linkData : link)
+                  : [...(opt.links || []), linkData]
+              }
             : opt
         ),
       });
     }
 
     setShowLinkModal(false);
+    setEditingLinkId(null);
     setLinkUrl('');
     setLinkTitle('');
     setLinkDescription('');
@@ -551,17 +598,31 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
                       )}
                     </div>
                     
-                    {/* Delete Button */}
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        handleDeleteDecisionLink(link.id);
-                      }}
-                      className="p-1 opacity-0 group-hover:opacity-100 hover:bg-scarletSmile hover:bg-opacity-10 rounded transition-opacity flex-shrink-0"
-                    >
-                      <Trash2 className="w-4 h-4 text-scarletSmile" />
-                    </button>
+                    {/* Edit & Delete Buttons */}
+                    <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          openLinkModal('decision', undefined, link);
+                        }}
+                        className="p-1 hover:bg-stretchLimo hover:bg-opacity-10 rounded flex-shrink-0"
+                        title="Edit preview"
+                      >
+                        <Edit className="w-4 h-4 text-stretchLimo" />
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          handleDeleteDecisionLink(link.id);
+                        }}
+                        className="p-1 hover:bg-scarletSmile hover:bg-opacity-10 rounded flex-shrink-0"
+                        title="Delete"
+                      >
+                        <Trash2 className="w-4 h-4 text-scarletSmile" />
+                      </button>
+                    </div>
                   </div>
                 </a>
               ))}
@@ -679,17 +740,31 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
                           )}
                         </div>
                         
-                        {/* Delete Button */}
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            handleDeleteOptionLink(option.id, link.id);
-                          }}
-                          className="p-1 opacity-0 group-hover/link:opacity-100 hover:bg-scarletSmile hover:bg-opacity-10 rounded transition-opacity flex-shrink-0"
-                        >
-                          <Trash2 className="w-3 h-3 text-scarletSmile" />
-                        </button>
+                        {/* Edit & Delete Buttons */}
+                        <div className="flex gap-1 opacity-0 group-hover/link:opacity-100 transition-opacity">
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              openLinkModal('option', option.id, link);
+                            }}
+                            className="p-1 hover:bg-stretchLimo hover:bg-opacity-10 rounded flex-shrink-0"
+                            title="Edit preview"
+                          >
+                            <Edit className="w-3 h-3 text-stretchLimo" />
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              handleDeleteOptionLink(option.id, link.id);
+                            }}
+                            className="p-1 hover:bg-scarletSmile hover:bg-opacity-10 rounded flex-shrink-0"
+                            title="Delete"
+                          >
+                            <Trash2 className="w-3 h-3 text-scarletSmile" />
+                          </button>
+                        </div>
                       </div>
                     </a>
                   ))}
@@ -962,7 +1037,7 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
           <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-2xl w-full max-w-md p-6">
               <h3 className="text-lg font-bold text-stretchLimo mb-4">
-                Add Link
+                {editingLinkId ? 'Edit Link' : 'Add Link'}
               </h3>
               
               <div className="space-y-4 mb-6">
