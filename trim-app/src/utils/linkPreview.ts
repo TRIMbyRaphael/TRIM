@@ -73,66 +73,64 @@ export async function fetchOpenGraphData(url: string): Promise<OpenGraphData> {
     
     const html = await response.text();
     
-    // Open Graph 메타 태그 파싱 (더 강력한 파싱)
+    // Notion-style 고품질 메타 태그 파싱
     const ogData: OpenGraphData = {};
     
-    // Helper function: 다양한 메타 태그 형식 지원
+    // Helper function: 다양한 메타 태그 형식 지원 (property 또는 name)
     const getMetaContent = (property: string): string | undefined => {
-      // 패턴 1: property="og:xxx" content="yyy"
+      // 패턴 1: property="xxx" content="yyy"
       let match = html.match(new RegExp(`<meta[^>]*property=["']${property}["'][^>]*content=["']([^"']*)["']`, 'i'));
       if (match) return match[1];
       
-      // 패턴 2: content="yyy" property="og:xxx" (순서 반대)
+      // 패턴 2: content="yyy" property="xxx" (순서 반대)
       match = html.match(new RegExp(`<meta[^>]*content=["']([^"']*)["'][^>]*property=["']${property}["']`, 'i'));
       if (match) return match[1];
       
-      // 패턴 3: name="og:xxx" content="yyy" (일부 사이트는 name 사용)
+      // 패턴 3: name="xxx" content="yyy"
       match = html.match(new RegExp(`<meta[^>]*name=["']${property}["'][^>]*content=["']([^"']*)["']`, 'i'));
       if (match) return match[1];
       
-      // 패턴 4: content="yyy" name="og:xxx"
+      // 패턴 4: content="yyy" name="xxx"
       match = html.match(new RegExp(`<meta[^>]*content=["']([^"']*)["'][^>]*name=["']${property}["']`, 'i'));
       if (match) return match[1];
       
       return undefined;
     };
     
-    // og:title
-    ogData.title = getMetaContent('og:title');
-    
-    // og:description
-    ogData.description = getMetaContent('og:description');
-    
-    // og:image (상대 URL을 절대 URL로 변환)
-    const imageUrl = getMetaContent('og:image');
-    if (imageUrl) {
+    // 이미지 URL을 절대 경로로 변환하는 헬퍼
+    const normalizeImageUrl = (imageUrl: string | undefined): string | undefined => {
+      if (!imageUrl) return undefined;
+      
       try {
-        // 이미 절대 URL이면 그대로, 상대 URL이면 절대 URL로 변환
+        // 이미 절대 URL이면 그대로
         if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
-          ogData.image = imageUrl;
+          return imageUrl;
         } else if (imageUrl.startsWith('//')) {
           // Protocol-relative URL (예: //example.com/image.jpg)
-          ogData.image = `https:${imageUrl}`;
+          return `https:${imageUrl}`;
         } else if (imageUrl.startsWith('/')) {
           // 절대 경로 (예: /images/og.jpg)
           const urlObj = new URL(url);
-          ogData.image = `${urlObj.protocol}//${urlObj.host}${imageUrl}`;
+          return `${urlObj.protocol}//${urlObj.host}${imageUrl}`;
         } else {
           // 상대 경로 (예: images/og.jpg)
           const urlObj = new URL(url);
           const basePath = urlObj.pathname.substring(0, urlObj.pathname.lastIndexOf('/') + 1);
-          ogData.image = `${urlObj.protocol}//${urlObj.host}${basePath}${imageUrl}`;
+          return `${urlObj.protocol}//${urlObj.host}${basePath}${imageUrl}`;
         }
       } catch (e) {
-        console.warn('Failed to parse image URL:', imageUrl);
-        ogData.image = imageUrl; // 파싱 실패 시 원본 사용
+        console.warn('Failed to normalize image URL:', imageUrl);
+        return imageUrl; // 파싱 실패 시 원본 사용
       }
-    }
+    };
     
-    // og:site_name
-    ogData.siteName = getMetaContent('og:site_name');
+    // 우선순위 시스템: Open Graph > Twitter Card > Standard Meta
     
-    // fallback: <title> 태그
+    // Title 우선순위: og:title > twitter:title > <title>
+    ogData.title = getMetaContent('og:title') 
+      || getMetaContent('twitter:title') 
+      || undefined;
+    
     if (!ogData.title) {
       const pageTitleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
       if (pageTitleMatch) {
@@ -140,13 +138,32 @@ export async function fetchOpenGraphData(url: string): Promise<OpenGraphData> {
       }
     }
     
+    // Description 우선순위: og:description > twitter:description > meta description
+    ogData.description = getMetaContent('og:description') 
+      || getMetaContent('twitter:description') 
+      || getMetaContent('description')
+      || undefined;
+    
+    // Image 우선순위: og:image > twitter:image > twitter:image:src
+    const rawImageUrl = getMetaContent('og:image') 
+      || getMetaContent('twitter:image') 
+      || getMetaContent('twitter:image:src')
+      || undefined;
+    
+    ogData.image = normalizeImageUrl(rawImageUrl);
+    
+    // Site Name 우선순위: og:site_name > twitter:site > 도메인에서 추출
+    ogData.siteName = getMetaContent('og:site_name') 
+      || getMetaContent('twitter:site')?.replace('@', '') 
+      || undefined;
+    
     // 로그로 파싱 결과 확인 (디버깅용)
     console.log('📊 OG Data parsed:', {
       url,
-      title: ogData.title ? '✅' : '❌',
-      description: ogData.description ? '✅' : '❌',
+      title: ogData.title ? `✅ ${ogData.title.substring(0, 30)}...` : '❌',
+      description: ogData.description ? `✅ ${ogData.description.substring(0, 30)}...` : '❌',
       image: ogData.image ? '✅' : '❌',
-      siteName: ogData.siteName ? '✅' : '❌',
+      siteName: ogData.siteName ? `✅ ${ogData.siteName}` : '❌',
     });
     
     // 최소한의 데이터 보장: title과 siteName은 항상 있어야 함
