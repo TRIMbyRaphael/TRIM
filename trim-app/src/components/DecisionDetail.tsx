@@ -26,8 +26,6 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
   const [linkModalOptionId, setLinkModalOptionId] = useState<string | null>(null);
   const [linkUrl, setLinkUrl] = useState('');
   const [linkTitle, setLinkTitle] = useState('');
-  const [showDecisionLinks, setShowDecisionLinks] = useState(false);
-  const [showOptionLinks, setShowOptionLinks] = useState<{ [key: string]: boolean }>({});
   const titleInputRef = useRef<HTMLInputElement>(null);
   const optionRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
   const initialDecision = useRef<Decision>(decision);
@@ -81,6 +79,16 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
         opt.id === optionId ? { ...opt, memo } : opt
       ),
     });
+  };
+
+  // Helper function to extract domain from URL
+  const getDomain = (url: string) => {
+    try {
+      const urlObj = new URL(url);
+      return urlObj.hostname.replace('www.', '');
+    } catch {
+      return url;
+    }
   };
 
   // Link functions
@@ -447,7 +455,7 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
               className="flex-1 text-xl font-medium text-stretchLimo bg-transparent border-none outline-none placeholder-gray-300"
             />
             <button
-              onClick={() => setShowDecisionLinks(!showDecisionLinks)}
+              onClick={() => openLinkModal('decision')}
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
             >
               <LinkIcon className={`w-5 h-5 ${(localDecision.links && localDecision.links.length > 0) ? 'text-stretchLimo' : 'text-micron'}`} />
@@ -461,42 +469,41 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
           </div>
 
           {/* Decision Links */}
-          {showDecisionLinks && (
-            <div className="mt-3 bg-gray-50 border border-gray-200 rounded-lg p-3">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium text-stretchLimo">Links</span>
-                <button
-                  onClick={() => openLinkModal('decision')}
-                  className="text-xs text-stretchLimo hover:underline"
+          {localDecision.links && localDecision.links.length > 0 && (
+            <div className="mt-3 space-y-2">
+              {localDecision.links.map((link) => (
+                <a
+                  key={link.id}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block bg-gray-50 rounded-lg p-3 hover:bg-gray-100 transition-colors group"
                 >
-                  + Add Link
-                </button>
-              </div>
-              {localDecision.links && localDecision.links.length > 0 ? (
-                <div className="space-y-2">
-                  {localDecision.links.map((link) => (
-                    <div key={link.id} className="flex items-center justify-between bg-white rounded p-2">
-                      <a
-                        href={link.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 flex-1 text-sm text-stretchLimo hover:underline"
-                      >
-                        <ExternalLink className="w-3 h-3" />
-                        <span className="truncate">{link.title || link.url}</span>
-                      </a>
-                      <button
-                        onClick={() => handleDeleteDecisionLink(link.id)}
-                        className="p-1 hover:bg-scarletSmile hover:bg-opacity-10 rounded"
-                      >
-                        <Trash2 className="w-3 h-3 text-scarletSmile" />
-                      </button>
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <LinkIcon className="w-4 h-4 text-micron flex-shrink-0" />
+                        <span className="text-sm font-bold text-stretchLimo truncate">
+                          {link.title || link.url}
+                        </span>
+                      </div>
+                      <p className="text-xs text-micron truncate ml-6">
+                        {getDomain(link.url)}
+                      </p>
                     </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-xs text-micron">No links yet</p>
-              )}
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleDeleteDecisionLink(link.id);
+                      }}
+                      className="p-1 opacity-0 group-hover:opacity-100 hover:bg-scarletSmile hover:bg-opacity-10 rounded transition-opacity"
+                    >
+                      <Trash2 className="w-4 h-4 text-scarletSmile" />
+                    </button>
+                  </div>
+                </a>
+              ))}
             </div>
           )}
 
@@ -546,12 +553,7 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
                   }`}
                 />
                 <button
-                  onClick={() => {
-                    setShowOptionLinks({
-                      ...showOptionLinks,
-                      [option.id]: !showOptionLinks[option.id],
-                    });
-                  }}
+                  onClick={() => openLinkModal('option', option.id)}
                   className="p-1 hover:bg-gray-100 rounded transition-opacity"
                 >
                   <LinkIcon className={`w-4 h-4 ${(option.links && option.links.length > 0) ? 'text-stretchLimo' : 'text-micron'}`} />
@@ -571,42 +573,41 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
               </div>
 
               {/* Option Links */}
-              {showOptionLinks[option.id] && (
-                <div className="mt-2 bg-gray-50 border border-gray-200 rounded-lg p-3">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-stretchLimo">Links</span>
-                    <button
-                      onClick={() => openLinkModal('option', option.id)}
-                      className="text-xs text-stretchLimo hover:underline"
+              {option.links && option.links.length > 0 && (
+                <div className="mt-2 ml-8 space-y-2">
+                  {option.links.map((link) => (
+                    <a
+                      key={link.id}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block bg-gray-50 rounded-lg p-3 hover:bg-gray-100 transition-colors group"
                     >
-                      + Add Link
-                    </button>
-                  </div>
-                  {option.links && option.links.length > 0 ? (
-                    <div className="space-y-2">
-                      {option.links.map((link) => (
-                        <div key={link.id} className="flex items-center justify-between bg-white rounded p-2">
-                          <a
-                            href={link.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-2 flex-1 text-sm text-stretchLimo hover:underline"
-                          >
-                            <ExternalLink className="w-3 h-3" />
-                            <span className="truncate">{link.title || link.url}</span>
-                          </a>
-                          <button
-                            onClick={() => handleDeleteOptionLink(option.id, link.id)}
-                            className="p-1 hover:bg-scarletSmile hover:bg-opacity-10 rounded"
-                          >
-                            <Trash2 className="w-3 h-3 text-scarletSmile" />
-                          </button>
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <LinkIcon className="w-3 h-3 text-micron flex-shrink-0" />
+                            <span className="text-sm font-bold text-stretchLimo truncate">
+                              {link.title || link.url}
+                            </span>
+                          </div>
+                          <p className="text-xs text-micron truncate ml-5">
+                            {getDomain(link.url)}
+                          </p>
                         </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="text-xs text-micron">No links yet</p>
-                  )}
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleDeleteOptionLink(option.id, link.id);
+                          }}
+                          className="p-1 opacity-0 group-hover:opacity-100 hover:bg-scarletSmile hover:bg-opacity-10 rounded transition-opacity"
+                        >
+                          <Trash2 className="w-3 h-3 text-scarletSmile" />
+                        </button>
+                      </div>
+                    </a>
+                  ))}
                 </div>
               )}
 
