@@ -39,7 +39,12 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
   // Auto-save when localDecision changes
   useEffect(() => {
     const timer = setTimeout(() => {
-      onUpdate(localDecision);
+      // 빈 옵션 제거 (title이 비어있는 경우)
+      const filteredDecision = {
+        ...localDecision,
+        options: localDecision.options.filter(opt => opt.title.trim() !== ''),
+      };
+      onUpdate(filteredDecision);
     }, 500);
 
     return () => clearTimeout(timer);
