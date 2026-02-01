@@ -19,12 +19,22 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
   const [showDecisionFraming, setShowDecisionFraming] = useState(false);
   const [showDecisionMemo, setShowDecisionMemo] = useState(false);
   const [showOptionMemos, setShowOptionMemos] = useState<{ [key: string]: boolean }>({});
+  const [newOptionId, setNewOptionId] = useState<string | null>(null);
   const titleInputRef = useRef<HTMLInputElement>(null);
+  const optionRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
 
   // Auto-focus on title input when component mounts
   useEffect(() => {
     titleInputRef.current?.focus();
   }, []);
+
+  // Auto-focus on newly added option
+  useEffect(() => {
+    if (newOptionId && optionRefs.current[newOptionId]) {
+      optionRefs.current[newOptionId]?.focus();
+      setNewOptionId(null);
+    }
+  }, [newOptionId, localDecision.options]);
 
   // Auto-save when localDecision changes
   useEffect(() => {
@@ -95,6 +105,7 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
       ...localDecision,
       options: [...localDecision.options, newOption],
     });
+    setNewOptionId(newOption.id);
   };
 
   const handleOptionChange = (optionId: string, title: string) => {
@@ -329,6 +340,7 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
                   )}
                 </button>
                 <input
+                  ref={(el) => (optionRefs.current[option.id] = el)}
                   type="text"
                   value={option.title}
                   onChange={(e) => handleOptionChange(option.id, e.target.value)}
