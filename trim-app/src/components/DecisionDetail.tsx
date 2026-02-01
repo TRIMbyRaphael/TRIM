@@ -273,6 +273,7 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
 
   const handleLeaveWithoutSaving = () => {
     setShowLeaveWarning(false);
+    onDelete();
     onBack();
   };
 
