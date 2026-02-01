@@ -53,9 +53,9 @@ export async function fetchOpenGraphData(url: string): Promise<OpenGraphData> {
     // CORS를 우회하기 위해 프록시 사용
     const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
     
-    // 3초 타임아웃 설정
+    // 5초 타임아웃 설정
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 3000);
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
     
     const response = await fetch(proxyUrl, {
       signal: controller.signal,
@@ -73,32 +73,64 @@ export async function fetchOpenGraphData(url: string): Promise<OpenGraphData> {
     
     const html = await response.text();
     
-    // Open Graph 메타 태그 파싱
+    // Open Graph 메타 태그 파싱 (더 강력한 파싱)
     const ogData: OpenGraphData = {};
     
+    // Helper function: 다양한 메타 태그 형식 지원
+    const getMetaContent = (property: string): string | undefined => {
+      // 패턴 1: property="og:xxx" content="yyy"
+      let match = html.match(new RegExp(`<meta[^>]*property=["']${property}["'][^>]*content=["']([^"']*)["']`, 'i'));
+      if (match) return match[1];
+      
+      // 패턴 2: content="yyy" property="og:xxx" (순서 반대)
+      match = html.match(new RegExp(`<meta[^>]*content=["']([^"']*)["'][^>]*property=["']${property}["']`, 'i'));
+      if (match) return match[1];
+      
+      // 패턴 3: name="og:xxx" content="yyy" (일부 사이트는 name 사용)
+      match = html.match(new RegExp(`<meta[^>]*name=["']${property}["'][^>]*content=["']([^"']*)["']`, 'i'));
+      if (match) return match[1];
+      
+      // 패턴 4: content="yyy" name="og:xxx"
+      match = html.match(new RegExp(`<meta[^>]*content=["']([^"']*)["'][^>]*name=["']${property}["']`, 'i'));
+      if (match) return match[1];
+      
+      return undefined;
+    };
+    
     // og:title
-    const titleMatch = html.match(/<meta\s+property=["']og:title["']\s+content=["']([^"']*)["']/i);
-    if (titleMatch) {
-      ogData.title = titleMatch[1];
-    }
+    ogData.title = getMetaContent('og:title');
     
     // og:description
-    const descMatch = html.match(/<meta\s+property=["']og:description["']\s+content=["']([^"']*)["']/i);
-    if (descMatch) {
-      ogData.description = descMatch[1];
-    }
+    ogData.description = getMetaContent('og:description');
     
-    // og:image
-    const imageMatch = html.match(/<meta\s+property=["']og:image["']\s+content=["']([^"']*)["']/i);
-    if (imageMatch) {
-      ogData.image = imageMatch[1];
+    // og:image (상대 URL을 절대 URL로 변환)
+    const imageUrl = getMetaContent('og:image');
+    if (imageUrl) {
+      try {
+        // 이미 절대 URL이면 그대로, 상대 URL이면 절대 URL로 변환
+        if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
+          ogData.image = imageUrl;
+        } else if (imageUrl.startsWith('//')) {
+          // Protocol-relative URL (예: //example.com/image.jpg)
+          ogData.image = `https:${imageUrl}`;
+        } else if (imageUrl.startsWith('/')) {
+          // 절대 경로 (예: /images/og.jpg)
+          const urlObj = new URL(url);
+          ogData.image = `${urlObj.protocol}//${urlObj.host}${imageUrl}`;
+        } else {
+          // 상대 경로 (예: images/og.jpg)
+          const urlObj = new URL(url);
+          const basePath = urlObj.pathname.substring(0, urlObj.pathname.lastIndexOf('/') + 1);
+          ogData.image = `${urlObj.protocol}//${urlObj.host}${basePath}${imageUrl}`;
+        }
+      } catch (e) {
+        console.warn('Failed to parse image URL:', imageUrl);
+        ogData.image = imageUrl; // 파싱 실패 시 원본 사용
+      }
     }
     
     // og:site_name
-    const siteMatch = html.match(/<meta\s+property=["']og:site_name["']\s+content=["']([^"']*)["']/i);
-    if (siteMatch) {
-      ogData.siteName = siteMatch[1];
-    }
+    ogData.siteName = getMetaContent('og:site_name');
     
     // fallback: <title> 태그
     if (!ogData.title) {
@@ -107,6 +139,15 @@ export async function fetchOpenGraphData(url: string): Promise<OpenGraphData> {
         ogData.title = pageTitleMatch[1].trim();
       }
     }
+    
+    // 로그로 파싱 결과 확인 (디버깅용)
+    console.log('📊 OG Data parsed:', {
+      url,
+      title: ogData.title ? '✅' : '❌',
+      description: ogData.description ? '✅' : '❌',
+      image: ogData.image ? '✅' : '❌',
+      siteName: ogData.siteName ? '✅' : '❌',
+    });
     
     // 최소한의 데이터 보장: title과 siteName은 항상 있어야 함
     return {
