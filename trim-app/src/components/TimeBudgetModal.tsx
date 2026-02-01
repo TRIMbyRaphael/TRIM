@@ -3,11 +3,12 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface TimeBudgetModalProps {
   initialDeadline: string;
+  initialTimeBudget: number;
   onConfirm: (deadline: string, timeBudget: number) => void;
   onClose: () => void;
 }
 
-export default function TimeBudgetModal({ initialDeadline, onConfirm, onClose }: TimeBudgetModalProps) {
+export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, onConfirm, onClose }: TimeBudgetModalProps) {
   const [deadline, setDeadline] = useState(new Date(initialDeadline));
   const [days, setDays] = useState(0);
   const [hours, setHours] = useState(0);
@@ -16,11 +17,9 @@ export default function TimeBudgetModal({ initialDeadline, onConfirm, onClose }:
   const [selectedHour, setSelectedHour] = useState(deadline.getHours());
   const [selectedMinute, setSelectedMinute] = useState(deadline.getMinutes());
 
-  // Calculate initial time budget from deadline
+  // Calculate initial time budget from saved timeBudget value
   useEffect(() => {
-    const now = new Date();
-    const diff = deadline.getTime() - now.getTime();
-    const totalMinutes = Math.max(0, Math.floor(diff / (1000 * 60)));
+    const totalMinutes = initialTimeBudget;
     
     const d = Math.floor(totalMinutes / 1440);
     const h = Math.floor((totalMinutes % 1440) / 60);
@@ -29,7 +28,7 @@ export default function TimeBudgetModal({ initialDeadline, onConfirm, onClose }:
     setDays(d);
     setHours(h);
     setMinutes(m);
-  }, []);
+  }, [initialTimeBudget]);
 
   // Time Budget → Deadline
   const handleTimeBudgetChange = (newDays: number, newHours: number, newMinutes: number) => {

@@ -662,6 +662,7 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
       {showTimeBudgetModal && (
         <TimeBudgetModal
           initialDeadline={localDecision.deadline}
+          initialTimeBudget={localDecision.timeBudget}
           onConfirm={handleTimeBudgetConfirm}
           onClose={() => setShowTimeBudgetModal(false)}
         />
