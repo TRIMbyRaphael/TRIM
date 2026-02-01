@@ -10,17 +10,21 @@ function App() {
   const [decisions, setDecisions] = useState<Decision[]>([]);
   const [currentView, setCurrentView] = useState<View>('dashboard');
   const [currentDecisionId, setCurrentDecisionId] = useState<string | null>(null);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   // Load decisions on mount
   useEffect(() => {
     const loaded = loadDecisions();
     setDecisions(loaded);
+    setIsInitialLoad(false);
   }, []);
 
-  // Save decisions whenever they change
+  // Save decisions whenever they change (but not on initial load)
   useEffect(() => {
-    saveDecisions(decisions);
-  }, [decisions]);
+    if (!isInitialLoad) {
+      saveDecisions(decisions);
+    }
+  }, [decisions, isInitialLoad]);
 
   const handleCreateDecision = () => {
     const now = new Date();

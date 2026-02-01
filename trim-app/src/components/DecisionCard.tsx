@@ -1,5 +1,5 @@
 import { Trash2 } from 'lucide-react';
-import { Decision, IMPORTANCE_LEVELS } from '../types/decision';
+import { Decision } from '../types/decision';
 import { formatTimeRemaining } from '../utils/timeFormat';
 
 interface DecisionCardProps {
@@ -13,7 +13,6 @@ interface DecisionCardProps {
 export default function DecisionCard({ decision, onClick, onDelete, onUpdateDecision, onTrim }: DecisionCardProps) {
   const { text: timeText, isOverdue } = formatTimeRemaining(decision.deadline);
   const title = decision.title || '(제목 없음)';
-  const importanceLabel = IMPORTANCE_LEVELS[decision.importance].label;
   
   const hasSelectedOption = decision.options.some(opt => opt.isSelected);
   const canTrim = hasSelectedOption && !decision.resolved;
@@ -55,10 +54,8 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
           </h3>
         </button>
 
-        {/* Importance and Time */}
+        {/* Time */}
         <div className="flex items-center gap-2 mb-3 text-sm">
-          <span className="text-micron">{importanceLabel}</span>
-          <span className="text-micron">·</span>
           <span className={isOverdue ? 'text-scarletSmile' : 'text-micron'}>
             {timeText}
           </span>
