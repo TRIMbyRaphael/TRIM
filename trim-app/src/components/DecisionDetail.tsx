@@ -147,13 +147,27 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
   };
 
   const handleOptionSelect = (optionId: string) => {
-    setLocalDecision({
-      ...localDecision,
-      options: localDecision.options.map((opt) => ({
-        ...opt,
-        isSelected: opt.id === optionId,
-      })),
-    });
+    const clickedOption = localDecision.options.find(opt => opt.id === optionId);
+    
+    // 이미 선택된 옵션을 다시 클릭하면 선택 취소
+    if (clickedOption?.isSelected) {
+      setLocalDecision({
+        ...localDecision,
+        options: localDecision.options.map((opt) => ({
+          ...opt,
+          isSelected: false,
+        })),
+      });
+    } else {
+      // 새로운 옵션 선택
+      setLocalDecision({
+        ...localDecision,
+        options: localDecision.options.map((opt) => ({
+          ...opt,
+          isSelected: opt.id === optionId,
+        })),
+      });
+    }
   };
 
   const handleDeleteOption = (optionId: string) => {

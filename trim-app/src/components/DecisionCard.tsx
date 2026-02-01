@@ -22,9 +22,12 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
     e.stopPropagation();
     if (!onUpdateDecision) return;
 
+    const clickedOption = decision.options.find(opt => opt.id === optionId);
+    
+    // 이미 선택된 옵션을 다시 클릭하면 선택 취소
     const updatedOptions = decision.options.map(opt => ({
       ...opt,
-      isSelected: opt.id === optionId,
+      isSelected: clickedOption?.isSelected ? false : opt.id === optionId,
     }));
 
     onUpdateDecision({
