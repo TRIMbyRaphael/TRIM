@@ -1,0 +1,118 @@
+import { useState, useEffect } from 'react';
+import Dashboard from './components/Dashboard';
+import DecisionDetail from './components/DecisionDetail';
+import { Decision, IMPORTANCE_LEVELS } from './types/decision';
+import { loadDecisions, saveDecisions } from './utils/storage';
+
+type View = 'dashboard' | 'detail';
+
+function App() {
+  const [decisions, setDecisions] = useState<Decision[]>([]);
+  const [currentView, setCurrentView] = useState<View>('dashboard');
+  const [currentDecisionId, setCurrentDecisionId] = useState<string | null>(null);
+
+  // Load decisions on mount
+  useEffect(() => {
+    const loaded = loadDecisions();
+    setDecisions(loaded);
+  }, []);
+
+  // Save decisions whenever they change
+  useEffect(() => {
+    saveDecisions(decisions);
+  }, [decisions]);
+
+  const handleCreateDecision = () => {
+    const now = new Date();
+    const timeBudget = IMPORTANCE_LEVELS.MEDIUM.minutes;
+    const deadline = new Date(now.getTime() + timeBudget * 60 * 1000);
+    const baseId = Date.now();
+
+    const newDecision: Decision = {
+      id: baseId.toString(),
+      title: '',
+      category: 'Life',
+      importance: 'MEDIUM',
+      timeBudget,
+      deadline: deadline.toISOString(),
+      createdAt: now.toISOString(),
+      resolved: false,
+      options: [
+        {
+          id: `${baseId}-1`,
+          title: 'Do',
+          isSelected: false,
+        },
+        {
+          id: `${baseId}-2`,
+          title: 'Do Not',
+          isSelected: false,
+        },
+      ],
+      order: decisions.length,
+    };
+
+    setDecisions([...decisions, newDecision]);
+    setCurrentDecisionId(newDecision.id);
+    setCurrentView('detail');
+  };
+
+  const handleUpdateDecision = (updatedDecision: Decision) => {
+    setDecisions(decisions.map((d) => 
+      d.id === updatedDecision.id ? updatedDecision : d
+    ));
+  };
+
+  const handleDeleteDecision = (decisionId: string) => {
+    setDecisions(decisions.filter((d) => d.id !== decisionId));
+  };
+
+  const handleReorderDecisions = (reorderedDecisions: Decision[]) => {
+    setDecisions(reorderedDecisions);
+  };
+
+  const handleTrimDecision = (decisionId: string) => {
+    setDecisions(decisions.map((d) => 
+      d.id === decisionId
+        ? { ...d, resolved: true, resolvedAt: new Date().toISOString() }
+        : d
+    ));
+  };
+
+  const handleSelectDecision = (decisionId: string) => {
+    setCurrentDecisionId(decisionId);
+    setCurrentView('detail');
+  };
+
+  const handleBackToDashboard = () => {
+    setCurrentView('dashboard');
+    setCurrentDecisionId(null);
+  };
+
+  const currentDecision = decisions.find((d) => d.id === currentDecisionId);
+
+  if (currentView === 'detail' && currentDecision) {
+    return (
+      <DecisionDetail
+        decision={currentDecision}
+        onBack={handleBackToDashboard}
+        onUpdate={handleUpdateDecision}
+        onDelete={() => handleDeleteDecision(currentDecision.id)}
+      />
+    );
+  }
+
+  return (
+    <Dashboard
+      decisions={decisions}
+      onCreateDecision={handleCreateDecision}
+      onSelectDecision={handleSelectDecision}
+      onDeleteDecision={handleDeleteDecision}
+      onReorderDecisions={handleReorderDecisions}
+      onUpdateDecision={handleUpdateDecision}
+      onTrimDecision={handleTrimDecision}
+    />
+  );
+}
+
+export default App;
