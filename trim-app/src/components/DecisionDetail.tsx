@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ArrowLeft, MoreVertical, Plus, ChevronDown, ChevronRight, Info, Clock, FileText, Trash2 } from 'lucide-react';
 import { Decision, IMPORTANCE_LEVELS, ImportanceLevel } from '../types/decision';
 import TimeBudgetModal from './TimeBudgetModal';
@@ -19,6 +19,12 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
   const [showDecisionFraming, setShowDecisionFraming] = useState(false);
   const [showDecisionMemo, setShowDecisionMemo] = useState(false);
   const [showOptionMemos, setShowOptionMemos] = useState<{ [key: string]: boolean }>({});
+  const titleInputRef = useRef<HTMLInputElement>(null);
+
+  // Auto-focus on title input when component mounts
+  useEffect(() => {
+    titleInputRef.current?.focus();
+  }, []);
 
   // Auto-save when localDecision changes
   useEffect(() => {
@@ -274,11 +280,12 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
         <div className="mb-6">
           <div className="flex items-center gap-2">
             <input
+              ref={titleInputRef}
               type="text"
               value={localDecision.title}
               onChange={(e) => handleTitleChange(e.target.value)}
               placeholder="What's cluttering your mind?"
-              className="flex-1 text-xl font-medium text-stretchLimo bg-transparent border-none outline-none placeholder-micron"
+              className="flex-1 text-xl font-medium text-stretchLimo bg-transparent border-none outline-none placeholder-gray-300"
             />
             <button
               onClick={() => setShowDecisionMemo(!showDecisionMemo)}
@@ -328,7 +335,7 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
                   onFocus={() => handleOptionFocus(option.id, option.title)}
                   onBlur={() => handleOptionBlur(option.id, option.title)}
                   placeholder="Option"
-                  className={`flex-1 text-base bg-transparent border-none outline-none placeholder-micron ${
+                  className={`flex-1 text-base bg-transparent border-none outline-none placeholder-gray-300 ${
                     option.isSelected ? 'text-stretchLimo font-medium' : 'text-stretchLimo'
                   }`}
                 />
