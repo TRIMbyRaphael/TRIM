@@ -1,10 +1,17 @@
 export type ImportanceLevel = 'TRIVIAL' | 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
 
+export interface Link {
+  id: string;
+  url: string;
+  title?: string;
+}
+
 export interface Option {
   id: string;
   title: string;
   isSelected: boolean;
   memo?: string;
+  links?: Link[];
 }
 
 export interface DecisionFraming {
@@ -27,6 +34,7 @@ export interface Decision {
   resolved: boolean;
   options: Option[];
   memo?: string;
+  links?: Link[];
   framing?: DecisionFraming;
   order: number;
 }

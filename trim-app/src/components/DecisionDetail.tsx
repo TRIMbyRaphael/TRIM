@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { ArrowLeft, MoreVertical, Plus, ChevronDown, ChevronRight, Info, Clock, FileText, Trash2 } from 'lucide-react';
-import { Decision, IMPORTANCE_LEVELS, ImportanceLevel } from '../types/decision';
+import { ArrowLeft, MoreVertical, Plus, ChevronDown, ChevronRight, Info, Clock, FileText, Trash2, Link as LinkIcon, ExternalLink } from 'lucide-react';
+import { Decision, IMPORTANCE_LEVELS, ImportanceLevel, Link } from '../types/decision';
 import TimeBudgetModal from './TimeBudgetModal';
 
 interface DecisionDetailProps {
@@ -21,6 +21,13 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
   const [showOptionMemos, setShowOptionMemos] = useState<{ [key: string]: boolean }>({});
   const [newOptionId, setNewOptionId] = useState<string | null>(null);
   const [showLeaveWarning, setShowLeaveWarning] = useState(false);
+  const [showLinkModal, setShowLinkModal] = useState(false);
+  const [linkModalType, setLinkModalType] = useState<'decision' | 'option'>('decision');
+  const [linkModalOptionId, setLinkModalOptionId] = useState<string | null>(null);
+  const [linkUrl, setLinkUrl] = useState('');
+  const [linkTitle, setLinkTitle] = useState('');
+  const [showDecisionLinks, setShowDecisionLinks] = useState(false);
+  const [showOptionLinks, setShowOptionLinks] = useState<{ [key: string]: boolean }>({});
   const titleInputRef = useRef<HTMLInputElement>(null);
   const optionRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
   const initialDecision = useRef<Decision>(decision);
@@ -72,6 +79,63 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
       ...localDecision,
       options: localDecision.options.map((opt) =>
         opt.id === optionId ? { ...opt, memo } : opt
+      ),
+    });
+  };
+
+  // Link functions
+  const openLinkModal = (type: 'decision' | 'option', optionId?: string) => {
+    setLinkModalType(type);
+    setLinkModalOptionId(optionId || null);
+    setLinkUrl('');
+    setLinkTitle('');
+    setShowLinkModal(true);
+  };
+
+  const handleSaveLink = () => {
+    if (!linkUrl.trim()) return;
+
+    const newLink: Link = {
+      id: Date.now().toString(),
+      url: linkUrl.trim(),
+      title: linkTitle.trim() || undefined,
+    };
+
+    if (linkModalType === 'decision') {
+      setLocalDecision({
+        ...localDecision,
+        links: [...(localDecision.links || []), newLink],
+      });
+    } else if (linkModalOptionId) {
+      setLocalDecision({
+        ...localDecision,
+        options: localDecision.options.map((opt) =>
+          opt.id === linkModalOptionId
+            ? { ...opt, links: [...(opt.links || []), newLink] }
+            : opt
+        ),
+      });
+    }
+
+    setShowLinkModal(false);
+    setLinkUrl('');
+    setLinkTitle('');
+  };
+
+  const handleDeleteDecisionLink = (linkId: string) => {
+    setLocalDecision({
+      ...localDecision,
+      links: (localDecision.links || []).filter(link => link.id !== linkId),
+    });
+  };
+
+  const handleDeleteOptionLink = (optionId: string, linkId: string) => {
+    setLocalDecision({
+      ...localDecision,
+      options: localDecision.options.map((opt) =>
+        opt.id === optionId
+          ? { ...opt, links: (opt.links || []).filter(link => link.id !== linkId) }
+          : opt
       ),
     });
   };
@@ -383,12 +447,58 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
               className="flex-1 text-xl font-medium text-stretchLimo bg-transparent border-none outline-none placeholder-gray-300"
             />
             <button
+              onClick={() => setShowDecisionLinks(!showDecisionLinks)}
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              <LinkIcon className={`w-5 h-5 ${(localDecision.links && localDecision.links.length > 0) ? 'text-stretchLimo' : 'text-micron'}`} />
+            </button>
+            <button
               onClick={() => setShowDecisionMemo(!showDecisionMemo)}
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
             >
               <FileText className={`w-5 h-5 ${localDecision.memo ? 'text-stretchLimo' : 'text-micron'}`} />
             </button>
           </div>
+
+          {/* Decision Links */}
+          {showDecisionLinks && (
+            <div className="mt-3 bg-gray-50 border border-gray-200 rounded-lg p-3">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-medium text-stretchLimo">Links</span>
+                <button
+                  onClick={() => openLinkModal('decision')}
+                  className="text-xs text-stretchLimo hover:underline"
+                >
+                  + Add Link
+                </button>
+              </div>
+              {localDecision.links && localDecision.links.length > 0 ? (
+                <div className="space-y-2">
+                  {localDecision.links.map((link) => (
+                    <div key={link.id} className="flex items-center justify-between bg-white rounded p-2">
+                      <a
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 flex-1 text-sm text-stretchLimo hover:underline"
+                      >
+                        <ExternalLink className="w-3 h-3" />
+                        <span className="truncate">{link.title || link.url}</span>
+                      </a>
+                      <button
+                        onClick={() => handleDeleteDecisionLink(link.id)}
+                        className="p-1 hover:bg-scarletSmile hover:bg-opacity-10 rounded"
+                      >
+                        <Trash2 className="w-3 h-3 text-scarletSmile" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-xs text-micron">No links yet</p>
+              )}
+            </div>
+          )}
 
           {/* Decision Memo */}
           {showDecisionMemo && (
@@ -436,6 +546,17 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
                   }`}
                 />
                 <button
+                  onClick={() => {
+                    setShowOptionLinks({
+                      ...showOptionLinks,
+                      [option.id]: !showOptionLinks[option.id],
+                    });
+                  }}
+                  className="p-1 hover:bg-gray-100 rounded transition-opacity"
+                >
+                  <LinkIcon className={`w-4 h-4 ${(option.links && option.links.length > 0) ? 'text-stretchLimo' : 'text-micron'}`} />
+                </button>
+                <button
                   onClick={() => toggleOptionMemo(option.id)}
                   className="p-1 hover:bg-gray-100 rounded transition-opacity"
                 >
@@ -448,6 +569,46 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
                   <Trash2 className="w-4 h-4 text-scarletSmile" />
                 </button>
               </div>
+
+              {/* Option Links */}
+              {showOptionLinks[option.id] && (
+                <div className="mt-2 bg-gray-50 border border-gray-200 rounded-lg p-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium text-stretchLimo">Links</span>
+                    <button
+                      onClick={() => openLinkModal('option', option.id)}
+                      className="text-xs text-stretchLimo hover:underline"
+                    >
+                      + Add Link
+                    </button>
+                  </div>
+                  {option.links && option.links.length > 0 ? (
+                    <div className="space-y-2">
+                      {option.links.map((link) => (
+                        <div key={link.id} className="flex items-center justify-between bg-white rounded p-2">
+                          <a
+                            href={link.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 flex-1 text-sm text-stretchLimo hover:underline"
+                          >
+                            <ExternalLink className="w-3 h-3" />
+                            <span className="truncate">{link.title || link.url}</span>
+                          </a>
+                          <button
+                            onClick={() => handleDeleteOptionLink(option.id, link.id)}
+                            className="p-1 hover:bg-scarletSmile hover:bg-opacity-10 rounded"
+                          >
+                            <Trash2 className="w-3 h-3 text-scarletSmile" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-xs text-micron">No links yet</p>
+                  )}
+                </div>
+              )}
 
               {/* Option Memo */}
               {showOptionMemos[option.id] && (
@@ -695,6 +856,76 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
                   className="flex-1 bg-scarletSmile text-white rounded-lg py-3 text-base font-bold hover:bg-opacity-90 transition-colors"
                 >
                   Leave
+                </button>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Link Modal */}
+      {showLinkModal && (
+        <>
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-50 z-50"
+            onClick={() => setShowLinkModal(false)}
+          />
+
+          {/* Modal */}
+          <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-2xl w-full max-w-md p-6">
+              <h3 className="text-lg font-bold text-stretchLimo mb-4">
+                Add Link
+              </h3>
+              
+              <div className="space-y-4 mb-6">
+                {/* URL Input */}
+                <div>
+                  <label className="block text-sm font-medium text-stretchLimo mb-2">
+                    URL <span className="text-scarletSmile">*</span>
+                  </label>
+                  <input
+                    type="url"
+                    value={linkUrl}
+                    onChange={(e) => setLinkUrl(e.target.value)}
+                    placeholder="https://example.com"
+                    className="w-full px-3 py-2 text-sm text-stretchLimo bg-white border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo"
+                  />
+                </div>
+
+                {/* Title Input */}
+                <div>
+                  <label className="block text-sm font-medium text-stretchLimo mb-2">
+                    Title (optional)
+                  </label>
+                  <input
+                    type="text"
+                    value={linkTitle}
+                    onChange={(e) => setLinkTitle(e.target.value)}
+                    placeholder="Link description"
+                    className="w-full px-3 py-2 text-sm text-stretchLimo bg-white border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo"
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setShowLinkModal(false)}
+                  className="flex-1 bg-white text-stretchLimo border-2 border-gray-200 rounded-lg py-3 text-base font-bold hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSaveLink}
+                  disabled={!linkUrl.trim()}
+                  className={`flex-1 rounded-lg py-3 text-base font-bold transition-colors ${
+                    linkUrl.trim()
+                      ? 'bg-stretchLimo text-white hover:bg-opacity-90'
+                      : 'bg-gray-100 text-micron cursor-not-allowed'
+                  }`}
+                >
+                  Save
                 </button>
               </div>
             </div>
