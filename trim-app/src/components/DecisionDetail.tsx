@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { ArrowLeft, MoreVertical, Plus, ChevronDown, ChevronRight, Info, Clock, FileText, Trash2, Link as LinkIcon, ExternalLink } from 'lucide-react';
 import { Decision, IMPORTANCE_LEVELS, ImportanceLevel, Link } from '../types/decision';
 import TimeBudgetModal from './TimeBudgetModal';
+import { fetchOpenGraphData } from '../utils/linkPreview';
 
 interface DecisionDetailProps {
   decision: Decision;
@@ -26,6 +27,10 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
   const [linkModalOptionId, setLinkModalOptionId] = useState<string | null>(null);
   const [linkUrl, setLinkUrl] = useState('');
   const [linkTitle, setLinkTitle] = useState('');
+  const [linkDescription, setLinkDescription] = useState('');
+  const [linkImage, setLinkImage] = useState('');
+  const [linkSiteName, setLinkSiteName] = useState('');
+  const [isLoadingPreview, setIsLoadingPreview] = useState(false);
   const titleInputRef = useRef<HTMLInputElement>(null);
   const optionRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
   const initialDecision = useRef<Decision>(decision);
@@ -97,7 +102,35 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
     setLinkModalOptionId(optionId || null);
     setLinkUrl('');
     setLinkTitle('');
+    setLinkDescription('');
+    setLinkImage('');
+    setLinkSiteName('');
+    setIsLoadingPreview(false);
     setShowLinkModal(true);
+  };
+
+  const handleUrlChange = async (url: string) => {
+    setLinkUrl(url);
+    
+    // URL이 유효한 형식인지 확인
+    if (!url.trim() || !url.match(/^https?:\/\//)) {
+      return;
+    }
+
+    setIsLoadingPreview(true);
+    
+    try {
+      const ogData = await fetchOpenGraphData(url);
+      
+      if (ogData.title) setLinkTitle(ogData.title);
+      if (ogData.description) setLinkDescription(ogData.description);
+      if (ogData.image) setLinkImage(ogData.image);
+      if (ogData.siteName) setLinkSiteName(ogData.siteName);
+    } catch (error) {
+      console.error('Failed to fetch preview:', error);
+    } finally {
+      setIsLoadingPreview(false);
+    }
   };
 
   const handleSaveLink = () => {
@@ -107,6 +140,9 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
       id: Date.now().toString(),
       url: linkUrl.trim(),
       title: linkTitle.trim() || undefined,
+      description: linkDescription.trim() || undefined,
+      image: linkImage.trim() || undefined,
+      siteName: linkSiteName.trim() || undefined,
     };
 
     if (linkModalType === 'decision') {
@@ -128,6 +164,9 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
     setShowLinkModal(false);
     setLinkUrl('');
     setLinkTitle('');
+    setLinkDescription('');
+    setLinkImage('');
+    setLinkSiteName('');
   };
 
   const handleDeleteDecisionLink = (linkId: string) => {
@@ -477,27 +516,49 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block bg-gray-50 rounded-lg p-3 hover:bg-gray-100 transition-colors group"
+                  className="block bg-gray-50 rounded-lg overflow-hidden hover:bg-gray-100 transition-colors group"
                 >
-                  <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-start gap-3 p-3">
+                    {/* Thumbnail Image */}
+                    {link.image && (
+                      <div className="w-20 h-20 flex-shrink-0 rounded overflow-hidden bg-gray-200">
+                        <img 
+                          src={link.image} 
+                          alt="" 
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none';
+                          }}
+                        />
+                      </div>
+                    )}
+                    
+                    {/* Content */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
-                        <LinkIcon className="w-4 h-4 text-micron flex-shrink-0" />
+                        {!link.image && <LinkIcon className="w-4 h-4 text-micron flex-shrink-0" />}
                         <span className="text-sm font-bold text-stretchLimo truncate">
                           {link.title || link.url}
                         </span>
                       </div>
-                      <p className="text-xs text-micron truncate ml-6">
-                        {getDomain(link.url)}
+                      <p className="text-xs text-micron mb-1">
+                        {link.siteName || getDomain(link.url)}
                       </p>
+                      {link.description && (
+                        <p className="text-xs text-micron line-clamp-2">
+                          {link.description}
+                        </p>
+                      )}
                     </div>
+                    
+                    {/* Delete Button */}
                     <button
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
                         handleDeleteDecisionLink(link.id);
                       }}
-                      className="p-1 opacity-0 group-hover:opacity-100 hover:bg-scarletSmile hover:bg-opacity-10 rounded transition-opacity"
+                      className="p-1 opacity-0 group-hover:opacity-100 hover:bg-scarletSmile hover:bg-opacity-10 rounded transition-opacity flex-shrink-0"
                     >
                       <Trash2 className="w-4 h-4 text-scarletSmile" />
                     </button>
@@ -581,27 +642,49 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block bg-gray-50 rounded-lg p-3 hover:bg-gray-100 transition-colors group"
+                      className="block bg-gray-50 rounded-lg overflow-hidden hover:bg-gray-100 transition-colors group"
                     >
-                      <div className="flex items-start justify-between gap-3">
+                      <div className="flex items-start gap-3 p-3">
+                        {/* Thumbnail Image */}
+                        {link.image && (
+                          <div className="w-16 h-16 flex-shrink-0 rounded overflow-hidden bg-gray-200">
+                            <img 
+                              src={link.image} 
+                              alt="" 
+                              className="w-full h-full object-cover"
+                              onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                              }}
+                            />
+                          </div>
+                        )}
+                        
+                        {/* Content */}
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
-                            <LinkIcon className="w-3 h-3 text-micron flex-shrink-0" />
+                            {!link.image && <LinkIcon className="w-3 h-3 text-micron flex-shrink-0" />}
                             <span className="text-sm font-bold text-stretchLimo truncate">
                               {link.title || link.url}
                             </span>
                           </div>
-                          <p className="text-xs text-micron truncate ml-5">
-                            {getDomain(link.url)}
+                          <p className="text-xs text-micron mb-1">
+                            {link.siteName || getDomain(link.url)}
                           </p>
+                          {link.description && (
+                            <p className="text-xs text-micron line-clamp-2">
+                              {link.description}
+                            </p>
+                          )}
                         </div>
+                        
+                        {/* Delete Button */}
                         <button
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
                             handleDeleteOptionLink(option.id, link.id);
                           }}
-                          className="p-1 opacity-0 group-hover:opacity-100 hover:bg-scarletSmile hover:bg-opacity-10 rounded transition-opacity"
+                          className="p-1 opacity-0 group-hover:opacity-100 hover:bg-scarletSmile hover:bg-opacity-10 rounded transition-opacity flex-shrink-0"
                         >
                           <Trash2 className="w-3 h-3 text-scarletSmile" />
                         </button>
@@ -889,13 +972,56 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
                   <input
                     type="url"
                     value={linkUrl}
-                    onChange={(e) => setLinkUrl(e.target.value)}
+                    onChange={(e) => handleUrlChange(e.target.value)}
                     placeholder="https://example.com"
                     className="w-full px-3 py-2 text-sm text-stretchLimo bg-white border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo"
                   />
                 </div>
 
-                {/* Title Input */}
+                {/* Loading Indicator */}
+                {isLoadingPreview && (
+                  <div className="flex items-center gap-2 text-sm text-micron">
+                    <div className="w-4 h-4 border-2 border-micron border-t-transparent rounded-full animate-spin" />
+                    <span>Loading preview...</span>
+                  </div>
+                )}
+
+                {/* Preview */}
+                {!isLoadingPreview && (linkTitle || linkImage) && (
+                  <div className="bg-gray-50 rounded-lg p-3">
+                    <div className="flex gap-3">
+                      {linkImage && (
+                        <div className="w-16 h-16 flex-shrink-0 rounded overflow-hidden bg-gray-200">
+                          <img 
+                            src={linkImage} 
+                            alt="" 
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              e.currentTarget.style.display = 'none';
+                            }}
+                          />
+                        </div>
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-bold text-stretchLimo truncate mb-1">
+                          {linkTitle}
+                        </p>
+                        {linkSiteName && (
+                          <p className="text-xs text-micron mb-1">
+                            {linkSiteName}
+                          </p>
+                        )}
+                        {linkDescription && (
+                          <p className="text-xs text-micron line-clamp-2">
+                            {linkDescription}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Title Input (Manual Override) */}
                 <div>
                   <label className="block text-sm font-medium text-stretchLimo mb-2">
                     Title (optional)
@@ -904,7 +1030,7 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
                     type="text"
                     value={linkTitle}
                     onChange={(e) => setLinkTitle(e.target.value)}
-                    placeholder="Link description"
+                    placeholder="Custom title"
                     className="w-full px-3 py-2 text-sm text-stretchLimo bg-white border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo"
                   />
                 </div>
