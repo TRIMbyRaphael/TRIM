@@ -20,8 +20,10 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
   const [showDecisionMemo, setShowDecisionMemo] = useState(false);
   const [showOptionMemos, setShowOptionMemos] = useState<{ [key: string]: boolean }>({});
   const [newOptionId, setNewOptionId] = useState<string | null>(null);
+  const [showLeaveWarning, setShowLeaveWarning] = useState(false);
   const titleInputRef = useRef<HTMLInputElement>(null);
   const optionRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
+  const initialDecision = useRef<Decision>(decision);
 
   // Auto-focus on title input when component mounts
   useEffect(() => {
@@ -217,6 +219,67 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
     }
   };
 
+  // 변경사항 체크 함수
+  const hasChanges = () => {
+    const initial = initialDecision.current;
+    
+    // 옵션 변경 체크 (기본 "Do", "Do Not" 이외의 변경)
+    if (localDecision.options.length !== initial.options.length) return true;
+    
+    for (let i = 0; i < localDecision.options.length; i++) {
+      const currentOpt = localDecision.options[i];
+      const initialOpt = initial.options[i];
+      
+      if (currentOpt.title !== initialOpt.title || 
+          currentOpt.isSelected !== initialOpt.isSelected ||
+          currentOpt.memo !== initialOpt.memo) {
+        return true;
+      }
+    }
+    
+    // 메모, framing, 설정 변경 체크
+    if (localDecision.memo !== initial.memo) return true;
+    if (localDecision.category !== initial.category) return true;
+    if (localDecision.importance !== initial.importance) return true;
+    if (localDecision.timeBudget !== initial.timeBudget) return true;
+    
+    if (JSON.stringify(localDecision.framing) !== JSON.stringify(initial.framing)) {
+      return true;
+    }
+    
+    return false;
+  };
+
+  const handleBackClick = () => {
+    const titleEmpty = localDecision.title.trim() === '';
+    
+    if (titleEmpty && hasChanges()) {
+      // 제목 비어있고 변경사항 있음 → 경고 팝업
+      setShowLeaveWarning(true);
+    } else {
+      // 제목 있거나 변경사항 없음 → 바로 나가기
+      if (!titleEmpty) {
+        // 제목 있으면 저장
+        const filteredDecision = {
+          ...localDecision,
+          options: localDecision.options.filter(opt => opt.title.trim() !== ''),
+        };
+        onUpdate(filteredDecision);
+      }
+      onBack();
+    }
+  };
+
+  const handleLeaveWithoutSaving = () => {
+    setShowLeaveWarning(false);
+    onBack();
+  };
+
+  const handleCancelLeave = () => {
+    setShowLeaveWarning(false);
+    titleInputRef.current?.focus();
+  };
+
   const handleFramingChange = (field: keyof typeof localDecision.framing, value: string) => {
     setLocalDecision({
       ...localDecision,
@@ -248,7 +311,7 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
       <header className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
         {/* Back Button */}
         <button
-          onClick={onBack}
+          onClick={handleBackClick}
           className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
         >
           <ArrowLeft className="w-5 h-5 text-stretchLimo" />
@@ -600,6 +663,40 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
           onConfirm={handleTimeBudgetConfirm}
           onClose={() => setShowTimeBudgetModal(false)}
         />
+      )}
+
+      {/* Leave Warning Modal */}
+      {showLeaveWarning && (
+        <>
+          {/* Backdrop */}
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50" />
+
+          {/* Modal */}
+          <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-2xl w-full max-w-sm p-6">
+              <h3 className="text-lg font-bold text-stretchLimo mb-3">
+                Decision title is required
+              </h3>
+              <p className="text-base text-micron mb-6">
+                Leave without saving?
+              </p>
+              <div className="flex gap-3">
+                <button
+                  onClick={handleCancelLeave}
+                  className="flex-1 bg-white text-stretchLimo border-2 border-stretchLimo rounded-lg py-3 text-base font-bold hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleLeaveWithoutSaving}
+                  className="flex-1 bg-scarletSmile text-white rounded-lg py-3 text-base font-bold hover:bg-opacity-90 transition-colors"
+                >
+                  Leave
+                </button>
+              </div>
+            </div>
+          </div>
+        </>
       )}
     </div>
   );
