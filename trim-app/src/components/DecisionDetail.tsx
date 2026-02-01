@@ -256,16 +256,17 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
     if (titleEmpty && hasChanges()) {
       // 제목 비어있고 변경사항 있음 → 경고 팝업
       setShowLeaveWarning(true);
+    } else if (titleEmpty && !hasChanges()) {
+      // 제목 비어있고 변경사항 없음 → 삭제하고 나가기
+      onDelete();
+      onBack();
     } else {
-      // 제목 있거나 변경사항 없음 → 바로 나가기
-      if (!titleEmpty) {
-        // 제목 있으면 저장
-        const filteredDecision = {
-          ...localDecision,
-          options: localDecision.options.filter(opt => opt.title.trim() !== ''),
-        };
-        onUpdate(filteredDecision);
-      }
+      // 제목 있음 → 저장하고 나가기
+      const filteredDecision = {
+        ...localDecision,
+        options: localDecision.options.filter(opt => opt.title.trim() !== ''),
+      };
+      onUpdate(filteredDecision);
       onBack();
     }
   };
