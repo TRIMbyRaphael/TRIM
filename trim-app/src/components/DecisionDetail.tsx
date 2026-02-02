@@ -4,15 +4,19 @@ import { Decision, IMPORTANCE_LEVELS, ImportanceLevel, Link } from '../types/dec
 import TimeBudgetModal from './TimeBudgetModal';
 import { fetchOpenGraphData } from '../utils/linkPreview';
 import { useCountdown } from '../hooks/useCountdown';
+import { formatTimeRemaining } from '../utils/timeFormat';
 
 interface DecisionDetailProps {
   decision: Decision;
+  decisions: Decision[]; // All decisions for sub-decision lookup
   onBack: () => void;
   onUpdate: (decision: Decision) => void;
   onDelete: () => void;
+  onCreateSubDecision: (parentId: string) => void;
+  onSelectDecision: (decisionId: string) => void;
 }
 
-export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }: DecisionDetailProps) {
+export default function DecisionDetail({ decision, decisions, onBack, onUpdate, onDelete, onCreateSubDecision, onSelectDecision }: DecisionDetailProps) {
   const [localDecision, setLocalDecision] = useState<Decision>(decision);
   const timeData = useCountdown(localDecision.deadline); // Real-time countdown
   const [showKebabMenu, setShowKebabMenu] = useState(false);
@@ -20,6 +24,7 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
   const [showImportanceDropdown, setShowImportanceDropdown] = useState(false);
   const [showTimeBudgetModal, setShowTimeBudgetModal] = useState(false);
   const [showDecisionFraming, setShowDecisionFraming] = useState(false);
+  const [showSubDecisions, setShowSubDecisions] = useState(true); // Expanded by default
   const [showDecisionMemo, setShowDecisionMemo] = useState(false);
   const [showOptionMemos, setShowOptionMemos] = useState<{ [key: string]: boolean }>({});
   const [newOptionId, setNewOptionId] = useState<string | null>(null);
@@ -888,6 +893,73 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
               <ChevronRight className="w-4 h-4 text-micron" />
             </div>
           </button>
+        </div>
+
+        {/* Sub-Decisions Section */}
+        <div className="bg-white rounded-lg mt-6">
+          <button
+            onClick={() => setShowSubDecisions(!showSubDecisions)}
+            className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors"
+          >
+            <div className="flex items-center gap-2">
+              <h3 className="text-base font-medium text-stretchLimo">Sub-Decisions</h3>
+              {showSubDecisions ? (
+                <ChevronDown className="w-4 h-4 text-micron" />
+              ) : (
+                <ChevronRight className="w-4 h-4 text-micron" />
+              )}
+            </div>
+            <span className="text-sm text-micron">
+              {decisions.filter(d => d.parentId === localDecision.id).length}
+            </span>
+          </button>
+
+          {showSubDecisions && (
+            <div className="px-4 pb-4">
+              {/* Sub-Decision List */}
+              {decisions
+                .filter(d => d.parentId === localDecision.id)
+                .map((subDecision) => {
+                  const subTimeData = formatTimeRemaining(subDecision.deadline);
+                  return (
+                    <button
+                      key={subDecision.id}
+                      onClick={() => onSelectDecision(subDecision.id)}
+                      className="w-full flex items-center justify-between p-3 mb-2 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-left"
+                    >
+                      <div className="flex-1 min-w-0">
+                        <h4 className="text-sm font-medium text-stretchLimo truncate mb-1">
+                          {subDecision.title || '(제목 없음)'}
+                        </h4>
+                        <div className="flex items-center gap-2 text-xs">
+                          <span className={`${
+                            subDecision.resolved 
+                              ? 'text-micron' 
+                              : subTimeData.isOverdue 
+                                ? 'text-scarletSmile' 
+                                : 'text-micron'
+                          }`}>
+                            {subDecision.resolved ? 'Resolved' : subTimeData.text}
+                          </span>
+                          <span className="text-micron">·</span>
+                          <span className="text-micron">{IMPORTANCE_LEVELS[subDecision.importance].label}</span>
+                        </div>
+                      </div>
+                      <ChevronRight className="w-4 h-4 text-micron flex-shrink-0 ml-2" />
+                    </button>
+                  );
+                })}
+
+              {/* Add Sub-Decision Button */}
+              <button
+                onClick={() => onCreateSubDecision(localDecision.id)}
+                className="w-full flex items-center justify-center gap-2 p-3 border-2 border-dashed border-gray-300 hover:border-stretchLimo hover:bg-gray-50 rounded-lg transition-colors text-sm text-micron hover:text-stretchLimo"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Add Sub-Decision</span>
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Decision Framing Section */}

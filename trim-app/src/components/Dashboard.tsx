@@ -101,11 +101,18 @@ export default function Dashboard({ decisions, onCreateDecision, onSelectDecisio
     });
   };
 
-  // Filter decisions by category
+  // Filter decisions by category (only parent decisions for dashboard display)
   const filteredDecisions = decisions.filter((decision) => {
+    // Only show parent decisions (no parentId) in main dashboard
+    if (decision.parentId) return false;
     if (selectedCategory === 'All') return true;
     return decision.category === selectedCategory;
   });
+
+  // Helper function to get sub-decisions
+  const getSubDecisions = (parentId: string) => {
+    return decisions.filter(d => d.parentId === parentId);
+  };
 
   // Get overdue decisions (not resolved and deadline passed) - sorted by order
   const overdueDecisions = filteredDecisions
@@ -227,19 +234,43 @@ export default function Dashboard({ decisions, onCreateDecision, onSelectDecisio
                   strategy={verticalListSortingStrategy}
                 >
                   <div className="space-y-3">
-                    {overdueDecisions.map((decision) => (
-                      <SortableDecisionCard
-                        key={decision.id}
-                        decision={decision}
-                        onSelect={() => onSelectDecision(decision.id)}
-                        onDelete={(e) => {
-                          e.stopPropagation();
-                          onDeleteDecision(decision.id);
-                        }}
-                        onUpdate={onUpdateDecision}
-                        onTrim={onTrimDecision}
-                      />
-                    ))}
+                    {overdueDecisions.map((decision) => {
+                      const subDecisions = getSubDecisions(decision.id);
+                      return (
+                        <div key={decision.id}>
+                          {/* Parent Decision */}
+                          <SortableDecisionCard
+                            decision={decision}
+                            onSelect={() => onSelectDecision(decision.id)}
+                            onDelete={(e) => {
+                              e.stopPropagation();
+                              onDeleteDecision(decision.id);
+                            }}
+                            onUpdate={onUpdateDecision}
+                            onTrim={onTrimDecision}
+                          />
+                          
+                          {/* Sub-Decisions (non-draggable, indented) */}
+                          {subDecisions.length > 0 && (
+                            <div className="ml-8 mt-2 space-y-2 border-l-2 border-gray-200 pl-4">
+                              {subDecisions.map((subDecision) => (
+                                <DecisionCard
+                                  key={subDecision.id}
+                                  decision={subDecision}
+                                  onClick={() => onSelectDecision(subDecision.id)}
+                                  onDelete={(e) => {
+                                    e.stopPropagation();
+                                    onDeleteDecision(subDecision.id);
+                                  }}
+                                  onUpdateDecision={onUpdateDecision}
+                                  onTrim={onTrimDecision}
+                                />
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                 </SortableContext>
               )}
@@ -291,19 +322,43 @@ export default function Dashboard({ decisions, onCreateDecision, onSelectDecisio
                     strategy={verticalListSortingStrategy}
                   >
                     <div className="space-y-3">
-                      {activeDecisions.map((decision) => (
-                        <SortableDecisionCard
-                          key={decision.id}
-                          decision={decision}
-                          onSelect={() => onSelectDecision(decision.id)}
-                          onDelete={(e) => {
-                            e.stopPropagation();
-                            onDeleteDecision(decision.id);
-                          }}
-                          onUpdate={onUpdateDecision}
-                          onTrim={onTrimDecision}
-                        />
-                      ))}
+                      {activeDecisions.map((decision) => {
+                        const subDecisions = getSubDecisions(decision.id);
+                        return (
+                          <div key={decision.id}>
+                            {/* Parent Decision */}
+                            <SortableDecisionCard
+                              decision={decision}
+                              onSelect={() => onSelectDecision(decision.id)}
+                              onDelete={(e) => {
+                                e.stopPropagation();
+                                onDeleteDecision(decision.id);
+                              }}
+                              onUpdate={onUpdateDecision}
+                              onTrim={onTrimDecision}
+                            />
+                            
+                            {/* Sub-Decisions (non-draggable, indented) */}
+                            {subDecisions.length > 0 && (
+                              <div className="ml-8 mt-2 space-y-2 border-l-2 border-gray-200 pl-4">
+                                {subDecisions.map((subDecision) => (
+                                  <DecisionCard
+                                    key={subDecision.id}
+                                    decision={subDecision}
+                                    onClick={() => onSelectDecision(subDecision.id)}
+                                    onDelete={(e) => {
+                                      e.stopPropagation();
+                                      onDeleteDecision(subDecision.id);
+                                    }}
+                                    onUpdateDecision={onUpdateDecision}
+                                    onTrim={onTrimDecision}
+                                  />
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
                     </div>
                   </SortableContext>
                 ) : (
@@ -343,17 +398,41 @@ export default function Dashboard({ decisions, onCreateDecision, onSelectDecisio
             {/* Decision Cards */}
             {expandedSections.resolved && (
               <div className="space-y-3">
-                {resolvedDecisions.map((decision) => (
-                  <DecisionCard
-                    key={decision.id}
-                    decision={decision}
-                    onClick={() => onSelectDecision(decision.id)}
-                    onDelete={(e) => {
-                      e.stopPropagation();
-                      onDeleteDecision(decision.id);
-                    }}
-                  />
-                ))}
+                {resolvedDecisions.map((decision) => {
+                  const subDecisions = getSubDecisions(decision.id);
+                  return (
+                    <div key={decision.id}>
+                      {/* Parent Decision */}
+                      <DecisionCard
+                        decision={decision}
+                        onClick={() => onSelectDecision(decision.id)}
+                        onDelete={(e) => {
+                          e.stopPropagation();
+                          onDeleteDecision(decision.id);
+                        }}
+                      />
+                      
+                      {/* Sub-Decisions (indented) */}
+                      {subDecisions.length > 0 && (
+                        <div className="ml-8 mt-2 space-y-2 border-l-2 border-gray-200 pl-4">
+                          {subDecisions.map((subDecision) => (
+                            <DecisionCard
+                              key={subDecision.id}
+                              decision={subDecision}
+                              onClick={() => onSelectDecision(subDecision.id)}
+                              onDelete={(e) => {
+                                e.stopPropagation();
+                                onDeleteDecision(subDecision.id);
+                              }}
+                              onUpdateDecision={onUpdateDecision}
+                              onTrim={onTrimDecision}
+                            />
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             )}
           </section>

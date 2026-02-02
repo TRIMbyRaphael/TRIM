@@ -40,6 +40,7 @@ export interface Decision {
   links?: Link[];
   framing?: DecisionFraming;
   order: number;
+  parentId?: string; // For sub-decisions (chunking)
 }
 
 export const IMPORTANCE_LEVELS = {

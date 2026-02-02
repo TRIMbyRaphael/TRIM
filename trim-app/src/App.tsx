@@ -61,6 +61,42 @@ function App() {
     setCurrentView('detail');
   };
 
+  const handleCreateSubDecision = (parentId: string) => {
+    const now = new Date();
+    const timeBudget = IMPORTANCE_LEVELS.LOW.minutes; // Sub-decisions default to LOW importance
+    const deadline = new Date(now.getTime() + timeBudget * 60 * 1000);
+    const baseId = Date.now();
+
+    const newSubDecision: Decision = {
+      id: baseId.toString(),
+      title: '',
+      category: 'Life',
+      importance: 'LOW',
+      timeBudget,
+      deadline: deadline.toISOString(),
+      createdAt: now.toISOString(),
+      resolved: false,
+      options: [
+        {
+          id: `${baseId}-1`,
+          title: 'Do',
+          isSelected: false,
+        },
+        {
+          id: `${baseId}-2`,
+          title: 'Do Not',
+          isSelected: false,
+        },
+      ],
+      order: decisions.length,
+      parentId, // Link to parent decision
+    };
+
+    setDecisions([...decisions, newSubDecision]);
+    setCurrentDecisionId(newSubDecision.id);
+    setCurrentView('detail');
+  };
+
   const handleUpdateDecision = (updatedDecision: Decision) => {
     setDecisions(decisions.map((d) => 
       d.id === updatedDecision.id ? updatedDecision : d
@@ -68,7 +104,10 @@ function App() {
   };
 
   const handleDeleteDecision = (decisionId: string) => {
-    setDecisions(decisions.filter((d) => d.id !== decisionId));
+    // When deleting a parent decision, also delete all its sub-decisions
+    setDecisions(decisions.filter((d) => 
+      d.id !== decisionId && d.parentId !== decisionId
+    ));
   };
 
   const handleReorderDecisions = (reorderedDecisions: Decision[]) => {
@@ -99,9 +138,12 @@ function App() {
     return (
       <DecisionDetail
         decision={currentDecision}
+        decisions={decisions}
         onBack={handleBackToDashboard}
         onUpdate={handleUpdateDecision}
         onDelete={() => handleDeleteDecision(currentDecision.id)}
+        onCreateSubDecision={handleCreateSubDecision}
+        onSelectDecision={handleSelectDecision}
       />
     );
   }
