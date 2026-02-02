@@ -1,6 +1,6 @@
 import { Trash2 } from 'lucide-react';
 import { Decision } from '../types/decision';
-import { formatTimeRemaining } from '../utils/timeFormat';
+import { useCountdown } from '../hooks/useCountdown';
 
 interface DecisionCardProps {
   decision: Decision;
@@ -11,7 +11,7 @@ interface DecisionCardProps {
 }
 
 export default function DecisionCard({ decision, onClick, onDelete, onUpdateDecision, onTrim }: DecisionCardProps) {
-  const { text: timeText, isOverdue } = formatTimeRemaining(decision.deadline);
+  const timeData = useCountdown(decision.deadline);
   const title = decision.title || '(제목 없음)';
   
   const hasSelectedOption = decision.options.some(opt => opt.isSelected);
@@ -54,10 +54,24 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
           </h3>
         </button>
 
-        {/* Time */}
-        <div className="flex items-center gap-2 mb-3 text-sm">
-          <span className={isOverdue ? 'text-scarletSmile' : 'text-micron'}>
-            {timeText}
+        {/* Time - Real-time Countdown */}
+        <div className="flex items-center gap-1 mb-3 text-sm">
+          <span 
+            className={`font-medium ${
+              timeData.isOverdue 
+                ? 'text-scarletSmile' 
+                : timeData.isUrgent 
+                  ? 'text-scarletSmile animate-pulse' 
+                  : 'text-micron'
+            }`}
+          >
+            {/* 초를 제외한 부분 */}
+            {timeData.isOverdue && '-'}
+            {timeData.days > 0 && `${timeData.days}d `}
+            {(timeData.days > 0 || timeData.hours > 0) && `${timeData.hours}h `}
+            {(timeData.days > 0 || timeData.hours > 0 || timeData.minutes > 0) && `${timeData.minutes}m `}
+            {/* 초는 작은 폰트 */}
+            <span className="text-xs">{timeData.seconds}s</span>
           </span>
         </div>
 

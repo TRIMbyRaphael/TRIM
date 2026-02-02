@@ -3,6 +3,7 @@ import { ArrowLeft, MoreVertical, Plus, ChevronDown, ChevronRight, Info, Clock, 
 import { Decision, IMPORTANCE_LEVELS, ImportanceLevel, Link } from '../types/decision';
 import TimeBudgetModal from './TimeBudgetModal';
 import { fetchOpenGraphData } from '../utils/linkPreview';
+import { useCountdown } from '../hooks/useCountdown';
 
 interface DecisionDetailProps {
   decision: Decision;
@@ -13,6 +14,7 @@ interface DecisionDetailProps {
 
 export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }: DecisionDetailProps) {
   const [localDecision, setLocalDecision] = useState<Decision>(decision);
+  const timeData = useCountdown(localDecision.deadline); // Real-time countdown
   const [showKebabMenu, setShowKebabMenu] = useState(false);
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
   const [showImportanceDropdown, setShowImportanceDropdown] = useState(false);
@@ -450,20 +452,7 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
     });
   };
 
-  // Calculate time remaining
-  const getTimeRemaining = () => {
-    const minutes = localDecision.timeBudget;
-    const hours = Math.floor(minutes / 60);
-    const days = Math.floor(hours / 24);
-    
-    if (days > 0) {
-      return `${days} day${days > 1 ? 's' : ''}`;
-    }
-    if (hours > 0) {
-      return `${hours} hour${hours > 1 ? 's' : ''}`;
-    }
-    return `${minutes} minute${minutes > 1 ? 's' : ''}`;
-  };
+  // Real-time countdown display (removed getTimeRemaining, using timeData from hook)
 
   return (
     <div className="min-h-screen bg-cloudDancer">
@@ -870,7 +859,7 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
             )}
           </div>
 
-          {/* Time Budget */}
+          {/* Time Budget - Real-time Countdown */}
           <button
             onClick={() => setShowTimeBudgetModal(true)}
             className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors"
@@ -880,8 +869,21 @@ export default function DecisionDetail({ decision, onBack, onUpdate, onDelete }:
               <span className="text-base text-stretchLimo">Time Budget</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-base text-stretchLimo">
-                {getTimeRemaining()}
+              <span 
+                className={`text-base font-medium ${
+                  timeData.isOverdue 
+                    ? 'text-scarletSmile' 
+                    : timeData.isUrgent 
+                      ? 'text-scarletSmile animate-pulse' 
+                      : 'text-stretchLimo'
+                }`}
+              >
+                {timeData.isOverdue && '-'}
+                {timeData.days > 0 && `${timeData.days}d `}
+                {(timeData.days > 0 || timeData.hours > 0) && `${timeData.hours}h `}
+                {(timeData.days > 0 || timeData.hours > 0 || timeData.minutes > 0) && `${timeData.minutes}m `}
+                <span className="text-sm">{timeData.seconds}s</span>
+                {!timeData.isOverdue && ' 남음'}
               </span>
               <ChevronRight className="w-4 h-4 text-micron" />
             </div>
