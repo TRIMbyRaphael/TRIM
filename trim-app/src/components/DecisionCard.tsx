@@ -1,4 +1,4 @@
-import { Trash2 } from 'lucide-react';
+import { Trash2, Link as LinkIcon } from 'lucide-react';
 import { Decision } from '../types/decision';
 import { useCountdown } from '../hooks/useCountdown';
 
@@ -16,6 +16,15 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
   
   const hasSelectedOption = decision.options.some(opt => opt.isSelected);
   const canTrim = hasSelectedOption && !decision.resolved;
+
+  const getDomain = (url: string) => {
+    try {
+      const urlObj = new URL(url);
+      return urlObj.hostname.replace('www.', '');
+    } catch {
+      return url;
+    }
+  };
 
   const handleOptionSelect = (optionId: string, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -77,22 +86,74 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
 
         {/* Options List */}
         {decision.options.length > 0 && (
-          <div className="space-y-2 mb-3">
+          <div className="space-y-3 mb-3">
             {decision.options.map((option) => (
-              <button
-                key={option.id}
-                onClick={(e) => handleOptionSelect(option.id, e)}
-                className="w-full flex items-center gap-2 text-sm text-stretchLimo hover:bg-gray-50 rounded p-1 transition-colors"
-              >
-                <div className={`w-4 h-4 rounded-full border-2 border-stretchLimo flex-shrink-0 flex items-center justify-center ${
-                  option.isSelected ? 'bg-stretchLimo' : ''
-                }`}>
-                  {option.isSelected && (
-                    <div className="w-1.5 h-1.5 rounded-full bg-white" />
-                  )}
-                </div>
-                <span className="truncate">{option.title || '(옵션)'}</span>
-              </button>
+              <div key={option.id} className="space-y-2">
+                {/* Option Header */}
+                <button
+                  onClick={(e) => handleOptionSelect(option.id, e)}
+                  className="w-full flex items-center gap-2 text-sm text-stretchLimo hover:bg-gray-50 rounded p-1 transition-colors"
+                >
+                  <div className={`w-4 h-4 rounded-full border-2 border-stretchLimo flex-shrink-0 flex items-center justify-center ${
+                    option.isSelected ? 'bg-stretchLimo' : ''
+                  }`}>
+                    {option.isSelected && (
+                      <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                    )}
+                  </div>
+                  <span className="truncate">{option.title || '(옵션)'}</span>
+                </button>
+
+                {/* Link Previews */}
+                {option.links && option.links.length > 0 && (
+                  <div className="ml-6 space-y-1.5">
+                    {option.links.map((link) => (
+                      <a
+                        key={link.id}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="block bg-gray-50 rounded-md overflow-hidden hover:bg-gray-100 transition-colors"
+                      >
+                        <div className="flex items-start gap-2 p-2">
+                          {/* Thumbnail */}
+                          {link.image && (
+                            <div className="w-12 h-12 flex-shrink-0 rounded overflow-hidden bg-gray-200">
+                              <img 
+                                src={link.image} 
+                                alt="" 
+                                className="w-full h-full object-cover"
+                                onError={(e) => {
+                                  e.currentTarget.style.display = 'none';
+                                }}
+                              />
+                            </div>
+                          )}
+                          
+                          {/* Content */}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-1.5 mb-0.5">
+                              {!link.image && <LinkIcon className="w-3 h-3 text-micron flex-shrink-0" />}
+                              <span className="text-xs font-semibold text-stretchLimo truncate">
+                                {link.title || link.url}
+                              </span>
+                            </div>
+                            <p className="text-[10px] text-micron truncate">
+                              {link.siteName || getDomain(link.url)}
+                            </p>
+                            {link.description && (
+                              <p className="text-[10px] text-micron line-clamp-1 mt-0.5">
+                                {link.description}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
             ))}
           </div>
         )}
