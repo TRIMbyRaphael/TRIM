@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { ArrowLeft, MoreVertical, Plus, ChevronDown, ChevronRight, Info, Clock, FileText, Trash2, Link as LinkIcon, ExternalLink, Edit } from 'lucide-react';
+import { ArrowLeft, MoreVertical, Plus, ChevronDown, ChevronRight, Info, Clock, FileText, Trash2, Link as LinkIcon, Edit } from 'lucide-react';
 import { Decision, IMPORTANCE_LEVELS, ImportanceLevel, Link } from '../types/decision';
 import TimeBudgetModal from './TimeBudgetModal';
 import { fetchOpenGraphData } from '../utils/linkPreview';
@@ -9,6 +9,7 @@ import { formatTimeRemaining } from '../utils/timeFormat';
 interface DecisionDetailProps {
   decision: Decision;
   decisions: Decision[]; // All decisions for sub-decision lookup
+  categories: string[];
   onBack: () => void;
   onUpdate: (decision: Decision) => void;
   onDelete: () => void;
@@ -16,9 +17,14 @@ interface DecisionDetailProps {
   onSelectDecision: (decisionId: string) => void;
 }
 
-export default function DecisionDetail({ decision, decisions, onBack, onUpdate, onDelete, onCreateSubDecision, onSelectDecision }: DecisionDetailProps) {
+export default function DecisionDetail({ decision, decisions, categories, onBack, onUpdate, onDelete, onCreateSubDecision, onSelectDecision }: DecisionDetailProps) {
   const [localDecision, setLocalDecision] = useState<Decision>(decision);
   const timeData = useCountdown(localDecision.deadline); // Real-time countdown
+
+  // Sync localDecision when decision prop changes (e.g., navigating to sub-decision)
+  useEffect(() => {
+    setLocalDecision(decision);
+  }, [decision.id]);
   const [showKebabMenu, setShowKebabMenu] = useState(false);
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
   const [showImportanceDropdown, setShowImportanceDropdown] = useState(false);
@@ -39,9 +45,13 @@ export default function DecisionDetail({ decision, decisions, onBack, onUpdate, 
   const [linkImage, setLinkImage] = useState('');
   const [linkSiteName, setLinkSiteName] = useState('');
   const [isLoadingPreview, setIsLoadingPreview] = useState(false);
+  const [showRandomPickTooltip, setShowRandomPickTooltip] = useState(false);
   const titleInputRef = useRef<HTMLInputElement>(null);
-  const optionRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
+  const optionRefs = useRef<{ [key: string]: HTMLTextAreaElement | null }>({});
   const initialDecision = useRef<Decision>(decision);
+  const initialSubDecisionCount = useRef<number>(
+    decisions.filter(d => d.parentId === decision.id).length
+  );
 
   // Auto-focus on title input when component mounts
   useEffect(() => {
@@ -51,7 +61,13 @@ export default function DecisionDetail({ decision, decisions, onBack, onUpdate, 
   // Auto-focus on newly added option
   useEffect(() => {
     if (newOptionId && optionRefs.current[newOptionId]) {
-      optionRefs.current[newOptionId]?.focus();
+      const textarea = optionRefs.current[newOptionId];
+      if (textarea) {
+        textarea.focus();
+        // Auto-resize on mount
+        textarea.style.height = 'auto';
+        textarea.style.height = `${textarea.scrollHeight}px`;
+      }
       setNewOptionId(null);
     }
   }, [newOptionId, localDecision.options]);
@@ -241,7 +257,7 @@ export default function DecisionDetail({ decision, decisions, onBack, onUpdate, 
     });
   };
 
-  const handleCategoryChange = (category: 'Life' | 'Work') => {
+  const handleCategoryChange = (category: string) => {
     setLocalDecision({ ...localDecision, category });
     setShowCategoryDropdown(false);
   };
@@ -287,6 +303,15 @@ export default function DecisionDetail({ decision, decisions, onBack, onUpdate, 
         opt.id === optionId ? { ...opt, title } : opt
       ),
     });
+    
+    // Auto-resize textarea
+    if (optionRefs.current[optionId]) {
+      const textarea = optionRefs.current[optionId];
+      if (textarea) {
+        textarea.style.height = 'auto';
+        textarea.style.height = `${textarea.scrollHeight}px`;
+      }
+    }
   };
 
   const handleOptionFocus = (optionId: string, currentTitle: string) => {
@@ -373,8 +398,19 @@ export default function DecisionDetail({ decision, decisions, onBack, onUpdate, 
       resolved: true,
       resolvedAt: new Date().toISOString(),
     };
+    setLocalDecision(trimmedDecision); // 로컬 상태 즉시 업데이트
     onUpdate(trimmedDecision);
-    onBack();
+    // TRIM 후 작성화면에 남아있음 (onBack() 호출하지 않음)
+  };
+
+  const handleReopen = () => {
+    const reopenedDecision = {
+      ...localDecision,
+      resolved: false,
+      resolvedAt: undefined,
+    };
+    setLocalDecision(reopenedDecision); // 로컬 상태 즉시 업데이트
+    onUpdate(reopenedDecision);
   };
 
   const handleDelete = () => {
@@ -387,6 +423,10 @@ export default function DecisionDetail({ decision, decisions, onBack, onUpdate, 
   // 변경사항 체크 함수
   const hasChanges = () => {
     const initial = initialDecision.current;
+    
+    // Sub-decision 추가 체크
+    const currentSubDecisionCount = decisions.filter(d => d.parentId === localDecision.id).length;
+    if (currentSubDecisionCount !== initialSubDecisionCount.current) return true;
     
     // 옵션 변경 체크 (기본 "Do", "Do Not" 이외의 변경)
     if (localDecision.options.length !== initial.options.length) return true;
@@ -424,7 +464,12 @@ export default function DecisionDetail({ decision, decisions, onBack, onUpdate, 
     } else if (titleEmpty && !hasChanges()) {
       // 제목 비어있고 변경사항 없음 → 삭제하고 나가기
       onDelete();
-      onBack();
+      // 상위 사안이 있으면 상위 사안으로, 없으면 대시보드로
+      if (localDecision.parentId) {
+        onSelectDecision(localDecision.parentId);
+      } else {
+        onBack();
+      }
     } else {
       // 제목 있음 → 저장하고 나가기
       const filteredDecision = {
@@ -432,14 +477,24 @@ export default function DecisionDetail({ decision, decisions, onBack, onUpdate, 
         options: localDecision.options.filter(opt => opt.title.trim() !== ''),
       };
       onUpdate(filteredDecision);
-      onBack();
+      // 상위 사안이 있으면 상위 사안으로, 없으면 대시보드로
+      if (localDecision.parentId) {
+        onSelectDecision(localDecision.parentId);
+      } else {
+        onBack();
+      }
     }
   };
 
   const handleLeaveWithoutSaving = () => {
     setShowLeaveWarning(false);
     onDelete();
-    onBack();
+    // 상위 사안이 있으면 상위 사안으로, 없으면 대시보드로
+    if (localDecision.parentId) {
+      onSelectDecision(localDecision.parentId);
+    } else {
+      onBack();
+    }
   };
 
   const handleCancelLeave = () => {
@@ -447,7 +502,7 @@ export default function DecisionDetail({ decision, decisions, onBack, onUpdate, 
     titleInputRef.current?.focus();
   };
 
-  const handleFramingChange = (field: keyof typeof localDecision.framing, value: string) => {
+  const handleFramingChange = (field: 'whatHappened' | 'goal' | 'constraints' | 'dealbreakers' | 'keyFactors', value: string) => {
     setLocalDecision({
       ...localDecision,
       framing: {
@@ -463,41 +518,58 @@ export default function DecisionDetail({ decision, decisions, onBack, onUpdate, 
     <div className="min-h-screen bg-cloudDancer">
       {/* Header */}
       <header className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
-        {/* Back Button */}
-        <button
-          onClick={handleBackClick}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-        >
-          <ArrowLeft className="w-5 h-5 text-stretchLimo" />
-        </button>
-
-        {/* Category Dropdown */}
-        <div className="relative">
+        {/* Back Button - shows parent name if has parent */}
+        {localDecision.parentId ? (
           <button
-            onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
-            className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 rounded-lg transition-colors"
+            onClick={handleBackClick}
+            className="flex items-center gap-1.5 p-2 hover:bg-gray-100 rounded-lg transition-colors"
           >
-            <span className="font-medium text-stretchLimo">{localDecision.category}</span>
-            <ChevronDown className="w-4 h-4 text-stretchLimo" />
+            <ArrowLeft className="w-5 h-5 text-stretchLimo" />
+            <span className="text-sm text-micron">Parent:</span>
+            <span className="text-sm text-stretchLimo font-medium truncate max-w-[200px]">
+              {decisions.find(d => d.id === localDecision.parentId)?.title || '상위 사안'}
+            </span>
           </button>
+        ) : (
+          <button
+            onClick={handleBackClick}
+            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          >
+            <ArrowLeft className="w-5 h-5 text-stretchLimo" />
+          </button>
+        )}
 
-          {showCategoryDropdown && (
-            <div className="absolute top-full mt-1 left-1/2 -translate-x-1/2 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden z-10">
-              <button
-                onClick={() => handleCategoryChange('Life')}
-                className="block w-full px-6 py-2 text-left hover:bg-gray-100 text-stretchLimo"
-              >
-                Life
-              </button>
-              <button
-                onClick={() => handleCategoryChange('Work')}
-                className="block w-full px-6 py-2 text-left hover:bg-gray-100 text-stretchLimo"
-              >
-                Work
-              </button>
-            </div>
-          )}
-        </div>
+        {/* Category Dropdown (only for parent decisions) */}
+        {!localDecision.parentId && (
+          <div className="relative">
+            <button
+              onClick={() => !localDecision.resolved && setShowCategoryDropdown(!showCategoryDropdown)}
+              disabled={localDecision.resolved}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors border border-gray-200 ${
+                localDecision.resolved 
+                  ? 'opacity-50 cursor-not-allowed' 
+                  : 'hover:bg-gray-100'
+              }`}
+            >
+              <span className="font-medium text-stretchLimo">{localDecision.category}</span>
+              <ChevronDown className="w-4 h-4 text-stretchLimo" />
+            </button>
+
+            {showCategoryDropdown && (
+              <div className="absolute top-full mt-1 left-1/2 -translate-x-1/2 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden z-10">
+                {categories.map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => handleCategoryChange(category)}
+                    className="block w-full px-6 py-2 text-left hover:bg-gray-100 text-stretchLimo whitespace-nowrap"
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Kebab Menu */}
         <div className="relative">
@@ -532,17 +604,26 @@ export default function DecisionDetail({ decision, decisions, onBack, onUpdate, 
               value={localDecision.title}
               onChange={(e) => handleTitleChange(e.target.value)}
               placeholder="What's cluttering your mind?"
-              className="flex-1 text-xl font-medium text-stretchLimo bg-transparent border-none outline-none placeholder-gray-300"
+              disabled={localDecision.resolved}
+              className={`flex-1 text-xl font-medium text-stretchLimo bg-transparent border-none outline-none placeholder-gray-300 ${
+                localDecision.resolved ? 'line-through opacity-50 cursor-not-allowed' : ''
+              }`}
             />
             <button
               onClick={() => openLinkModal('decision')}
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              disabled={localDecision.resolved}
+              className={`p-2 rounded-lg transition-colors ${
+                localDecision.resolved ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'
+              }`}
             >
               <LinkIcon className={`w-5 h-5 ${(localDecision.links && localDecision.links.length > 0) ? 'text-stretchLimo' : 'text-micron'}`} />
             </button>
             <button
               onClick={() => setShowDecisionMemo(!showDecisionMemo)}
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              disabled={localDecision.resolved}
+              className={`p-2 rounded-lg transition-colors ${
+                localDecision.resolved ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'
+              }`}
             >
               <FileText className={`w-5 h-5 ${localDecision.memo ? 'text-stretchLimo' : 'text-micron'}`} />
             </button>
@@ -593,30 +674,32 @@ export default function DecisionDetail({ decision, decisions, onBack, onUpdate, 
                     </div>
                     
                     {/* Edit & Delete Buttons */}
-                    <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          openLinkModal('decision', undefined, link);
-                        }}
-                        className="p-1 hover:bg-stretchLimo hover:bg-opacity-10 rounded flex-shrink-0"
-                        title="Edit preview"
-                      >
-                        <Edit className="w-4 h-4 text-stretchLimo" />
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          handleDeleteDecisionLink(link.id);
-                        }}
-                        className="p-1 hover:bg-scarletSmile hover:bg-opacity-10 rounded flex-shrink-0"
-                        title="Delete"
-                      >
-                        <Trash2 className="w-4 h-4 text-scarletSmile" />
-                      </button>
-                    </div>
+                    {!localDecision.resolved && (
+                      <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            openLinkModal('decision', undefined, link);
+                          }}
+                          className="p-1 hover:bg-stretchLimo hover:bg-opacity-10 rounded flex-shrink-0"
+                          title="Edit preview"
+                        >
+                          <Edit className="w-4 h-4 text-stretchLimo" />
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleDeleteDecisionLink(link.id);
+                          }}
+                          className="p-1 hover:bg-scarletSmile hover:bg-opacity-10 rounded flex-shrink-0"
+                          title="Delete"
+                        >
+                          <Trash2 className="w-4 h-4 text-scarletSmile" />
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </a>
               ))}
@@ -629,14 +712,19 @@ export default function DecisionDetail({ decision, decisions, onBack, onUpdate, 
               value={localDecision.memo || ''}
               onChange={(e) => handleDecisionMemoChange(e.target.value)}
               placeholder="Add notes about this decision..."
-              className="w-full mt-3 px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none"
+              disabled={localDecision.resolved}
+              className={`w-full mt-3 px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
               rows={3}
             />
           )}
         </div>
 
-        {/* Options List */}
-        <div className="space-y-3 mb-6">
+        {/* Decision Container Box */}
+        <div className="bg-[#FAFAFA] border border-[#E5E5E5] rounded-xl p-6 mb-6">
+          {/* Options List */}
+          <div className="space-y-3 mb-4">
           {localDecision.options.map((option) => (
             <div
               key={option.id}
@@ -650,41 +738,56 @@ export default function DecisionDetail({ decision, decisions, onBack, onUpdate, 
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => handleOptionSelect(option.id)}
+                  disabled={localDecision.resolved}
                   className={`w-5 h-5 rounded-full border-2 border-stretchLimo flex-shrink-0 flex items-center justify-center ${
                     option.isSelected ? 'bg-stretchLimo' : ''
-                  } hover:bg-opacity-70 transition-colors`}
+                  } ${localDecision.resolved ? 'cursor-not-allowed opacity-50' : 'hover:bg-opacity-70'} transition-colors`}
                 >
                   {option.isSelected && (
                     <div className="w-2 h-2 rounded-full bg-white" />
                   )}
                 </button>
-                <input
+                <textarea
                   ref={(el) => (optionRefs.current[option.id] = el)}
-                  type="text"
                   value={option.title}
                   onChange={(e) => handleOptionChange(option.id, e.target.value)}
                   onFocus={() => handleOptionFocus(option.id, option.title)}
                   onBlur={() => handleOptionBlur(option.id, option.title)}
                   placeholder="Option"
-                  className={`flex-1 text-base bg-transparent border-none outline-none placeholder-gray-300 ${
+                  rows={1}
+                  disabled={localDecision.resolved}
+                  className={`flex-1 text-base bg-transparent border-none outline-none placeholder-gray-300 resize-none overflow-hidden ${
                     option.isSelected ? 'text-stretchLimo font-medium' : 'text-stretchLimo'
+                  } ${localDecision.resolved && !option.isSelected ? 'line-through opacity-50' : ''} ${
+                    localDecision.resolved ? 'cursor-not-allowed' : ''
                   }`}
                 />
                 <button
                   onClick={() => openLinkModal('option', option.id)}
-                  className="p-1 hover:bg-gray-100 rounded transition-opacity"
+                  disabled={localDecision.resolved}
+                  className={`p-1 rounded transition-opacity ${
+                    localDecision.resolved ? 'cursor-not-allowed opacity-50' : 'hover:bg-gray-100'
+                  }`}
                 >
                   <LinkIcon className={`w-4 h-4 ${(option.links && option.links.length > 0) ? 'text-stretchLimo' : 'text-micron'}`} />
                 </button>
                 <button
                   onClick={() => toggleOptionMemo(option.id)}
-                  className="p-1 hover:bg-gray-100 rounded transition-opacity"
+                  disabled={localDecision.resolved}
+                  className={`p-1 rounded transition-opacity ${
+                    localDecision.resolved ? 'cursor-not-allowed opacity-50' : 'hover:bg-gray-100'
+                  }`}
                 >
                   <FileText className={`w-4 h-4 ${option.memo ? 'text-stretchLimo' : 'text-micron'}`} />
                 </button>
                 <button
                   onClick={() => handleDeleteOption(option.id)}
-                  className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-scarletSmile hover:bg-opacity-10 rounded"
+                  disabled={localDecision.resolved}
+                  className={`transition-opacity p-1 rounded ${
+                    localDecision.resolved 
+                      ? 'opacity-0 cursor-not-allowed' 
+                      : 'opacity-0 group-hover:opacity-100 hover:bg-scarletSmile hover:bg-opacity-10'
+                  }`}
                 >
                   <Trash2 className="w-4 h-4 text-scarletSmile" />
                 </button>
@@ -735,30 +838,32 @@ export default function DecisionDetail({ decision, decisions, onBack, onUpdate, 
                         </div>
                         
                         {/* Edit & Delete Buttons */}
-                        <div className="flex gap-1 opacity-0 group-hover/link:opacity-100 transition-opacity">
-                          <button
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              openLinkModal('option', option.id, link);
-                            }}
-                            className="p-1 hover:bg-stretchLimo hover:bg-opacity-10 rounded flex-shrink-0"
-                            title="Edit preview"
-                          >
-                            <Edit className="w-3 h-3 text-stretchLimo" />
-                          </button>
-                          <button
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              handleDeleteOptionLink(option.id, link.id);
-                            }}
-                            className="p-1 hover:bg-scarletSmile hover:bg-opacity-10 rounded flex-shrink-0"
-                            title="Delete"
-                          >
-                            <Trash2 className="w-3 h-3 text-scarletSmile" />
-                          </button>
-                        </div>
+                        {!localDecision.resolved && (
+                          <div className="flex gap-1 opacity-0 group-hover/link:opacity-100 transition-opacity">
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                openLinkModal('option', option.id, link);
+                              }}
+                              className="p-1 hover:bg-stretchLimo hover:bg-opacity-10 rounded flex-shrink-0"
+                              title="Edit preview"
+                            >
+                              <Edit className="w-3 h-3 text-stretchLimo" />
+                            </button>
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                handleDeleteOptionLink(option.id, link.id);
+                              }}
+                              className="p-1 hover:bg-scarletSmile hover:bg-opacity-10 rounded flex-shrink-0"
+                              title="Delete"
+                            >
+                              <Trash2 className="w-3 h-3 text-scarletSmile" />
+                            </button>
+                          </div>
+                        )}
                       </div>
                     </a>
                   ))}
@@ -771,7 +876,10 @@ export default function DecisionDetail({ decision, decisions, onBack, onUpdate, 
                   value={option.memo || ''}
                   onChange={(e) => handleOptionMemoChange(option.id, e.target.value)}
                   placeholder="Add notes about this option..."
-                  className="w-full mt-3 px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none"
+                  disabled={localDecision.resolved}
+                  className={`w-full mt-3 px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                    localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
                   rows={2}
                 />
               )}
@@ -781,47 +889,78 @@ export default function DecisionDetail({ decision, decisions, onBack, onUpdate, 
           {/* Add Option Button */}
           <button
             onClick={handleAddOption}
-            className="w-full bg-white rounded-lg p-4 flex items-center gap-3 hover:bg-gray-50 transition-colors text-micron"
+            disabled={localDecision.resolved}
+            className={`w-full bg-white rounded-lg p-4 flex items-center gap-3 transition-colors text-micron ${
+              localDecision.resolved ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-50'
+            }`}
           >
             <Plus className="w-5 h-5" />
             <span className="text-base">Add Option</span>
           </button>
         </div>
 
-        {/* TRIM Button */}
-        <button
-          onClick={handleTrim}
-          disabled={!localDecision.options.some(opt => opt.isSelected)}
-          className={`w-full rounded-lg py-4 text-lg font-bold transition-colors mb-4 ${
-            localDecision.options.some(opt => opt.isSelected)
-              ? 'bg-stretchLimo text-white hover:bg-opacity-90'
-              : 'bg-gray-100 text-micron cursor-not-allowed border-2 border-gray-200'
-          }`}
-        >
-          TRIM
-        </button>
+        {/* TRIM Button and Random Pick Button Container */}
+        <div className="relative flex items-center justify-center mb-0 w-full">
+          {!localDecision.resolved ? (
+            <>
+              {/* TRIM Button - Centered */}
+              <button
+                onClick={handleTrim}
+                disabled={!localDecision.options.some(opt => opt.isSelected)}
+                className={`rounded-lg py-4 px-20 text-lg font-bold transition-colors ${
+                  localDecision.options.some(opt => opt.isSelected)
+                    ? 'bg-stretchLimo text-white hover:bg-opacity-90'
+                    : 'bg-gray-100 text-micron cursor-not-allowed border-2 border-gray-200'
+                }`}
+              >
+                TRIM
+              </button>
 
-        {/* Random Pick Button */}
-        <button
-          onClick={handleRandomPick}
-          disabled={localDecision.options.length < 2}
-          className={`w-full rounded-lg py-4 text-base font-medium mb-8 flex items-center justify-center gap-2 transition-colors ${
-            localDecision.options.length >= 2
-              ? 'bg-white text-stretchLimo hover:bg-gray-50 border-2 border-stretchLimo'
-              : 'bg-gray-100 text-micron cursor-not-allowed border-2 border-gray-200'
-          }`}
-        >
-          <span className="text-xl">🎲</span>
-          <span>Random Pick</span>
-        </button>
+              {/* Random Pick Button - Right Positioned */}
+              {localDecision.options.length >= 2 && (
+                <div className="absolute right-0 top-1/2 -translate-y-1/2">
+                  <button
+                    onClick={handleRandomPick}
+                    onMouseEnter={() => setShowRandomPickTooltip(true)}
+                    onMouseLeave={() => setShowRandomPickTooltip(false)}
+                    className="w-[70px] rounded-lg py-1.5 text-xs font-normal flex flex-col items-center justify-center gap-0.5 transition-colors bg-white text-[#6B6B6B] hover:bg-gray-50 relative border-0"
+                  >
+                    <span className="text-base">🎲</span>
+                    <span className="text-[10px] leading-tight">Random Pick</span>
+                  </button>
+                  
+                  {/* Tooltip */}
+                  {showRandomPickTooltip && (
+                    <div className="absolute bottom-full right-0 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg whitespace-nowrap z-10">
+                      Stop thinking when impact differences are minimal
+                      <div className="absolute top-full right-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </>
+          ) : (
+            /* Re-open Button - When resolved */
+            <button
+              onClick={handleReopen}
+              className="rounded-lg py-4 px-8 text-lg font-bold transition-colors bg-stretchLimo text-white hover:bg-opacity-90"
+            >
+              Re-open
+            </button>
+          )}
+        </div>
+        </div>
 
         {/* Settings Section */}
-        <div className="bg-white rounded-lg divide-y divide-gray-200">
+        <div className="bg-white rounded-lg divide-y divide-gray-200 -mt-2">
           {/* Importance */}
           <div className="relative">
             <button
-              onClick={() => setShowImportanceDropdown(!showImportanceDropdown)}
-              className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors"
+              onClick={() => !localDecision.resolved && setShowImportanceDropdown(!showImportanceDropdown)}
+              disabled={localDecision.resolved}
+              className={`w-full px-4 py-3 flex items-center justify-between transition-colors ${
+                localDecision.resolved ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-50'
+              }`}
             >
               <div className="flex items-center gap-2">
                 <Info className="w-5 h-5 text-micron" />
@@ -866,8 +1005,11 @@ export default function DecisionDetail({ decision, decisions, onBack, onUpdate, 
 
           {/* Time Budget - Real-time Countdown */}
           <button
-            onClick={() => setShowTimeBudgetModal(true)}
-            className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors"
+            onClick={() => !localDecision.resolved && setShowTimeBudgetModal(true)}
+            disabled={localDecision.resolved}
+            className={`w-full px-4 py-3 flex items-center justify-between transition-colors ${
+              localDecision.resolved ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-50'
+            }`}
           >
             <div className="flex items-center gap-2">
               <Clock className="w-5 h-5 text-micron" />
@@ -895,14 +1037,17 @@ export default function DecisionDetail({ decision, decisions, onBack, onUpdate, 
           </button>
         </div>
 
+        {/* Divider after Settings Section */}
+        <div className="border-t border-gray-200 my-6"></div>
+
         {/* Sub-Decisions Section */}
-        <div className="bg-white rounded-lg mt-6">
+        <div className="bg-white rounded-lg">
           <button
             onClick={() => setShowSubDecisions(!showSubDecisions)}
             className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors"
           >
             <div className="flex items-center gap-2">
-              <h3 className="text-base font-medium text-stretchLimo">Sub-Decisions</h3>
+              <h3 className="text-base font-medium text-stretchLimo">Decision Chunking</h3>
               {showSubDecisions ? (
                 <ChevronDown className="w-4 h-4 text-micron" />
               ) : (
@@ -953,7 +1098,12 @@ export default function DecisionDetail({ decision, decisions, onBack, onUpdate, 
               {/* Add Sub-Decision Button */}
               <button
                 onClick={() => onCreateSubDecision(localDecision.id)}
-                className="w-full flex items-center justify-center gap-2 p-3 border-2 border-dashed border-gray-300 hover:border-stretchLimo hover:bg-gray-50 rounded-lg transition-colors text-sm text-micron hover:text-stretchLimo"
+                disabled={localDecision.resolved}
+                className={`w-full flex items-center justify-center gap-2 p-3 border-2 border-dashed rounded-lg transition-colors text-sm ${
+                  localDecision.resolved
+                    ? 'border-gray-200 text-micron opacity-50 cursor-not-allowed'
+                    : 'border-gray-300 text-micron hover:border-stretchLimo hover:bg-gray-50 hover:text-stretchLimo'
+                }`}
               >
                 <Plus className="w-4 h-4" />
                 <span>Add Sub-Decision</span>
@@ -969,7 +1119,7 @@ export default function DecisionDetail({ decision, decisions, onBack, onUpdate, 
             className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors"
           >
             <div className="flex items-center gap-2">
-              <h3 className="text-base font-medium text-stretchLimo">Decision Framing</h3>
+              <h3 className="text-base font-medium text-stretchLimo">Decision Framing{' '}<span className="text-sm font-normal text-micron lowercase">(optional)</span></h3>
               {showDecisionFraming ? (
                 <ChevronDown className="w-4 h-4 text-micron" />
               ) : (
@@ -988,8 +1138,11 @@ export default function DecisionDetail({ decision, decisions, onBack, onUpdate, 
                 <textarea
                   value={localDecision.framing?.whatHappened || ''}
                   onChange={(e) => handleFramingChange('whatHappened', e.target.value)}
-                  placeholder="Describe the situation..."
-                  className="w-full px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none"
+                  placeholder="What situation led to this decision..."
+                  disabled={localDecision.resolved}
+                  className={`w-full px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                    localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
                   rows={3}
                 />
               </div>
@@ -1002,8 +1155,11 @@ export default function DecisionDetail({ decision, decisions, onBack, onUpdate, 
                 <textarea
                   value={localDecision.framing?.goal || ''}
                   onChange={(e) => handleFramingChange('goal', e.target.value)}
-                  placeholder="What's your goal..."
-                  className="w-full px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none"
+                  placeholder="What's the purpose of this decision..."
+                  disabled={localDecision.resolved}
+                  className={`w-full px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                    localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
                   rows={3}
                 />
               </div>
@@ -1011,13 +1167,16 @@ export default function DecisionDetail({ decision, decisions, onBack, onUpdate, 
               {/* Fixed constraints? */}
               <div>
                 <label className="block text-sm font-medium text-stretchLimo mb-2">
-                  Fixed constraints?
+                  Any fixed constraints?
                 </label>
                 <textarea
                   value={localDecision.framing?.constraints || ''}
                   onChange={(e) => handleFramingChange('constraints', e.target.value)}
-                  placeholder="What can't be changed..."
-                  className="w-full px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none"
+                  placeholder="External constraints you can't change..."
+                  disabled={localDecision.resolved}
+                  className={`w-full px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                    localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
                   rows={3}
                 />
               </div>
@@ -1025,13 +1184,16 @@ export default function DecisionDetail({ decision, decisions, onBack, onUpdate, 
               {/* Deal-breakers? */}
               <div>
                 <label className="block text-sm font-medium text-stretchLimo mb-2">
-                  Deal-breakers?
+                  Any deal-breakers?
                 </label>
                 <textarea
                   value={localDecision.framing?.dealbreakers || ''}
                   onChange={(e) => handleFramingChange('dealbreakers', e.target.value)}
-                  placeholder="What would make you reject an option..."
-                  className="w-full px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none"
+                  placeholder="What's non-negotiable for you..."
+                  disabled={localDecision.resolved}
+                  className={`w-full px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                    localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
                   rows={3}
                 />
               </div>
@@ -1044,8 +1206,11 @@ export default function DecisionDetail({ decision, decisions, onBack, onUpdate, 
                 <textarea
                   value={localDecision.framing?.keyFactors || ''}
                   onChange={(e) => handleFramingChange('keyFactors', e.target.value)}
-                  placeholder="What matters most in this decision..."
-                  className="w-full px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none"
+                  placeholder="Criteria you'll use to compare options..."
+                  disabled={localDecision.resolved}
+                  className={`w-full px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                    localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
                   rows={3}
                 />
               </div>

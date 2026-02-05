@@ -1,6 +1,8 @@
 import { Decision } from '../types/decision';
 
 const STORAGE_KEY = 'trim-decisions';
+const CATEGORIES_STORAGE_KEY = 'trim-categories';
+const DEFAULT_CATEGORIES = ['Life', 'Work'];
 
 export function saveDecisions(decisions: Decision[]): void {
   try {
@@ -29,5 +31,34 @@ export function loadDecisions(): Decision[] {
   } catch (error) {
     console.error('❌ Failed to load decisions:', error);
     return [];
+  }
+}
+
+export function saveCategories(categories: string[]): void {
+  try {
+    localStorage.setItem(CATEGORIES_STORAGE_KEY, JSON.stringify(categories));
+    console.log('✅ Saved categories to Local Storage:', categories);
+  } catch (error) {
+    console.error('❌ Failed to save categories:', error);
+  }
+}
+
+export function loadCategories(): string[] {
+  try {
+    const saved = localStorage.getItem(CATEGORIES_STORAGE_KEY);
+    if (!saved) {
+      console.log('📭 No categories in Local Storage, using defaults');
+      return DEFAULT_CATEGORIES;
+    }
+    
+    const parsed = JSON.parse(saved);
+    if (Array.isArray(parsed) && parsed.length > 0) {
+      console.log('📦 Loaded categories from Local Storage:', parsed);
+      return parsed;
+    }
+    return DEFAULT_CATEGORIES;
+  } catch (error) {
+    console.error('❌ Failed to load categories:', error);
+    return DEFAULT_CATEGORIES;
   }
 }

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Plus, ChevronRight, ChevronDown } from 'lucide-react';
+import { Plus, ChevronRight, ChevronDown, Settings } from 'lucide-react';
 import {
   DndContext,
   closestCenter,
@@ -19,17 +19,19 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import { Decision } from '../types/decision';
 import DecisionCard from './DecisionCard';
-
-type Category = 'All' | 'Life' | 'Work';
+import CategoryManagementModal from './CategoryManagementModal';
 
 interface DashboardProps {
   decisions: Decision[];
+  categories: string[];
   onCreateDecision: () => void;
   onSelectDecision: (decisionId: string) => void;
   onDeleteDecision: (decisionId: string) => void;
   onReorderDecisions: (decisions: Decision[]) => void;
   onUpdateDecision: (decision: Decision) => void;
   onTrimDecision: (decisionId: string) => void;
+  onReopenDecision: (decisionId: string) => void;
+  onUpdateCategories: (categories: string[]) => void;
 }
 
 // Sortable Decision Card Component
@@ -39,12 +41,26 @@ function SortableDecisionCard({
   onDelete,
   onUpdate,
   onTrim,
+  onReopen,
+  level,
+  children,
+  hasChildren,
+  isExpanded,
+  onToggleExpand,
+  isLastChild,
 }: {
   decision: Decision;
   onSelect: () => void;
   onDelete: (e: React.MouseEvent) => void;
   onUpdate?: (decision: Decision) => void;
   onTrim?: (decisionId: string) => void;
+  onReopen?: (decisionId: string) => void;
+  level?: number;
+  children?: React.ReactNode;
+  hasChildren?: boolean;
+  isExpanded?: boolean;
+  onToggleExpand?: () => void;
+  isLastChild?: boolean;
 }) {
   const {
     attributes,
@@ -69,19 +85,29 @@ function SortableDecisionCard({
         onDelete={onDelete}
         onUpdateDecision={onUpdate}
         onTrim={onTrim}
-      />
+        onReopen={onReopen}
+        level={level}
+        hasChildren={hasChildren}
+        isExpanded={isExpanded}
+        onToggleExpand={onToggleExpand}
+        isLastChild={isLastChild}
+      >
+        {children}
+      </DecisionCard>
     </div>
   );
 }
 
-export default function Dashboard({ decisions, onCreateDecision, onSelectDecision, onDeleteDecision, onReorderDecisions, onUpdateDecision, onTrimDecision }: DashboardProps) {
+export default function Dashboard({ decisions, categories, onCreateDecision, onSelectDecision, onDeleteDecision, onReorderDecisions, onUpdateDecision, onTrimDecision, onReopenDecision, onUpdateCategories }: DashboardProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<Category>('All');
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [showCategoryManagement, setShowCategoryManagement] = useState(false);
   const [expandedSections, setExpandedSections] = useState({
     overdue: false,
     active: true,
     resolved: false,
   });
+  const [expandedDecisions, setExpandedDecisions] = useState<{ [key: string]: boolean }>({});
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -101,18 +127,58 @@ export default function Dashboard({ decisions, onCreateDecision, onSelectDecisio
     });
   };
 
-  // Filter decisions by category (only parent decisions for dashboard display)
+  // Toggle decision expand/collapse
+  const toggleDecisionExpand = (decisionId: string) => {
+    setExpandedDecisions(prev => ({
+      ...prev,
+      [decisionId]: !prev[decisionId]
+    }));
+  };
+
+  // Recursive function to render decision with all its children
+  const renderDecisionWithChildren = (decision: Decision, level: number = 0, isLastChild: boolean = false): JSX.Element => {
+    // resolved된 sub-decision은 표시하지 않음 (관계는 유지되어 reopen시 원래 위치로 복귀)
+    const children = decisions.filter(d => d.parentId === decision.id && !d.resolved);
+    const hasChildren = children.length > 0;
+    const isExpanded = hasChildren ? (expandedDecisions[decision.id] ?? false) : true;
+    
+    return (
+      <DecisionCard
+        key={decision.id}
+        decision={decision}
+        onClick={() => onSelectDecision(decision.id)}
+        onDelete={(e) => {
+          e.stopPropagation();
+          onDeleteDecision(decision.id);
+        }}
+        onUpdateDecision={onUpdateDecision}
+        onTrim={onTrimDecision}
+        onReopen={onReopenDecision}
+        level={level}
+        hasChildren={hasChildren}
+        isExpanded={isExpanded}
+        onToggleExpand={hasChildren ? () => toggleDecisionExpand(decision.id) : undefined}
+        isLastChild={isLastChild}
+      >
+        {children.length > 0 && children.map((child, index) => 
+          renderDecisionWithChildren(child, level + 1, index === children.length - 1)
+        )}
+      </DecisionCard>
+    );
+  };
+
+  // Filter decisions by category
   const filteredDecisions = decisions.filter((decision) => {
-    // Only show parent decisions (no parentId) in main dashboard
+    // resolved된 decision은 parentId 여부와 관계없이 포함 (sub-decision도 resolved 섹션에 표시)
+    if (decision.resolved) {
+      if (selectedCategory === 'All') return true;
+      return decision.category === selectedCategory;
+    }
+    // active/overdue decision은 parent만 표시 (sub-decision은 parent 안에서 렌더링)
     if (decision.parentId) return false;
     if (selectedCategory === 'All') return true;
     return decision.category === selectedCategory;
   });
-
-  // Helper function to get sub-decisions
-  const getSubDecisions = (parentId: string) => {
-    return decisions.filter(d => d.parentId === parentId);
-  };
 
   // Get overdue decisions (not resolved and deadline passed) - sorted by order
   const overdueDecisions = filteredDecisions
@@ -186,20 +252,39 @@ export default function Dashboard({ decisions, onCreateDecision, onSelectDecisio
       {/* Main Container */}
       <div className="max-w-2xl mx-auto px-4 pb-8">
         {/* Category Filter */}
-        <div className="flex gap-2 mb-6">
-          {(['All', 'Life', 'Work'] as Category[]).map((category) => (
+        <div className="flex items-center gap-2 mb-6">
+          <div className="flex-1 flex gap-2">
             <button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
+              onClick={() => setSelectedCategory('All')}
               className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
-                selectedCategory === category
+                selectedCategory === 'All'
                   ? 'bg-stretchLimo text-white'
                   : 'bg-white text-stretchLimo hover:bg-gray-100'
               }`}
             >
-              {category}
+              All
             </button>
-          ))}
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
+                  selectedCategory === category
+                    ? 'bg-stretchLimo text-white'
+                    : 'bg-white text-stretchLimo hover:bg-gray-100'
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+          <button
+            onClick={() => setShowCategoryManagement(true)}
+            className="p-2 bg-white rounded-lg hover:bg-gray-100 transition-colors"
+            title="카테고리 관리"
+          >
+            <Settings className="w-5 h-5 text-stretchLimo" />
+          </button>
         </div>
 
         {/* OVERDUE Section - Only show if there are overdue decisions */}
@@ -229,50 +314,9 @@ export default function Dashboard({ decisions, onCreateDecision, onSelectDecisio
 
               {/* Decision Cards */}
               {expandedSections.overdue && (
-                <SortableContext
-                  items={overdueDecisions.map((d) => d.id)}
-                  strategy={verticalListSortingStrategy}
-                >
-                  <div className="space-y-3">
-                    {overdueDecisions.map((decision) => {
-                      const subDecisions = getSubDecisions(decision.id);
-                      return (
-                        <div key={decision.id}>
-                          {/* Parent Decision */}
-                          <SortableDecisionCard
-                            decision={decision}
-                            onSelect={() => onSelectDecision(decision.id)}
-                            onDelete={(e) => {
-                              e.stopPropagation();
-                              onDeleteDecision(decision.id);
-                            }}
-                            onUpdate={onUpdateDecision}
-                            onTrim={onTrimDecision}
-                          />
-                          
-                          {/* Sub-Decisions (non-draggable, indented) */}
-                          {subDecisions.length > 0 && (
-                            <div className="ml-8 mt-2 space-y-2 border-l-2 border-gray-200 pl-4">
-                              {subDecisions.map((subDecision) => (
-                                <DecisionCard
-                                  key={subDecision.id}
-                                  decision={subDecision}
-                                  onClick={() => onSelectDecision(subDecision.id)}
-                                  onDelete={(e) => {
-                                    e.stopPropagation();
-                                    onDeleteDecision(subDecision.id);
-                                  }}
-                                  onUpdateDecision={onUpdateDecision}
-                                  onTrim={onTrimDecision}
-                                />
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </SortableContext>
+                <div className="space-y-3">
+                  {overdueDecisions.map((decision) => renderDecisionWithChildren(decision, 0))}
+                </div>
               )}
             </section>
           </DndContext>
@@ -323,40 +367,29 @@ export default function Dashboard({ decisions, onCreateDecision, onSelectDecisio
                   >
                     <div className="space-y-3">
                       {activeDecisions.map((decision) => {
-                        const subDecisions = getSubDecisions(decision.id);
+                        // resolved된 sub-decision은 표시하지 않음
+                        const children = decisions.filter(d => d.parentId === decision.id && !d.resolved);
+                        const hasChildren = children.length > 0;
+                        const isExpanded = hasChildren ? (expandedDecisions[decision.id] ?? false) : true;
                         return (
-                          <div key={decision.id}>
-                            {/* Parent Decision */}
-                            <SortableDecisionCard
-                              decision={decision}
-                              onSelect={() => onSelectDecision(decision.id)}
-                              onDelete={(e) => {
-                                e.stopPropagation();
-                                onDeleteDecision(decision.id);
-                              }}
-                              onUpdate={onUpdateDecision}
-                              onTrim={onTrimDecision}
-                            />
-                            
-                            {/* Sub-Decisions (non-draggable, indented) */}
-                            {subDecisions.length > 0 && (
-                              <div className="ml-8 mt-2 space-y-2 border-l-2 border-gray-200 pl-4">
-                                {subDecisions.map((subDecision) => (
-                                  <DecisionCard
-                                    key={subDecision.id}
-                                    decision={subDecision}
-                                    onClick={() => onSelectDecision(subDecision.id)}
-                                    onDelete={(e) => {
-                                      e.stopPropagation();
-                                      onDeleteDecision(subDecision.id);
-                                    }}
-                                    onUpdateDecision={onUpdateDecision}
-                                    onTrim={onTrimDecision}
-                                  />
-                                ))}
-                              </div>
-                            )}
-                          </div>
+                          <SortableDecisionCard
+                            key={decision.id}
+                            decision={decision}
+                            onSelect={() => onSelectDecision(decision.id)}
+                            onDelete={(e) => {
+                              e.stopPropagation();
+                              onDeleteDecision(decision.id);
+                            }}
+                            onUpdate={onUpdateDecision}
+                            onTrim={onTrimDecision}
+                            onReopen={onReopenDecision}
+                            level={0}
+                            hasChildren={hasChildren}
+                            isExpanded={isExpanded}
+                            onToggleExpand={hasChildren ? () => toggleDecisionExpand(decision.id) : undefined}
+                          >
+                            {children.length > 0 && children.map(child => renderDecisionWithChildren(child, 1))}
+                          </SortableDecisionCard>
                         );
                       })}
                     </div>
@@ -398,46 +431,25 @@ export default function Dashboard({ decisions, onCreateDecision, onSelectDecisio
             {/* Decision Cards */}
             {expandedSections.resolved && (
               <div className="space-y-3">
-                {resolvedDecisions.map((decision) => {
-                  const subDecisions = getSubDecisions(decision.id);
-                  return (
-                    <div key={decision.id}>
-                      {/* Parent Decision */}
-                      <DecisionCard
-                        decision={decision}
-                        onClick={() => onSelectDecision(decision.id)}
-                        onDelete={(e) => {
-                          e.stopPropagation();
-                          onDeleteDecision(decision.id);
-                        }}
-                      />
-                      
-                      {/* Sub-Decisions (indented) */}
-                      {subDecisions.length > 0 && (
-                        <div className="ml-8 mt-2 space-y-2 border-l-2 border-gray-200 pl-4">
-                          {subDecisions.map((subDecision) => (
-                            <DecisionCard
-                              key={subDecision.id}
-                              decision={subDecision}
-                              onClick={() => onSelectDecision(subDecision.id)}
-                              onDelete={(e) => {
-                                e.stopPropagation();
-                                onDeleteDecision(subDecision.id);
-                              }}
-                              onUpdateDecision={onUpdateDecision}
-                              onTrim={onTrimDecision}
-                            />
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
+                {resolvedDecisions.map((decision) => renderDecisionWithChildren(decision, 0))}
               </div>
             )}
           </section>
         )}
       </div>
+
+      {/* Category Management Modal */}
+      {showCategoryManagement && (
+        <CategoryManagementModal
+          categories={categories}
+          decisions={decisions}
+          onSave={(newCategories) => {
+            onUpdateCategories(newCategories);
+            setShowCategoryManagement(false);
+          }}
+          onClose={() => setShowCategoryManagement(false)}
+        />
+      )}
     </div>
   );
 }

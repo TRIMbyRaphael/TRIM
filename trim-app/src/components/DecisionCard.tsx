@@ -1,6 +1,7 @@
-import { Trash2, Link as LinkIcon } from 'lucide-react';
+import { Trash2, Link as LinkIcon, ChevronUp } from 'lucide-react';
 import { Decision } from '../types/decision';
 import { useCountdown } from '../hooks/useCountdown';
+import { ReactNode } from 'react';
 
 interface DecisionCardProps {
   decision: Decision;
@@ -8,14 +9,43 @@ interface DecisionCardProps {
   onDelete: (e: React.MouseEvent) => void;
   onUpdateDecision?: (decision: Decision) => void;
   onTrim?: (decisionId: string) => void;
+  onReopen?: (decisionId: string) => void;
+  level?: number;
+  children?: ReactNode;
+  hasChildren?: boolean;
+  isExpanded?: boolean;
+  onToggleExpand?: () => void;
 }
 
-export default function DecisionCard({ decision, onClick, onDelete, onUpdateDecision, onTrim }: DecisionCardProps) {
+export default function DecisionCard({ decision, onClick, onDelete, onUpdateDecision, onTrim, onReopen, level = 0, children, hasChildren = false, isExpanded = true, onToggleExpand }: DecisionCardProps) {
   const timeData = useCountdown(decision.deadline);
   const title = decision.title || '(제목 없음)';
   
   const hasSelectedOption = decision.options.some(opt => opt.isSelected);
   const canTrim = hasSelectedOption && !decision.resolved;
+
+  // Level-based styling
+  const getBackgroundColor = () => {
+    if (level === 0) return '#FAFAFA';
+    if (level === 1) return '#FFFFFF';
+    if (level === 2) return '#F9F9F9';
+    return '#F5F5F5';
+  };
+
+  const getPadding = () => {
+    const basePadding = 24 - (level * 4);
+    return Math.max(basePadding, 12); // minimum 12px
+  };
+
+  const getBorderStyle = () => {
+    if (level === 0) return '2px solid #E5E5E5';
+    return '1px solid #E5E5E5';
+  };
+
+  const getIndentation = () => {
+    // No indentation - children are contained within parent box
+    return 0;
+  };
 
   const getDomain = (url: string) => {
     try {
@@ -50,49 +80,131 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
     onTrim(decision.id);
   };
 
-  return (
-    <div className="relative group">
-      <div className="w-full bg-white rounded-lg p-4 shadow-sm">
-        {/* Title - Clickable */}
-        <button
-          onClick={onClick}
-          className="w-full text-left mb-2 hover:opacity-70 transition-opacity"
-        >
-          <h3 className="text-base font-medium text-stretchLimo">
-            {title}
-          </h3>
-        </button>
+  const handleReopen = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!onReopen) return;
+    onReopen(decision.id);
+  };
 
-        {/* Time - Real-time Countdown */}
-        <div className="flex items-center gap-1 mb-3 text-sm">
-          <span 
-            className={`font-medium ${
-              timeData.isOverdue 
-                ? 'text-scarletSmile' 
-                : timeData.isUrgent 
-                  ? 'text-scarletSmile animate-pulse' 
-                  : 'text-micron'
-            }`}
+  return (
+    <div 
+      className="flex items-start gap-2 group"
+      style={{ 
+        marginLeft: `${getIndentation()}px`,
+      }}
+    >
+      <div 
+        className="flex-1 rounded-lg shadow-sm relative cursor-pointer"
+        onClick={onClick}
+        style={{
+          backgroundColor: getBackgroundColor(),
+          padding: `${getPadding()}px`,
+          paddingLeft: hasChildren ? '32px' : `${getPadding()}px`,
+          border: getBorderStyle(),
+        }}
+      >
+        {/* "ㄴ" 모양 연결선 for child items */}
+        {level > 0 && (
+          <>
+            {/* 세로선 */}
+            <div
+              className="absolute"
+              style={{
+                left: '-20px',
+                top: '0',
+                width: '2px',
+                height: '32px',
+                backgroundColor: '#E5E5E5',
+              }}
+            />
+            {/* 가로선 */}
+            <div
+              className="absolute"
+              style={{
+                left: '-20px',
+                top: '32px',
+                width: '20px',
+                height: '2px',
+                backgroundColor: '#E5E5E5',
+              }}
+            />
+          </>
+        )}
+        
+        {/* Title and Time Row */}
+        <div className="flex items-center gap-3 mb-2">
+          {/* Title */}
+          <div
+            className="text-left"
+            style={hasChildren ? { marginLeft: '-12px' } : undefined}
           >
-            {/* 초를 제외한 부분 */}
-            {timeData.isOverdue && '-'}
-            {timeData.days > 0 && `${timeData.days}d `}
-            {(timeData.days > 0 || timeData.hours > 0) && `${timeData.hours}h `}
-            {(timeData.days > 0 || timeData.hours > 0 || timeData.minutes > 0) && `${timeData.minutes}m `}
-            {/* 초는 작은 폰트 */}
-            <span className="text-xs">{timeData.seconds}s</span>
-          </span>
+            <h3 className={`text-base font-medium inline-block ${decision.resolved ? 'line-through text-micron' : 'text-stretchLimo'}`}>
+              {title}
+              {/* ...more button (Collapsed state with children) - Inline with title, appears at end of last line */}
+              {hasChildren && !isExpanded && onToggleExpand && (
+                <span
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onToggleExpand();
+                  }}
+                  className="text-xs text-micron hover:text-stretchLimo transition-colors cursor-pointer ml-1"
+                >
+                  ...more
+                </span>
+              )}
+            </h3>
+          </div>
+          
+          {/* Spacer */}
+          {(!hasChildren || isExpanded) && <div className="flex-1" />}
+          
+          {/* Time - Real-time Countdown or Resolved Time - Only show if no children or expanded */}
+          {(!hasChildren || isExpanded) && (
+            <div className="flex items-center gap-1 text-sm flex-shrink-0">
+              {decision.resolved && decision.resolvedAt ? (
+                <span className="font-medium text-micron">
+                  {new Date(decision.resolvedAt).toLocaleDateString('ko-KR', {
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  })} 완료
+                </span>
+              ) : (
+                <span 
+                  className={`font-medium ${
+                    timeData.isOverdue 
+                      ? 'text-scarletSmile' 
+                      : timeData.isUrgent 
+                        ? 'text-scarletSmile animate-pulse' 
+                        : 'text-micron'
+                  }`}
+                >
+                  {/* 초를 제외한 부분 */}
+                  {timeData.isOverdue && '-'}
+                  {timeData.days > 0 && `${timeData.days}d `}
+                  {(timeData.days > 0 || timeData.hours > 0) && `${timeData.hours}h `}
+                  {(timeData.days > 0 || timeData.hours > 0 || timeData.minutes > 0) && `${timeData.minutes}m `}
+                  {/* 초는 작은 폰트 */}
+                  <span className="text-xs">{timeData.seconds}s</span>
+                </span>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Options List */}
-        {decision.options.length > 0 && (
+        {(!hasChildren || isExpanded) && decision.options.length > 0 && (
           <div className="space-y-3 mb-3">
             {decision.options.map((option) => (
               <div key={option.id} className="space-y-2">
                 {/* Option Header */}
                 <button
                   onClick={(e) => handleOptionSelect(option.id, e)}
-                  className="w-full flex items-center gap-2 text-sm text-stretchLimo hover:bg-gray-50 rounded p-1 transition-colors"
+                  disabled={decision.resolved}
+                  className={`w-full flex items-center gap-2 text-sm rounded p-1 transition-colors ${
+                    decision.resolved ? 'cursor-not-allowed' : 'text-stretchLimo hover:bg-gray-50'
+                  }`}
                 >
                   <div className={`w-4 h-4 rounded-full border-2 border-stretchLimo flex-shrink-0 flex items-center justify-center ${
                     option.isSelected ? 'bg-stretchLimo' : ''
@@ -101,7 +213,9 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
                       <div className="w-1.5 h-1.5 rounded-full bg-white" />
                     )}
                   </div>
-                  <span className="truncate">{option.title || '(옵션)'}</span>
+                  <span className={`truncate ${decision.resolved && !option.isSelected ? 'line-through text-micron' : decision.resolved ? 'text-stretchLimo font-medium' : 'text-stretchLimo'}`}>
+                    {option.title || '(옵션)'}
+                  </span>
                 </button>
 
                 {/* Link Previews */}
@@ -158,26 +272,65 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
           </div>
         )}
 
-        {/* TRIM Button */}
-        {!decision.resolved && decision.options.length > 0 && (
+        {/* TRIM Button / Re-open Button */}
+        {(!hasChildren || isExpanded) && decision.options.length > 0 && (
+          <div className="flex items-center justify-center">
+            {decision.resolved ? (
+              <button
+                onClick={handleReopen}
+                className="w-[200px] py-2 rounded-lg text-sm font-bold transition-colors bg-stretchLimo text-white hover:bg-opacity-90"
+              >
+                Re-open
+              </button>
+            ) : (
+              <button
+                onClick={handleTrim}
+                disabled={!canTrim}
+                className={`w-full py-2 rounded-lg text-sm font-bold transition-colors ${
+                  canTrim
+                    ? 'bg-stretchLimo text-white hover:bg-opacity-90'
+                    : 'bg-gray-100 text-micron cursor-not-allowed border-2 border-gray-200'
+                }`}
+              >
+                TRIM
+              </button>
+            )}
+          </div>
+        )}
+
+        {/* Collapse Button - Only for expanded state with children */}
+        {hasChildren && isExpanded && onToggleExpand && (
           <button
-            onClick={handleTrim}
-            disabled={!canTrim}
-            className={`w-full py-2 rounded-lg text-sm font-bold transition-colors ${
-              canTrim
-                ? 'bg-stretchLimo text-white hover:bg-opacity-90'
-                : 'bg-gray-100 text-micron cursor-not-allowed border-2 border-gray-200'
-            }`}
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggleExpand();
+            }}
+            className="w-full flex items-center justify-center gap-2 py-2 mt-3 hover:opacity-70 transition-opacity group/collapse"
           >
-            TRIM
+            <div className="flex-1 h-px bg-gray-300" />
+            <ChevronUp className="w-4 h-4 text-micron group-hover/collapse:text-stretchLimo transition-colors" />
+            <div className="flex-1 h-px bg-gray-300" />
           </button>
+        )}
+
+        {/* Children (Sub-decisions) */}
+        {children && (
+          <div 
+            className="mt-4 space-y-3"
+            style={{
+              marginLeft: '20px',
+            }}
+            onClick={(e) => e.stopPropagation()} // Sub-decision 클릭 시 parent로 이벤트 전파 방지
+          >
+            {children}
+          </div>
         )}
       </div>
 
-      {/* Delete Button */}
+      {/* Delete Button - Outside card box */}
       <button
         onClick={onDelete}
-        className="absolute top-4 right-4 p-2 bg-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity hover:bg-scarletSmile hover:bg-opacity-10 z-10"
+        className="p-2 bg-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity hover:bg-scarletSmile hover:bg-opacity-10 flex-shrink-0"
       >
         <Trash2 className="w-4 h-4 text-scarletSmile" />
       </button>

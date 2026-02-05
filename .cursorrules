@@ -1,0 +1,14 @@
+# React Development Rules
+
+## State Management
+1. setState 직후 값을 즉시 사용하는 경우:
+   - 우선: useEffect 패턴
+   - 차선: flushSync
+   - 주석으로 이유 명시
+
+2. 사용자 액션 후 즉시 네비게이션:
+   - flushSync 사용 허용
+   - 주석: // flushSync: 즉시 이동 필요
+
+3. 일반 상태 업데이트:
+   - 기본 setState만 사용

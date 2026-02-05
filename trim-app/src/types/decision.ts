@@ -28,7 +28,7 @@ export interface DecisionFraming {
 export interface Decision {
   id: string;
   title: string;
-  category: 'Life' | 'Work';
+  category: string;
   importance: ImportanceLevel;
   timeBudget: number;
   deadline: string;
