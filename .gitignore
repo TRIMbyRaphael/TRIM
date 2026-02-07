@@ -30,3 +30,7 @@ pnpm-debug.log*
 
 # Vite
 .vite/
+
+# Auto-commit
+auto-commit.log
+.auto-commit.pid
