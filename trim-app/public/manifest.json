@@ -1,0 +1,15 @@
+{
+  "name": "TRIM",
+  "short_name": "TRIM",
+  "icons": [
+    {
+      "src": "/app-icon-1024.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#1A1A1A",
+  "background_color": "#F5F5F5",
+  "display": "standalone",
+  "start_url": "/"
+}

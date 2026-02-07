@@ -12,6 +12,8 @@ function App() {
   const [currentView, setCurrentView] = useState<View>('dashboard');
   const [currentDecisionId, setCurrentDecisionId] = useState<string | null>(null);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+  // Track initial sub-decision count for each decision
+  const [initialSubDecisionCounts, setInitialSubDecisionCounts] = useState<Record<string, number>>({});
 
   // Load decisions and categories on mount
   useEffect(() => {
@@ -19,6 +21,14 @@ function App() {
     const loadedCategories = loadCategories();
     setDecisions(loaded);
     setCategories(loadedCategories);
+    
+    // Initialize sub-decision counts for loaded decisions
+    const initialCounts: Record<string, number> = {};
+    loaded.forEach(decision => {
+      initialCounts[decision.id] = loaded.filter(d => d.parentId === decision.id).length;
+    });
+    setInitialSubDecisionCounts(initialCounts);
+    
     setIsInitialLoad(false);
   }, []);
 
@@ -73,6 +83,11 @@ function App() {
     };
 
     setDecisions([...decisions, newDecision]);
+    // Track initial sub-decision count (0 for new decision)
+    setInitialSubDecisionCounts(prev => ({
+      ...prev,
+      [newDecision.id]: 0,
+    }));
     setCurrentDecisionId(newDecision.id);
     setCurrentView('detail');
   };
@@ -86,6 +101,12 @@ function App() {
     // Find parent decision to inherit category
     const parentDecision = decisions.find(d => d.id === parentId);
     const parentCategory = parentDecision?.category || 'Life';
+
+    // Get existing sub-decisions for this parent to determine order
+    const existingSubDecisions = decisions.filter(d => d.parentId === parentId);
+    const maxOrder = existingSubDecisions.length > 0
+      ? Math.max(...existingSubDecisions.map(d => d.order || 0))
+      : -1;
 
     const newSubDecision: Decision = {
       id: baseId.toString(),
@@ -108,11 +129,16 @@ function App() {
           isSelected: false,
         },
       ],
-      order: decisions.length,
+      order: maxOrder + 1,
       parentId, // Link to parent decision
     };
 
     setDecisions([...decisions, newSubDecision]);
+    // Track initial sub-decision count (0 for new decision)
+    setInitialSubDecisionCounts(prev => ({
+      ...prev,
+      [newSubDecision.id]: 0,
+    }));
     setCurrentDecisionId(newSubDecision.id);
     setCurrentView('detail');
   };
@@ -125,9 +151,17 @@ function App() {
 
   const handleDeleteDecision = (decisionId: string) => {
     // When deleting a parent decision, also delete all its sub-decisions
+    const deletedIds = [decisionId, ...decisions.filter(d => d.parentId === decisionId).map(d => d.id)];
     setDecisions(decisions.filter((d) => 
       d.id !== decisionId && d.parentId !== decisionId
     ));
+    
+    // Clean up initial sub-decision counts
+    setInitialSubDecisionCounts(prev => {
+      const newCounts = { ...prev };
+      deletedIds.forEach(id => delete newCounts[id]);
+      return newCounts;
+    });
   };
 
   const handleReorderDecisions = (reorderedDecisions: Decision[]) => {
@@ -164,6 +198,25 @@ function App() {
     setCategories(newCategories);
   };
 
+  const handleReorderSubDecisions = (parentId: string, reorderedSubDecisionIds: string[]) => {
+    // Get all sub-decisions for this parent
+    const subDecisions = decisions.filter(d => d.parentId === parentId);
+    
+    // Create a map of new order values
+    const orderMap: Record<string, number> = {};
+    reorderedSubDecisionIds.forEach((id, index) => {
+      orderMap[id] = index;
+    });
+    
+    // Update decisions with new order values
+    setDecisions(decisions.map((d) => {
+      if (d.parentId === parentId && orderMap[d.id] !== undefined) {
+        return { ...d, order: orderMap[d.id] };
+      }
+      return d;
+    }));
+  };
+
   const currentDecision = decisions.find((d) => d.id === currentDecisionId);
 
   if (currentView === 'detail' && currentDecision) {
@@ -173,11 +226,13 @@ function App() {
         decision={currentDecision}
         decisions={decisions}
         categories={categories}
+        initialSubDecisionCount={initialSubDecisionCounts[currentDecision.id] ?? decisions.filter(d => d.parentId === currentDecision.id).length}
         onBack={handleBackToDashboard}
         onUpdate={handleUpdateDecision}
         onDelete={() => handleDeleteDecision(currentDecision.id)}
         onCreateSubDecision={handleCreateSubDecision}
         onSelectDecision={handleSelectDecision}
+        onReorderSubDecisions={handleReorderSubDecisions}
       />
     );
   }

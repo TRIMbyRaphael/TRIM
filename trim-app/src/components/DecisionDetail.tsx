@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { ArrowLeft, MoreVertical, Plus, ChevronDown, ChevronRight, Info, Clock, FileText, Trash2, Link as LinkIcon, Edit } from 'lucide-react';
+import { MoreVertical, Plus, ChevronDown, ChevronRight, Info, Clock, FileText, Trash2, Link as LinkIcon, Edit, Home } from 'lucide-react';
 import { Decision, IMPORTANCE_LEVELS, ImportanceLevel, Link } from '../types/decision';
 import TimeBudgetModal from './TimeBudgetModal';
 import { fetchOpenGraphData } from '../utils/linkPreview';
@@ -10,20 +10,23 @@ interface DecisionDetailProps {
   decision: Decision;
   decisions: Decision[]; // All decisions for sub-decision lookup
   categories: string[];
+  initialSubDecisionCount: number; // Initial sub-decision count for change detection
   onBack: () => void;
   onUpdate: (decision: Decision) => void;
   onDelete: () => void;
   onCreateSubDecision: (parentId: string) => void;
   onSelectDecision: (decisionId: string) => void;
+  onReorderSubDecisions: (parentId: string, reorderedSubDecisionIds: string[]) => void;
 }
 
-export default function DecisionDetail({ decision, decisions, categories, onBack, onUpdate, onDelete, onCreateSubDecision, onSelectDecision }: DecisionDetailProps) {
+export default function DecisionDetail({ decision, decisions, categories, initialSubDecisionCount: propInitialSubDecisionCount, onBack, onUpdate, onDelete, onCreateSubDecision, onSelectDecision, onReorderSubDecisions }: DecisionDetailProps) {
   const [localDecision, setLocalDecision] = useState<Decision>(decision);
   const timeData = useCountdown(localDecision.deadline); // Real-time countdown
 
   // Sync localDecision when decision prop changes (e.g., navigating to sub-decision)
   useEffect(() => {
     setLocalDecision(decision);
+    initialDecision.current = decision;
   }, [decision.id]);
   const [showKebabMenu, setShowKebabMenu] = useState(false);
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
@@ -46,17 +49,32 @@ export default function DecisionDetail({ decision, decisions, categories, onBack
   const [linkSiteName, setLinkSiteName] = useState('');
   const [isLoadingPreview, setIsLoadingPreview] = useState(false);
   const [showRandomPickTooltip, setShowRandomPickTooltip] = useState(false);
-  const titleInputRef = useRef<HTMLInputElement>(null);
+  const [draggedSubDecisionId, setDraggedSubDecisionId] = useState<string | null>(null);
+  const [dragOverSubDecisionId, setDragOverSubDecisionId] = useState<string | null>(null);
+  const titleInputRef = useRef<HTMLTextAreaElement>(null);
   const optionRefs = useRef<{ [key: string]: HTMLTextAreaElement | null }>({});
   const initialDecision = useRef<Decision>(decision);
-  const initialSubDecisionCount = useRef<number>(
-    decisions.filter(d => d.parentId === decision.id).length
-  );
+  const pendingNavigationRef = useRef<(() => void) | null>(null);
+  // Use prop-based initial sub-decision count to persist across remounts
+  const initialSubDecisionCount = propInitialSubDecisionCount;
 
   // Auto-focus on title input when component mounts
   useEffect(() => {
     titleInputRef.current?.focus();
+    // Auto-resize on mount
+    if (titleInputRef.current) {
+      titleInputRef.current.style.height = 'auto';
+      titleInputRef.current.style.height = `${titleInputRef.current.scrollHeight}px`;
+    }
   }, []);
+
+  // Auto-resize title textarea when content changes
+  useEffect(() => {
+    if (titleInputRef.current) {
+      titleInputRef.current.style.height = 'auto';
+      titleInputRef.current.style.height = `${titleInputRef.current.scrollHeight}px`;
+    }
+  }, [localDecision.title]);
 
   // Auto-focus on newly added option
   useEffect(() => {
@@ -71,6 +89,17 @@ export default function DecisionDetail({ decision, decisions, categories, onBack
       setNewOptionId(null);
     }
   }, [newOptionId, localDecision.options]);
+
+  // Auto-resize all option textareas when options change or component mounts
+  useEffect(() => {
+    localDecision.options.forEach((option) => {
+      const textarea = optionRefs.current[option.id];
+      if (textarea) {
+        textarea.style.height = 'auto';
+        textarea.style.height = `${textarea.scrollHeight}px`;
+      }
+    });
+  }, [localDecision.options]);
 
   // Auto-save when localDecision changes
   useEffect(() => {
@@ -426,7 +455,7 @@ export default function DecisionDetail({ decision, decisions, categories, onBack
     
     // Sub-decision 추가 체크
     const currentSubDecisionCount = decisions.filter(d => d.parentId === localDecision.id).length;
-    if (currentSubDecisionCount !== initialSubDecisionCount.current) return true;
+    if (currentSubDecisionCount !== initialSubDecisionCount) return true;
     
     // 옵션 변경 체크 (기본 "Do", "Do Not" 이외의 변경)
     if (localDecision.options.length !== initial.options.length) return true;
@@ -455,21 +484,18 @@ export default function DecisionDetail({ decision, decisions, categories, onBack
     return false;
   };
 
-  const handleBackClick = () => {
+  // 모든 이탈 경로에서 사용하는 일반화된 네비게이션 핸들러
+  const handleNavigateAway = (destination: () => void) => {
     const titleEmpty = localDecision.title.trim() === '';
     
     if (titleEmpty && hasChanges()) {
-      // 제목 비어있고 변경사항 있음 → 경고 팝업
+      // 제목 비어있고 변경사항 있음 → 경고 팝업 (이탈 목적지 저장)
+      pendingNavigationRef.current = destination;
       setShowLeaveWarning(true);
     } else if (titleEmpty && !hasChanges()) {
       // 제목 비어있고 변경사항 없음 → 삭제하고 나가기
       onDelete();
-      // 상위 사안이 있으면 상위 사안으로, 없으면 대시보드로
-      if (localDecision.parentId) {
-        onSelectDecision(localDecision.parentId);
-      } else {
-        onBack();
-      }
+      destination();
     } else {
       // 제목 있음 → 저장하고 나가기
       const filteredDecision = {
@@ -477,21 +503,16 @@ export default function DecisionDetail({ decision, decisions, categories, onBack
         options: localDecision.options.filter(opt => opt.title.trim() !== ''),
       };
       onUpdate(filteredDecision);
-      // 상위 사안이 있으면 상위 사안으로, 없으면 대시보드로
-      if (localDecision.parentId) {
-        onSelectDecision(localDecision.parentId);
-      } else {
-        onBack();
-      }
+      destination();
     }
   };
 
   const handleLeaveWithoutSaving = () => {
     setShowLeaveWarning(false);
     onDelete();
-    // 상위 사안이 있으면 상위 사안으로, 없으면 대시보드로
-    if (localDecision.parentId) {
-      onSelectDecision(localDecision.parentId);
+    if (pendingNavigationRef.current) {
+      pendingNavigationRef.current();
+      pendingNavigationRef.current = null;
     } else {
       onBack();
     }
@@ -499,6 +520,7 @@ export default function DecisionDetail({ decision, decisions, categories, onBack
 
   const handleCancelLeave = () => {
     setShowLeaveWarning(false);
+    pendingNavigationRef.current = null;
     titleInputRef.current?.focus();
   };
 
@@ -512,32 +534,128 @@ export default function DecisionDetail({ decision, decisions, categories, onBack
     });
   };
 
+  // Drag and drop handlers for sub-decisions
+  const handleDragStart = (e: React.DragEvent, subDecisionId: string) => {
+    if (localDecision.resolved) {
+      e.preventDefault();
+      return;
+    }
+    setDraggedSubDecisionId(subDecisionId);
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', subDecisionId);
+    // Add visual feedback
+    if (e.currentTarget instanceof HTMLElement) {
+      e.currentTarget.style.opacity = '0.5';
+    }
+  };
+
+  const handleDragEnd = (e: React.DragEvent) => {
+    setDraggedSubDecisionId(null);
+    setDragOverSubDecisionId(null);
+    // Remove visual feedback
+    if (e.currentTarget instanceof HTMLElement) {
+      e.currentTarget.style.opacity = '1';
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent, subDecisionId: string) => {
+    if (localDecision.resolved || draggedSubDecisionId === subDecisionId) {
+      return;
+    }
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    setDragOverSubDecisionId(subDecisionId);
+  };
+
+  const handleDragLeave = () => {
+    setDragOverSubDecisionId(null);
+  };
+
+  const handleDrop = (e: React.DragEvent, targetSubDecisionId: string) => {
+    e.preventDefault();
+    if (localDecision.resolved || !draggedSubDecisionId || draggedSubDecisionId === targetSubDecisionId) {
+      setDragOverSubDecisionId(null);
+      return;
+    }
+
+    // Get all sub-decisions sorted by order
+    const subDecisions = decisions
+      .filter(d => d.parentId === localDecision.id)
+      .sort((a, b) => (a.order || 0) - (b.order || 0));
+
+    // Find indices
+    const draggedIndex = subDecisions.findIndex(d => d.id === draggedSubDecisionId);
+    const targetIndex = subDecisions.findIndex(d => d.id === targetSubDecisionId);
+
+    if (draggedIndex === -1 || targetIndex === -1) {
+      setDragOverSubDecisionId(null);
+      return;
+    }
+
+    // Reorder array
+    const reordered = [...subDecisions];
+    const [removed] = reordered.splice(draggedIndex, 1);
+    reordered.splice(targetIndex, 0, removed);
+
+    // Get reordered IDs
+    const reorderedIds = reordered.map(d => d.id);
+
+    // Update order
+    onReorderSubDecisions(localDecision.id, reorderedIds);
+
+    setDraggedSubDecisionId(null);
+    setDragOverSubDecisionId(null);
+  };
+
+  // Build breadcrumb path from root to current decision's parent
+  const buildBreadcrumbPath = (): Array<{id: string, title: string}> => {
+    const path: Array<{id: string, title: string}> = [];
+    let currentId = localDecision.parentId;
+    
+    // Traverse up the parent chain
+    while (currentId) {
+      const parent = decisions.find(d => d.id === currentId);
+      if (!parent) break;
+      
+      path.unshift({ id: parent.id, title: parent.title || '[Untitled]' });
+      currentId = parent.parentId;
+      
+      // Prevent infinite loops
+      if (path.length > 10) break;
+    }
+    
+    return path;
+  };
+
+  const breadcrumbPath = buildBreadcrumbPath();
+
   // Real-time countdown display (removed getTimeRemaining, using timeData from hook)
 
   return (
     <div className="min-h-screen bg-cloudDancer">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
-        {/* Back Button - shows parent name if has parent */}
-        {localDecision.parentId ? (
-          <button
-            onClick={handleBackClick}
-            className="flex items-center gap-1.5 p-2 hover:bg-gray-100 rounded-lg transition-colors"
-          >
-            <ArrowLeft className="w-5 h-5 text-stretchLimo" />
-            <span className="text-sm text-micron">Parent:</span>
-            <span className="text-sm text-stretchLimo font-medium truncate max-w-[200px]">
-              {decisions.find(d => d.id === localDecision.parentId)?.title || '상위 사안'}
-            </span>
-          </button>
-        ) : (
-          <button
-            onClick={handleBackClick}
+      <header className="sticky top-0 z-10 bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
+        {/* Breadcrumb Navigation */}
+        <nav className="flex items-center gap-2 text-sm">
+          <button 
+            onClick={() => handleNavigateAway(onBack)}
             className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
           >
-            <ArrowLeft className="w-5 h-5 text-stretchLimo" />
+            <Home className="w-5 h-5 text-stretchLimo" />
           </button>
-        )}
+          
+          {breadcrumbPath.map((item) => (
+            <div key={item.id} className="flex items-center gap-2">
+              <span className="text-micron"> &gt; </span>
+              <button 
+                onClick={() => handleNavigateAway(() => onSelectDecision(item.id))}
+                className="text-stretchLimo hover:text-opacity-70 hover:underline truncate max-w-[150px]"
+              >
+                {item.title}
+              </button>
+            </div>
+          ))}
+        </nav>
 
         {/* Category Dropdown (only for parent decisions) */}
         {!localDecision.parentId && (
@@ -597,15 +715,20 @@ export default function DecisionDetail({ decision, decisions, categories, onBack
       <div className="max-w-2xl mx-auto px-4 py-6">
         {/* Title Input */}
         <div className="mb-6">
-          <div className="flex items-center gap-2">
-            <input
+          <div className="flex items-start gap-2">
+            <textarea
               ref={titleInputRef}
-              type="text"
               value={localDecision.title}
-              onChange={(e) => handleTitleChange(e.target.value)}
+              onChange={(e) => {
+                handleTitleChange(e.target.value);
+                // Auto-resize on input
+                e.target.style.height = 'auto';
+                e.target.style.height = `${e.target.scrollHeight}px`;
+              }}
               placeholder="What's cluttering your mind?"
               disabled={localDecision.resolved}
-              className={`flex-1 text-xl font-medium text-stretchLimo bg-transparent border-none outline-none placeholder-gray-300 ${
+              rows={1}
+              className={`flex-1 text-xl font-medium text-stretchLimo bg-transparent border-none outline-none placeholder-gray-300 resize-none overflow-hidden ${
                 localDecision.resolved ? 'line-through opacity-50 cursor-not-allowed' : ''
               }`}
             />
@@ -907,26 +1030,36 @@ export default function DecisionDetail({ decision, decisions, categories, onBack
               <button
                 onClick={handleTrim}
                 disabled={!localDecision.options.some(opt => opt.isSelected)}
-                className={`rounded-lg py-4 px-20 text-lg font-bold transition-colors ${
+                className={`rounded-lg py-3 px-16 text-base font-bold transition-colors ${
                   localDecision.options.some(opt => opt.isSelected)
                     ? 'bg-stretchLimo text-white hover:bg-opacity-90'
                     : 'bg-gray-100 text-micron cursor-not-allowed border-2 border-gray-200'
                 }`}
               >
-                TRIM
+                <img 
+                  src={localDecision.options.some(opt => opt.isSelected) 
+                    ? "/src/assets/logo-button-active.svg" 
+                    : "/src/assets/logo-button-inactive.svg"
+                  } 
+                  alt="TRIM" 
+                  className="h-4"
+                />
               </button>
 
               {/* Random Pick Button - Right Positioned */}
               {localDecision.options.length >= 2 && (
-                <div className="absolute right-0 top-1/2 -translate-y-1/2">
+                <div className="absolute -right-2 top-[50%] -translate-y-1/2">
                   <button
                     onClick={handleRandomPick}
                     onMouseEnter={() => setShowRandomPickTooltip(true)}
                     onMouseLeave={() => setShowRandomPickTooltip(false)}
-                    className="w-[70px] rounded-lg py-1.5 text-xs font-normal flex flex-col items-center justify-center gap-0.5 transition-colors bg-white text-[#6B6B6B] hover:bg-gray-50 relative border-0"
+                    className="flex flex-col items-center gap-1 p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors relative border-0"
                   >
-                    <span className="text-base">🎲</span>
-                    <span className="text-[10px] leading-tight">Random Pick</span>
+                    <span className="w-6 h-6 text-2xl text-stretchLimo flex items-center justify-center">🎲</span>
+                    <div className="flex flex-col items-center leading-tight">
+                      <span className="text-[5px] text-[#6B6B6B]">Random</span>
+                      <span className="text-[5px] text-[#6B6B6B]">Pick</span>
+                    </div>
                   </button>
                   
                   {/* Tooltip */}
@@ -1016,22 +1149,33 @@ export default function DecisionDetail({ decision, decisions, categories, onBack
               <span className="text-base text-stretchLimo">Time Budget</span>
             </div>
             <div className="flex items-center gap-2">
-              <span 
-                className={`text-base font-medium ${
-                  timeData.isOverdue 
-                    ? 'text-scarletSmile' 
-                    : timeData.isUrgent 
-                      ? 'text-scarletSmile animate-pulse' 
-                      : 'text-stretchLimo'
-                }`}
-              >
-                {timeData.isOverdue && '-'}
-                {timeData.days > 0 && `${timeData.days}d `}
-                {(timeData.days > 0 || timeData.hours > 0) && `${timeData.hours}h `}
-                {(timeData.days > 0 || timeData.hours > 0 || timeData.minutes > 0) && `${timeData.minutes}m `}
-                <span className="text-sm">{timeData.seconds}s</span>
-                {!timeData.isOverdue && ' 남음'}
-              </span>
+              {localDecision.resolved && localDecision.resolvedAt ? (
+                <span className="text-base font-medium text-micron">
+                  {new Date(localDecision.resolvedAt).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  })} completed
+                </span>
+              ) : (
+                <span 
+                  className={`text-base font-medium ${
+                    timeData.isOverdue 
+                      ? 'text-scarletSmile' 
+                      : timeData.isUrgent 
+                        ? 'text-scarletSmile animate-pulse' 
+                        : 'text-stretchLimo'
+                  }`}
+                >
+                  {timeData.isOverdue && '-'}
+                  {timeData.days > 0 && `${timeData.days}d `}
+                  {(timeData.days > 0 || timeData.hours > 0) && `${timeData.hours}h `}
+                  {(timeData.days > 0 || timeData.hours > 0 || timeData.minutes > 0) && `${timeData.minutes}m `}
+                  <span className="text-sm">{timeData.seconds}s</span>
+                  {!timeData.isOverdue && ' left'}
+                </span>
+              )}
               <ChevronRight className="w-4 h-4 text-micron" />
             </div>
           </button>
@@ -1064,30 +1208,59 @@ export default function DecisionDetail({ decision, decisions, categories, onBack
               {/* Sub-Decision List */}
               {decisions
                 .filter(d => d.parentId === localDecision.id)
+                .sort((a, b) => {
+                  // Resolved된 항목은 맨 아래로
+                  if (a.resolved && !b.resolved) return 1;
+                  if (!a.resolved && b.resolved) return -1;
+                  // 둘 다 resolved이거나 둘 다 resolved가 아니면 order로 정렬
+                  return (a.order || 0) - (b.order || 0);
+                })
                 .map((subDecision) => {
                   const subTimeData = formatTimeRemaining(subDecision.deadline);
+                  const isDragging = draggedSubDecisionId === subDecision.id;
+                  const isDragOver = dragOverSubDecisionId === subDecision.id;
                   return (
                     <button
                       key={subDecision.id}
+                      draggable={!localDecision.resolved}
+                      onDragStart={(e) => handleDragStart(e, subDecision.id)}
+                      onDragEnd={handleDragEnd}
+                      onDragOver={(e) => handleDragOver(e, subDecision.id)}
+                      onDragLeave={handleDragLeave}
+                      onDrop={(e) => handleDrop(e, subDecision.id)}
                       onClick={() => onSelectDecision(subDecision.id)}
-                      className="w-full flex items-center justify-between p-3 mb-2 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-left"
+                      className={`w-full flex items-center justify-between p-3 mb-2 rounded-lg transition-colors text-left ${
+                        isDragging
+                          ? 'opacity-50 bg-gray-100'
+                          : isDragOver
+                          ? 'bg-stretchLimo bg-opacity-10 border-2 border-stretchLimo border-dashed'
+                          : 'bg-gray-50 hover:bg-gray-100'
+                      } ${localDecision.resolved ? 'cursor-default' : 'cursor-pointer'}`}
                     >
                       <div className="flex-1 min-w-0">
-                        <h4 className="text-sm font-medium text-stretchLimo truncate mb-1">
+                        <h4 className={`text-sm font-medium text-stretchLimo truncate mb-1 ${
+                          subDecision.resolved ? 'line-through' : ''
+                        }`}>
                           {subDecision.title || '(제목 없음)'}
                         </h4>
                         <div className="flex items-center gap-2 text-xs">
-                          <span className={`${
-                            subDecision.resolved 
-                              ? 'text-micron' 
-                              : subTimeData.isOverdue 
-                                ? 'text-scarletSmile' 
-                                : 'text-micron'
-                          }`}>
-                            {subDecision.resolved ? 'Resolved' : subTimeData.text}
-                          </span>
-                          <span className="text-micron">·</span>
-                          <span className="text-micron">{IMPORTANCE_LEVELS[subDecision.importance].label}</span>
+                          {subDecision.resolved ? (
+                            <span className="font-bold text-black">
+                              Resolved
+                            </span>
+                          ) : (
+                            <>
+                              <span className={`${
+                                subTimeData.isOverdue 
+                                  ? 'text-scarletSmile' 
+                                  : 'text-micron'
+                              }`}>
+                                {subTimeData.text}
+                              </span>
+                              <span className="text-micron">·</span>
+                              <span className="text-micron">{IMPORTANCE_LEVELS[subDecision.importance].label}</span>
+                            </>
+                          )}
                         </div>
                       </div>
                       <ChevronRight className="w-4 h-4 text-micron flex-shrink-0 ml-2" />

@@ -33,8 +33,8 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
   };
 
   const getPadding = () => {
-    const basePadding = 24 - (level * 4);
-    return Math.max(basePadding, 12); // minimum 12px
+    const basePadding = 12 - (level * 2);
+    return Math.max(basePadding, 6); // minimum 6px
   };
 
   const getBorderStyle = () => {
@@ -99,7 +99,7 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
         style={{
           backgroundColor: getBackgroundColor(),
           padding: `${getPadding()}px`,
-          paddingLeft: hasChildren ? '32px' : `${getPadding()}px`,
+          paddingLeft: hasChildren ? '16px' : `${getPadding()}px`,
           border: getBorderStyle(),
         }}
       >
@@ -110,10 +110,10 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
             <div
               className="absolute"
               style={{
-                left: '-20px',
+                left: '-12px',
                 top: '0',
                 width: '2px',
-                height: '32px',
+                height: '14px',
                 backgroundColor: '#E5E5E5',
               }}
             />
@@ -121,9 +121,9 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
             <div
               className="absolute"
               style={{
-                left: '-20px',
-                top: '32px',
-                width: '20px',
+                left: '-12px',
+                top: '14px',
+                width: '12px',
                 height: '2px',
                 backgroundColor: '#E5E5E5',
               }}
@@ -132,11 +132,11 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
         )}
         
         {/* Title and Time Row */}
-        <div className="flex items-center gap-3 mb-2">
+        <div className="flex items-center gap-2 mb-1">
           {/* Title */}
           <div
             className="text-left"
-            style={hasChildren ? { marginLeft: '-12px' } : undefined}
+            style={hasChildren ? { marginLeft: '-6px' } : undefined}
           >
             <h3 className={`text-base font-medium inline-block ${decision.resolved ? 'line-through text-micron' : 'text-stretchLimo'}`}>
               {title}
@@ -163,12 +163,12 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
             <div className="flex items-center gap-1 text-sm flex-shrink-0">
               {decision.resolved && decision.resolvedAt ? (
                 <span className="font-medium text-micron">
-                  {new Date(decision.resolvedAt).toLocaleDateString('ko-KR', {
+                  {new Date(decision.resolvedAt).toLocaleDateString('en-US', {
                     month: 'short',
                     day: 'numeric',
                     hour: '2-digit',
                     minute: '2-digit'
-                  })} 완료
+                  })} completed
                 </span>
               ) : (
                 <span 
@@ -195,25 +195,25 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
 
         {/* Options List */}
         {(!hasChildren || isExpanded) && decision.options.length > 0 && (
-          <div className="space-y-3 mb-3">
+          <div className="space-y-2 mb-2">
             {decision.options.map((option) => (
               <div key={option.id} className="space-y-2">
                 {/* Option Header */}
                 <button
                   onClick={(e) => handleOptionSelect(option.id, e)}
                   disabled={decision.resolved}
-                  className={`w-full flex items-center gap-2 text-sm rounded p-1 transition-colors ${
+                  className={`w-full flex items-start justify-start gap-2 text-sm rounded p-1 transition-colors text-left ${
                     decision.resolved ? 'cursor-not-allowed' : 'text-stretchLimo hover:bg-gray-50'
                   }`}
                 >
-                  <div className={`w-4 h-4 rounded-full border-2 border-stretchLimo flex-shrink-0 flex items-center justify-center ${
+                  <div className={`w-4 h-4 rounded-full border-2 border-stretchLimo flex-shrink-0 flex items-center justify-center mt-0.5 ${
                     option.isSelected ? 'bg-stretchLimo' : ''
                   }`}>
                     {option.isSelected && (
                       <div className="w-1.5 h-1.5 rounded-full bg-white" />
                     )}
                   </div>
-                  <span className={`truncate ${decision.resolved && !option.isSelected ? 'line-through text-micron' : decision.resolved ? 'text-stretchLimo font-medium' : 'text-stretchLimo'}`}>
+                  <span className={`break-words ${decision.resolved && !option.isSelected ? 'line-through text-micron' : decision.resolved ? 'text-stretchLimo font-medium' : 'text-stretchLimo'}`}>
                     {option.title || '(옵션)'}
                   </span>
                 </button>
@@ -292,7 +292,14 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
                     : 'bg-gray-100 text-micron cursor-not-allowed border-2 border-gray-200'
                 }`}
               >
-                TRIM
+                <img 
+                  src={canTrim 
+                    ? '/src/assets/logo-button-active.svg' 
+                    : '/src/assets/logo-button-inactive.svg'
+                  }
+                  alt="TRIM"
+                  className="h-4 mx-auto"
+                />
               </button>
             )}
           </div>
@@ -305,7 +312,7 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
               e.stopPropagation();
               onToggleExpand();
             }}
-            className="w-full flex items-center justify-center gap-2 py-2 mt-3 hover:opacity-70 transition-opacity group/collapse"
+            className="w-full flex items-center justify-center gap-2 py-1.5 mt-2 hover:opacity-70 transition-opacity group/collapse"
           >
             <div className="flex-1 h-px bg-gray-300" />
             <ChevronUp className="w-4 h-4 text-micron group-hover/collapse:text-stretchLimo transition-colors" />
@@ -316,9 +323,9 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
         {/* Children (Sub-decisions) */}
         {children && (
           <div 
-            className="mt-4 space-y-3"
+            className="mt-2 space-y-2"
             style={{
-              marginLeft: '20px',
+              marginLeft: '12px',
             }}
             onClick={(e) => e.stopPropagation()} // Sub-decision 클릭 시 parent로 이벤트 전파 방지
           >
@@ -326,14 +333,6 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
           </div>
         )}
       </div>
-
-      {/* Delete Button - Outside card box */}
-      <button
-        onClick={onDelete}
-        className="p-2 bg-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity hover:bg-scarletSmile hover:bg-opacity-10 flex-shrink-0"
-      >
-        <Trash2 className="w-4 h-4 text-scarletSmile" />
-      </button>
     </div>
   );
 }

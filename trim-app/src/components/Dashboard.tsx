@@ -47,7 +47,6 @@ function SortableDecisionCard({
   hasChildren,
   isExpanded,
   onToggleExpand,
-  isLastChild,
 }: {
   decision: Decision;
   onSelect: () => void;
@@ -60,7 +59,6 @@ function SortableDecisionCard({
   hasChildren?: boolean;
   isExpanded?: boolean;
   onToggleExpand?: () => void;
-  isLastChild?: boolean;
 }) {
   const {
     attributes,
@@ -90,7 +88,6 @@ function SortableDecisionCard({
         hasChildren={hasChildren}
         isExpanded={isExpanded}
         onToggleExpand={onToggleExpand}
-        isLastChild={isLastChild}
       >
         {children}
       </DecisionCard>
@@ -99,7 +96,6 @@ function SortableDecisionCard({
 }
 
 export default function Dashboard({ decisions, categories, onCreateDecision, onSelectDecision, onDeleteDecision, onReorderDecisions, onUpdateDecision, onTrimDecision, onReopenDecision, onUpdateCategories }: DashboardProps) {
-  const [activeId, setActiveId] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [showCategoryManagement, setShowCategoryManagement] = useState(false);
   const [expandedSections, setExpandedSections] = useState({
@@ -136,9 +132,11 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
   };
 
   // Recursive function to render decision with all its children
-  const renderDecisionWithChildren = (decision: Decision, level: number = 0, isLastChild: boolean = false): JSX.Element => {
+  const renderDecisionWithChildren = (decision: Decision, level: number = 0): JSX.Element => {
     // resolved된 sub-decision은 표시하지 않음 (관계는 유지되어 reopen시 원래 위치로 복귀)
-    const children = decisions.filter(d => d.parentId === decision.id && !d.resolved);
+    const children = decisions
+      .filter(d => d.parentId === decision.id && !d.resolved)
+      .sort((a, b) => (a.order || 0) - (b.order || 0)); // Sort by order
     const hasChildren = children.length > 0;
     const isExpanded = hasChildren ? (expandedDecisions[decision.id] ?? false) : true;
     
@@ -158,10 +156,9 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
         hasChildren={hasChildren}
         isExpanded={isExpanded}
         onToggleExpand={hasChildren ? () => toggleDecisionExpand(decision.id) : undefined}
-        isLastChild={isLastChild}
       >
-        {children.length > 0 && children.map((child, index) => 
-          renderDecisionWithChildren(child, level + 1, index === children.length - 1)
+        {children.length > 0 && children.map((child) => 
+          renderDecisionWithChildren(child, level + 1)
         )}
       </DecisionCard>
     );
@@ -207,13 +204,8 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
       return dateB - dateA; // newest first
     });
 
-  const handleDragStart = (event: DragEndEvent) => {
-    setActiveId(event.active.id as string);
-  };
-
   const handleDragEnd = (event: DragEndEvent, section: 'overdue' | 'active') => {
     const { active, over } = event;
-    setActiveId(null);
 
     if (!over || active.id === over.id) return;
 
@@ -243,10 +235,12 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
   return (
     <div className="min-h-screen bg-cloudDancer">
       {/* Header */}
-      <header className="py-6 px-4">
-        <h1 className="text-4xl font-bold text-stretchLimo text-center">
-          TRIM
-        </h1>
+      <header className="py-6 px-4 flex justify-center">
+        <img 
+          src="/src/assets/logo-header.svg" 
+          alt="TRIM" 
+          className="h-8"
+        />
       </header>
 
       {/* Main Container */}
@@ -292,7 +286,6 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
           <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
-            onDragStart={handleDragStart}
             onDragEnd={(event) => handleDragEnd(event, 'overdue')}
           >
             <section className="mb-6">
@@ -303,13 +296,13 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
               >
                 <div className="flex items-center gap-2">
                   <h2 className="text-lg font-bold text-scarletSmile">OVERDUE</h2>
+                  <span className="text-sm text-micron">{overdueDecisions.length}</span>
                   {expandedSections.overdue ? (
                     <ChevronDown className="w-5 h-5 text-scarletSmile" />
                   ) : (
                     <ChevronRight className="w-5 h-5 text-scarletSmile" />
                   )}
                 </div>
-                <span className="text-sm text-micron">{overdueDecisions.length}</span>
               </button>
 
               {/* Decision Cards */}
@@ -326,7 +319,6 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
-          onDragStart={handleDragStart}
           onDragEnd={(event) => handleDragEnd(event, 'active')}
         >
           <section className="mb-6">
@@ -337,13 +329,13 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
             >
               <div className="flex items-center gap-2">
                 <h2 className="text-lg font-bold text-stretchLimo">ACTIVE</h2>
+                <span className="text-sm text-micron">{activeDecisions.length}</span>
                 {expandedSections.active ? (
                   <ChevronDown className="w-5 h-5 text-stretchLimo" />
                 ) : (
                   <ChevronRight className="w-5 h-5 text-stretchLimo" />
                 )}
               </div>
-              <span className="text-sm text-micron">{activeDecisions.length}</span>
             </button>
 
             {expandedSections.active && (
@@ -368,7 +360,9 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
                     <div className="space-y-3">
                       {activeDecisions.map((decision) => {
                         // resolved된 sub-decision은 표시하지 않음
-                        const children = decisions.filter(d => d.parentId === decision.id && !d.resolved);
+                        const children = decisions
+                          .filter(d => d.parentId === decision.id && !d.resolved)
+                          .sort((a, b) => (a.order || 0) - (b.order || 0)); // Sort by order
                         const hasChildren = children.length > 0;
                         const isExpanded = hasChildren ? (expandedDecisions[decision.id] ?? false) : true;
                         return (
@@ -419,13 +413,13 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
             >
               <div className="flex items-center gap-2">
                 <h2 className="text-lg font-bold text-stretchLimo">RESOLVED</h2>
+                <span className="text-sm text-micron">{resolvedDecisions.length}</span>
                 {expandedSections.resolved ? (
                   <ChevronDown className="w-5 h-5 text-stretchLimo" />
                 ) : (
                   <ChevronRight className="w-5 h-5 text-stretchLimo" />
                 )}
               </div>
-              <span className="text-sm text-micron">{resolvedDecisions.length}</span>
             </button>
 
             {/* Decision Cards */}
