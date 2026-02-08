@@ -133,7 +133,7 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
                   <select
                     value={days}
                     onChange={(e) => handleTimeBudgetChange(Number(e.target.value), hours, minutes)}
-                    className="w-16 h-24 text-center text-2xl font-medium text-stretchLimo border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stretchLimo"
+                    className="w-16 h-24 text-center [text-align-last:center] text-2xl font-medium text-stretchLimo border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stretchLimo"
                   >
                     {Array.from({ length: 31 }, (_, i) => (
                       <option key={i} value={i}>{i}</option>
@@ -147,7 +147,7 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
                   <select
                     value={hours}
                     onChange={(e) => handleTimeBudgetChange(days, Number(e.target.value), minutes)}
-                    className="w-16 h-24 text-center text-2xl font-medium text-stretchLimo border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stretchLimo"
+                    className="w-16 h-24 text-center [text-align-last:center] text-2xl font-medium text-stretchLimo border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stretchLimo"
                   >
                     {Array.from({ length: 24 }, (_, i) => (
                       <option key={i} value={i}>{i}</option>
@@ -161,7 +161,7 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
                   <select
                     value={minutes}
                     onChange={(e) => handleTimeBudgetChange(days, hours, Number(e.target.value))}
-                    className="w-16 h-24 text-center text-2xl font-medium text-stretchLimo border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stretchLimo"
+                    className="w-16 h-24 text-center [text-align-last:center] text-2xl font-medium text-stretchLimo border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stretchLimo"
                   >
                     {Array.from({ length: 60 }, (_, i) => (
                       <option key={i} value={i}>{i}</option>
@@ -274,7 +274,7 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
                   <select
                     value={selectedHour}
                     onChange={(e) => setSelectedHour(Number(e.target.value))}
-                    className="w-16 h-24 text-center text-2xl font-medium text-stretchLimo border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stretchLimo"
+                    className="w-16 h-24 text-center [text-align-last:center] text-2xl font-medium text-stretchLimo border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stretchLimo"
                   >
                     {Array.from({ length: 24 }, (_, i) => (
                       <option key={i} value={i}>{String(i).padStart(2, '0')}</option>
@@ -290,7 +290,7 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
                   <select
                     value={selectedMinute}
                     onChange={(e) => setSelectedMinute(Number(e.target.value))}
-                    className="w-16 h-24 text-center text-2xl font-medium text-stretchLimo border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stretchLimo"
+                    className="w-16 h-24 text-center [text-align-last:center] text-2xl font-medium text-stretchLimo border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stretchLimo"
                   >
                     {Array.from({ length: 60 }, (_, i) => (
                       <option key={i} value={i}>{String(i).padStart(2, '0')}</option>
