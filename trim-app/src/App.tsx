@@ -80,6 +80,7 @@ function App() {
         },
       ],
       order: minOrder,
+      mode: DEFAULT_DECISION_MODE,
     };
 
     setDecisions([...decisions, newDecision]);
