@@ -27,6 +27,13 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   useEffect(() => {
     setLocalDecision(decision);
     initialDecision.current = decision;
+    // 모드별 옵션 ref 초기화
+    const srcMode = decision.mode || 'do_or_not';
+    optionsByModeRef.current = {
+      'do_or_not': initOptionsForMode('do_or_not', srcMode, decision.options),
+      'choose_best': initOptionsForMode('choose_best', srcMode, decision.options),
+      'no_clear_options': initOptionsForMode('no_clear_options', srcMode, decision.options),
+    };
   }, [decision.id]);
   const [showKebabMenu, setShowKebabMenu] = useState(false);
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
