@@ -757,6 +757,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     setDraggedOptionId(null);
     setDragOverOptionId(null);
     setIsDragMode(false);
+    removeTouchMoveBlocker();
     longPressStartPos.current = null;
     longPressingOptionId.current = null;
   };
@@ -774,6 +775,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     setDragOverOptionId(null);
     setIsDragMode(false);
     setLongPressOptionId(null);
+    removeTouchMoveBlocker();
   };
 
   // Build breadcrumb path from root to current decision's parent
