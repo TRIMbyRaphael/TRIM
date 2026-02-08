@@ -1113,24 +1113,29 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     <div className="w-2 h-2 rounded-full bg-white" />
                   )}
                 </button>
-                <textarea
-                  ref={(el) => (optionRefs.current[option.id] = el)}
-                  value={option.title}
-                  onChange={(e) => handleOptionChange(option.id, e.target.value)}
-                  onFocus={() => handleOptionFocus(option.id, option.title)}
-                  onBlur={() => handleOptionBlur(option.id, option.title)}
+                {/* Long press 영역: 체크박스 우측부터 첨부파일 버튼 좌측까지 */}
+                <div
+                  className="flex-1 flex items-center"
                   onPointerDown={(e) => handleOptionPointerDown(e, option.id)}
                   onPointerUp={handleOptionPointerUp}
                   onPointerCancel={handleOptionPointerCancel}
-                  placeholder="Option"
-                  rows={1}
-                  disabled={localDecision.resolved}
-                  className={`flex-1 text-base bg-transparent border-none outline-none placeholder-gray-300 resize-none overflow-hidden ${
-                    option.isSelected ? 'text-stretchLimo font-medium' : 'text-stretchLimo'
-                  } ${localDecision.resolved && !option.isSelected ? 'line-through opacity-50' : ''} ${
-                    localDecision.resolved ? 'cursor-not-allowed' : ''
-                  }`}
-                />
+                >
+                  <textarea
+                    ref={(el) => (optionRefs.current[option.id] = el)}
+                    value={option.title}
+                    onChange={(e) => handleOptionChange(option.id, e.target.value)}
+                    onFocus={() => handleOptionFocus(option.id, option.title)}
+                    onBlur={() => handleOptionBlur(option.id, option.title)}
+                    placeholder="Option"
+                    rows={1}
+                    disabled={localDecision.resolved}
+                    className={`flex-1 text-base bg-transparent border-none outline-none placeholder-gray-300 resize-none overflow-hidden ${
+                      option.isSelected ? 'text-stretchLimo font-medium' : 'text-stretchLimo'
+                    } ${localDecision.resolved && !option.isSelected ? 'line-through opacity-50' : ''} ${
+                      localDecision.resolved ? 'cursor-not-allowed' : ''
+                    }`}
+                  />
+                </div>
                 <button
                   onClick={() => openLinkModal('option', option.id)}
                   disabled={localDecision.resolved}
