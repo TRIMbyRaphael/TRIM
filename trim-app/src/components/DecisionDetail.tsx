@@ -1106,7 +1106,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 }`}
               >
               {/* Option Header */}
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1">
                 {/* Drag Handle */}
                 {!localDecision.resolved && (
                   <div
