@@ -670,6 +670,10 @@ export default function DecisionDetail({ decision, decisions, categories, initia
       e.preventDefault();
       return;
     }
+    // 드래그 시작 시 long press 타이머 취소
+    clearLongPressTimer();
+    setLongPressOptionId(null);
+    
     setDraggedOptionId(optionId);
     e.dataTransfer.effectAllowed = 'move';
     e.dataTransfer.setData('text/plain', optionId);
@@ -1075,9 +1079,6 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 onDragOver={(e) => handleOptionDragOver(e, option.id)}
                 onDragLeave={handleOptionDragLeave}
                 onDrop={(e) => handleOptionDrop(e, option.id)}
-                onPointerDown={(e) => handleOptionPointerDown(e, option.id)}
-                onPointerUp={handleOptionPointerUp}
-                onPointerCancel={handleOptionPointerCancel}
                 className={`rounded-lg p-4 group transition-colors ${
                   isDragging
                     ? 'opacity-50'
@@ -1118,6 +1119,9 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   onChange={(e) => handleOptionChange(option.id, e.target.value)}
                   onFocus={() => handleOptionFocus(option.id, option.title)}
                   onBlur={() => handleOptionBlur(option.id, option.title)}
+                  onPointerDown={(e) => handleOptionPointerDown(e, option.id)}
+                  onPointerUp={handleOptionPointerUp}
+                  onPointerCancel={handleOptionPointerCancel}
                   placeholder="Option"
                   rows={1}
                   disabled={localDecision.resolved}
