@@ -360,8 +360,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   };
 
   const handleOptionFocus = (optionId: string, currentTitle: string) => {
-    // 기본 프리셋 텍스트면 빈칸으로 만들기
-    if (currentTitle === 'Do' || currentTitle === 'Do Not') {
+    // 기본 프리셋 텍스트면 빈칸으로 만들기 (do_or_not 모드에서만)
+    if (currentMode === 'do_or_not' && (currentTitle === 'Do' || currentTitle === 'Do Not')) {
       setLocalDecision({
         ...localDecision,
         options: localDecision.options.map((opt) =>
@@ -372,8 +372,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   };
 
   const handleOptionBlur = (optionId: string, currentTitle: string) => {
-    // 빈칸이면 원래 프리셋으로 복구
-    if (currentTitle.trim() === '') {
+    // 빈칸이면 원래 프리셋으로 복구 (do_or_not 모드에서만)
+    if (currentMode === 'do_or_not' && currentTitle.trim() === '') {
       const optionIndex = localDecision.options.findIndex(opt => opt.id === optionId);
       const originalTitle = optionIndex === 0 ? 'Do' : optionIndex === 1 ? 'Do Not' : '';
       

@@ -58,6 +58,7 @@ function App() {
       ? Math.min(...activeDecisions.map(d => d.order || 0)) - 1 
       : 0;
 
+    const defaultMode = DEFAULT_DECISION_MODE;
     const newDecision: Decision = {
       id: baseId.toString(),
       title: '',
@@ -67,20 +68,33 @@ function App() {
       deadline: deadline.toISOString(),
       createdAt: now.toISOString(),
       resolved: false,
-      options: [
-        {
-          id: `${baseId}-1`,
-          title: 'Do',
-          isSelected: false,
-        },
-        {
-          id: `${baseId}-2`,
-          title: 'Do Not',
-          isSelected: false,
-        },
-      ],
+      options: defaultMode === 'do_or_not' 
+        ? [
+            {
+              id: `${baseId}-1`,
+              title: 'Do',
+              isSelected: false,
+            },
+            {
+              id: `${baseId}-2`,
+              title: 'Do Not',
+              isSelected: false,
+            },
+          ]
+        : [
+            {
+              id: `${baseId}-1`,
+              title: '',
+              isSelected: false,
+            },
+            {
+              id: `${baseId}-2`,
+              title: '',
+              isSelected: false,
+            },
+          ],
       order: minOrder,
-      mode: DEFAULT_DECISION_MODE,
+      mode: defaultMode,
     };
 
     setDecisions([...decisions, newDecision]);
