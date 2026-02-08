@@ -1246,7 +1246,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               {/* Long press 삭제 팝업 */}
               {showDeletePopup && (
                 <div 
-                  className="absolute -top-1 left-4 z-50 animate-in fade-in slide-in-from-bottom-2 duration-150 select-none"
+                  className="absolute -top-12 left-4 z-50 select-none"
                   onPointerDown={(e) => e.stopPropagation()}
                   onPointerUp={(e) => e.stopPropagation()}
                 >
