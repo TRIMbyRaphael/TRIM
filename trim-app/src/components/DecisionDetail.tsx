@@ -1221,7 +1221,11 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     onChange={(e) => handleOptionChange(option.id, e.target.value)}
                     onFocus={() => handleOptionFocus(option.id, option.title)}
                     onBlur={() => handleOptionBlur(option.id, option.title)}
-                    placeholder="Option"
+                    placeholder={
+                      currentMode === 'choose_best'
+                        ? `Option ${String.fromCharCode(65 + index)}` // A, B, C, ...
+                        : 'Option'
+                    }
                     rows={1}
                     disabled={localDecision.resolved}
                     className={`flex-1 text-base bg-transparent border-none outline-none placeholder-gray-300 resize-none overflow-hidden min-w-0 ${
