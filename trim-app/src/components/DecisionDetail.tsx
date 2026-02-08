@@ -1157,6 +1157,31 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   <Trash2 className="w-4 h-4 text-scarletSmile" />
                 </button>
               </div>
+              </div>
+
+              {/* Long press 삭제 팝업 */}
+              {showDeletePopup && (
+                <div 
+                  className="absolute -top-12 left-4 z-50 select-none"
+                  onPointerDown={(e) => e.stopPropagation()}
+                  onPointerUp={(e) => e.stopPropagation()}
+                >
+                  <div className="bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden min-w-[140px]">
+                    <button
+                      onClick={() => {
+                        handleDeleteOption(option.id);
+                        setLongPressOptionId(null);
+                      }}
+                      className="w-full flex items-center gap-3 px-4 py-3 text-scarletSmile hover:bg-scarletSmile hover:bg-opacity-5 transition-colors text-sm font-medium select-none"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                      <span>Delete</span>
+                    </button>
+                  </div>
+                  {/* 말풍선 꼬리 */}
+                  <div className="absolute -bottom-1.5 left-6 w-3 h-3 bg-white border-r border-b border-gray-200 transform rotate-45" />
+                </div>
+              )}
 
               {/* Option Links */}
               {option.links && option.links.length > 0 && (
