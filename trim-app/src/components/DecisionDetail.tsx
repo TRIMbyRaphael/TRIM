@@ -70,6 +70,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   const [dragOverOptionId, setDragOverOptionId] = useState<string | null>(null);
   const [longPressOptionId, setLongPressOptionId] = useState<string | null>(null); // 꾹 눌러서 삭제 팝업 표시용
   const longPressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const deletePopupShownAtRef = useRef<number | null>(null); // 삭제 팝업이 표시된 시간
   const titleInputRef = useRef<HTMLTextAreaElement>(null);
   const optionRefs = useRef<{ [key: string]: HTMLTextAreaElement | null }>({});
   const initialDecision = useRef<Decision>(decision);
@@ -651,6 +652,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
       window.getSelection()?.removeAllRanges();
 
       setLongPressOptionId(optionId);
+      deletePopupShownAtRef.current = Date.now(); // 팝업 표시 시간 기록
       longPressTimerRef.current = null;
     }, 400);
   };
@@ -670,9 +672,20 @@ export default function DecisionDetail({ decision, decisions, categories, initia
       e.preventDefault();
       return;
     }
+    
+    // 삭제 팝업이 표시된 후 500ms 이내면 드래그 차단 (손을 떼는 시간 여유 제공)
+    if (deletePopupShownAtRef.current) {
+      const timeSincePopupShown = Date.now() - deletePopupShownAtRef.current;
+      if (timeSincePopupShown < 500) {
+        e.preventDefault();
+        return;
+      }
+    }
+    
     // 드래그 시작 시 long press 타이머 취소
     clearLongPressTimer();
     setLongPressOptionId(null);
+    deletePopupShownAtRef.current = null;
     
     setDraggedOptionId(optionId);
     e.dataTransfer.effectAllowed = 'move';
