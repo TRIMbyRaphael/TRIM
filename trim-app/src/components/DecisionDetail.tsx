@@ -649,6 +649,11 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     const target = e.target as HTMLElement;
     if (target.closest('button') || target.closest('a')) return;
 
+    // 모바일 네이티브 long press 동작(돋보기, 텍스트 선택) 방지
+    if (e.pointerType === 'touch') {
+      e.preventDefault();
+    }
+
     longPressStartPos.current = { x: e.clientX, y: e.clientY };
     longPressingOptionId.current = optionId;
 
