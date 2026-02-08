@@ -1923,3 +1923,19 @@ After doing this, you may fix the identity used for this commit with:
 
  2 files changed, 22 insertions(+), 2 deletions(-)
 [21:03:47] 자동 커밋 완료: chore: 자동 커밋 - 2026-02-08 21:03:46 - auto-commit.log,trim-app/src/components/DecisionDetail.tsx
+[main 055ee80] chore: 자동 커밋 - 2026-02-08 21:03:53 - auto-commit.log
+ Committer: ohno <ohno@ohnoui-MacBookAir.local>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 1 file changed, 16 insertions(+)
+[21:03:53] 자동 커밋 완료: chore: 자동 커밋 - 2026-02-08 21:03:53 - auto-commit.log
