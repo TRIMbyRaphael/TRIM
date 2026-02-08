@@ -1095,7 +1095,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 onDragOver={(e) => handleOptionDragOver(e, option.id)}
                 onDragLeave={handleOptionDragLeave}
                 onDrop={(e) => handleOptionDrop(e, option.id)}
-                className={`rounded-lg py-4 px-5 group transition-colors ${
+                className={`rounded-lg py-4 px-6 group transition-colors ${
                   isDragging
                     ? 'opacity-50'
                     : isDragOver
@@ -1152,7 +1152,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     }`}
                   />
                 </div>
-                <div className="flex items-center gap-1 flex-shrink-0 -mr-1">
+                <div className="flex items-center gap-1 flex-shrink-0 -mr-2">
                   <button
                     onClick={() => openLinkModal('option', option.id)}
                     disabled={localDecision.resolved}
