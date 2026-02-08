@@ -1409,8 +1409,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     <div className="mt-3 space-y-2">
                       {/* Pros */}
                       <div>
-                        <label className="flex items-center gap-1 text-xs font-semibold text-emerald-600 mb-1">
-                          <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-emerald-100 text-emerald-600 text-[10px] font-bold">+</span>
+                        <label className="flex items-center gap-1 text-xs font-semibold text-stretchLimo mb-1">
+                          <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-white border border-gray-300 text-stretchLimo text-[10px] font-bold">+</span>
                           Pros
                         </label>
                         <textarea
@@ -1418,7 +1418,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                           onChange={(e) => handleOptionProsChange(option.id, e.target.value)}
                           placeholder="What's good about this option..."
                           disabled={localDecision.resolved}
-                          className={`w-full px-3 py-2 text-sm text-stretchLimo bg-emerald-50 border border-emerald-200 rounded-lg outline-none focus:ring-2 focus:ring-emerald-400 resize-none ${
+                          className={`w-full px-3 py-2 text-sm text-stretchLimo bg-white border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
                             localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                           }`}
                           rows={2}
@@ -1426,8 +1426,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       </div>
                       {/* Cons */}
                       <div>
-                        <label className="flex items-center gap-1 text-xs font-semibold text-rose-500 mb-1">
-                          <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-rose-100 text-rose-500 text-[10px] font-bold">&minus;</span>
+                        <label className="flex items-center gap-1 text-xs font-semibold text-gray-400 mb-1">
+                          <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-stretchLimo text-white text-[10px] font-bold">&minus;</span>
                           Cons
                         </label>
                         <textarea
@@ -1435,7 +1435,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                           onChange={(e) => handleOptionConsChange(option.id, e.target.value)}
                           placeholder="What's not ideal about this option..."
                           disabled={localDecision.resolved}
-                          className={`w-full px-3 py-2 text-sm text-stretchLimo bg-rose-50 border border-rose-200 rounded-lg outline-none focus:ring-2 focus:ring-rose-400 resize-none ${
+                          className={`w-full px-3 py-2 text-sm text-stretchLimo bg-gray-100 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
                             localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                           }`}
                           rows={2}
