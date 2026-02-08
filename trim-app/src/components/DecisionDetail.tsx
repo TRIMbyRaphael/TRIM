@@ -1245,14 +1245,18 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
               {/* Long press 삭제 팝업 */}
               {showDeletePopup && (
-                <div className="absolute -top-1 left-4 z-50 animate-in fade-in slide-in-from-bottom-2 duration-150">
+                <div 
+                  className="absolute -top-1 left-4 z-50 animate-in fade-in slide-in-from-bottom-2 duration-150 select-none"
+                  onPointerDown={(e) => e.stopPropagation()}
+                  onPointerUp={(e) => e.stopPropagation()}
+                >
                   <div className="bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden min-w-[140px]">
                     <button
                       onClick={() => {
                         handleDeleteOption(option.id);
                         setLongPressOptionId(null);
                       }}
-                      className="w-full flex items-center gap-3 px-4 py-3 text-scarletSmile hover:bg-scarletSmile hover:bg-opacity-5 transition-colors text-sm font-medium"
+                      className="w-full flex items-center gap-3 px-4 py-3 text-scarletSmile hover:bg-scarletSmile hover:bg-opacity-5 transition-colors text-sm font-medium select-none"
                     >
                       <Trash2 className="w-4 h-4" />
                       <span>Delete</span>
