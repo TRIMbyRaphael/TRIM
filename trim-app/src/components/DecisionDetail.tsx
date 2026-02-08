@@ -1556,6 +1556,95 @@ export default function DecisionDetail({ decision, decisions, categories, initia
           )}
         </div>
 
+        {/* Compare Options CTA - choose_best, no_clear_options only */}
+        {(currentMode === 'choose_best' || currentMode === 'no_clear_options') && !localDecision.resolved && (
+          <div className="mt-1 mb-3">
+            <button
+              onClick={handleToggleComparisonMatrix}
+              className="flex items-center gap-1.5 text-sm text-micron hover:text-stretchLimo transition-colors py-1.5"
+            >
+              {showComparisonMatrix ? (
+                <ChevronDown className="w-3.5 h-3.5" />
+              ) : (
+                <ChevronRight className="w-3.5 h-3.5" />
+              )}
+              <span>Compare Options</span>
+            </button>
+
+            {/* Comparison Matrix - Inline Expand */}
+            {showComparisonMatrix && (
+              <div className="mt-2 bg-white rounded-lg p-4 border border-gray-200">
+                <h4 className="text-xs font-semibold text-micron uppercase tracking-wide mb-3">
+                  Comparison Matrix
+                </h4>
+
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm border-collapse">
+                    <thead>
+                      <tr>
+                        <th className="text-left text-xs font-medium text-micron pb-2 pr-2 min-w-[90px]">
+                          Criteria
+                        </th>
+                        {localDecision.options.map((opt, idx) => (
+                          <th key={opt.id} className="text-center text-xs font-medium text-stretchLimo pb-2 px-1.5 min-w-[72px]">
+                            <span className="truncate block max-w-[100px] mx-auto">
+                              {getOptionLabel(opt, idx)}
+                            </span>
+                          </th>
+                        ))}
+                        <th className="w-6" />
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {(localDecision.comparisonMatrix || []).map((criteria) => (
+                        <tr key={criteria.id} className="group/criteria border-t border-gray-100">
+                          <td className="py-1.5 pr-2">
+                            <input
+                              type="text"
+                              value={criteria.name}
+                              onChange={(e) => handleCriteriaNameChange(criteria.id, e.target.value)}
+                              placeholder="e.g. Cost, Time..."
+                              className="w-full text-sm text-stretchLimo bg-transparent border-none outline-none placeholder-gray-300"
+                            />
+                          </td>
+                          {localDecision.options.map((opt) => (
+                            <td key={opt.id} className="py-1.5 px-1">
+                              <input
+                                type="text"
+                                value={criteria.ratings[opt.id] || ''}
+                                onChange={(e) => handleCriteriaRatingChange(criteria.id, opt.id, e.target.value)}
+                                placeholder="—"
+                                className="w-full text-sm text-center text-stretchLimo bg-gray-50 border border-gray-200 rounded px-1.5 py-1 outline-none focus:ring-1 focus:ring-stretchLimo focus:bg-white placeholder-gray-300"
+                              />
+                            </td>
+                          ))}
+                          <td className="py-1.5 pl-1">
+                            <button
+                              onClick={() => handleDeleteCriteria(criteria.id)}
+                              className="p-0.5 text-micron hover:text-scarletSmile transition-colors opacity-0 group-hover/criteria:opacity-100"
+                            >
+                              <Trash2 className="w-3 h-3" />
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Add Criteria */}
+                <button
+                  onClick={handleAddCriteria}
+                  className="mt-2 flex items-center gap-1 text-xs text-micron hover:text-stretchLimo transition-colors"
+                >
+                  <Plus className="w-3 h-3" />
+                  <span>Add Criteria</span>
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
         {/* TRIM Button and Random Pick Button Container */}
         <div className="relative flex items-center justify-center mb-0 w-full">
           {!localDecision.resolved ? (
