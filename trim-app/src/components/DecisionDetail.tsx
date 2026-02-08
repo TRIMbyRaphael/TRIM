@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { MoreVertical, Plus, ChevronDown, ChevronRight, Info, Clock, FileText, Trash2, Link as LinkIcon, Edit, Home } from 'lucide-react';
 import { Decision, IMPORTANCE_LEVELS, ImportanceLevel, Link } from '../types/decision';
+import BrainIcon from './BrainIcon';
 import TimeBudgetModal from './TimeBudgetModal';
 import { fetchOpenGraphData } from '../utils/linkPreview';
 import { useCountdown } from '../hooks/useCountdown';
@@ -748,7 +749,10 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 localDecision.resolved ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'
               }`}
             >
-              <FileText className={`w-5 h-5 ${localDecision.memo ? 'text-stretchLimo' : 'text-micron'}`} />
+              <BrainIcon
+                isExpanded={showDecisionMemo}
+                className={`w-5 h-5 ${showDecisionMemo ? 'text-stretchLimo' : 'text-micron'}`}
+              />
             </button>
           </div>
 
