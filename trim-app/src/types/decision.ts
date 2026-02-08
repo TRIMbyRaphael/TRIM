@@ -5,7 +5,7 @@ export type DecisionMode = 'choose_best' | 'do_or_not' | 'no_clear_options';
 export const DECISION_MODES: { value: DecisionMode; label: string }[] = [
   { value: 'choose_best', label: 'A or B or C' },
   { value: 'do_or_not', label: 'Do or Not' },
-  { value: 'no_clear_options', label: 'No Clear Options' },
+  { value: 'no_clear_options', label: 'no clear options' },
 ];
 
 export const DEFAULT_DECISION_MODE: DecisionMode = 'do_or_not';
