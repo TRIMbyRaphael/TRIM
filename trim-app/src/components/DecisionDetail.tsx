@@ -197,6 +197,31 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     });
   };
 
+  const toggleProsCons = (optionId: string) => {
+    setProsConsEnabled(prev => ({
+      ...prev,
+      [optionId]: !prev[optionId],
+    }));
+  };
+
+  const handleOptionProsChange = (optionId: string, pros: string) => {
+    setLocalDecision({
+      ...localDecision,
+      options: localDecision.options.map((opt) =>
+        opt.id === optionId ? { ...opt, pros } : opt
+      ),
+    });
+  };
+
+  const handleOptionConsChange = (optionId: string, cons: string) => {
+    setLocalDecision({
+      ...localDecision,
+      options: localDecision.options.map((opt) =>
+        opt.id === optionId ? { ...opt, cons } : opt
+      ),
+    });
+  };
+
   // Helper function to extract domain from URL
   const getDomain = (url: string) => {
     try {
