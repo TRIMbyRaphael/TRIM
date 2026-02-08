@@ -652,7 +652,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     longPressStartPos.current = { x: e.clientX, y: e.clientY };
     longPressingOptionId.current = optionId;
 
-    // 첫 번째 단계: 300ms 후 삭제 팝업 표시
+    // 300ms 후 삭제 팝업 표시 (손을 떼면 팝업 유지, 계속 누르고 있으면 드래그 모드로 전환하지 않음)
     longPressTimerRef.current = setTimeout(() => {
       // textarea에서 long press 시 포커스/선택 해제
       const activeEl = document.activeElement as HTMLElement;
@@ -662,27 +662,22 @@ export default function DecisionDetail({ decision, decisions, categories, initia
       window.getSelection()?.removeAllRanges();
 
       setLongPressOptionId(optionId);
-
-      // 두 번째 단계: 추가 300ms 후 드래그 모드 진입
-      dragModeTimerRef.current = setTimeout(() => {
-        setLongPressOptionId(null);
-        setIsDragMode(true);
-        setDraggedOptionId(optionId);
-      }, 300);
-    }, 300);
+      // 팝업이 떴으므로 타이머 정리 (더 이상 자동 전환 없음)
+      longPressTimerRef.current = null;
+    }, 400);
   };
 
   const handleOptionPointerMove = (e: React.PointerEvent) => {
-    if (!longPressStartPos.current) return;
+    if (!longPressStartPos.current || !longPressingOptionId.current) return;
     const dx = e.clientX - longPressStartPos.current.x;
     const dy = e.clientY - longPressStartPos.current.y;
     const distance = Math.sqrt(dx * dx + dy * dy);
 
-    // 이동 거리가 크면 → 즉시 드래그 모드 진입 (타이머 단계 건너뜀)
-    if (distance > 10 && longPressingOptionId.current) {
+    // 누른 채로 이동하면 → 드래그 모드 진입
+    if (distance > 10) {
       clearLongPressTimers();
+      setLongPressOptionId(null);
       if (!isDragMode) {
-        setLongPressOptionId(null);
         setIsDragMode(true);
         setDraggedOptionId(longPressingOptionId.current);
       }
@@ -690,14 +685,11 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   };
 
   const handleOptionPointerUp = () => {
+    // 타이머만 취소하고, 이미 표시된 팝업은 유지
     clearLongPressTimers();
     longPressStartPos.current = null;
     longPressingOptionId.current = null;
-
-    // 드래그 모드가 아닐 때만 팝업도 닫기 (팝업 표시 상태에서 놓으면 팝업 유지)
-    if (!isDragMode && !longPressOptionId) {
-      setLongPressOptionId(null);
-    }
+    // longPressOptionId는 건드리지 않음 → 팝업이 떠 있으면 유지됨
   };
 
   const handleOptionPointerCancel = () => {
