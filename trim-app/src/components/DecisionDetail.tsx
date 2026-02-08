@@ -1121,7 +1121,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 <button
                   onClick={() => handleOptionSelect(option.id)}
                   disabled={localDecision.resolved}
-                  className={`w-5 h-5 rounded-full border-2 border-stretchLimo flex-shrink-0 flex items-center justify-center ${
+                  className={`ml-2 w-5 h-5 rounded-full border-2 border-stretchLimo flex-shrink-0 flex items-center justify-center ${
                     option.isSelected ? 'bg-stretchLimo' : ''
                   } ${localDecision.resolved ? 'cursor-not-allowed opacity-50' : 'hover:bg-opacity-70'} transition-colors`}
                 >
