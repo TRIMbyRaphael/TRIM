@@ -1157,7 +1157,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               }}
             />
           )}
-          {localDecision.options.map((option) => {
+          {localDecision.options.map((option, index) => {
             const isDragging = draggedOptionId === option.id;
             const isDragOver = dragOverOptionId === option.id;
             const showDeletePopup = longPressOptionId === option.id;
@@ -1361,7 +1361,13 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 <textarea
                   value={option.memo || ''}
                   onChange={(e) => handleOptionMemoChange(option.id, e.target.value)}
-                  placeholder="Add notes about this option..."
+                  placeholder={
+                    currentMode === 'do_or_not' && index === 0
+                      ? 'Why should I do this?'
+                      : currentMode === 'do_or_not' && index === 1
+                      ? "Why shouldn't I do this?"
+                      : 'Add notes about this option...'
+                  }
                   disabled={localDecision.resolved}
                   className={`w-full mt-3 px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
                     localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
