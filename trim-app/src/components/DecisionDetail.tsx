@@ -729,6 +729,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   const handleOptionPointerUp = () => {
     // 타이머만 취소하고, 이미 표시된 팝업은 유지
     clearLongPressTimers();
+    removeTouchMoveBlocker();
     longPressStartPos.current = null;
     longPressingOptionId.current = null;
   };
@@ -762,6 +763,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
   const handleOptionPointerCancel = () => {
     clearLongPressTimers();
+    removeTouchMoveBlocker();
     longPressStartPos.current = null;
     longPressingOptionId.current = null;
   };
