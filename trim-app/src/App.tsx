@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Dashboard from './components/Dashboard';
 import DecisionDetail from './components/DecisionDetail';
-import { Decision, IMPORTANCE_LEVELS } from './types/decision';
+import { Decision, IMPORTANCE_LEVELS, DEFAULT_DECISION_MODE } from './types/decision';
 import { loadDecisions, saveDecisions, loadCategories, saveCategories } from './utils/storage';
 
 type View = 'dashboard' | 'detail';
