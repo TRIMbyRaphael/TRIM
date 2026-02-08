@@ -645,15 +645,22 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
   const handleOptionPointerDown = (e: React.PointerEvent, optionId: string) => {
     if (localDecision.resolved) return;
-    // 버튼이나 textarea 클릭 시 long press 무시
+    // 버튼이나 링크 클릭 시 long press 무시
     const target = e.target as HTMLElement;
-    if (target.closest('button') || target.closest('textarea') || target.closest('a')) return;
+    if (target.closest('button') || target.closest('a')) return;
 
     longPressStartPos.current = { x: e.clientX, y: e.clientY };
     longPressingOptionId.current = optionId;
 
     // 첫 번째 단계: 300ms 후 삭제 팝업 표시
     longPressTimerRef.current = setTimeout(() => {
+      // textarea에서 long press 시 포커스/선택 해제
+      const activeEl = document.activeElement as HTMLElement;
+      if (activeEl?.closest('textarea')) {
+        activeEl.blur();
+      }
+      window.getSelection()?.removeAllRanges();
+
       setLongPressOptionId(optionId);
 
       // 두 번째 단계: 추가 300ms 후 드래그 모드 진입
