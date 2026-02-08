@@ -575,58 +575,27 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   };
 
   const handleModeChange = (mode: DecisionMode) => {
-    if (mode === 'do_or_not') {
-      // do_or_not 모드로 변경 시: 옵션 개수 유지, 첫 두 옵션이 빈칸이면 "Do"와 "Do Not"으로 복구
-      // 사용자가 직접 수정한 경우(다른 텍스트)는 그대로 유지
-      let updatedOptions = [...localDecision.options];
-      
-      // 옵션이 1개만 있으면 두 번째 옵션 추가
-      if (updatedOptions.length === 1) {
-        updatedOptions.push({
-          id: Date.now().toString(),
-          title: '',
-          isSelected: false,
-        });
-      }
-      
-      // 첫 두 옵션의 빈칸을 "Do"와 "Do Not"으로 복구
-      updatedOptions = updatedOptions.map((opt, index) => {
-        if (index === 0 && opt.title.trim() === '') {
-          return { ...opt, title: 'Do' };
+    // 1. 현재 모드의 옵션을 ref에 저장
+    optionsByModeRef.current[currentMode] = localDecision.options.map(opt => ({ ...opt }));
+
+    // 2. choose_best ↔ no_clear_options 간 전환 시, 텍스트를 동기화
+    if (
+      (currentMode === 'choose_best' && mode === 'no_clear_options') ||
+      (currentMode === 'no_clear_options' && mode === 'choose_best')
+    ) {
+      const sourceOptions = localDecision.options;
+      const targetOptions = optionsByModeRef.current[mode];
+      sourceOptions.forEach((srcOpt, index) => {
+        if (index < targetOptions.length) {
+          targetOptions[index] = { ...targetOptions[index], title: srcOpt.title };
         }
-        if (index === 1 && opt.title.trim() === '') {
-          return { ...opt, title: 'Do Not' };
-        }
-        return opt;
       });
-      
-      setLocalDecision({ ...localDecision, mode, options: updatedOptions });
-    } else if (mode === 'no_clear_options') {
-      // 'no_clear_options' 모드로 변경 시: 옵션을 1개만 남기기
-      const firstOption = localDecision.options[0] || {
-        id: Date.now().toString(),
-        title: '',
-        isSelected: false,
-      };
-      // 첫 번째 옵션의 "Do" 또는 "Do Not" 텍스트 제거
-      const cleanedFirstOption = {
-        ...firstOption,
-        title: firstOption.title === 'Do' || firstOption.title === 'Do Not' ? '' : firstOption.title,
-      };
-      setLocalDecision({ ...localDecision, mode, options: [cleanedFirstOption] });
-    } else {
-      // 'choose_best' 모드로 변경 시: 옵션 개수 유지, "Do"와 "Do Not" 텍스트만 제거
-      const updatedOptions = localDecision.options.map((opt, index) => {
-        if (index === 0 && opt.title === 'Do') {
-          return { ...opt, title: '' };
-        }
-        if (index === 1 && opt.title === 'Do Not') {
-          return { ...opt, title: '' };
-        }
-        return opt;
-      });
-      setLocalDecision({ ...localDecision, mode, options: updatedOptions });
     }
+
+    // 3. 대상 모드의 옵션을 ref에서 로드
+    const targetOptions = optionsByModeRef.current[mode].map(opt => ({ ...opt }));
+
+    setLocalDecision({ ...localDecision, mode, options: targetOptions });
   };
 
   const handleFramingChange = (field: 'whatHappened' | 'goal' | 'constraints' | 'dealbreakers' | 'keyFactors', value: string) => {
