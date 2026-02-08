@@ -1051,28 +1051,43 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         <div className="bg-[#FAFAFA] border border-[#E5E5E5] rounded-xl p-6 mb-6">
           {/* Options List */}
           <div className="space-y-3 mb-4">
+          {/* 삭제 팝업 배경 오버레이 */}
+          {longPressOptionId && (
+            <div 
+              className="fixed inset-0 z-30"
+              onClick={() => setLongPressOptionId(null)}
+            />
+          )}
           {localDecision.options.map((option) => {
             const isDragging = draggedOptionId === option.id;
             const isDragOver = dragOverOptionId === option.id;
+            const showDeletePopup = longPressOptionId === option.id;
             return (
             <div
               key={option.id}
-              draggable={!localDecision.resolved}
-              onDragStart={(e) => handleOptionDragStart(e, option.id)}
-              onDragEnd={handleOptionDragEnd}
-              onDragOver={(e) => handleOptionDragOver(e, option.id)}
-              onDragLeave={handleOptionDragLeave}
-              onDrop={(e) => handleOptionDrop(e, option.id)}
-              className={`rounded-lg p-4 group transition-colors ${
-                isDragging
-                  ? 'opacity-50'
-                  : isDragOver
-                  ? 'bg-stretchLimo bg-opacity-5 border-2 border-stretchLimo border-dashed'
-                  : option.isSelected 
-                  ? 'bg-stretchLimo bg-opacity-10 border-2 border-stretchLimo' 
-                  : 'bg-white'
-              }`}
+              className="relative"
+              style={{ zIndex: showDeletePopup ? 50 : 'auto' }}
             >
+              <div
+                draggable={!localDecision.resolved}
+                onDragStart={(e) => handleOptionDragStart(e, option.id)}
+                onDragEnd={handleOptionDragEnd}
+                onDragOver={(e) => handleOptionDragOver(e, option.id)}
+                onDragLeave={handleOptionDragLeave}
+                onDrop={(e) => handleOptionDrop(e, option.id)}
+                onPointerDown={(e) => handleOptionPointerDown(e, option.id)}
+                onPointerUp={handleOptionPointerUp}
+                onPointerCancel={handleOptionPointerCancel}
+                className={`rounded-lg p-4 group transition-colors ${
+                  isDragging
+                    ? 'opacity-50'
+                    : isDragOver
+                    ? 'bg-stretchLimo bg-opacity-5 border-2 border-stretchLimo border-dashed'
+                    : option.isSelected 
+                    ? 'bg-stretchLimo bg-opacity-10 border-2 border-stretchLimo' 
+                    : 'bg-white'
+                }`}
+              >
               {/* Option Header */}
               <div className="flex items-center gap-2">
                 {/* Drag Handle */}
