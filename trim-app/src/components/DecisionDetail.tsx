@@ -1110,8 +1110,9 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 onPointerMove={handleOptionPointerMove}
                 onPointerUp={handleOptionPointerUp}
                 onPointerCancel={handleOptionPointerCancel}
+                onContextMenu={(e) => e.preventDefault()}
                 style={{ pointerEvents: isDragMode ? 'none' : 'auto' }}
-                className={`rounded-lg p-4 group transition-all select-none ${
+                className={`option-longpress rounded-lg p-4 group transition-all select-none ${
                   isDragging
                     ? 'scale-105 shadow-xl ring-2 ring-stretchLimo bg-white'
                     : isDragOver
