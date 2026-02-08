@@ -1443,7 +1443,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               <button
                 key={modeOption.value}
                 onClick={() => handleModeChange(modeOption.value)}
-                className={`flex-1 py-5 text-sm font-medium transition-colors relative ${
+                className={`flex-1 py-6 text-sm font-medium transition-colors relative ${
                   isActive
                     ? 'text-stretchLimo'
                     : 'text-micron hover:text-stretchLimo hover:bg-gray-50'
