@@ -1535,7 +1535,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     onMouseLeave={() => setShowRandomPickTooltip(false)}
                     className="flex flex-col items-center gap-1 p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors relative border-0"
                   >
-                    <span className="w-6 h-6 text-2xl text-stretchLimo flex items-center justify-center">🎲</span>
+                    <Shuffle className="w-5 h-5 text-stretchLimo" />
                     <div className="flex flex-col items-center leading-tight">
                       <span className="text-[5px] text-[#6B6B6B]">Random</span>
                       <span className="text-[5px] text-[#6B6B6B]">Pick</span>
