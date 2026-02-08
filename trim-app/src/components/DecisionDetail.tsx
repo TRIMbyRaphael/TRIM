@@ -374,12 +374,17 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     setNewOptionId(newOption.id);
 
     // choose_best ↔ no_clear_options 간 옵션 추가 동기화
+    // 추가 후 현재 모드의 옵션 수가 상대 모드보다 많아질 때만 상대 모드에도 추가
     if (currentMode === 'choose_best' || currentMode === 'no_clear_options') {
       const otherMode: DecisionMode = currentMode === 'choose_best' ? 'no_clear_options' : 'choose_best';
-      optionsByModeRef.current[otherMode] = [
-        ...optionsByModeRef.current[otherMode],
-        { id: `${Date.now()}-sync`, title: '', isSelected: false },
-      ];
+      const newCount = localDecision.options.length + 1; // 추가 후 현재 모드 옵션 수
+      const otherCount = optionsByModeRef.current[otherMode].length;
+      if (newCount > otherCount) {
+        optionsByModeRef.current[otherMode] = [
+          ...optionsByModeRef.current[otherMode],
+          { id: `${Date.now()}-sync`, title: '', isSelected: false },
+        ];
+      }
     }
   };
 
