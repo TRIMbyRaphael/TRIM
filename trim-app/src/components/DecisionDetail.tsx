@@ -575,7 +575,9 @@ export default function DecisionDetail({ decision, decisions, categories, initia
       
       if (currentOpt.title !== initialOpt.title || 
           currentOpt.isSelected !== initialOpt.isSelected ||
-          currentOpt.memo !== initialOpt.memo) {
+          currentOpt.memo !== initialOpt.memo ||
+          currentOpt.pros !== initialOpt.pros ||
+          currentOpt.cons !== initialOpt.cons) {
         return true;
       }
     }
@@ -1286,7 +1288,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       localDecision.resolved ? 'cursor-not-allowed opacity-50' : 'hover:bg-gray-100'
                     }`}
                   >
-                    <FileText className={`w-4 h-4 ${option.memo ? 'text-stretchLimo' : 'text-micron'}`} />
+                    <FileText className={`w-4 h-4 ${(option.memo || option.pros || option.cons) ? 'text-stretchLimo' : 'text-micron'}`} />
                   </button>
                 </div>
               </div>
