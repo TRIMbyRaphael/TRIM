@@ -59,6 +59,44 @@ function App() {
       : 0;
 
     const defaultMode = DEFAULT_DECISION_MODE;
+    let initialOptions;
+    if (defaultMode === 'do_or_not') {
+      initialOptions = [
+        {
+          id: `${baseId}-1`,
+          title: 'Do',
+          isSelected: false,
+        },
+        {
+          id: `${baseId}-2`,
+          title: 'Do Not',
+          isSelected: false,
+        },
+      ];
+    } else if (defaultMode === 'no_clear_options') {
+      initialOptions = [
+        {
+          id: `${baseId}-1`,
+          title: '',
+          isSelected: false,
+        },
+      ];
+    } else {
+      // choose_best 모드
+      initialOptions = [
+        {
+          id: `${baseId}-1`,
+          title: '',
+          isSelected: false,
+        },
+        {
+          id: `${baseId}-2`,
+          title: '',
+          isSelected: false,
+        },
+      ];
+    }
+
     const newDecision: Decision = {
       id: baseId.toString(),
       title: '',
@@ -68,31 +106,7 @@ function App() {
       deadline: deadline.toISOString(),
       createdAt: now.toISOString(),
       resolved: false,
-      options: defaultMode === 'do_or_not' 
-        ? [
-            {
-              id: `${baseId}-1`,
-              title: 'Do',
-              isSelected: false,
-            },
-            {
-              id: `${baseId}-2`,
-              title: 'Do Not',
-              isSelected: false,
-            },
-          ]
-        : [
-            {
-              id: `${baseId}-1`,
-              title: '',
-              isSelected: false,
-            },
-            {
-              id: `${baseId}-2`,
-              title: '',
-              isSelected: false,
-            },
-          ],
+      options: initialOptions,
       order: minOrder,
       mode: defaultMode,
     };
