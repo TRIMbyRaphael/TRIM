@@ -58,6 +58,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     }));
   };
   const [showOptionMemos, setShowOptionMemos] = useState<{ [key: string]: boolean }>({});
+  const [prosConsEnabled, setProsConsEnabled] = useState<{ [key: string]: boolean }>({});
   const [newOptionId, setNewOptionId] = useState<string | null>(null);
   const [showLeaveWarning, setShowLeaveWarning] = useState(false);
   const [showLinkModal, setShowLinkModal] = useState(false);
