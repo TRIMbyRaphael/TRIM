@@ -1095,7 +1095,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 onDragOver={(e) => handleOptionDragOver(e, option.id)}
                 onDragLeave={handleOptionDragLeave}
                 onDrop={(e) => handleOptionDrop(e, option.id)}
-                className={`rounded-lg p-4 group transition-colors ${
+                className={`rounded-lg py-4 px-5 group transition-colors ${
                   isDragging
                     ? 'opacity-50'
                     : isDragOver
