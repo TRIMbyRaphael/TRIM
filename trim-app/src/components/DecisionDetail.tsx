@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { MoreVertical, Plus, ChevronDown, ChevronRight, Info, Clock, Brain, FileText, Trash2, Link as LinkIcon, Edit, Home, GripVertical } from 'lucide-react';
+import { MoreVertical, Plus, ChevronDown, ChevronRight, Info, Clock, Brain, FileText, Trash2, Link as LinkIcon, Edit, Home, GripVertical, Shuffle } from 'lucide-react';
 import { Decision, Option, IMPORTANCE_LEVELS, ImportanceLevel, Link, DecisionMode, DECISION_MODES, DEFAULT_DECISION_MODE } from '../types/decision';
 import TimeBudgetModal from './TimeBudgetModal';
 import { fetchOpenGraphData } from '../utils/linkPreview';
