@@ -1111,11 +1111,11 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 onPointerCancel={handleOptionPointerCancel}
                 className={`rounded-lg p-4 group transition-all select-none ${
                   isDragging
-                    ? 'opacity-50 scale-105 shadow-lg ring-2 ring-stretchLimo'
+                    ? 'scale-105 shadow-xl ring-2 ring-stretchLimo bg-white'
                     : isDragOver
-                    ? 'bg-stretchLimo bg-opacity-5 border-2 border-stretchLimo border-dashed'
+                    ? 'bg-stretchLimo bg-opacity-10 border-2 border-stretchLimo border-dashed scale-[0.98]'
                     : isDragMode && !isDragging
-                    ? 'animate-[wiggle_0.3s_ease-in-out_infinite] bg-white'
+                    ? 'animate-wiggle bg-white'
                     : option.isSelected 
                     ? 'bg-stretchLimo bg-opacity-10 border-2 border-stretchLimo' 
                     : 'bg-white'
