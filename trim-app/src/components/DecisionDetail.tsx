@@ -1152,24 +1152,26 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     }`}
                   />
                 </div>
-                <button
-                  onClick={() => openLinkModal('option', option.id)}
-                  disabled={localDecision.resolved}
-                  className={`p-1 rounded transition-opacity ${
-                    localDecision.resolved ? 'cursor-not-allowed opacity-50' : 'hover:bg-gray-100'
-                  }`}
-                >
-                  <LinkIcon className={`w-4 h-4 ${(option.links && option.links.length > 0) ? 'text-stretchLimo' : 'text-micron'}`} />
-                </button>
-                <button
-                  onClick={() => toggleOptionMemo(option.id)}
-                  disabled={localDecision.resolved}
-                  className={`p-1 rounded transition-opacity ${
-                    localDecision.resolved ? 'cursor-not-allowed opacity-50' : 'hover:bg-gray-100'
-                  }`}
-                >
-                  <FileText className={`w-4 h-4 ${option.memo ? 'text-stretchLimo' : 'text-micron'}`} />
-                </button>
+                <div className="flex items-center gap-1 flex-shrink-0 -mr-1">
+                  <button
+                    onClick={() => openLinkModal('option', option.id)}
+                    disabled={localDecision.resolved}
+                    className={`p-1 rounded transition-opacity ${
+                      localDecision.resolved ? 'cursor-not-allowed opacity-50' : 'hover:bg-gray-100'
+                    }`}
+                  >
+                    <LinkIcon className={`w-4 h-4 ${(option.links && option.links.length > 0) ? 'text-stretchLimo' : 'text-micron'}`} />
+                  </button>
+                  <button
+                    onClick={() => toggleOptionMemo(option.id)}
+                    disabled={localDecision.resolved}
+                    className={`p-1 rounded transition-opacity ${
+                      localDecision.resolved ? 'cursor-not-allowed opacity-50' : 'hover:bg-gray-100'
+                    }`}
+                  >
+                    <FileText className={`w-4 h-4 ${option.memo ? 'text-stretchLimo' : 'text-micron'}`} />
+                  </button>
+                </div>
               </div>
               </div>
 
