@@ -625,151 +625,64 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     setDragOverSubDecisionId(null);
   };
 
-  // Long press handlers for options (iPhone-style)
-  const clearLongPressTimers = () => {
-    if (longPressTimerRef.current) {
-      clearTimeout(longPressTimerRef.current);
-      longPressTimerRef.current = null;
-    }
-    if (dragModeTimerRef.current) {
-      clearTimeout(dragModeTimerRef.current);
-      dragModeTimerRef.current = null;
-    }
-  };
-
-  // long press 진행 중 touchmove를 막아서 텍스트 선택 방지
-  const preventTouchMove = useRef<((e: TouchEvent) => void) | null>(null);
-
-  const addTouchMoveBlocker = () => {
-    if (preventTouchMove.current) return;
-    preventTouchMove.current = (e: TouchEvent) => {
+  // Drag and drop handlers for options
+  const handleOptionDragStart = (e: React.DragEvent, optionId: string) => {
+    if (localDecision.resolved) {
       e.preventDefault();
-    };
-    document.addEventListener('touchmove', preventTouchMove.current, { passive: false });
-  };
-
-  const removeTouchMoveBlocker = () => {
-    if (preventTouchMove.current) {
-      document.removeEventListener('touchmove', preventTouchMove.current);
-      preventTouchMove.current = null;
+      return;
+    }
+    setDraggedOptionId(optionId);
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', optionId);
+    if (e.currentTarget instanceof HTMLElement) {
+      e.currentTarget.style.opacity = '0.5';
     }
   };
 
-  const handleOptionPointerDown = (e: React.PointerEvent, optionId: string) => {
-    if (localDecision.resolved) return;
-    // 버튼이나 링크 클릭 시 long press 무시
-    const target = e.target as HTMLElement;
-    if (target.closest('button') || target.closest('a')) return;
-
-    longPressStartPos.current = { x: e.clientX, y: e.clientY };
-    longPressingOptionId.current = optionId;
-
-    // 300ms 후 삭제 팝업 표시 (손을 떼면 팝업 유지, 계속 누르고 있으면 드래그 모드로 전환하지 않음)
-    longPressTimerRef.current = setTimeout(() => {
-      // long press 감지됨 → touchmove 차단 시작 (텍스트 선택 방지)
-      addTouchMoveBlocker();
-
-      // textarea에서 long press 시 포커스/선택 해제
-      const activeEl = document.activeElement as HTMLElement;
-      if (activeEl?.closest('textarea')) {
-        activeEl.blur();
-      }
-      window.getSelection()?.removeAllRanges();
-
-      setLongPressOptionId(optionId);
-      // 팝업이 떴으므로 타이머 정리 (더 이상 자동 전환 없음)
-      longPressTimerRef.current = null;
-    }, 400);
-  };
-
-  const handleOptionPointerMove = (e: React.PointerEvent) => {
-    if (!longPressStartPos.current || !longPressingOptionId.current) return;
-    const dx = e.clientX - longPressStartPos.current.x;
-    const dy = e.clientY - longPressStartPos.current.y;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-
-    // 누른 채로 이동하면 → 드래그 모드 진입
-    if (distance > 10) {
-      clearLongPressTimers();
-      setLongPressOptionId(null);
-      window.getSelection()?.removeAllRanges();
-      addTouchMoveBlocker();
-      if (!isDragMode) {
-        setIsDragMode(true);
-        setDraggedOptionId(longPressingOptionId.current);
-      }
+  const handleOptionDragEnd = (e: React.DragEvent) => {
+    setDraggedOptionId(null);
+    setDragOverOptionId(null);
+    if (e.currentTarget instanceof HTMLElement) {
+      e.currentTarget.style.opacity = '1';
     }
   };
 
-  // 드래그 모드 중 마우스 이동으로 대상 옵션 감지 (위치 기반)
-  const handleGlobalPointerMove = (e: React.PointerEvent) => {
-    if (!isDragMode || !draggedOptionId) return;
-    // pointer-events: none이므로 DOM 위치로 직접 계산
-    const optionEls = document.querySelectorAll('[data-option-id]');
-    let foundTarget: string | null = null;
-    for (const el of optionEls) {
-      const rect = el.getBoundingClientRect();
-      if (e.clientY >= rect.top && e.clientY <= rect.bottom && e.clientX >= rect.left && e.clientX <= rect.right) {
-        const targetId = el.getAttribute('data-option-id');
-        if (targetId && targetId !== draggedOptionId) {
-          foundTarget = targetId;
-          break;
-        }
-      }
+  const handleOptionDragOver = (e: React.DragEvent, optionId: string) => {
+    if (localDecision.resolved || draggedOptionId === optionId) {
+      return;
     }
-    setDragOverOptionId(foundTarget);
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    setDragOverOptionId(optionId);
   };
 
-  const handleOptionPointerUp = () => {
-    // 타이머만 취소하고, 이미 표시된 팝업은 유지
-    clearLongPressTimers();
-    removeTouchMoveBlocker();
-    longPressStartPos.current = null;
-    longPressingOptionId.current = null;
+  const handleOptionDragLeave = () => {
+    setDragOverOptionId(null);
   };
 
-  const handleGlobalPointerUp = () => {
-    if (!isDragMode || !draggedOptionId) return;
+  const handleOptionDrop = (e: React.DragEvent, targetOptionId: string) => {
+    e.preventDefault();
+    if (localDecision.resolved || !draggedOptionId || draggedOptionId === targetOptionId) {
+      setDragOverOptionId(null);
+      return;
+    }
 
-    // 드래그 오버 중인 옵션이 있으면 순서 변경
-    if (dragOverOptionId && draggedOptionId !== dragOverOptionId) {
-      const draggedIndex = localDecision.options.findIndex(opt => opt.id === draggedOptionId);
-      const targetIndex = localDecision.options.findIndex(opt => opt.id === dragOverOptionId);
+    const draggedIndex = localDecision.options.findIndex(opt => opt.id === draggedOptionId);
+    const targetIndex = localDecision.options.findIndex(opt => opt.id === targetOptionId);
 
-      if (draggedIndex !== -1 && targetIndex !== -1) {
-        const reordered = [...localDecision.options];
-        const [removed] = reordered.splice(draggedIndex, 1);
-        reordered.splice(targetIndex, 0, removed);
+    if (draggedIndex !== -1 && targetIndex !== -1) {
+      const reordered = [...localDecision.options];
+      const [removed] = reordered.splice(draggedIndex, 1);
+      reordered.splice(targetIndex, 0, removed);
 
-        setLocalDecision({
-          ...localDecision,
-          options: reordered,
-        });
-      }
+      setLocalDecision({
+        ...localDecision,
+        options: reordered,
+      });
     }
 
     setDraggedOptionId(null);
     setDragOverOptionId(null);
-    setIsDragMode(false);
-    removeTouchMoveBlocker();
-    longPressStartPos.current = null;
-    longPressingOptionId.current = null;
-  };
-
-  const handleOptionPointerCancel = () => {
-    clearLongPressTimers();
-    removeTouchMoveBlocker();
-    longPressStartPos.current = null;
-    longPressingOptionId.current = null;
-  };
-
-  // 드래그 모드 외부 클릭으로 종료
-  const exitDragMode = () => {
-    setDraggedOptionId(null);
-    setDragOverOptionId(null);
-    setIsDragMode(false);
-    setLongPressOptionId(null);
-    removeTouchMoveBlocker();
   };
 
   // Build breadcrumb path from root to current decision's parent
