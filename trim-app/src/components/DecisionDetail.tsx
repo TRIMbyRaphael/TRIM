@@ -748,7 +748,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 localDecision.resolved ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'
               }`}
             >
-              <Brain className="w-5 h-5 text-stretchLimo" fill={showDecisionMemo ? 'currentColor' : 'none'} />
+              <Brain className="w-5 h-5" stroke={showDecisionMemo ? '#1B1B1B' : 'white'} fill={showDecisionMemo ? 'white' : '#1B1B1B'} />
             </button>
           </div>
 
