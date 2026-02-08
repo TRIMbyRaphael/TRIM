@@ -66,6 +66,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   const [showRandomPickTooltip, setShowRandomPickTooltip] = useState(false);
   const [draggedSubDecisionId, setDraggedSubDecisionId] = useState<string | null>(null);
   const [dragOverSubDecisionId, setDragOverSubDecisionId] = useState<string | null>(null);
+  const [draggedOptionId, setDraggedOptionId] = useState<string | null>(null);
+  const [dragOverOptionId, setDragOverOptionId] = useState<string | null>(null);
   const titleInputRef = useRef<HTMLTextAreaElement>(null);
   const optionRefs = useRef<{ [key: string]: HTMLTextAreaElement | null }>({});
   const initialDecision = useRef<Decision>(decision);
@@ -621,6 +623,74 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
     setDraggedSubDecisionId(null);
     setDragOverSubDecisionId(null);
+  };
+
+  // Drag and drop handlers for options
+  const handleOptionDragStart = (e: React.DragEvent, optionId: string) => {
+    if (localDecision.resolved) {
+      e.preventDefault();
+      return;
+    }
+    setDraggedOptionId(optionId);
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', optionId);
+    // Add visual feedback
+    if (e.currentTarget instanceof HTMLElement) {
+      e.currentTarget.style.opacity = '0.5';
+    }
+  };
+
+  const handleOptionDragEnd = (e: React.DragEvent) => {
+    setDraggedOptionId(null);
+    setDragOverOptionId(null);
+    // Remove visual feedback
+    if (e.currentTarget instanceof HTMLElement) {
+      e.currentTarget.style.opacity = '1';
+    }
+  };
+
+  const handleOptionDragOver = (e: React.DragEvent, optionId: string) => {
+    if (localDecision.resolved || draggedOptionId === optionId) {
+      return;
+    }
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    setDragOverOptionId(optionId);
+  };
+
+  const handleOptionDragLeave = () => {
+    setDragOverOptionId(null);
+  };
+
+  const handleOptionDrop = (e: React.DragEvent, targetOptionId: string) => {
+    e.preventDefault();
+    if (localDecision.resolved || !draggedOptionId || draggedOptionId === targetOptionId) {
+      setDragOverOptionId(null);
+      return;
+    }
+
+    // Find indices
+    const draggedIndex = localDecision.options.findIndex(opt => opt.id === draggedOptionId);
+    const targetIndex = localDecision.options.findIndex(opt => opt.id === targetOptionId);
+
+    if (draggedIndex === -1 || targetIndex === -1) {
+      setDragOverOptionId(null);
+      return;
+    }
+
+    // Reorder array
+    const reordered = [...localDecision.options];
+    const [removed] = reordered.splice(draggedIndex, 1);
+    reordered.splice(targetIndex, 0, removed);
+
+    // Update options order
+    setLocalDecision({
+      ...localDecision,
+      options: reordered,
+    });
+
+    setDraggedOptionId(null);
+    setDragOverOptionId(null);
   };
 
   // Build breadcrumb path from root to current decision's parent
