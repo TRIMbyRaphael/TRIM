@@ -1012,139 +1012,97 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         <div className="bg-[#FAFAFA] border border-[#E5E5E5] rounded-xl p-6 mb-6">
           {/* Options List */}
           <div className="space-y-3 mb-4">
-          {/* 드래그 모드 배경 오버레이 - 포인터 이벤트를 여기서 캡처 */}
-          {isDragMode && (
-            <div 
-              className="fixed inset-0 z-30"
-              onClick={exitDragMode}
-              onPointerMove={handleGlobalPointerMove}
-              onPointerUp={handleGlobalPointerUp}
-            />
-          )}
-          {/* 삭제 팝업 배경 오버레이 */}
-          {longPressOptionId && !isDragMode && (
-            <div 
-              className="fixed inset-0 z-30"
-              onClick={() => setLongPressOptionId(null)}
-            />
-          )}
           {localDecision.options.map((option) => {
-            const isDragging = isDragMode && draggedOptionId === option.id;
-            const isDragOver = isDragMode && dragOverOptionId === option.id;
-            const showDeletePopup = longPressOptionId === option.id && !isDragMode;
+            const isDragging = draggedOptionId === option.id;
+            const isDragOver = dragOverOptionId === option.id;
             return (
             <div
               key={option.id}
-              className="relative"
-              style={{ zIndex: showDeletePopup ? 50 : 'auto' }}
+              draggable={!localDecision.resolved}
+              onDragStart={(e) => handleOptionDragStart(e, option.id)}
+              onDragEnd={handleOptionDragEnd}
+              onDragOver={(e) => handleOptionDragOver(e, option.id)}
+              onDragLeave={handleOptionDragLeave}
+              onDrop={(e) => handleOptionDrop(e, option.id)}
+              className={`rounded-lg p-4 group transition-colors ${
+                isDragging
+                  ? 'opacity-50'
+                  : isDragOver
+                  ? 'bg-stretchLimo bg-opacity-5 border-2 border-stretchLimo border-dashed'
+                  : option.isSelected 
+                  ? 'bg-stretchLimo bg-opacity-10 border-2 border-stretchLimo' 
+                  : 'bg-white'
+              }`}
             >
-              <div
-                data-option-id={option.id}
-                onPointerDown={(e) => handleOptionPointerDown(e, option.id)}
-                onPointerMove={handleOptionPointerMove}
-                onPointerUp={handleOptionPointerUp}
-                onPointerCancel={handleOptionPointerCancel}
-                onContextMenu={(e) => e.preventDefault()}
-                style={{ pointerEvents: isDragMode ? 'none' : 'auto' }}
-                className={`option-longpress rounded-lg p-4 group transition-all select-none ${
-                  isDragging
-                    ? 'scale-105 shadow-xl ring-2 ring-stretchLimo bg-white'
-                    : isDragOver
-                    ? 'bg-stretchLimo bg-opacity-10 border-2 border-stretchLimo border-dashed scale-[0.98]'
-                    : isDragMode && !isDragging
-                    ? 'animate-wiggle bg-white'
-                    : option.isSelected 
-                    ? 'bg-stretchLimo bg-opacity-10 border-2 border-stretchLimo' 
-                    : 'bg-white'
-                }`}
-              >
-                {/* Option Header */}
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={() => handleOptionSelect(option.id)}
-                    disabled={localDecision.resolved}
-                    className={`w-5 h-5 rounded-full border-2 border-stretchLimo flex-shrink-0 flex items-center justify-center ${
-                      option.isSelected ? 'bg-stretchLimo' : ''
-                    } ${localDecision.resolved ? 'cursor-not-allowed opacity-50' : 'hover:bg-opacity-70'} transition-colors`}
+              {/* Option Header */}
+              <div className="flex items-center gap-2">
+                {/* Drag Handle */}
+                {!localDecision.resolved && (
+                  <div
+                    draggable={true}
+                    onDragStart={(e) => handleOptionDragStart(e, option.id)}
+                    onDragEnd={handleOptionDragEnd}
+                    className="cursor-grab active:cursor-grabbing text-micron hover:text-stretchLimo transition-colors flex-shrink-0 -ml-1"
                   >
-                    {option.isSelected && (
-                      <div className="w-2 h-2 rounded-full bg-white" />
-                    )}
-                  </button>
-                  <textarea
-                    ref={(el) => (optionRefs.current[option.id] = el)}
-                    value={option.title}
-                    onChange={(e) => handleOptionChange(option.id, e.target.value)}
-                    onFocus={() => handleOptionFocus(option.id, option.title)}
-                    onBlur={() => handleOptionBlur(option.id, option.title)}
-                    placeholder="Option"
-                    rows={1}
-                    disabled={localDecision.resolved || isDragMode}
-                    className={`flex-1 text-base bg-transparent border-none outline-none placeholder-gray-300 resize-none overflow-hidden ${
-                      option.isSelected ? 'text-stretchLimo font-medium' : 'text-stretchLimo'
-                    } ${localDecision.resolved && !option.isSelected ? 'line-through opacity-50' : ''} ${
-                      localDecision.resolved || isDragMode ? 'cursor-not-allowed' : ''
-                    }`}
-                  />
-                  {!isDragMode && (
-                    <>
-                      <button
-                        onClick={() => openLinkModal('option', option.id)}
-                        disabled={localDecision.resolved}
-                        className={`p-1 rounded transition-opacity ${
-                          localDecision.resolved ? 'cursor-not-allowed opacity-50' : 'hover:bg-gray-100'
-                        }`}
-                      >
-                        <LinkIcon className={`w-4 h-4 ${(option.links && option.links.length > 0) ? 'text-stretchLimo' : 'text-micron'}`} />
-                      </button>
-                      <button
-                        onClick={() => toggleOptionMemo(option.id)}
-                        disabled={localDecision.resolved}
-                        className={`p-1 rounded transition-opacity ${
-                          localDecision.resolved ? 'cursor-not-allowed opacity-50' : 'hover:bg-gray-100'
-                        }`}
-                      >
-                        <FileText className={`w-4 h-4 ${option.memo ? 'text-stretchLimo' : 'text-micron'}`} />
-                      </button>
-                      <button
-                        onClick={() => handleDeleteOption(option.id)}
-                        disabled={localDecision.resolved}
-                        className={`transition-opacity p-1 rounded ${
-                          localDecision.resolved 
-                            ? 'opacity-0 cursor-not-allowed' 
-                            : 'opacity-0 group-hover:opacity-100 hover:bg-scarletSmile hover:bg-opacity-10'
-                        }`}
-                      >
-                        <Trash2 className="w-4 h-4 text-scarletSmile" />
-                      </button>
-                    </>
-                  )}
-                </div>
-              </div>
-
-              {/* Long press 삭제 팝업 */}
-              {showDeletePopup && (
-                <div 
-                  className="absolute -top-12 left-4 z-50 select-none"
-                  onPointerDown={(e) => e.stopPropagation()}
-                  onPointerUp={(e) => e.stopPropagation()}
-                >
-                  <div className="bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden min-w-[140px]">
-                    <button
-                      onClick={() => {
-                        handleDeleteOption(option.id);
-                        setLongPressOptionId(null);
-                      }}
-                      className="w-full flex items-center gap-3 px-4 py-3 text-scarletSmile hover:bg-scarletSmile hover:bg-opacity-5 transition-colors text-sm font-medium select-none"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                      <span>Delete</span>
-                    </button>
+                    <GripVertical className="w-4 h-4" />
                   </div>
-                  {/* 말풍선 꼬리 */}
-                  <div className="absolute -bottom-1.5 left-6 w-3 h-3 bg-white border-r border-b border-gray-200 transform rotate-45" />
-                </div>
-              )}
+                )}
+                <button
+                  onClick={() => handleOptionSelect(option.id)}
+                  disabled={localDecision.resolved}
+                  className={`w-5 h-5 rounded-full border-2 border-stretchLimo flex-shrink-0 flex items-center justify-center ${
+                    option.isSelected ? 'bg-stretchLimo' : ''
+                  } ${localDecision.resolved ? 'cursor-not-allowed opacity-50' : 'hover:bg-opacity-70'} transition-colors`}
+                >
+                  {option.isSelected && (
+                    <div className="w-2 h-2 rounded-full bg-white" />
+                  )}
+                </button>
+                <textarea
+                  ref={(el) => (optionRefs.current[option.id] = el)}
+                  value={option.title}
+                  onChange={(e) => handleOptionChange(option.id, e.target.value)}
+                  onFocus={() => handleOptionFocus(option.id, option.title)}
+                  onBlur={() => handleOptionBlur(option.id, option.title)}
+                  placeholder="Option"
+                  rows={1}
+                  disabled={localDecision.resolved}
+                  className={`flex-1 text-base bg-transparent border-none outline-none placeholder-gray-300 resize-none overflow-hidden ${
+                    option.isSelected ? 'text-stretchLimo font-medium' : 'text-stretchLimo'
+                  } ${localDecision.resolved && !option.isSelected ? 'line-through opacity-50' : ''} ${
+                    localDecision.resolved ? 'cursor-not-allowed' : ''
+                  }`}
+                />
+                <button
+                  onClick={() => openLinkModal('option', option.id)}
+                  disabled={localDecision.resolved}
+                  className={`p-1 rounded transition-opacity ${
+                    localDecision.resolved ? 'cursor-not-allowed opacity-50' : 'hover:bg-gray-100'
+                  }`}
+                >
+                  <LinkIcon className={`w-4 h-4 ${(option.links && option.links.length > 0) ? 'text-stretchLimo' : 'text-micron'}`} />
+                </button>
+                <button
+                  onClick={() => toggleOptionMemo(option.id)}
+                  disabled={localDecision.resolved}
+                  className={`p-1 rounded transition-opacity ${
+                    localDecision.resolved ? 'cursor-not-allowed opacity-50' : 'hover:bg-gray-100'
+                  }`}
+                >
+                  <FileText className={`w-4 h-4 ${option.memo ? 'text-stretchLimo' : 'text-micron'}`} />
+                </button>
+                <button
+                  onClick={() => handleDeleteOption(option.id)}
+                  disabled={localDecision.resolved}
+                  className={`transition-opacity p-1 rounded ${
+                    localDecision.resolved 
+                      ? 'opacity-0 cursor-not-allowed' 
+                      : 'opacity-0 group-hover:opacity-100 hover:bg-scarletSmile hover:bg-opacity-10'
+                  }`}
+                >
+                  <Trash2 className="w-4 h-4 text-scarletSmile" />
+                </button>
+              </div>
 
               {/* Option Links */}
               {option.links && option.links.length > 0 && (
