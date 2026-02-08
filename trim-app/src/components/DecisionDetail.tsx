@@ -1294,17 +1294,19 @@ export default function DecisionDetail({ decision, decisions, categories, initia
             );
           })}
 
-          {/* Add Option Button */}
-          <button
-            onClick={handleAddOption}
-            disabled={localDecision.resolved}
-            className={`w-full bg-white rounded-lg p-4 flex items-center gap-3 transition-colors text-micron ${
-              localDecision.resolved ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-50'
-            }`}
-          >
-            <Plus className="w-5 h-5" />
-            <span className="text-base">Add Option</span>
-          </button>
+          {/* Add Option Button - 숨김: do_or_not 모드 */}
+          {currentMode !== 'do_or_not' && (
+            <button
+              onClick={handleAddOption}
+              disabled={localDecision.resolved}
+              className={`w-full bg-white rounded-lg p-4 flex items-center gap-3 transition-colors text-micron ${
+                localDecision.resolved ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-50'
+              }`}
+            >
+              <Plus className="w-5 h-5" />
+              <span className="text-base">Add Option</span>
+            </button>
+          )}
         </div>
 
         {/* TRIM Button and Random Pick Button Container */}
