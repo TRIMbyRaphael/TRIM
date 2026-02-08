@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { MoreVertical, Plus, ChevronDown, ChevronRight, Info, Clock, FileText, Trash2, Link as LinkIcon, Edit, Home } from 'lucide-react';
+import { MoreVertical, Plus, ChevronDown, ChevronRight, Info, Clock, Brain, FileText, Trash2, Link as LinkIcon, Edit, Home } from 'lucide-react';
 import { Decision, IMPORTANCE_LEVELS, ImportanceLevel, Link } from '../types/decision';
-import BrainIcon from './BrainIcon';
 import TimeBudgetModal from './TimeBudgetModal';
 import { fetchOpenGraphData } from '../utils/linkPreview';
 import { useCountdown } from '../hooks/useCountdown';
