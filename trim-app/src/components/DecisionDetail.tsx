@@ -27,13 +27,24 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   useEffect(() => {
     setLocalDecision(decision);
     initialDecision.current = decision;
+    // Auto-expand decision memo for no_clear_options mode
+    if ((decision.mode || 'do_or_not') === 'no_clear_options') {
+      setShowDecisionMemo(true);
+    }
   }, [decision.id]);
+
+  // Auto-expand decision memo when mode changes to no_clear_options
+  useEffect(() => {
+    if ((localDecision.mode || 'do_or_not') === 'no_clear_options') {
+      setShowDecisionMemo(true);
+    }
+  }, [localDecision.mode]);
   const [showKebabMenu, setShowKebabMenu] = useState(false);
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
   const [showImportanceDropdown, setShowImportanceDropdown] = useState(false);
   const [showTimeBudgetModal, setShowTimeBudgetModal] = useState(false);
   const [showSubDecisions, setShowSubDecisions] = useState(true); // Expanded by default
-  const [showDecisionMemo, setShowDecisionMemo] = useState(false);
+  const [showDecisionMemo, setShowDecisionMemo] = useState((decision.mode || 'do_or_not') === 'no_clear_options');
   const [showOptionMemos, setShowOptionMemos] = useState<{ [key: string]: boolean }>({});
   const [newOptionId, setNewOptionId] = useState<string | null>(null);
   const [showLeaveWarning, setShowLeaveWarning] = useState(false);
