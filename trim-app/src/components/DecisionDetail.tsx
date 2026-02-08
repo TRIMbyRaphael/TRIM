@@ -1101,7 +1101,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
             <div
               key={option.id}
               className="relative"
-              style={{ zIndex: isDragging ? 40 : showDeletePopup ? 40 : 'auto' }}
+              style={{ zIndex: isDragging ? 50 : isDragOver ? 50 : showDeletePopup ? 50 : isDragMode ? 31 : 'auto' }}
             >
               <div
                 data-option-id={option.id}
