@@ -1,7 +1,7 @@
 import { Trash2, Link as LinkIcon, ChevronUp } from 'lucide-react';
 import { Decision } from '../types/decision';
 import { useCountdown } from '../hooks/useCountdown';
-import { ReactNode } from 'react';
+import { ReactNode, useState, useRef } from 'react';
 
 interface DecisionCardProps {
   decision: Decision;
@@ -23,6 +23,11 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
   
   const hasSelectedOption = decision.options.some(opt => opt.isSelected);
   const canTrim = hasSelectedOption && !decision.resolved;
+
+  // Long press 삭제 관련 state
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const longPressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const deletePopupShownAtRef = useRef<number | null>(null);
 
   // Level-based styling
   const getBackgroundColor = () => {
@@ -86,6 +91,44 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
     onReopen(decision.id);
   };
 
+  // Long press 핸들러
+  const clearLongPressTimer = () => {
+    if (longPressTimerRef.current) {
+      clearTimeout(longPressTimerRef.current);
+      longPressTimerRef.current = null;
+    }
+  };
+
+  const handleDecisionPointerDown = (e: React.PointerEvent) => {
+    // 버튼이나 링크 클릭 시 long press 무시
+    const target = e.target as HTMLElement;
+    if (target.closest('button') || target.closest('a')) return;
+
+    // 400ms 후 삭제 팝업 표시
+    longPressTimerRef.current = setTimeout(() => {
+      window.getSelection()?.removeAllRanges();
+      setShowDeletePopup(true);
+      deletePopupShownAtRef.current = Date.now();
+      longPressTimerRef.current = null;
+    }, 400);
+  };
+
+  const handleDecisionPointerUp = () => {
+    // 타이머만 취소하고, 이미 표시된 팝업은 유지
+    clearLongPressTimer();
+  };
+
+  const handleDecisionPointerCancel = () => {
+    clearLongPressTimer();
+  };
+
+  const handleDeleteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onDelete(e);
+    setShowDeletePopup(false);
+    deletePopupShownAtRef.current = null;
+  };
+
   return (
     <div 
       className="flex items-start gap-2 group"
@@ -96,6 +139,9 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
       <div 
         className="flex-1 rounded-lg shadow-sm relative cursor-pointer"
         onClick={onClick}
+        onPointerDown={handleDecisionPointerDown}
+        onPointerUp={handleDecisionPointerUp}
+        onPointerCancel={handleDecisionPointerCancel}
         style={{
           backgroundColor: getBackgroundColor(),
           padding: `${getPadding()}px`,
@@ -103,6 +149,37 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
           border: getBorderStyle(),
         }}
       >
+        {/* 삭제 팝업 배경 오버레이 */}
+        {showDeletePopup && (
+          <div 
+            className="fixed inset-0 z-30"
+            onClick={() => {
+              setShowDeletePopup(false);
+              deletePopupShownAtRef.current = null;
+            }}
+          />
+        )}
+
+        {/* Long press 삭제 팝업 */}
+        {showDeletePopup && (
+          <div 
+            className="absolute -top-12 left-4 z-50 select-none"
+            onPointerDown={(e) => e.stopPropagation()}
+            onPointerUp={(e) => e.stopPropagation()}
+          >
+            <div className="bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden min-w-[140px]">
+              <button
+                onClick={handleDeleteClick}
+                className="w-full flex items-center gap-3 px-4 py-3 text-scarletSmile hover:bg-scarletSmile hover:bg-opacity-5 transition-colors text-sm font-medium select-none"
+              >
+                <Trash2 className="w-4 h-4" />
+                <span>Delete</span>
+              </button>
+            </div>
+            {/* 말풍선 꼬리 */}
+            <div className="absolute -bottom-1.5 left-6 w-3 h-3 bg-white border-r border-b border-gray-200 transform rotate-45" />
+          </div>
+        )}
         {/* "ㄴ" 모양 연결선 for child items */}
         {level > 0 && (
           <>
