@@ -1106,14 +1106,14 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 }`}
               >
               {/* Option Header */}
-              <div className="flex items-center gap-1">
-                {/* Drag Handle */}
+              <div className="flex items-center gap-1 relative">
+                {/* Drag Handle - absolute positioned */}
                 {!localDecision.resolved && (
                   <div
                     draggable={true}
                     onDragStart={(e) => handleOptionDragStart(e, option.id)}
                     onDragEnd={handleOptionDragEnd}
-                    className="cursor-grab active:cursor-grabbing text-micron hover:text-stretchLimo transition-colors flex-shrink-0 -ml-3"
+                    className="absolute -left-3 top-1/2 -translate-y-1/2 cursor-grab active:cursor-grabbing text-micron hover:text-stretchLimo transition-colors"
                   >
                     <GripVertical className="w-4 h-4" />
                   </div>
