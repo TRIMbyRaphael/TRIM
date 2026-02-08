@@ -643,6 +643,24 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     }
   };
 
+  // long press 진행 중 touchmove를 막아서 텍스트 선택 방지
+  const preventTouchMove = useRef<((e: TouchEvent) => void) | null>(null);
+
+  const addTouchMoveBlocker = () => {
+    if (preventTouchMove.current) return;
+    preventTouchMove.current = (e: TouchEvent) => {
+      e.preventDefault();
+    };
+    document.addEventListener('touchmove', preventTouchMove.current, { passive: false });
+  };
+
+  const removeTouchMoveBlocker = () => {
+    if (preventTouchMove.current) {
+      document.removeEventListener('touchmove', preventTouchMove.current);
+      preventTouchMove.current = null;
+    }
+  };
+
   const handleOptionPointerDown = (e: React.PointerEvent, optionId: string) => {
     if (localDecision.resolved) return;
     // 버튼이나 링크 클릭 시 long press 무시
@@ -654,6 +672,9 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
     // 300ms 후 삭제 팝업 표시 (손을 떼면 팝업 유지, 계속 누르고 있으면 드래그 모드로 전환하지 않음)
     longPressTimerRef.current = setTimeout(() => {
+      // long press 감지됨 → touchmove 차단 시작 (텍스트 선택 방지)
+      addTouchMoveBlocker();
+
       // textarea에서 long press 시 포커스/선택 해제
       const activeEl = document.activeElement as HTMLElement;
       if (activeEl?.closest('textarea')) {
@@ -677,6 +698,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     if (distance > 10) {
       clearLongPressTimers();
       setLongPressOptionId(null);
+      window.getSelection()?.removeAllRanges();
+      addTouchMoveBlocker();
       if (!isDragMode) {
         setIsDragMode(true);
         setDraggedOptionId(longPressingOptionId.current);
