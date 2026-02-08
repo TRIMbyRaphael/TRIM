@@ -1101,7 +1101,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
             <div
               key={option.id}
               className="relative"
-              style={{ zIndex: isDragging ? 50 : isDragOver ? 50 : showDeletePopup ? 50 : isDragMode ? 31 : 'auto' }}
+              style={{ zIndex: showDeletePopup ? 50 : 'auto' }}
             >
               <div
                 data-option-id={option.id}
@@ -1109,6 +1109,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 onPointerMove={handleOptionPointerMove}
                 onPointerUp={handleOptionPointerUp}
                 onPointerCancel={handleOptionPointerCancel}
+                style={{ pointerEvents: isDragMode ? 'none' : 'auto' }}
                 className={`rounded-lg p-4 group transition-all select-none ${
                   isDragging
                     ? 'scale-105 shadow-xl ring-2 ring-stretchLimo bg-white'
