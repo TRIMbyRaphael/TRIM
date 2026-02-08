@@ -649,7 +649,12 @@ export default function DecisionDetail({ decision, decisions, categories, initia
       const targetOptions = optionsByModeRef.current[mode];
       sourceOptions.forEach((srcOpt, index) => {
         if (index < targetOptions.length) {
-          targetOptions[index] = { ...targetOptions[index], title: srcOpt.title };
+          targetOptions[index] = {
+            ...targetOptions[index],
+            title: srcOpt.title,
+            pros: srcOpt.pros,
+            cons: srcOpt.cons,
+          };
         }
       });
     }
