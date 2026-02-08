@@ -24,6 +24,8 @@ export interface Option {
   title: string;
   isSelected: boolean;
   memo?: string;
+  pros?: string;
+  cons?: string;
   links?: Link[];
 }
 
