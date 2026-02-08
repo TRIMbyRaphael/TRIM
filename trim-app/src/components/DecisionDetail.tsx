@@ -68,6 +68,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   const [dragOverSubDecisionId, setDragOverSubDecisionId] = useState<string | null>(null);
   const [draggedOptionId, setDraggedOptionId] = useState<string | null>(null);
   const [dragOverOptionId, setDragOverOptionId] = useState<string | null>(null);
+  const [longPressOptionId, setLongPressOptionId] = useState<string | null>(null); // 꾹 눌러서 삭제 팝업 표시용
+  const longPressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const titleInputRef = useRef<HTMLTextAreaElement>(null);
   const optionRefs = useRef<{ [key: string]: HTMLTextAreaElement | null }>({});
   const initialDecision = useRef<Decision>(decision);
@@ -623,6 +625,43 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
     setDraggedSubDecisionId(null);
     setDragOverSubDecisionId(null);
+  };
+
+  // Long press handler for delete popup
+  const clearLongPressTimer = () => {
+    if (longPressTimerRef.current) {
+      clearTimeout(longPressTimerRef.current);
+      longPressTimerRef.current = null;
+    }
+  };
+
+  const handleOptionPointerDown = (e: React.PointerEvent, optionId: string) => {
+    if (localDecision.resolved) return;
+    // 버튼이나 링크 클릭 시 long press 무시
+    const target = e.target as HTMLElement;
+    if (target.closest('button') || target.closest('a')) return;
+
+    // 400ms 후 삭제 팝업 표시
+    longPressTimerRef.current = setTimeout(() => {
+      // textarea에서 long press 시 포커스/선택 해제
+      const activeEl = document.activeElement as HTMLElement;
+      if (activeEl?.closest('textarea')) {
+        activeEl.blur();
+      }
+      window.getSelection()?.removeAllRanges();
+
+      setLongPressOptionId(optionId);
+      longPressTimerRef.current = null;
+    }, 400);
+  };
+
+  const handleOptionPointerUp = () => {
+    // 타이머만 취소하고, 이미 표시된 팝업은 유지
+    clearLongPressTimer();
+  };
+
+  const handleOptionPointerCancel = () => {
+    clearLongPressTimer();
   };
 
   // Drag and drop handlers for options
