@@ -11,3 +11,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #F5F5F5;
 }
+
+/* 모바일 long press 네이티브 동작 차단 (옵션 드래그용) */
+.option-longpress {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: none;
+}
