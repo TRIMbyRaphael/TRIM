@@ -1020,14 +1020,27 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         <div className="bg-[#FAFAFA] border border-[#E5E5E5] rounded-xl p-6 mb-6">
           {/* Options List */}
           <div className="space-y-3 mb-4">
-          {localDecision.options.map((option) => (
+          {localDecision.options.map((option) => {
+            const isDragging = draggedOptionId === option.id;
+            const isDragOver = dragOverOptionId === option.id;
+            return (
             <div
               key={option.id}
-              className={`rounded-lg p-4 group transition-colors ${
-                option.isSelected 
+              draggable={!localDecision.resolved}
+              onDragStart={(e) => handleOptionDragStart(e, option.id)}
+              onDragEnd={handleOptionDragEnd}
+              onDragOver={(e) => handleOptionDragOver(e, option.id)}
+              onDragLeave={handleOptionDragLeave}
+              onDrop={(e) => handleOptionDrop(e, option.id)}
+              className={`rounded-lg p-4 group transition-colors cursor-move ${
+                isDragging
+                  ? 'opacity-50'
+                  : isDragOver
+                  ? 'bg-stretchLimo bg-opacity-5 border-2 border-stretchLimo border-dashed'
+                  : option.isSelected 
                   ? 'bg-stretchLimo bg-opacity-10 border-2 border-stretchLimo' 
                   : 'bg-white'
-              }`}
+              } ${localDecision.resolved ? 'cursor-default' : ''}`}
             >
               {/* Option Header */}
               <div className="flex items-center gap-3">
@@ -1179,7 +1192,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 />
               )}
             </div>
-          ))}
+            );
+          })}
 
           {/* Add Option Button */}
           <button
