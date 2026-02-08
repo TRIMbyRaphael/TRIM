@@ -1583,32 +1583,39 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     <thead>
                       <tr>
                         <th className="text-left text-xs font-medium text-micron pb-2 pr-2 min-w-[90px]">
-                          Criteria
+                          Options
                         </th>
-                        {localDecision.options.map((opt, idx) => (
-                          <th key={opt.id} className="text-center text-xs font-medium text-stretchLimo pb-2 px-1.5 min-w-[72px]">
-                            <span className="truncate block max-w-[100px] mx-auto">
-                              {getOptionLabel(opt, idx)}
-                            </span>
+                        {(localDecision.comparisonMatrix || []).map((criteria) => (
+                          <th key={criteria.id} className="text-center text-xs font-medium text-micron pb-2 px-1.5 min-w-[72px] group/criteriaHead">
+                            <div className="flex items-center justify-center gap-1">
+                              <input
+                                type="text"
+                                value={criteria.name}
+                                onChange={(e) => handleCriteriaNameChange(criteria.id, e.target.value)}
+                                placeholder="Criteria"
+                                className="w-full text-xs text-center font-medium text-stretchLimo bg-transparent border-none outline-none placeholder-gray-300"
+                              />
+                              <button
+                                onClick={() => handleDeleteCriteria(criteria.id)}
+                                className="p-0.5 text-micron hover:text-scarletSmile transition-colors flex-shrink-0 opacity-0 group-hover/criteriaHead:opacity-100"
+                              >
+                                <Trash2 className="w-3 h-3" />
+                              </button>
+                            </div>
                           </th>
                         ))}
-                        <th className="w-6" />
                       </tr>
                     </thead>
                     <tbody>
-                      {(localDecision.comparisonMatrix || []).map((criteria) => (
-                        <tr key={criteria.id} className="group/criteria border-t border-gray-100">
-                          <td className="py-1.5 pr-2">
-                            <input
-                              type="text"
-                              value={criteria.name}
-                              onChange={(e) => handleCriteriaNameChange(criteria.id, e.target.value)}
-                              placeholder="e.g. Cost, Time..."
-                              className="w-full text-sm text-stretchLimo bg-transparent border-none outline-none placeholder-gray-300"
-                            />
+                      {localDecision.options.map((opt, idx) => (
+                        <tr key={opt.id} className="border-t border-gray-100">
+                          <td className="py-1.5 pr-2 text-sm font-medium text-stretchLimo">
+                            <span className="truncate block max-w-[120px]">
+                              {getOptionLabel(opt, idx)}
+                            </span>
                           </td>
-                          {localDecision.options.map((opt) => (
-                            <td key={opt.id} className="py-1.5 px-1">
+                          {(localDecision.comparisonMatrix || []).map((criteria) => (
+                            <td key={criteria.id} className="py-1.5 px-1">
                               <input
                                 type="text"
                                 value={criteria.ratings[opt.id] || ''}
@@ -1618,14 +1625,6 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                               />
                             </td>
                           ))}
-                          <td className="py-1.5 pl-1">
-                            <button
-                              onClick={() => handleDeleteCriteria(criteria.id)}
-                              className="p-0.5 text-micron hover:text-scarletSmile transition-colors opacity-0 group-hover/criteria:opacity-100"
-                            >
-                              <Trash2 className="w-3 h-3" />
-                            </button>
-                          </td>
                         </tr>
                       ))}
                     </tbody>
