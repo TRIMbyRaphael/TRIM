@@ -1131,7 +1131,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 </button>
                 {/* Long press 영역: 체크박스 우측부터 첨부파일 버튼 좌측까지 */}
                 <div
-                  className="flex-1 flex items-center min-w-0"
+                  className="flex-1 flex items-center min-w-0 -mr-2"
                   onPointerDown={(e) => handleOptionPointerDown(e, option.id)}
                   onPointerUp={handleOptionPointerUp}
                   onPointerCancel={handleOptionPointerCancel}
@@ -1152,7 +1152,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     }`}
                   />
                 </div>
-                <div className="flex items-center gap-1 flex-shrink-0 -ml-2">
+                <div className="flex items-center gap-1 flex-shrink-0">
                   <button
                     onClick={() => openLinkModal('option', option.id)}
                     disabled={localDecision.resolved}
