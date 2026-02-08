@@ -34,6 +34,14 @@ export default function DecisionDetail({ decision, decisions, categories, initia
       'choose_best': initOptionsForMode('choose_best', srcMode, decision.options),
       'no_clear_options': initOptionsForMode('no_clear_options', srcMode, decision.options),
     };
+    // Auto-enable pros/cons for options that already have data
+    const autoEnabled: { [key: string]: boolean } = {};
+    decision.options.forEach(opt => {
+      if (opt.pros || opt.cons) {
+        autoEnabled[opt.id] = true;
+      }
+    });
+    setProsConsEnabled(autoEnabled);
   }, [decision.id]);
   const [showKebabMenu, setShowKebabMenu] = useState(false);
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
