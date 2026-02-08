@@ -700,7 +700,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   };
 
   // 드래그 모드에서의 터치/마우스 이동으로 reorder
-  const handleOptionDragMove = (e: React.PointerEvent, targetOptionId: string) => {
+  const handleOptionDragMove = (_e: React.PointerEvent, targetOptionId: string) => {
     if (!isDragMode || !draggedOptionId || draggedOptionId === targetOptionId) return;
     setDragOverOptionId(targetOptionId);
   };
