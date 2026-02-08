@@ -372,6 +372,15 @@ export default function DecisionDetail({ decision, decisions, categories, initia
       options: [...localDecision.options, newOption],
     });
     setNewOptionId(newOption.id);
+
+    // choose_best ↔ no_clear_options 간 옵션 추가 동기화
+    if (currentMode === 'choose_best' || currentMode === 'no_clear_options') {
+      const otherMode: DecisionMode = currentMode === 'choose_best' ? 'no_clear_options' : 'choose_best';
+      optionsByModeRef.current[otherMode] = [
+        ...optionsByModeRef.current[otherMode],
+        { id: `${Date.now()}-sync`, title: '', isSelected: false },
+      ];
+    }
   };
 
   const handleOptionChange = (optionId: string, title: string) => {
