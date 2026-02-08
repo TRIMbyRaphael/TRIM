@@ -118,10 +118,6 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     setLocalDecision({ ...localDecision, title });
   };
 
-  const handleDecisionMemoChange = (memo: string) => {
-    setLocalDecision({ ...localDecision, memo });
-  };
-
   const toggleOptionMemo = (optionId: string) => {
     setShowOptionMemos({
       ...showOptionMemos,
