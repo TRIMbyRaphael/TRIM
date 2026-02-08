@@ -1077,11 +1077,13 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         <div className="bg-[#FAFAFA] border border-[#E5E5E5] rounded-xl p-6 mb-6">
           {/* Options List */}
           <div className="space-y-3 mb-4">
-          {/* 드래그 모드 배경 오버레이 */}
+          {/* 드래그 모드 배경 오버레이 - 포인터 이벤트를 여기서 캡처 */}
           {isDragMode && (
             <div 
               className="fixed inset-0 z-30"
               onClick={exitDragMode}
+              onPointerMove={handleGlobalPointerMove}
+              onPointerUp={handleGlobalPointerUp}
             />
           )}
           {/* 삭제 팝업 배경 오버레이 */}
