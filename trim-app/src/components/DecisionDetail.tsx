@@ -121,10 +121,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     'no_clear_options': initOptionsForMode('no_clear_options', decision.mode || 'do_or_not', decision.options),
   });
 
-  // Auto-focus on title input when component mounts
+  // Auto-resize title textarea on mount
   useEffect(() => {
-    titleInputRef.current?.focus();
-    // Auto-resize on mount
     if (titleInputRef.current) {
       titleInputRef.current.style.height = 'auto';
       titleInputRef.current.style.height = `${titleInputRef.current.scrollHeight}px`;
