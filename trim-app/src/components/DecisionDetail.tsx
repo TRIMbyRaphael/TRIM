@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { MoreVertical, Plus, ChevronDown, ChevronRight, Info, Clock, Brain, FileText, Trash2, Link as LinkIcon, Edit, Home } from 'lucide-react';
+import { MoreVertical, Plus, ChevronDown, ChevronRight, Info, Clock, Brain, FileText, Trash2, Link as LinkIcon, Edit, Home, GripVertical } from 'lucide-react';
 import { Decision, IMPORTANCE_LEVELS, ImportanceLevel, Link, DecisionMode, DECISION_MODES, DEFAULT_DECISION_MODE } from '../types/decision';
 import TimeBudgetModal from './TimeBudgetModal';
 import { fetchOpenGraphData } from '../utils/linkPreview';
@@ -68,12 +68,6 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   const [dragOverSubDecisionId, setDragOverSubDecisionId] = useState<string | null>(null);
   const [draggedOptionId, setDraggedOptionId] = useState<string | null>(null);
   const [dragOverOptionId, setDragOverOptionId] = useState<string | null>(null);
-  const [longPressOptionId, setLongPressOptionId] = useState<string | null>(null); // 꾹 눌러서 삭제 팝업 표시용
-  const [isDragMode, setIsDragMode] = useState(false); // 드래그 모드 활성화 여부
-  const longPressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const dragModeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const longPressStartPos = useRef<{ x: number; y: number } | null>(null);
-  const longPressingOptionId = useRef<string | null>(null);
   const titleInputRef = useRef<HTMLTextAreaElement>(null);
   const optionRefs = useRef<{ [key: string]: HTMLTextAreaElement | null }>({});
   const initialDecision = useRef<Decision>(decision);
