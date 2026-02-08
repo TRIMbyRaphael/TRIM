@@ -1445,6 +1445,33 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         </>
       )}
 
+      {/* Decision Mode Switch - Fixed Bottom Bar */}
+      <div className="fixed bottom-0 left-0 right-0 z-10 bg-white border-t border-gray-200 shadow-[0_-2px_10px_rgba(0,0,0,0.06)]">
+        <div className="max-w-2xl mx-auto flex">
+          {DECISION_MODES.map((modeOption) => {
+            const currentMode = localDecision.mode || DEFAULT_DECISION_MODE;
+            const isActive = currentMode === modeOption.value;
+            return (
+              <button
+                key={modeOption.value}
+                onClick={() => handleModeChange(modeOption.value)}
+                className={`flex-1 py-3.5 text-sm font-medium transition-colors relative ${
+                  isActive
+                    ? 'text-stretchLimo'
+                    : 'text-micron hover:text-stretchLimo hover:bg-gray-50'
+                }`}
+              >
+                {/* Active indicator bar */}
+                {isActive && (
+                  <div className="absolute top-0 left-2 right-2 h-[3px] bg-stretchLimo rounded-b-full" />
+                )}
+                {modeOption.label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Link Modal */}
       {showLinkModal && (
         <>
