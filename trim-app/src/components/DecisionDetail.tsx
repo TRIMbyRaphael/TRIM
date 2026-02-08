@@ -542,7 +542,21 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   };
 
   const handleModeChange = (mode: DecisionMode) => {
-    setLocalDecision({ ...localDecision, mode });
+    // 'no_clear_options'나 'choose_best' 모드로 변경 시 첫 두 옵션의 "Do"와 "Do Not" 제거
+    if (mode !== 'do_or_not' && localDecision.options.length >= 2) {
+      const updatedOptions = localDecision.options.map((opt, index) => {
+        if (index === 0 && opt.title === 'Do') {
+          return { ...opt, title: '' };
+        }
+        if (index === 1 && opt.title === 'Do Not') {
+          return { ...opt, title: '' };
+        }
+        return opt;
+      });
+      setLocalDecision({ ...localDecision, mode, options: updatedOptions });
+    } else {
+      setLocalDecision({ ...localDecision, mode });
+    }
   };
 
   const handleFramingChange = (field: 'whatHappened' | 'goal' | 'constraints' | 'dealbreakers' | 'keyFactors', value: string) => {
