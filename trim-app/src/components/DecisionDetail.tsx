@@ -68,6 +68,12 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   const [dragOverSubDecisionId, setDragOverSubDecisionId] = useState<string | null>(null);
   const [draggedOptionId, setDraggedOptionId] = useState<string | null>(null);
   const [dragOverOptionId, setDragOverOptionId] = useState<string | null>(null);
+  const [longPressOptionId, setLongPressOptionId] = useState<string | null>(null); // 꾹 눌러서 삭제 팝업 표시용
+  const [isDragMode, setIsDragMode] = useState(false); // 드래그 모드 활성화 여부
+  const longPressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const dragModeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const longPressStartPos = useRef<{ x: number; y: number } | null>(null);
+  const longPressingOptionId = useRef<string | null>(null);
   const titleInputRef = useRef<HTMLTextAreaElement>(null);
   const optionRefs = useRef<{ [key: string]: HTMLTextAreaElement | null }>({});
   const initialDecision = useRef<Decision>(decision);
