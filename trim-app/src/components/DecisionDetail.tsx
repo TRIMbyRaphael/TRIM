@@ -1152,7 +1152,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     }`}
                   />
                 </div>
-                <div className="flex items-center gap-1 flex-shrink-0 ml-4">
+                <div className="flex items-center gap-1 flex-shrink-0 ml-5">
                   <button
                     onClick={() => openLinkModal('option', option.id)}
                     disabled={localDecision.resolved}
