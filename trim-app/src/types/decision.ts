@@ -1,5 +1,15 @@
 export type ImportanceLevel = 'TRIVIAL' | 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
 
+export type DecisionMode = 'choose_best' | 'do_or_not' | 'no_clear_options';
+
+export const DECISION_MODES: { value: DecisionMode; label: string }[] = [
+  { value: 'choose_best', label: 'Choose Best' },
+  { value: 'do_or_not', label: 'Do or Not' },
+  { value: 'no_clear_options', label: 'No Clear Options' },
+];
+
+export const DEFAULT_DECISION_MODE: DecisionMode = 'do_or_not';
+
 export interface Link {
   id: string;
   url: string;
@@ -41,6 +51,7 @@ export interface Decision {
   framing?: DecisionFraming;
   order: number;
   parentId?: string; // For sub-decisions (chunking)
+  mode?: DecisionMode; // Decision mode: choose_best | do_or_not | no_clear_options
 }
 
 export const IMPORTANCE_LEVELS = {
