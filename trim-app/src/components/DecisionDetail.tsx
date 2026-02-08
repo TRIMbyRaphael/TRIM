@@ -684,22 +684,23 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     }
   };
 
-  // 드래그 모드 중 마우스 이동으로 대상 옵션 감지
+  // 드래그 모드 중 마우스 이동으로 대상 옵션 감지 (위치 기반)
   const handleGlobalPointerMove = (e: React.PointerEvent) => {
     if (!isDragMode || !draggedOptionId) return;
-    // 현재 마우스 위치의 요소에서 가장 가까운 옵션 찾기
-    const elements = document.elementsFromPoint(e.clientX, e.clientY);
-    for (const el of elements) {
-      const optionEl = (el as HTMLElement).closest('[data-option-id]');
-      if (optionEl) {
-        const targetId = optionEl.getAttribute('data-option-id');
+    // pointer-events: none이므로 DOM 위치로 직접 계산
+    const optionEls = document.querySelectorAll('[data-option-id]');
+    let foundTarget: string | null = null;
+    for (const el of optionEls) {
+      const rect = el.getBoundingClientRect();
+      if (e.clientY >= rect.top && e.clientY <= rect.bottom && e.clientX >= rect.left && e.clientX <= rect.right) {
+        const targetId = el.getAttribute('data-option-id');
         if (targetId && targetId !== draggedOptionId) {
-          setDragOverOptionId(targetId);
-          return;
+          foundTarget = targetId;
+          break;
         }
       }
     }
-    setDragOverOptionId(null);
+    setDragOverOptionId(foundTarget);
   };
 
   const handleOptionPointerUp = () => {
