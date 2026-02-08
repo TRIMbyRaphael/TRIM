@@ -381,6 +381,18 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         opt.id === optionId ? { ...opt, title } : opt
       ),
     });
+
+    // choose_best ↔ no_clear_options 간 텍스트 실시간 동기화
+    if (currentMode === 'choose_best' || currentMode === 'no_clear_options') {
+      const otherMode: DecisionMode = currentMode === 'choose_best' ? 'no_clear_options' : 'choose_best';
+      const optionIndex = localDecision.options.findIndex(opt => opt.id === optionId);
+      if (optionIndex !== -1 && optionsByModeRef.current[otherMode]?.[optionIndex]) {
+        optionsByModeRef.current[otherMode][optionIndex] = {
+          ...optionsByModeRef.current[otherMode][optionIndex],
+          title,
+        };
+      }
+    }
     
     // Auto-resize textarea
     if (optionRefs.current[optionId]) {
