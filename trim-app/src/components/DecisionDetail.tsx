@@ -1104,23 +1104,11 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               style={{ zIndex: isDragging ? 40 : showDeletePopup ? 40 : 'auto' }}
             >
               <div
-                draggable={isDragMode}
-                onDragStart={(e) => handleOptionDragStart(e, option.id)}
-                onDragEnd={handleOptionDragEnd}
-                onDragOver={(e) => handleOptionDragOver(e, option.id)}
-                onDragLeave={handleOptionDragLeave}
-                onDrop={(e) => handleOptionDrop(e, option.id)}
+                data-option-id={option.id}
                 onPointerDown={(e) => handleOptionPointerDown(e, option.id)}
                 onPointerMove={handleOptionPointerMove}
-                onPointerUp={() => {
-                  if (isDragMode && draggedOptionId && draggedOptionId !== option.id) {
-                    handleOptionDragPointerUp(option.id);
-                  } else {
-                    handleOptionPointerUp();
-                  }
-                }}
+                onPointerUp={handleOptionPointerUp}
                 onPointerCancel={handleOptionPointerCancel}
-                onPointerEnter={() => handleOptionDragMove({} as React.PointerEvent, option.id)}
                 className={`rounded-lg p-4 group transition-all select-none ${
                   isDragging
                     ? 'opacity-50 scale-105 shadow-lg ring-2 ring-stretchLimo'
