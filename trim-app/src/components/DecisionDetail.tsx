@@ -838,18 +838,100 @@ export default function DecisionDetail({ decision, decisions, categories, initia
             </div>
           )}
 
-          {/* Decision Memo */}
+          {/* Decision Framing Questions (mode-specific) */}
           {showDecisionMemo && (
-            <textarea
-              value={localDecision.memo || ''}
-              onChange={(e) => handleDecisionMemoChange(e.target.value)}
-              placeholder="Add notes about this decision..."
-              disabled={localDecision.resolved}
-              className={`w-full mt-3 px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
-                localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
-              rows={3}
-            />
+            <div className="mt-3 space-y-3">
+              {/* Q1: What happened? - all modes */}
+              <div>
+                <label className="block text-sm font-medium text-stretchLimo mb-1">
+                  What happened?
+                </label>
+                <textarea
+                  value={localDecision.framing?.whatHappened || ''}
+                  onChange={(e) => handleFramingChange('whatHappened', e.target.value)}
+                  placeholder="What situation led to this decision..."
+                  disabled={localDecision.resolved}
+                  className={`w-full px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                    localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
+                  rows={2}
+                />
+              </div>
+
+              {/* Q2: What am I trying to achieve? - all modes */}
+              <div>
+                <label className="block text-sm font-medium text-stretchLimo mb-1">
+                  What am I trying to achieve?
+                </label>
+                <textarea
+                  value={localDecision.framing?.goal || ''}
+                  onChange={(e) => handleFramingChange('goal', e.target.value)}
+                  placeholder="What's the purpose of this decision..."
+                  disabled={localDecision.resolved}
+                  className={`w-full px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                    localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
+                  rows={2}
+                />
+              </div>
+
+              {/* Q3: Any fixed constraints? - no_clear_options only */}
+              {(localDecision.mode || 'do_or_not') === 'no_clear_options' && (
+                <div>
+                  <label className="block text-sm font-medium text-stretchLimo mb-1">
+                    Any fixed constraints?
+                  </label>
+                  <textarea
+                    value={localDecision.framing?.constraints || ''}
+                    onChange={(e) => handleFramingChange('constraints', e.target.value)}
+                    placeholder="External constraints you can't change..."
+                    disabled={localDecision.resolved}
+                    className={`w-full px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                      localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
+                    rows={2}
+                  />
+                </div>
+              )}
+
+              {/* Q4: Any deal-breakers? - no_clear_options only */}
+              {(localDecision.mode || 'do_or_not') === 'no_clear_options' && (
+                <div>
+                  <label className="block text-sm font-medium text-stretchLimo mb-1">
+                    Any deal-breakers?
+                  </label>
+                  <textarea
+                    value={localDecision.framing?.dealbreakers || ''}
+                    onChange={(e) => handleFramingChange('dealbreakers', e.target.value)}
+                    placeholder="What's non-negotiable for you..."
+                    disabled={localDecision.resolved}
+                    className={`w-full px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                      localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
+                    rows={2}
+                  />
+                </div>
+              )}
+
+              {/* Q5: Key factors? - choose_best and no_clear_options */}
+              {((localDecision.mode || 'do_or_not') === 'choose_best' || (localDecision.mode || 'do_or_not') === 'no_clear_options') && (
+                <div>
+                  <label className="block text-sm font-medium text-stretchLimo mb-1">
+                    Key factors?
+                  </label>
+                  <textarea
+                    value={localDecision.framing?.keyFactors || ''}
+                    onChange={(e) => handleFramingChange('keyFactors', e.target.value)}
+                    placeholder="Criteria you'll use to compare options..."
+                    disabled={localDecision.resolved}
+                    className={`w-full px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                      localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
+                    rows={2}
+                  />
+                </div>
+              )}
+            </div>
           )}
         </div>
 
