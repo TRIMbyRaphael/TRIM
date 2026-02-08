@@ -676,6 +676,59 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     });
   };
 
+  // Comparison Matrix handlers
+  const handleToggleComparisonMatrix = () => {
+    if (!showComparisonMatrix && (!localDecision.comparisonMatrix || localDecision.comparisonMatrix.length === 0)) {
+      // 처음 열 때 빈 criteria 1개로 초기화
+      setLocalDecision({
+        ...localDecision,
+        comparisonMatrix: [{ id: Date.now().toString(), name: '', ratings: {} }],
+      });
+    }
+    setShowComparisonMatrix(!showComparisonMatrix);
+  };
+
+  const handleAddCriteria = () => {
+    setLocalDecision({
+      ...localDecision,
+      comparisonMatrix: [
+        ...(localDecision.comparisonMatrix || []),
+        { id: Date.now().toString(), name: '', ratings: {} },
+      ],
+    });
+  };
+
+  const handleCriteriaNameChange = (criteriaId: string, name: string) => {
+    setLocalDecision({
+      ...localDecision,
+      comparisonMatrix: (localDecision.comparisonMatrix || []).map(c =>
+        c.id === criteriaId ? { ...c, name } : c
+      ),
+    });
+  };
+
+  const handleCriteriaRatingChange = (criteriaId: string, optionId: string, value: string) => {
+    setLocalDecision({
+      ...localDecision,
+      comparisonMatrix: (localDecision.comparisonMatrix || []).map(c =>
+        c.id === criteriaId ? { ...c, ratings: { ...c.ratings, [optionId]: value } } : c
+      ),
+    });
+  };
+
+  const handleDeleteCriteria = (criteriaId: string) => {
+    setLocalDecision({
+      ...localDecision,
+      comparisonMatrix: (localDecision.comparisonMatrix || []).filter(c => c.id !== criteriaId),
+    });
+  };
+
+  const getOptionLabel = (option: Option, index: number): string => {
+    if (option.title.trim()) return option.title;
+    if (currentMode === 'choose_best') return `Option ${String.fromCharCode(65 + index)}`;
+    return `Option ${index + 1}`;
+  };
+
   // Drag and drop handlers for sub-decisions
   const handleDragStart = (e: React.DragEvent, subDecisionId: string) => {
     if (localDecision.resolved) {
