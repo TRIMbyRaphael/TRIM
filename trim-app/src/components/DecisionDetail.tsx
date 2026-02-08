@@ -1170,17 +1170,6 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 >
                   <FileText className={`w-4 h-4 ${option.memo ? 'text-stretchLimo' : 'text-micron'}`} />
                 </button>
-                <button
-                  onClick={() => handleDeleteOption(option.id)}
-                  disabled={localDecision.resolved}
-                  className={`transition-opacity p-1 rounded ${
-                    localDecision.resolved 
-                      ? 'opacity-0 cursor-not-allowed' 
-                      : 'opacity-0 group-hover:opacity-100 hover:bg-scarletSmile hover:bg-opacity-10'
-                  }`}
-                >
-                  <Trash2 className="w-4 h-4 text-scarletSmile" />
-                </button>
               </div>
               </div>
 
