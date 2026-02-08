@@ -471,11 +471,12 @@ export default function DecisionDetail({ decision, decisions, categories, initia
       }
     }
     
-    // 메모, framing, 설정 변경 체크
+    // 메모, framing, 설정, 모드 변경 체크
     if (localDecision.memo !== initial.memo) return true;
     if (localDecision.category !== initial.category) return true;
     if (localDecision.importance !== initial.importance) return true;
     if (localDecision.timeBudget !== initial.timeBudget) return true;
+    if (localDecision.mode !== initial.mode) return true;
     
     if (JSON.stringify(localDecision.framing) !== JSON.stringify(initial.framing)) {
       return true;
@@ -522,6 +523,10 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     setShowLeaveWarning(false);
     pendingNavigationRef.current = null;
     titleInputRef.current?.focus();
+  };
+
+  const handleModeChange = (mode: DecisionMode) => {
+    setLocalDecision({ ...localDecision, mode });
   };
 
   const handleFramingChange = (field: 'whatHappened' | 'goal' | 'constraints' | 'dealbreakers' | 'keyFactors', value: string) => {
