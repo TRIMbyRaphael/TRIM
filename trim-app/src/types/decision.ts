@@ -29,6 +29,12 @@ export interface Option {
   links?: Link[];
 }
 
+export interface ComparisonCriteria {
+  id: string;
+  name: string;
+  ratings: { [optionId: string]: string };
+}
+
 export interface DecisionFraming {
   whatHappened?: string;
   goal?: string;
@@ -54,6 +60,7 @@ export interface Decision {
   order: number;
   parentId?: string; // For sub-decisions (chunking)
   mode?: DecisionMode; // Decision mode: choose_best | do_or_not | no_clear_options
+  comparisonMatrix?: ComparisonCriteria[];
 }
 
 export const IMPORTANCE_LEVELS = {
