@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { MoreVertical, Plus, ChevronDown, ChevronRight, Info, Clock, Brain, FileText, Trash2, Link as LinkIcon, Edit, Home } from 'lucide-react';
+import { MoreVertical, Plus, ChevronDown, ChevronRight, Info, Clock, Brain, FileText, Trash2, Link as LinkIcon, Edit, Home, GripVertical } from 'lucide-react';
 import { Decision, IMPORTANCE_LEVELS, ImportanceLevel, Link, DecisionMode, DECISION_MODES, DEFAULT_DECISION_MODE } from '../types/decision';
 import TimeBudgetModal from './TimeBudgetModal';
 import { fetchOpenGraphData } from '../utils/linkPreview';
@@ -1026,13 +1026,10 @@ export default function DecisionDetail({ decision, decisions, categories, initia
             return (
             <div
               key={option.id}
-              draggable={!localDecision.resolved}
-              onDragStart={(e) => handleOptionDragStart(e, option.id)}
-              onDragEnd={handleOptionDragEnd}
               onDragOver={(e) => handleOptionDragOver(e, option.id)}
               onDragLeave={handleOptionDragLeave}
               onDrop={(e) => handleOptionDrop(e, option.id)}
-              className={`rounded-lg p-4 group transition-colors cursor-move ${
+              className={`rounded-lg p-4 group transition-colors ${
                 isDragging
                   ? 'opacity-50'
                   : isDragOver
@@ -1040,10 +1037,21 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   : option.isSelected 
                   ? 'bg-stretchLimo bg-opacity-10 border-2 border-stretchLimo' 
                   : 'bg-white'
-              } ${localDecision.resolved ? 'cursor-default' : ''}`}
+              }`}
             >
               {/* Option Header */}
               <div className="flex items-center gap-3">
+                {/* Drag Handle */}
+                {!localDecision.resolved && (
+                  <div
+                    draggable={true}
+                    onDragStart={(e) => handleOptionDragStart(e, option.id)}
+                    onDragEnd={handleOptionDragEnd}
+                    className="cursor-grab active:cursor-grabbing text-micron hover:text-stretchLimo transition-colors flex-shrink-0"
+                  >
+                    <GripVertical className="w-5 h-5" />
+                  </div>
+                )}
                 <button
                   onClick={() => handleOptionSelect(option.id)}
                   disabled={localDecision.resolved}
