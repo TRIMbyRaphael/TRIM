@@ -559,8 +559,21 @@ export default function DecisionDetail({ decision, decisions, categories, initia
       } else {
         setLocalDecision({ ...localDecision, mode });
       }
+    } else if (mode === 'no_clear_options') {
+      // 'no_clear_options' 모드로 변경 시: 옵션을 1개만 남기기
+      const firstOption = localDecision.options[0] || {
+        id: Date.now().toString(),
+        title: '',
+        isSelected: false,
+      };
+      // 첫 번째 옵션의 "Do" 또는 "Do Not" 텍스트 제거
+      const cleanedFirstOption = {
+        ...firstOption,
+        title: firstOption.title === 'Do' || firstOption.title === 'Do Not' ? '' : firstOption.title,
+      };
+      setLocalDecision({ ...localDecision, mode, options: [cleanedFirstOption] });
     } else {
-      // 'no_clear_options'나 'choose_best' 모드로 변경 시 첫 두 옵션의 "Do"와 "Do Not" 제거
+      // 'choose_best' 모드로 변경 시 첫 두 옵션의 "Do"와 "Do Not" 제거
       if (localDecision.options.length >= 2) {
         const updatedOptions = localDecision.options.map((opt, index) => {
           if (index === 0 && opt.title === 'Do') {
