@@ -78,6 +78,32 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   // Use prop-based initial sub-decision count to persist across remounts
   const initialSubDecisionCount = propInitialSubDecisionCount;
 
+  // 모드별 독립 옵션 관리: 각 모드는 자체 옵션 배열을 가짐
+  // 'choose_best' ↔ 'no_clear_options' 간에만 텍스트 동기화, 'do_or_not'은 완전 독립
+  const initOptionsForMode = (mode: DecisionMode, srcMode: DecisionMode, srcOptions: Option[]): Option[] => {
+    if (mode === srcMode) return srcOptions.map(opt => ({ ...opt }));
+    const ts = Date.now();
+    if (mode === 'do_or_not') {
+      return [
+        { id: `${ts}-do-1`, title: 'Do', isSelected: false },
+        { id: `${ts}-do-2`, title: 'Do Not', isSelected: false },
+      ];
+    }
+    if (mode === 'no_clear_options') {
+      return [{ id: `${ts}-nco-1`, title: '', isSelected: false }];
+    }
+    // choose_best
+    return [
+      { id: `${ts}-cb-1`, title: '', isSelected: false },
+      { id: `${ts}-cb-2`, title: '', isSelected: false },
+    ];
+  };
+  const optionsByModeRef = useRef<Record<DecisionMode, Option[]>>({
+    'do_or_not': initOptionsForMode('do_or_not', decision.mode || 'do_or_not', decision.options),
+    'choose_best': initOptionsForMode('choose_best', decision.mode || 'do_or_not', decision.options),
+    'no_clear_options': initOptionsForMode('no_clear_options', decision.mode || 'do_or_not', decision.options),
+  });
+
   // Auto-focus on title input when component mounts
   useEffect(() => {
     titleInputRef.current?.focus();
