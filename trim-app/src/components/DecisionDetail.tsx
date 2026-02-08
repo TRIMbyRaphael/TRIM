@@ -32,7 +32,6 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
   const [showImportanceDropdown, setShowImportanceDropdown] = useState(false);
   const [showTimeBudgetModal, setShowTimeBudgetModal] = useState(false);
-  const [showDecisionFraming, setShowDecisionFraming] = useState(false);
   const [showSubDecisions, setShowSubDecisions] = useState(true); // Expanded by default
   const [showDecisionMemo, setShowDecisionMemo] = useState(false);
   const [showOptionMemos, setShowOptionMemos] = useState<{ [key: string]: boolean }>({});
@@ -1376,111 +1375,6 @@ export default function DecisionDetail({ decision, decisions, categories, initia
           )}
         </div>
 
-        {/* Decision Framing Section */}
-        <div className="bg-white rounded-lg mt-6">
-          <button
-            onClick={() => setShowDecisionFraming(!showDecisionFraming)}
-            className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors"
-          >
-            <div className="flex items-center gap-2">
-              <h3 className="text-base font-medium text-stretchLimo">Decision Framing{' '}<span className="text-sm font-normal text-micron lowercase">(optional)</span></h3>
-              {showDecisionFraming ? (
-                <ChevronDown className="w-4 h-4 text-micron" />
-              ) : (
-                <ChevronRight className="w-4 h-4 text-micron" />
-              )}
-            </div>
-          </button>
-
-          {showDecisionFraming && (
-            <div className="px-4 pb-4 space-y-4">
-              {/* What happened? */}
-              <div>
-                <label className="block text-sm font-medium text-stretchLimo mb-2">
-                  What happened?
-                </label>
-                <textarea
-                  value={localDecision.framing?.whatHappened || ''}
-                  onChange={(e) => handleFramingChange('whatHappened', e.target.value)}
-                  placeholder="What situation led to this decision..."
-                  disabled={localDecision.resolved}
-                  className={`w-full px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
-                    localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
-                  }`}
-                  rows={3}
-                />
-              </div>
-
-              {/* What am I trying to achieve? */}
-              <div>
-                <label className="block text-sm font-medium text-stretchLimo mb-2">
-                  What am I trying to achieve?
-                </label>
-                <textarea
-                  value={localDecision.framing?.goal || ''}
-                  onChange={(e) => handleFramingChange('goal', e.target.value)}
-                  placeholder="What's the purpose of this decision..."
-                  disabled={localDecision.resolved}
-                  className={`w-full px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
-                    localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
-                  }`}
-                  rows={3}
-                />
-              </div>
-
-              {/* Fixed constraints? */}
-              <div>
-                <label className="block text-sm font-medium text-stretchLimo mb-2">
-                  Any fixed constraints?
-                </label>
-                <textarea
-                  value={localDecision.framing?.constraints || ''}
-                  onChange={(e) => handleFramingChange('constraints', e.target.value)}
-                  placeholder="External constraints you can't change..."
-                  disabled={localDecision.resolved}
-                  className={`w-full px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
-                    localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
-                  }`}
-                  rows={3}
-                />
-              </div>
-
-              {/* Deal-breakers? */}
-              <div>
-                <label className="block text-sm font-medium text-stretchLimo mb-2">
-                  Any deal-breakers?
-                </label>
-                <textarea
-                  value={localDecision.framing?.dealbreakers || ''}
-                  onChange={(e) => handleFramingChange('dealbreakers', e.target.value)}
-                  placeholder="What's non-negotiable for you..."
-                  disabled={localDecision.resolved}
-                  className={`w-full px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
-                    localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
-                  }`}
-                  rows={3}
-                />
-              </div>
-
-              {/* Key factors? */}
-              <div>
-                <label className="block text-sm font-medium text-stretchLimo mb-2">
-                  Key factors?
-                </label>
-                <textarea
-                  value={localDecision.framing?.keyFactors || ''}
-                  onChange={(e) => handleFramingChange('keyFactors', e.target.value)}
-                  placeholder="Criteria you'll use to compare options..."
-                  disabled={localDecision.resolved}
-                  className={`w-full px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
-                    localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
-                  }`}
-                  rows={3}
-                />
-              </div>
-            </div>
-          )}
-        </div>
       </div>
 
       {/* Time Budget Modal */}
