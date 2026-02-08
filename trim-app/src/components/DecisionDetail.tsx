@@ -1396,22 +1396,85 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
               {/* Option Memo */}
               {showOptionMemos[option.id] && (
-                <textarea
-                  value={option.memo || ''}
-                  onChange={(e) => handleOptionMemoChange(option.id, e.target.value)}
-                  placeholder={
-                    currentMode === 'do_or_not' && index === 0
-                      ? 'Why should I do this?'
-                      : currentMode === 'do_or_not' && index === 1
-                      ? "Why shouldn't I do this?"
-                      : 'Add notes about this option...'
-                  }
-                  disabled={localDecision.resolved}
-                  className={`w-full mt-3 px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
-                    localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
-                  }`}
-                  rows={2}
-                />
+                <>
+                  {/* Pros / Cons Template (choose_best, no_clear_options only) */}
+                  {(currentMode === 'choose_best' || currentMode === 'no_clear_options') && prosConsEnabled[option.id] ? (
+                    <div className="mt-3 space-y-2">
+                      {/* Pros */}
+                      <div>
+                        <label className="flex items-center gap-1 text-xs font-semibold text-emerald-600 mb-1">
+                          <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-emerald-100 text-emerald-600 text-[10px] font-bold">+</span>
+                          Pros
+                        </label>
+                        <textarea
+                          value={option.pros || ''}
+                          onChange={(e) => handleOptionProsChange(option.id, e.target.value)}
+                          placeholder="What's good about this option..."
+                          disabled={localDecision.resolved}
+                          className={`w-full px-3 py-2 text-sm text-stretchLimo bg-emerald-50 border border-emerald-200 rounded-lg outline-none focus:ring-2 focus:ring-emerald-400 resize-none ${
+                            localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
+                          }`}
+                          rows={2}
+                        />
+                      </div>
+                      {/* Cons */}
+                      <div>
+                        <label className="flex items-center gap-1 text-xs font-semibold text-rose-500 mb-1">
+                          <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-rose-100 text-rose-500 text-[10px] font-bold">&minus;</span>
+                          Cons
+                        </label>
+                        <textarea
+                          value={option.cons || ''}
+                          onChange={(e) => handleOptionConsChange(option.id, e.target.value)}
+                          placeholder="What's not ideal about this option..."
+                          disabled={localDecision.resolved}
+                          className={`w-full px-3 py-2 text-sm text-stretchLimo bg-rose-50 border border-rose-200 rounded-lg outline-none focus:ring-2 focus:ring-rose-400 resize-none ${
+                            localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
+                          }`}
+                          rows={2}
+                        />
+                      </div>
+                      {/* Toggle back to free-form memo */}
+                      {!localDecision.resolved && (
+                        <button
+                          onClick={() => toggleProsCons(option.id)}
+                          className="text-xs text-micron hover:text-stretchLimo transition-colors"
+                        >
+                          Switch to free-form memo
+                        </button>
+                      )}
+                    </div>
+                  ) : (
+                    <div>
+                      <textarea
+                        value={option.memo || ''}
+                        onChange={(e) => handleOptionMemoChange(option.id, e.target.value)}
+                        placeholder={
+                          currentMode === 'do_or_not' && index === 0
+                            ? 'Why should I do this?'
+                            : currentMode === 'do_or_not' && index === 1
+                            ? "Why shouldn't I do this?"
+                            : 'Add notes about this option...'
+                        }
+                        disabled={localDecision.resolved}
+                        className={`w-full mt-3 px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                          localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
+                        }`}
+                        rows={2}
+                      />
+                      {/* Pros / Cons 추가 button - only for choose_best and no_clear_options */}
+                      {(currentMode === 'choose_best' || currentMode === 'no_clear_options') && !localDecision.resolved && (
+                        <button
+                          onClick={() => toggleProsCons(option.id)}
+                          className="mt-2 flex items-center gap-1 text-xs text-micron hover:text-stretchLimo transition-colors"
+                        >
+                          <Plus className="w-3 h-3" />
+                          <span>Pros / Cons 추가</span>
+                        </button>
+                      )}
+                    </div>
+                  )}
+                </>
               )}
             </div>
             );
