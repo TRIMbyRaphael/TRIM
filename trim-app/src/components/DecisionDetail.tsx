@@ -1072,7 +1072,10 @@ export default function DecisionDetail({ decision, decisions, categories, initia
           {longPressOptionId && (
             <div 
               className="fixed inset-0 z-30"
-              onClick={() => setLongPressOptionId(null)}
+              onClick={() => {
+                setLongPressOptionId(null);
+                deletePopupShownAtRef.current = null;
+              }}
             />
           )}
           {localDecision.options.map((option) => {
@@ -1193,6 +1196,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       onClick={() => {
                         handleDeleteOption(option.id);
                         setLongPressOptionId(null);
+                        deletePopupShownAtRef.current = null;
                       }}
                       className="w-full flex items-center gap-3 px-4 py-3 text-scarletSmile hover:bg-scarletSmile hover:bg-opacity-5 transition-colors text-sm font-medium select-none"
                     >
