@@ -132,6 +132,7 @@ function App() {
       ],
       order: maxOrder + 1,
       parentId, // Link to parent decision
+      mode: DEFAULT_DECISION_MODE,
     };
 
     setDecisions([...decisions, newSubDecision]);
