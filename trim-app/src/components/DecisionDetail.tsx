@@ -27,24 +27,29 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   useEffect(() => {
     setLocalDecision(decision);
     initialDecision.current = decision;
-    // Auto-expand decision memo for no_clear_options mode
-    if ((decision.mode || 'do_or_not') === 'no_clear_options') {
-      setShowDecisionMemo(true);
-    }
   }, [decision.id]);
-
-  // Auto-expand decision memo when mode changes to no_clear_options
-  useEffect(() => {
-    if ((localDecision.mode || 'do_or_not') === 'no_clear_options') {
-      setShowDecisionMemo(true);
-    }
-  }, [localDecision.mode]);
   const [showKebabMenu, setShowKebabMenu] = useState(false);
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
   const [showImportanceDropdown, setShowImportanceDropdown] = useState(false);
   const [showTimeBudgetModal, setShowTimeBudgetModal] = useState(false);
   const [showSubDecisions, setShowSubDecisions] = useState(true); // Expanded by default
-  const [showDecisionMemo, setShowDecisionMemo] = useState((decision.mode || 'do_or_not') === 'no_clear_options');
+  // Mode-specific memo expand state (each mode maintains its own state)
+  const [showDecisionMemoByMode, setShowDecisionMemoByMode] = useState<Record<DecisionMode, boolean>>({
+    'do_or_not': false,
+    'choose_best': false,
+    'no_clear_options': true, // Default expanded for no_clear_options
+  });
+  
+  // Get current memo state based on current mode
+  const currentMode = localDecision.mode || 'do_or_not';
+  const showDecisionMemo = showDecisionMemoByMode[currentMode];
+  
+  const toggleDecisionMemo = () => {
+    setShowDecisionMemoByMode(prev => ({
+      ...prev,
+      [currentMode]: !prev[currentMode],
+    }));
+  };
   const [showOptionMemos, setShowOptionMemos] = useState<{ [key: string]: boolean }>({});
   const [newOptionId, setNewOptionId] = useState<string | null>(null);
   const [showLeaveWarning, setShowLeaveWarning] = useState(false);
@@ -753,7 +758,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               <LinkIcon className={`w-5 h-5 ${(localDecision.links && localDecision.links.length > 0) ? 'text-stretchLimo' : 'text-micron'}`} />
             </button>
             <button
-              onClick={() => setShowDecisionMemo(!showDecisionMemo)}
+              onClick={toggleDecisionMemo}
               disabled={localDecision.resolved}
               className={`p-2 rounded-lg transition-all duration-200 ${
                 localDecision.resolved
