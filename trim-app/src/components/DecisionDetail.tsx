@@ -80,6 +80,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   const [linkSiteName, setLinkSiteName] = useState('');
   const [isLoadingPreview, setIsLoadingPreview] = useState(false);
   const [showRandomPickTooltip, setShowRandomPickTooltip] = useState(false);
+  const [showComparisonMatrix, setShowComparisonMatrix] = useState(false);
   const [draggedSubDecisionId, setDraggedSubDecisionId] = useState<string | null>(null);
   const [dragOverSubDecisionId, setDragOverSubDecisionId] = useState<string | null>(null);
   const [draggedOptionId, setDraggedOptionId] = useState<string | null>(null);
