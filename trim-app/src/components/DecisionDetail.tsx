@@ -684,32 +684,38 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     }
   };
 
+  // 드래그 모드 중 마우스 이동으로 대상 옵션 감지
+  const handleGlobalPointerMove = (e: React.PointerEvent) => {
+    if (!isDragMode || !draggedOptionId) return;
+    // 현재 마우스 위치의 요소에서 가장 가까운 옵션 찾기
+    const elements = document.elementsFromPoint(e.clientX, e.clientY);
+    for (const el of elements) {
+      const optionEl = (el as HTMLElement).closest('[data-option-id]');
+      if (optionEl) {
+        const targetId = optionEl.getAttribute('data-option-id');
+        if (targetId && targetId !== draggedOptionId) {
+          setDragOverOptionId(targetId);
+          return;
+        }
+      }
+    }
+    setDragOverOptionId(null);
+  };
+
   const handleOptionPointerUp = () => {
     // 타이머만 취소하고, 이미 표시된 팝업은 유지
     clearLongPressTimers();
     longPressStartPos.current = null;
     longPressingOptionId.current = null;
-    // longPressOptionId는 건드리지 않음 → 팝업이 떠 있으면 유지됨
   };
 
-  const handleOptionPointerCancel = () => {
-    clearLongPressTimers();
-    longPressStartPos.current = null;
-    longPressingOptionId.current = null;
-  };
-
-  // 드래그 모드에서의 터치/마우스 이동으로 reorder
-  const handleOptionDragMove = (_e: React.PointerEvent, targetOptionId: string) => {
-    if (!isDragMode || !draggedOptionId || draggedOptionId === targetOptionId) return;
-    setDragOverOptionId(targetOptionId);
-  };
-
-  const handleOptionDragPointerUp = (targetOptionId: string) => {
+  const handleGlobalPointerUp = () => {
     if (!isDragMode || !draggedOptionId) return;
 
-    if (draggedOptionId !== targetOptionId) {
+    // 드래그 오버 중인 옵션이 있으면 순서 변경
+    if (dragOverOptionId && draggedOptionId !== dragOverOptionId) {
       const draggedIndex = localDecision.options.findIndex(opt => opt.id === draggedOptionId);
-      const targetIndex = localDecision.options.findIndex(opt => opt.id === targetOptionId);
+      const targetIndex = localDecision.options.findIndex(opt => opt.id === dragOverOptionId);
 
       if (draggedIndex !== -1 && targetIndex !== -1) {
         const reordered = [...localDecision.options];
@@ -730,72 +736,18 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     longPressingOptionId.current = null;
   };
 
+  const handleOptionPointerCancel = () => {
+    clearLongPressTimers();
+    longPressStartPos.current = null;
+    longPressingOptionId.current = null;
+  };
+
   // 드래그 모드 외부 클릭으로 종료
   const exitDragMode = () => {
     setDraggedOptionId(null);
     setDragOverOptionId(null);
     setIsDragMode(false);
     setLongPressOptionId(null);
-  };
-
-  // HTML5 drag and drop은 드래그 모드에서만 활성화
-  const handleOptionDragStart = (e: React.DragEvent, optionId: string) => {
-    if (!isDragMode || localDecision.resolved) {
-      e.preventDefault();
-      return;
-    }
-    setDraggedOptionId(optionId);
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/plain', optionId);
-    if (e.currentTarget instanceof HTMLElement) {
-      e.currentTarget.style.opacity = '0.5';
-    }
-  };
-
-  const handleOptionDragEnd = (e: React.DragEvent) => {
-    setDraggedOptionId(null);
-    setDragOverOptionId(null);
-    setIsDragMode(false);
-    if (e.currentTarget instanceof HTMLElement) {
-      e.currentTarget.style.opacity = '1';
-    }
-  };
-
-  const handleOptionDragOver = (e: React.DragEvent, optionId: string) => {
-    if (!isDragMode || localDecision.resolved || draggedOptionId === optionId) return;
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
-    setDragOverOptionId(optionId);
-  };
-
-  const handleOptionDragLeave = () => {
-    setDragOverOptionId(null);
-  };
-
-  const handleOptionDrop = (e: React.DragEvent, targetOptionId: string) => {
-    e.preventDefault();
-    if (!isDragMode || localDecision.resolved || !draggedOptionId || draggedOptionId === targetOptionId) {
-      setDragOverOptionId(null);
-      return;
-    }
-
-    const draggedIndex = localDecision.options.findIndex(opt => opt.id === draggedOptionId);
-    const targetIndex = localDecision.options.findIndex(opt => opt.id === targetOptionId);
-
-    if (draggedIndex !== -1 && targetIndex !== -1) {
-      const reordered = [...localDecision.options];
-      const [removed] = reordered.splice(draggedIndex, 1);
-      reordered.splice(targetIndex, 0, removed);
-
-      setLocalDecision({
-        ...localDecision,
-        options: reordered,
-      });
-    }
-
-    setDraggedOptionId(null);
-    setDragOverOptionId(null);
-    setIsDragMode(false);
   };
 
   // Build breadcrumb path from root to current decision's parent
