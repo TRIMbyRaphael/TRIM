@@ -275,7 +275,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
           </div>
           <button
             onClick={() => setShowCategoryManagement(true)}
-            className="p-2 bg-white rounded-lg border border-stretchLimo300 hover:bg-stretchLimo50 transition-colors"
+            className="p-2 bg-cardBg rounded-lg shadow-sm hover:shadow-md hover:bg-cloudDancer/30 transition-all"
             title={t.manageCategoriesTitle}
           >
             <Settings className="w-5 h-5 text-stretchLimo" />
