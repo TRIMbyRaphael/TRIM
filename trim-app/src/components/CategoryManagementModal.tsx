@@ -194,7 +194,7 @@ export default function CategoryManagementModal({
 
   const handleDelete = (index: number) => {
     if (localCategories.length === 1) {
-      setWarningMessage('최소 1개의 카테고리가 필요합니다.');
+      setWarningMessage(t.needAtLeastOneCategory);
       setShowDeleteWarning(true);
       return;
     }
@@ -203,7 +203,7 @@ export default function CategoryManagementModal({
     const usageCount = getCategoryUsageCount(category);
     
     if (usageCount > 0) {
-      setWarningMessage(`"${category}" 카테고리를 사용하는 ${usageCount}개의 사안이 있습니다.`);
+      setWarningMessage(t.categoryInUse(category, usageCount));
       setShowDeleteWarning(true);
       return;
     }
@@ -217,7 +217,7 @@ export default function CategoryManagementModal({
     if (!trimmed) return;
     
     if (localCategories.includes(trimmed)) {
-      alert('이미 존재하는 카테고리명입니다.');
+      alert(t.categoryAlreadyExists);
       return;
     }
 
@@ -227,7 +227,7 @@ export default function CategoryManagementModal({
 
   const handleSave = () => {
     if (localCategories.length === 0) {
-      alert('최소 1개의 카테고리가 필요합니다.');
+      alert(t.needAtLeastOneCategory);
       return;
     }
     onSave(localCategories);
