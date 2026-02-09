@@ -22,46 +22,6 @@ interface DecisionDetailProps {
 export default function DecisionDetail({ decision, decisions, categories, initialSubDecisionCount: propInitialSubDecisionCount, onBack, onUpdate, onDelete, onCreateSubDecision, onSelectDecision, onReorderSubDecisions }: DecisionDetailProps) {
   const [localDecision, setLocalDecision] = useState<Decision>(decision);
   const timeData = useCountdown(localDecision.deadline); // Real-time countdown
-
-  // Sync localDecision when decision prop changes (e.g., navigating to sub-decision)
-  useEffect(() => {
-    setLocalDecision(decision);
-    initialDecision.current = decision;
-    // 모드별 옵션 ref 초기화
-    const srcMode = decision.mode || 'do_or_not';
-    optionsByModeRef.current = {
-      'do_or_not': initOptionsForMode('do_or_not', srcMode, decision.options),
-      'choose_best': initOptionsForMode('choose_best', srcMode, decision.options),
-      'no_clear_options': initOptionsForMode('no_clear_options', srcMode, decision.options),
-    };
-    // Auto-enable pros/cons for options that already have data
-    const autoEnabled: { [key: string]: boolean } = {};
-    decision.options.forEach(opt => {
-      if (opt.pros || opt.cons) {
-        autoEnabled[opt.id] = true;
-      }
-    });
-    setProsConsEnabled(autoEnabled);
-  }, [decision.id]);
-
-  // Reset framing textarea heights when decision changes and memo is shown
-  useEffect(() => {
-    if (!showDecisionMemo) return;
-    
-    // Reset framing textarea heights after DOM update
-    setTimeout(() => {
-      const framingFields: Array<'whatHappened' | 'goal' | 'constraints' | 'dealbreakers' | 'keyFactors'> = 
-        ['whatHappened', 'goal', 'constraints', 'dealbreakers', 'keyFactors'];
-      
-      framingFields.forEach((field) => {
-        const textarea = framingRefs.current[field];
-        if (textarea) {
-          textarea.style.height = 'auto';
-          textarea.style.height = `${textarea.scrollHeight}px`;
-        }
-      });
-    }, 0);
-  }, [decision.id, showDecisionMemo]);
   const [showKebabMenu, setShowKebabMenu] = useState(false);
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
   const [showImportanceDropdown, setShowImportanceDropdown] = useState(false);
