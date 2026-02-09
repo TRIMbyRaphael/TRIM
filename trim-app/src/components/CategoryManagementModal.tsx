@@ -302,7 +302,7 @@ export default function CategoryManagementModal({
               className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                 newCategoryName.trim()
                   ? 'bg-stretchLimo text-white hover:bg-opacity-90'
-                  : 'bg-gray-100 text-micron cursor-not-allowed'
+                  : 'bg-cloudDancer/50 text-micron cursor-not-allowed'
               }`}
             >
               <Plus className="w-4 h-4" />
@@ -314,7 +314,7 @@ export default function CategoryManagementModal({
           <div className="flex gap-3">
             <button
               onClick={onClose}
-              className="flex-1 bg-white text-stretchLimo border-2 border-gray-200 rounded-lg py-3 text-base font-bold hover:bg-gray-50 transition-colors"
+              className="flex-1 bg-white text-stretchLimo border border-stretchLimo/10 rounded-lg py-3 text-base font-bold hover:bg-cloudDancer/30 transition-colors"
             >
               {t.cancel}
             </button>
