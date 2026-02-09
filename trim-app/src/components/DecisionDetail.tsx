@@ -1135,7 +1135,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 e.target.style.height = 'auto';
                 e.target.style.height = `${e.target.scrollHeight}px`;
               }}
-              placeholder={t.titlePlaceholder}
+              placeholder={isMobile ? t.titlePlaceholder : '지금 무엇이 머릿속을 복잡하게 하고 있나요?'}
               disabled={localDecision.resolved}
               rows={1}
               className={`flex-1 text-xl font-medium text-black bg-transparent border-none outline-none placeholder-stretchLimo300 resize-none overflow-hidden mt-1 ${
