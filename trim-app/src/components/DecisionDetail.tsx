@@ -1464,9 +1464,9 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   isDragging
                     ? 'opacity-50'
                     : isDragOver
-                    ? 'bg-stretchLimo bg-opacity-5 border-2 border-stretchLimo border-dashed'
+                    ? 'bg-stretchLimo bg-opacity-5 border border-stretchLimo border-dashed'
                     : option.isSelected 
-                    ? 'bg-stretchLimo bg-opacity-10 border-2 border-stretchLimo' 
+                    ? 'bg-stretchLimo bg-opacity-10 border border-stretchLimo' 
                     : 'bg-white border border-stretchLimo300'
                 }`}
               >
