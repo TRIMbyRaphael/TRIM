@@ -29,12 +29,9 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
   const longPressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const deletePopupShownAtRef = useRef<number | null>(null);
 
-  // Level-based styling
+  // Level-based styling - 계층별 depth 표현
   const getBackgroundColor = () => {
-    if (level === 0) return '#FAFAFA';
-    if (level === 1) return '#FFFFFF';
-    if (level === 2) return '#F9F9F9';
-    return '#F5F5F5';
+    return '#FFFFFF'; // 모든 레벨 흰색 (cloudDancer 배경에서 떠 있는 느낌)
   };
 
   const getPadding = () => {
@@ -43,8 +40,14 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
   };
 
   const getBorderStyle = () => {
-    if (level === 0) return '2px solid #E5E5E5';
-    return '1px solid #E5E5E5';
+    if (level === 0) return '1px solid rgba(44, 44, 46, 0.20)'; // stretchLimo/20
+    return '1px solid rgba(44, 44, 46, 0.15)'; // stretchLimo/15
+  };
+
+  const getShadowClass = () => {
+    if (level === 0) return 'shadow-sm';
+    if (level === 1) return 'shadow-md';
+    return 'shadow-lg'; // Level 2+
   };
 
   const getIndentation = () => {
