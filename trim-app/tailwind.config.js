@@ -9,6 +9,8 @@ export default {
       colors: {
         // Pantone Cloud Dancer 11-4201 TCX - 따뜻한 오프화이트
         cloudDancer: '#F0EEE9',
+        // 카드/컨테이너용 따뜻한 화이트 (cloudDancer와 조화)
+        warmWhite: '#F7F6F3',
         // Pantone Stretch Limo 19-4005 TCX - 거의 블랙에 가까운 진한 차콜
         stretchLimo: '#1A1A1A',
         // Pantone Micron 20-0007 TPM - 중간 차콜 회색
