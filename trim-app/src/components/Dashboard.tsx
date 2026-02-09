@@ -239,7 +239,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
       {/* Header */}
       <header className="py-6 px-4 flex justify-center">
         <img 
-          src="/src/assets/logo-header.svg" 
+          src={logoHeader} 
           alt="TRIM" 
           className="h-8"
         />

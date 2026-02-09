@@ -1870,8 +1870,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               >
                 <img 
                   src={localDecision.options.some(opt => opt.isSelected) 
-                    ? "/src/assets/logo-button-active.svg" 
-                    : "/src/assets/logo-button-inactive.svg"
+                    ? logoButtonActive 
+                    : logoButtonInactive
                   } 
                   alt="TRIM" 
                   className="h-4"
