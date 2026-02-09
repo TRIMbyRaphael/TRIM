@@ -940,7 +940,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   return (
     <div className="min-h-screen bg-cloudDancer">
       {/* Header */}
-      <header className="sticky top-0 z-10 bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
+      <header className="sticky top-0 z-10 bg-white border-b border-stretchLimo200 px-4 py-3 flex items-center justify-between">
         {/* Breadcrumb Navigation */}
         <nav className="flex items-center gap-2 text-sm">
           <button 
@@ -969,7 +969,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
             <button
               onClick={() => !localDecision.resolved && setShowCategoryDropdown(!showCategoryDropdown)}
               disabled={localDecision.resolved}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors border border-gray-200 ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors border border-stretchLimo200 ${
                 localDecision.resolved 
                   ? 'opacity-50 cursor-not-allowed' 
                   : 'hover:bg-stretchLimo100'
@@ -980,7 +980,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
             </button>
 
             {showCategoryDropdown && (
-              <div className="absolute top-full mt-1 left-1/2 -translate-x-1/2 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden z-10">
+              <div className="absolute top-full mt-1 left-1/2 -translate-x-1/2 bg-white border border-stretchLimo200 rounded-lg shadow-lg overflow-hidden z-10">
                 {categories.map((category) => (
                   <button
                     key={category}
@@ -1005,7 +1005,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
           </button>
 
           {showKebabMenu && (
-            <div className="absolute top-full right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden z-10">
+            <div className="absolute top-full right-0 mt-1 bg-white border border-stretchLimo200 rounded-lg shadow-lg overflow-hidden z-10">
               <button
                 onClick={handleDelete}
                 className="block w-full px-6 py-2 text-left hover:bg-stretchLimo100 text-scarletSmile whitespace-nowrap"
@@ -1153,7 +1153,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     onChange={(e) => handleFramingChange('whatHappened', e.target.value)}
                     placeholder="What situation led to this decision..."
                     disabled={localDecision.resolved}
-                    className={`w-full px-3 py-2 text-sm text-stretchLimo bg-white border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                    className={`w-full px-3 py-2 text-sm text-stretchLimo bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
                       localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                     }`}
                     rows={2}
@@ -1170,7 +1170,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     onChange={(e) => handleFramingChange('goal', e.target.value)}
                     placeholder="What do I really want by making this decision..."
                     disabled={localDecision.resolved}
-                    className={`w-full px-3 py-2 text-sm text-stretchLimo bg-white border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                    className={`w-full px-3 py-2 text-sm text-stretchLimo bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
                       localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                     }`}
                     rows={2}
@@ -1188,7 +1188,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       onChange={(e) => handleFramingChange('constraints', e.target.value)}
                       placeholder="External constraints you can't change..."
                       disabled={localDecision.resolved}
-                      className={`w-full px-3 py-2 text-sm text-stretchLimo bg-white border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                      className={`w-full px-3 py-2 text-sm text-stretchLimo bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
                         localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                       }`}
                       rows={2}
@@ -1207,7 +1207,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       onChange={(e) => handleFramingChange('dealbreakers', e.target.value)}
                       placeholder="What's non-negotiable for you..."
                       disabled={localDecision.resolved}
-                      className={`w-full px-3 py-2 text-sm text-stretchLimo bg-white border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                      className={`w-full px-3 py-2 text-sm text-stretchLimo bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
                         localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                       }`}
                       rows={2}
@@ -1226,7 +1226,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       onChange={(e) => handleFramingChange('keyFactors', e.target.value)}
                       placeholder="Criteria you'll use to compare options..."
                       disabled={localDecision.resolved}
-                      className={`w-full px-3 py-2 text-sm text-stretchLimo bg-white border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                      className={`w-full px-3 py-2 text-sm text-stretchLimo bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
                         localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                       }`}
                       rows={2}
@@ -1360,7 +1360,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   onPointerDown={(e) => e.stopPropagation()}
                   onPointerUp={(e) => e.stopPropagation()}
                 >
-                  <div className="bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden min-w-[140px]">
+                  <div className="bg-white rounded-xl shadow-xl border border-stretchLimo200 overflow-hidden min-w-[140px]">
                     <button
                       onClick={() => {
                         handleDeleteOption(option.id);
@@ -1374,7 +1374,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     </button>
                   </div>
                   {/* 말풍선 꼬리 */}
-                  <div className="absolute -bottom-1.5 left-6 w-3 h-3 bg-white border-r border-b border-gray-200 transform rotate-45" />
+                  <div className="absolute -bottom-1.5 left-6 w-3 h-3 bg-white border-r border-b border-stretchLimo200 transform rotate-45" />
                 </div>
               )}
 
@@ -1472,7 +1472,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                           onChange={(e) => handleOptionProsChange(option.id, e.target.value)}
                           placeholder="What's good about this option..."
                           disabled={localDecision.resolved}
-                          className={`w-full px-3 py-2 text-sm text-stretchLimo bg-white border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                          className={`w-full px-3 py-2 text-sm text-stretchLimo bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
                             localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                           }`}
                           rows={2}
@@ -1518,7 +1518,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                             : 'Add notes about this option...'
                         }
                         disabled={localDecision.resolved}
-                        className={`w-full mt-3 px-3 py-2 text-sm text-stretchLimo bg-stretchLimo50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                        className={`w-full mt-3 px-3 py-2 text-sm text-stretchLimo bg-stretchLimo50 border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
                           localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                         }`}
                         rows={2}
@@ -1573,7 +1573,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
             {/* Comparison Matrix - Inline Expand */}
             {showComparisonMatrix && (
-              <div className="mt-2 bg-white rounded-lg p-4 border border-gray-200">
+              <div className="mt-2 bg-white rounded-lg p-4 border border-stretchLimo200">
                 <h4 className="text-xs font-semibold text-micron uppercase tracking-wide mb-3">
                   Comparison Matrix
                 </h4>
@@ -1621,7 +1621,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                                 value={criteria.ratings[opt.id] || ''}
                                 onChange={(e) => handleCriteriaRatingChange(criteria.id, opt.id, e.target.value)}
                                 placeholder="—"
-                                className="w-full text-sm text-center text-stretchLimo bg-stretchLimo50 border border-gray-200 rounded px-1.5 py-1 outline-none focus:ring-1 focus:ring-stretchLimo focus:bg-white placeholder-gray-300"
+                                className="w-full text-sm text-center text-stretchLimo bg-stretchLimo50 border border-stretchLimo200 rounded px-1.5 py-1 outline-none focus:ring-1 focus:ring-stretchLimo focus:bg-white placeholder-gray-300"
                               />
                             </td>
                           ))}
@@ -1655,7 +1655,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 className={`rounded-lg py-3 px-16 text-base font-bold transition-colors ${
                   localDecision.options.some(opt => opt.isSelected)
                     ? 'bg-stretchLimo text-white hover:bg-opacity-90'
-                    : 'bg-stretchLimo100 text-micron cursor-not-allowed border-2 border-gray-200'
+                    : 'bg-stretchLimo100 text-micron cursor-not-allowed border-2 border-stretchLimo200'
                 }`}
               >
                 <img 
@@ -1686,7 +1686,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   
                   {/* Tooltip */}
                   {showRandomPickTooltip && (
-                    <div className="absolute bottom-full right-0 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg whitespace-nowrap z-10">
+                    <div className="absolute bottom-full right-0 mb-2 px-3 py-2 bg-stretchLimo text-white text-xs rounded-lg whitespace-nowrap z-10">
                       Stop thinking when impact differences are minimal
                       <div className="absolute top-full right-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
                     </div>
@@ -1731,7 +1731,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
             {/* Importance Dropdown */}
             {showImportanceDropdown && (
-              <div className="absolute top-full left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-10">
+              <div className="absolute top-full left-0 right-0 bg-white border-t border-stretchLimo200 shadow-lg z-10">
                 {(Object.keys(IMPORTANCE_LEVELS) as ImportanceLevel[]).map((level) => (
                   <button
                     key={level}
@@ -1804,7 +1804,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         </div>
 
         {/* Divider after Settings Section */}
-        <div className="border-t border-gray-200 my-6"></div>
+        <div className="border-t border-stretchLimo200 my-6"></div>
 
         {/* Sub-Decisions Section */}
         <div className="bg-white rounded-lg">
@@ -1896,7 +1896,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 disabled={localDecision.resolved}
                 className={`w-full flex items-center justify-center gap-2 p-3 border-2 border-dashed rounded-lg transition-colors text-sm ${
                   localDecision.resolved
-                    ? 'border-gray-200 text-micron opacity-50 cursor-not-allowed'
+                    ? 'border-stretchLimo200 text-micron opacity-50 cursor-not-allowed'
                     : 'border-gray-300 text-micron hover:border-stretchLimo hover:bg-stretchLimo50 hover:text-stretchLimo'
                 }`}
               >
@@ -1954,7 +1954,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
       )}
 
       {/* Decision Mode Switch - Fixed Bottom Bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-10 bg-white border-t border-gray-200 shadow-[0_-2px_10px_rgba(0,0,0,0.06)]">
+      <div className="fixed bottom-0 left-0 right-0 z-10 bg-white border-t border-stretchLimo200 shadow-[0_-2px_10px_rgba(0,0,0,0.06)]">
         <div className="max-w-2xl mx-auto flex">
           {DECISION_MODES.map((modeOption) => {
             const currentMode = localDecision.mode || DEFAULT_DECISION_MODE;
@@ -2008,7 +2008,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     onChange={(e) => handleUrlChange(e.target.value)}
                     placeholder="https://example.com"
                     autoFocus
-                    className="w-full px-3 py-2 text-sm text-stretchLimo bg-white border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo"
+                    className="w-full px-3 py-2 text-sm text-stretchLimo bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo"
                   />
                 </div>
 
@@ -2065,7 +2065,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     value={linkTitle}
                     onChange={(e) => setLinkTitle(e.target.value)}
                     placeholder="Custom title"
-                    className="w-full px-3 py-2 text-sm text-stretchLimo bg-white border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo"
+                    className="w-full px-3 py-2 text-sm text-stretchLimo bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo"
                   />
                 </div>
               </div>
@@ -2073,7 +2073,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               <div className="flex gap-3">
                 <button
                   onClick={() => setShowLinkModal(false)}
-                  className="flex-1 bg-white text-stretchLimo border-2 border-gray-200 rounded-lg py-3 text-base font-bold hover:bg-stretchLimo50 transition-colors"
+                  className="flex-1 bg-white text-stretchLimo border-2 border-stretchLimo200 rounded-lg py-3 text-base font-bold hover:bg-stretchLimo50 transition-colors"
                 >
                   Cancel
                 </button>
