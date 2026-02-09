@@ -254,7 +254,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
               className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
                 selectedCategory === 'All'
                   ? 'bg-stretchLimo text-white'
-                  : 'bg-white text-stretchLimo border border-stretchLimo300 hover:bg-stretchLimo50'
+                  : 'bg-warmWhite text-stretchLimo border border-stretchLimo300 hover:bg-stretchLimo50'
               }`}
             >
               {t.all}
@@ -266,7 +266,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
                 className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
                   selectedCategory === category
                     ? 'bg-stretchLimo text-white'
-                    : 'bg-white text-stretchLimo border border-stretchLimo300 hover:bg-stretchLimo50'
+                    : 'bg-warmWhite text-stretchLimo border border-stretchLimo300 hover:bg-stretchLimo50'
                 }`}
               >
                 {category}
@@ -275,7 +275,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
           </div>
           <button
             onClick={() => setShowCategoryManagement(true)}
-            className="p-2 bg-white rounded-lg border border-stretchLimo300 hover:bg-stretchLimo50 transition-colors"
+            className="p-2 bg-warmWhite rounded-lg border border-stretchLimo300 hover:bg-stretchLimo50 transition-colors"
             title={t.manageCategoriesTitle}
           >
             <Settings className="w-5 h-5 text-stretchLimo" />
@@ -344,7 +344,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
                 {/* Pending Decision Button */}
                 <button
                   onClick={onCreateDecision}
-                  className="w-full bg-white rounded-lg p-4 mb-3 flex items-center gap-3 border border-stretchLimo300 hover:bg-stretchLimo50 transition-colors shadow-sm"
+                  className="w-full bg-warmWhite rounded-lg p-4 mb-3 flex items-center gap-3 border border-stretchLimo300 hover:bg-stretchLimo50 transition-colors shadow-sm"
                 >
                   <Plus className="w-5 h-5 text-stretchLimo" />
                   <span className="text-base font-medium text-stretchLimo">
