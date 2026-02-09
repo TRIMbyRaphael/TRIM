@@ -1021,7 +1021,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
       <div className="max-w-2xl mx-auto px-4 pt-3 pb-24">
         {/* Title Input */}
         <div className="mb-3">
-          <div className="flex items-start gap-2">
+          <div className="flex items-start gap-2 pt-1">
             <textarea
               ref={titleInputRef}
               value={localDecision.title}
