@@ -96,6 +96,7 @@ const ko: Translations = {
   minute: '분',
   hour: '시간',
   day: '일',
+  days: '일',
 
   // Decision Chunking
   decisionChunking: '결정 쪼개기',

@@ -75,7 +75,7 @@ export default function DecisionChunking({
                     {t.chunkingInfoDesc1Before}{t.chunkingInfoDesc1Bold}{t.chunkingInfoDesc1After}
                   </p>
                   <p className="text-sm text-stretchLimo leading-relaxed">
-                    {t.chunkingInfoDesc2}
+                    {t.chunkingInfoDesc2Before}{t.chunkingInfoDesc2After}
                   </p>
                 </div>
               </div>
