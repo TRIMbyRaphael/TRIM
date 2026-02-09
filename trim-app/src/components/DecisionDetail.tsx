@@ -144,19 +144,24 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     }
   }, []);
 
-  // Auto-resize framing textareas on mount
+  // Auto-resize framing textareas on mount and when showDecisionMemo becomes true
   useEffect(() => {
-    const framingFields: Array<'whatHappened' | 'goal' | 'constraints' | 'dealbreakers' | 'keyFactors'> = 
-      ['whatHappened', 'goal', 'constraints', 'dealbreakers', 'keyFactors'];
+    if (!showDecisionMemo) return;
     
-    framingFields.forEach((field) => {
-      const textarea = framingRefs.current[field];
-      if (textarea) {
-        textarea.style.height = 'auto';
-        textarea.style.height = `${textarea.scrollHeight}px`;
-      }
-    });
-  }, []);
+    // Use setTimeout to ensure DOM is updated
+    setTimeout(() => {
+      const framingFields: Array<'whatHappened' | 'goal' | 'constraints' | 'dealbreakers' | 'keyFactors'> = 
+        ['whatHappened', 'goal', 'constraints', 'dealbreakers', 'keyFactors'];
+      
+      framingFields.forEach((field) => {
+        const textarea = framingRefs.current[field];
+        if (textarea) {
+          textarea.style.height = 'auto';
+          textarea.style.height = `${textarea.scrollHeight}px`;
+        }
+      });
+    }, 0);
+  }, [showDecisionMemo, decision.id]);
 
   // Auto-resize title textarea when content changes
   useEffect(() => {
