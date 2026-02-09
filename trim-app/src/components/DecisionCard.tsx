@@ -283,7 +283,7 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
                   onClick={(e) => handleOptionSelect(option.id, e)}
                   disabled={decision.resolved}
                   className={`w-full flex items-start justify-start gap-2 text-sm rounded p-1 transition-colors text-left ${
-                    decision.resolved ? 'cursor-not-allowed' : 'text-stretchLimo hover:bg-stretchLimo50'
+                    decision.resolved ? 'cursor-not-allowed' : 'hover:bg-stretchLimo50'
                   }`}
                 >
                   <div className={`w-4 h-4 rounded-full border-2 border-micron flex-shrink-0 flex items-center justify-center mt-0.5 ${
