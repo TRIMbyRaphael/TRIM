@@ -269,7 +269,6 @@ export default function CategoryManagementModal({
                   <SortableCategoryItem
                     key={category}
                     category={category}
-                    index={index}
                     isEditing={editingIndex === index}
                     editingValue={editingValue}
                     onEdit={() => handleEdit(index)}
