@@ -2012,7 +2012,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               <div className="absolute -bottom-1.5 left-[46.5%] w-3 h-3 bg-stretchLimo transform rotate-45" />
               <div>
                 <h4 className="text-xs font-semibold whitespace-nowrap">
-                  Break a complex decision into smaller ones.
+                  {t.chunkingInfoTitle}
                 </h4>
                 {!showChunkingInfoExpanded && (
                   <button
@@ -2023,7 +2023,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     }}
                     className="text-[11px] text-white/70 hover:text-white underline mt-1"
                   >
-                    ...more
+                    {t.chunkingMore}
                   </button>
                 )}
               </div>
