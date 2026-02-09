@@ -20,7 +20,7 @@ interface DecisionCardProps {
 
 export default function DecisionCard({ decision, onClick, onDelete, onUpdateDecision, onTrim, onReopen, level = 0, children, hasChildren = false, isExpanded = true, onToggleExpand }: DecisionCardProps) {
   const timeData = useCountdown(decision.deadline);
-  const title = decision.title || '(제목 없음)';
+  const title = decision.title || t.untitledCard;
   
   const hasSelectedOption = decision.options.some(opt => opt.isSelected);
   const canTrim = hasSelectedOption && !decision.resolved;
