@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Plus, ChevronDown, ChevronRight, Info } from 'lucide-react';
 import { Decision, IMPORTANCE_LEVELS } from '../types/decision';
 import { formatTimeRemaining } from '../utils/timeFormat';
+import { t } from '../i18n';
 
 interface DecisionChunkingProps {
   parentDecision: Decision;
@@ -43,8 +44,8 @@ export default function DecisionChunking({
           className="flex items-center gap-2 flex-1"
         >
           <h3 className="text-base font-medium text-stretchLimo">
-            Decision Chunking{' '}
-            <span className="text-sm font-normal text-micron lowercase">(optional)</span>
+            {t.decisionChunking}{' '}
+            <span className="text-sm font-normal text-micron lowercase">{t.chunkingOptional}</span>
           </h3>
           {isExpanded ? (
             <ChevronDown className="w-4 h-4 text-micron" />
