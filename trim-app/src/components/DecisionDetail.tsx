@@ -1665,10 +1665,10 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               <span>Compare Options</span>
             </button>
 
-            {/* Comparison Matrix - Inline Expand */}
+            {/* Comparison Matrix - Inline Expand - Micron 배경 */}
             {showComparisonMatrix && (
-              <div className="mt-2 bg-white rounded-lg p-4 border border-stretchLimo200">
-                <h4 className="text-xs font-semibold text-micron uppercase tracking-wide mb-3">
+              <div className="mt-2 bg-micron rounded-lg p-4">
+                <h4 className="text-xs font-semibold text-cloudDancer uppercase tracking-wide mb-3">
                   Comparison Matrix
                 </h4>
 
@@ -1676,22 +1676,22 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   <table className="w-full text-sm border-collapse">
                     <thead>
                       <tr>
-                        <th className="text-left text-xs font-medium text-micron pb-2 pr-2 min-w-[90px]">
+                        <th className="text-left text-xs font-medium text-white/70 pb-2 pr-2 min-w-[90px]">
                           Options
                         </th>
                         {(localDecision.comparisonMatrix || []).map((criteria) => (
-                          <th key={criteria.id} className="text-center text-xs font-medium text-micron pb-2 px-1.5 min-w-[72px] group/criteriaHead">
+                          <th key={criteria.id} className="text-center text-xs font-medium text-white/70 pb-2 px-1.5 min-w-[72px] group/criteriaHead">
                             <div className="flex items-center justify-center gap-1">
                               <input
                                 type="text"
                                 value={criteria.name}
                                 onChange={(e) => handleCriteriaNameChange(criteria.id, e.target.value)}
                                 placeholder="Criteria"
-                                className="w-full text-xs text-center font-medium text-stretchLimo bg-transparent border-none outline-none placeholder-stretchLimo300"
+                                className="w-full text-xs text-center font-medium text-white bg-transparent border-none outline-none placeholder-white/50"
                               />
                               <button
                                 onClick={() => handleDeleteCriteria(criteria.id)}
-                                className="p-0.5 text-micron hover:text-scarletSmile transition-colors flex-shrink-0 opacity-0 group-hover/criteriaHead:opacity-100"
+                                className="p-0.5 text-white/50 hover:text-scarletSmile transition-colors flex-shrink-0 opacity-0 group-hover/criteriaHead:opacity-100"
                               >
                                 <Trash2 className="w-3 h-3" />
                               </button>
@@ -1702,8 +1702,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     </thead>
                     <tbody>
                       {localDecision.options.map((opt, idx) => (
-                        <tr key={opt.id} className="border-t border-stretchLimo100">
-                          <td className="py-1.5 pr-2 text-sm font-medium text-stretchLimo">
+                        <tr key={opt.id} className="border-t border-white/20">
+                          <td className="py-1.5 pr-2 text-sm font-medium text-cloudDancer">
                             <span className="truncate block max-w-[120px]">
                               {getOptionLabel(opt, idx)}
                             </span>
@@ -1715,7 +1715,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                                 value={criteria.ratings[opt.id] || ''}
                                 onChange={(e) => handleCriteriaRatingChange(criteria.id, opt.id, e.target.value)}
                                 placeholder="—"
-                                className="w-full text-sm text-center text-stretchLimo bg-stretchLimo50 border border-stretchLimo200 rounded px-1.5 py-1 outline-none focus:ring-1 focus:ring-stretchLimo focus:bg-white placeholder-stretchLimo300"
+                                className="w-full text-sm text-center text-white bg-white/10 border border-white/20 rounded px-1.5 py-1 outline-none focus:ring-1 focus:ring-white/50 focus:bg-white/20 placeholder-white/50"
                               />
                             </td>
                           ))}
@@ -1728,7 +1728,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 {/* Add Criteria */}
                 <button
                   onClick={handleAddCriteria}
-                  className="mt-2 flex items-center gap-1 text-xs text-micron hover:text-stretchLimo transition-colors"
+                  className="mt-2 flex items-center gap-1 text-xs text-white/50 hover:text-white transition-colors"
                 >
                   <Plus className="w-3 h-3" />
                   <span>Add Criteria</span>
