@@ -101,7 +101,7 @@ function App() {
     const newDecision: Decision = {
       id: baseId.toString(),
       title: '',
-      category: categories[0] || 'Life',
+      category: categories[0] || t.defaultCategory,
       importance: 'MEDIUM',
       timeBudget,
       deadline: deadline.toISOString(),
@@ -130,7 +130,7 @@ function App() {
 
     // Find parent decision to inherit category
     const parentDecision = decisions.find(d => d.id === parentId);
-    const parentCategory = parentDecision?.category || 'Life';
+    const parentCategory = parentDecision?.category || t.defaultCategory;
 
     // Get existing sub-decisions for this parent to determine order
     const existingSubDecisions = decisions.filter(d => d.parentId === parentId);
@@ -150,12 +150,12 @@ function App() {
       options: [
         {
           id: `${baseId}-1`,
-          title: 'Do',
+          title: t.doOption,
           isSelected: false,
         },
         {
           id: `${baseId}-2`,
-          title: 'Do Not',
+          title: t.doNotOption,
           isSelected: false,
         },
       ],
