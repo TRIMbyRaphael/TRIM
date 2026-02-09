@@ -1019,6 +1019,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
           )}
         </div>
       </header>
+      </div>
 
       {/* Main Content */}
       <div className="max-w-2xl mx-auto px-4 py-6 pb-24">
