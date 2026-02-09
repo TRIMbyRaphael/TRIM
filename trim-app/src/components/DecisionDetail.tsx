@@ -1310,7 +1310,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       onClick={() => toggleFramingCollapse('constraints')}
                       className="w-full flex items-center justify-between mb-0.5 group/q"
                     >
-                      <span className="text-sm font-medium text-cloudDancer">Any fixed constraints?</span>
+                      <span className="text-sm font-medium text-cloudDancer">{t.framingConstraints}</span>
                       {collapsedFramingQuestions['constraints'] ? (
                         <ChevronRight className="w-4 h-4 text-cloudDancer/60 group-hover/q:text-cloudDancer transition-colors" />
                       ) : (
@@ -1327,7 +1327,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                           e.target.style.height = 'auto';
                           e.target.style.height = `${e.target.scrollHeight}px`;
                         }}
-                        placeholder="External constraints you can't change..."
+                        placeholder={t.framingConstraintsPlaceholder}
                         disabled={localDecision.resolved}
                         className={`w-full px-3 py-1.5 text-sm text-white placeholder:text-xs placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none overflow-hidden ${
                           localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
