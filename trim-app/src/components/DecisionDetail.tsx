@@ -2119,7 +2119,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                         <div className="flex items-center gap-2 text-xs">
                           {subDecision.resolved ? (
                             <span className="font-bold text-black">
-                              Resolved
+                              {t.resolvedText}
                             </span>
                           ) : (
                             <>
@@ -2131,7 +2131,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                                 {subTimeData.text}
                               </span>
                               <span className="text-micron">·</span>
-                              <span className="text-micron">{IMPORTANCE_LEVELS[subDecision.importance].label}</span>
+                              <span className="text-micron">{t.importanceLevels[subDecision.importance]}</span>
                             </>
                           )}
                         </div>
