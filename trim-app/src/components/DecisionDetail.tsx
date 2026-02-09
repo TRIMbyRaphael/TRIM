@@ -1876,15 +1876,15 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   >
                     <Shuffle className="w-5 h-5 text-stretchLimo" />
                     <div className="flex flex-col items-center leading-tight">
-                      <span className="text-[5px] text-stretchLimo">Random</span>
-                      <span className="text-[5px] text-stretchLimo">Pick</span>
+                      <span className="text-[5px] text-stretchLimo">{t.randomPickLine1}</span>
+                      <span className="text-[5px] text-stretchLimo">{t.randomPickLine2}</span>
                     </div>
                   </button>
                   
                   {/* Tooltip */}
                   {showRandomPickTooltip && (
                     <div className="absolute bottom-full right-0 mb-2 px-3 py-2 bg-stretchLimo text-white text-xs rounded-lg whitespace-nowrap z-10">
-                      Stop thinking when impact differences are minimal
+                      {t.randomPickTooltip}
                       <div className="absolute top-full right-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-stretchLimo"></div>
                     </div>
                   )}
