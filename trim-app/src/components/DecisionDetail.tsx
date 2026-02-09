@@ -1654,7 +1654,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 disabled={!localDecision.options.some(opt => opt.isSelected)}
                 className={`rounded-lg py-3 px-16 text-base font-bold transition-colors ${
                   localDecision.options.some(opt => opt.isSelected)
-                    ? 'bg-micron text-white hover:bg-opacity-90'
+                    ? 'bg-stretchLimo text-white hover:bg-opacity-90'
                     : 'bg-stretchLimo100 text-stretchLimo300 cursor-not-allowed border-2 border-stretchLimo200'
                 }`}
               >
@@ -1698,7 +1698,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
             /* Re-open Button - When resolved */
             <button
               onClick={handleReopen}
-              className="rounded-lg py-4 px-8 text-lg font-bold transition-colors bg-micron text-white hover:bg-opacity-90"
+              className="rounded-lg py-4 px-8 text-lg font-bold transition-colors bg-stretchLimo text-white hover:bg-opacity-90"
             >
               Re-open
             </button>
@@ -1971,7 +1971,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               >
                 {/* Active indicator bar */}
                 {isActive && (
-                  <div className="absolute top-0 left-2 right-2 h-[3px] bg-micron rounded-b-full" />
+                  <div className="absolute top-0 left-2 right-2 h-[3px] bg-stretchLimo rounded-b-full" />
                 )}
                 {modeOption.label}
               </button>
@@ -2082,7 +2082,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   disabled={!linkUrl.trim()}
                   className={`flex-1 rounded-lg py-3 text-base font-bold transition-colors ${
                     linkUrl.trim()
-                      ? 'bg-micron text-white hover:bg-opacity-90'
+                      ? 'bg-stretchLimo text-white hover:bg-opacity-90'
                       : 'bg-stretchLimo100 text-micron cursor-not-allowed'
                   }`}
                 >
