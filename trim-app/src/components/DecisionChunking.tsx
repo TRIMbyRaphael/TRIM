@@ -36,7 +36,7 @@ export default function DecisionChunking({
   }, [showChunkingInfo]);
 
   return (
-    <div className="bg-cardBg rounded-lg mt-6 shadow-sm">
+    <div className="bg-cardBg rounded-lg mt-6 shadow border border-stretchLimo/[0.06]">
       {/* Section Header */}
       <div className="flex items-center justify-between px-4 py-3 hover:bg-cloudDancer/30 transition-colors">
         <button
@@ -66,7 +66,7 @@ export default function DecisionChunking({
               <Info className="w-4 h-4 text-stretchLimo/60 hover:text-stretchLimo cursor-pointer" />
             </button>
             {showChunkingInfo && (
-              <div className="absolute right-0 top-full mt-2 bg-cardBg shadow-lg max-w-xs rounded-lg p-4 z-50">
+              <div className="absolute right-0 top-full mt-2 bg-cardBg shadow-lg border border-stretchLimo/[0.06] max-w-xs rounded-lg p-4 z-50">
                 <h4 className="text-base font-semibold text-black mb-2">
                   {t.chunkingInfoTitle}
                 </h4>
