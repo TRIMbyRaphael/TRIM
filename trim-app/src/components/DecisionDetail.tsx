@@ -940,7 +940,10 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   return (
     <div className="min-h-screen bg-cloudDancer">
       {/* Header */}
-      <header className="sticky top-0 z-10 bg-stretchLimo border-b border-white/20 px-4 py-3 flex items-center justify-between">
+      <div className="sticky top-0 z-10">
+        {/* Mobile Status Bar Area */}
+        <div className="bg-white" style={{ paddingTop: 'env(safe-area-inset-top)' }} />
+        <header className="bg-stretchLimo border-b border-white/20 px-4 py-3 flex items-center justify-between">
         {/* Breadcrumb Navigation */}
         <nav className="flex items-center gap-2 text-sm">
           <button 
