@@ -1946,7 +1946,10 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                           ? `${IMPORTANCE_LEVELS[level].minutes}${t.minute}`
                           : IMPORTANCE_LEVELS[level].minutes < 1440
                           ? `${Math.floor(IMPORTANCE_LEVELS[level].minutes / 60)}${t.hour}`
-                          : `${Math.floor(IMPORTANCE_LEVELS[level].minutes / 1440)}${t.day}`}
+                          : (() => {
+                              const days = Math.floor(IMPORTANCE_LEVELS[level].minutes / 1440);
+                              return `${days}${days === 1 ? t.day : t.days}`;
+                            })()}
                       </span>
                     </div>
                   </button>
