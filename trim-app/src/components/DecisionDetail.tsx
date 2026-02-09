@@ -1919,7 +1919,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         </div>
 
         {/* Settings Section */}
-        <div className="bg-cardBg rounded-lg divide-y divide-cloudDancer shadow-md -mt-2">
+        <div className="bg-cardBg rounded-lg divide-y divide-stretchLimo/[0.06] shadow-md border border-stretchLimo/[0.06] -mt-2">
           {/* Importance */}
           <div className="relative">
             <button
@@ -2024,7 +2024,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         <div className="border-t border-cloudDancer my-6"></div>
 
         {/* Sub-Decisions Section */}
-        <div className="relative bg-cardBg rounded-lg shadow-md">
+        <div className="relative bg-cardBg rounded-lg shadow-md border border-stretchLimo/[0.06]">
           {/* Info Popover - 섹션 컨테이너 기준 배치 */}
           {showChunkingInfo && (
             <div ref={chunkingInfoRef} className="absolute left-4 right-4 bottom-full -mb-1 bg-stretchLimo text-white rounded-lg px-4 py-3 z-50 shadow-lg">
