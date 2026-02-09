@@ -79,7 +79,7 @@ function SortableCategoryItem({
             value={editingValue}
             onChange={(e) => onEditingValueChange(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && onSaveEdit()}
-            className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-stretchLimo"
+            className="flex-1 px-2 py-1 text-sm border border-stretchLimo/10 rounded focus:outline-none focus:ring-2 focus:ring-stretchLimo"
             autoFocus
           />
           <button
@@ -90,7 +90,7 @@ function SortableCategoryItem({
           </button>
           <button
             onClick={onCancelEdit}
-            className="p-1 hover:bg-gray-200 rounded"
+            className="p-1 hover:bg-cloudDancer/50 rounded"
           >
             <X className="w-4 h-4 text-micron" />
           </button>
