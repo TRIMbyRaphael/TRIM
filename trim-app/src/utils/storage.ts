@@ -48,7 +48,7 @@ export function loadCategories(): string[] {
     const saved = localStorage.getItem(CATEGORIES_STORAGE_KEY);
     if (!saved) {
       console.log('📭 No categories in Local Storage, using defaults');
-      return DEFAULT_CATEGORIES;
+      return t.defaultCategories;
     }
     
     const parsed = JSON.parse(saved);
@@ -56,9 +56,9 @@ export function loadCategories(): string[] {
       console.log('📦 Loaded categories from Local Storage:', parsed);
       return parsed;
     }
-    return DEFAULT_CATEGORIES;
+    return t.defaultCategories;
   } catch (error) {
     console.error('❌ Failed to load categories:', error);
-    return DEFAULT_CATEGORIES;
+    return t.defaultCategories;
   }
 }
