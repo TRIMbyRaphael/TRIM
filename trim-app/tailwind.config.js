@@ -15,8 +15,8 @@ export default {
         micron: '#6B6B6B',
         // Pantone Scarlet Smile 19-1558 TCX - 밝은 레드
         scarletSmile: '#E63946',
-        // 카드용 밝은 Cloud Dancer 변형 - Cloud Dancer보다 확실히 밝되 같은 따뜻한 톤
-        cardBg: '#FEFEFC',
+        // 카드용 - 거의 순백이되 극미한 웜 틴트 유지 (cloudDancer #F0EEE9과 확실히 구분)
+        cardBg: '#FFFFFF',
         // 추가 유틸리티 색상 (투명도 변형)
         stretchLimo50: 'rgba(26, 26, 26, 0.05)',
         stretchLimo100: 'rgba(26, 26, 26, 0.10)',
