@@ -90,6 +90,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   const deletePopupShownAtRef = useRef<number | null>(null); // 삭제 팝업이 표시된 시간
   const titleInputRef = useRef<HTMLTextAreaElement>(null);
   const optionRefs = useRef<{ [key: string]: HTMLTextAreaElement | null }>({});
+  const framingRefs = useRef<{ [key: string]: HTMLTextAreaElement | null }>({});
   const initialDecision = useRef<Decision>(decision);
   const pendingNavigationRef = useRef<(() => void) | null>(null);
   // Use prop-based initial sub-decision count to persist across remounts
