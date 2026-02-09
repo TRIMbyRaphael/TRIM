@@ -218,7 +218,7 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
             className="text-left"
             style={hasChildren ? { marginLeft: '-6px' } : undefined}
           >
-            <h3 className={`text-base font-medium inline-block ${decision.resolved ? 'line-through text-micron' : 'text-stretchLimo'}`}>
+            <h3 className={`text-base font-medium inline-block ${decision.resolved ? 'line-through text-micron' : 'text-black'}`}>
               {title}
               {/* ...more button (Collapsed state with children) - Inline with title, appears at end of last line */}
               {hasChildren && !isExpanded && onToggleExpand && (
@@ -227,7 +227,7 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
                     e.stopPropagation();
                     onToggleExpand();
                   }}
-                  className="text-xs text-micron hover:text-stretchLimo transition-colors cursor-pointer ml-1"
+                  className="text-xs text-stretchLimo600 hover:text-stretchLimo transition-colors cursor-pointer ml-1"
                 >
                   ...more
                 </span>
