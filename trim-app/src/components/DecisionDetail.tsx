@@ -969,14 +969,14 @@ export default function DecisionDetail({ decision, decisions, categories, initia
             <button
               onClick={() => !localDecision.resolved && setShowCategoryDropdown(!showCategoryDropdown)}
               disabled={localDecision.resolved}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors border border-stretchLimo200 bg-stretchLimo ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors border border-stretchLimo200 ${
                 localDecision.resolved 
                   ? 'opacity-50 cursor-not-allowed' 
-                  : 'hover:bg-opacity-90'
+                  : 'hover:bg-stretchLimo100'
               }`}
             >
-              <span className="font-medium text-white">{localDecision.category}</span>
-              <ChevronDown className="w-4 h-4 text-white" />
+              <span className="font-medium text-stretchLimo">{localDecision.category}</span>
+              <ChevronDown className="w-4 h-4 text-stretchLimo" />
             </button>
 
             {showCategoryDropdown && (
