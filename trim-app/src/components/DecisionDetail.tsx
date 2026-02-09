@@ -940,7 +940,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   return (
     <div className="min-h-screen bg-cloudDancer">
       {/* Header */}
-      <header className="sticky top-0 z-10 bg-white border-b border-stretchLimo200 px-4 py-3 flex items-center justify-between">
+      <header className="sticky top-0 z-10 bg-white border-b border-stretchLimo300 px-4 py-3 flex items-center justify-between">
         {/* Breadcrumb Navigation */}
         <nav className="flex items-center gap-2 text-sm">
           <button 
