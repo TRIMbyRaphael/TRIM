@@ -1787,7 +1787,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                                 type="text"
                                 value={criteria.name}
                                 onChange={(e) => handleCriteriaNameChange(criteria.id, e.target.value)}
-                                placeholder="Criteria"
+                                placeholder={t.criteria}
                                 className="w-full text-xs text-center font-medium text-white bg-transparent border-none outline-none placeholder-white/50"
                               />
                               <button
