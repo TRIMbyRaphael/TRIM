@@ -20,6 +20,8 @@ export default {
         stretchLimo100: 'rgba(44, 44, 46, 0.10)',
         stretchLimo200: 'rgba(44, 44, 46, 0.20)',
         stretchLimo300: 'rgba(44, 44, 46, 0.30)',
+        stretchLimo400: 'rgba(44, 44, 46, 0.40)',
+        stretchLimo500: 'rgba(44, 44, 46, 0.50)',
         stretchLimo600: 'rgba(44, 44, 46, 0.60)',
         stretchLimo700: 'rgba(44, 44, 46, 0.70)',
       },
