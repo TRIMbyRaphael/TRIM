@@ -173,7 +173,7 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
             </div>
 
             {/* Divider */}
-            <div className="border-t border-gray-200 my-6" />
+            <div className="border-t border-stretchLimo/10 my-6" />
 
             {/* Deadline Section */}
             <div className="mb-6">
