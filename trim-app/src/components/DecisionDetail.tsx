@@ -2133,7 +2133,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                         isDragging
                           ? 'opacity-50 bg-stretchLimo100'
                           : isDragOver
-                          ? 'bg-stretchLimo bg-opacity-10 border-2 border-stretchLimo border-dashed'
+                          ? 'bg-stretchLimo bg-opacity-10 border border-stretchLimo border-dashed'
                           : 'bg-cloudDancer border border-stretchLimo200 hover:bg-stretchLimo50'
                       } ${localDecision.resolved ? 'cursor-default' : 'cursor-pointer'}`}
                     >
