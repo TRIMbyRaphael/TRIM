@@ -1920,7 +1920,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-base text-stretchLimo">
-                  {IMPORTANCE_LEVELS[localDecision.importance].label}
+                  {t.importanceLevels[localDecision.importance]}
                 </span>
                 <ChevronDown className="w-4 h-4 text-stretchLimo" />
               </div>
