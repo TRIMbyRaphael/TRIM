@@ -1686,7 +1686,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                             <textarea
                               value={option.cons || ''}
                               onChange={(e) => handleOptionConsChange(option.id, e.target.value)}
-                              placeholder="What's not ideal about this option..."
+                              placeholder={t.consPlaceholder}
                               disabled={localDecision.resolved}
                               className={`w-full px-3 py-2 text-sm text-white placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none ${
                                 localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
@@ -1700,7 +1700,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                               onClick={() => toggleProsCons(option.id)}
                               className="text-xs text-white/50 hover:text-white transition-colors"
                             >
-                              Switch to free-form memo
+                              {t.switchToFreeFormMemo}
                             </button>
                           )}
                         </div>
