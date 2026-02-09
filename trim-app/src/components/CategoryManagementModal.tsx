@@ -29,7 +29,6 @@ interface CategoryManagementModalProps {
 // Sortable Category Item Component
 function SortableCategoryItem({
   category,
-  index,
   isEditing,
   editingValue,
   onEdit,
@@ -40,7 +39,6 @@ function SortableCategoryItem({
   canDelete,
 }: {
   category: string;
-  index: number;
   isEditing: boolean;
   editingValue: string;
   onEdit: () => void;

@@ -229,9 +229,6 @@ function App() {
   };
 
   const handleReorderSubDecisions = (parentId: string, reorderedSubDecisionIds: string[]) => {
-    // Get all sub-decisions for this parent
-    const subDecisions = decisions.filter(d => d.parentId === parentId);
-    
     // Create a map of new order values
     const orderMap: Record<string, number> = {};
     reorderedSubDecisionIds.forEach((id, index) => {
