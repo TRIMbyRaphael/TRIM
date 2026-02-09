@@ -1084,7 +1084,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
             </button>
 
             {showCategoryDropdown && (
-              <div className="absolute top-full mt-1 left-1/2 -translate-x-1/2 bg-cardBg rounded-lg shadow-lg overflow-hidden z-10">
+              <div className="absolute top-full mt-1 left-1/2 -translate-x-1/2 bg-cardBg rounded-lg shadow-lg border border-stretchLimo/[0.06] overflow-hidden z-10">
                 {categories.map((category) => (
                   <button
                     key={category}
@@ -1109,7 +1109,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
           </button>
 
           {showKebabMenu && (
-            <div className="absolute top-full right-0 mt-1 bg-cardBg rounded-lg shadow-lg overflow-hidden z-10">
+            <div className="absolute top-full right-0 mt-1 bg-cardBg rounded-lg shadow-lg border border-stretchLimo/[0.06] overflow-hidden z-10">
               <button
                 onClick={handleDelete}
                 className="block w-full px-6 py-2 text-left hover:bg-stretchLimo100 text-scarletSmile whitespace-nowrap"
@@ -1943,7 +1943,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
             {/* Importance Dropdown */}
             {showImportanceDropdown && (
-              <div className="absolute top-full left-0 right-0 bg-cardBg shadow-lg z-10">
+              <div className="absolute top-full left-0 right-0 bg-cardBg shadow-lg border border-stretchLimo/[0.06] z-10">
                 {(Object.keys(IMPORTANCE_LEVELS) as ImportanceLevel[]).map((level) => (
                   <button
                     key={level}
@@ -2205,7 +2205,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
           {/* Modal */}
           <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
-            <div className="bg-cardBg rounded-2xl w-full max-w-sm p-6 shadow-lg">
+            <div className="bg-cardBg rounded-2xl w-full max-w-sm p-6 shadow-lg border border-stretchLimo/[0.06]">
               <h3 className="text-lg font-bold text-stretchLimo mb-3">
                 {t.decisionTitleRequired}
               </h3>
