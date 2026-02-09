@@ -1219,7 +1219,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     }}
                     placeholder="What situation led to this decision..."
                     disabled={localDecision.resolved}
-                    className={`w-full px-3 py-1.5 text-sm text-white placeholder:text-xs placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none overflow-hidden ${
+                    className={`w-full px-3 py-1.5 text-sm text-cloudDancer placeholder:text-xs placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none overflow-hidden ${
                       localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                     }`}
                     rows={1}
@@ -1242,7 +1242,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     }}
                     placeholder="What do I really want by making this decision..."
                     disabled={localDecision.resolved}
-                    className={`w-full px-3 py-1.5 text-sm text-white placeholder:text-xs placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none overflow-hidden ${
+                    className={`w-full px-3 py-1.5 text-sm text-cloudDancer placeholder:text-xs placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none overflow-hidden ${
                       localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                     }`}
                     rows={1}
@@ -1266,7 +1266,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       }}
                       placeholder="External constraints you can't change..."
                       disabled={localDecision.resolved}
-                      className={`w-full px-3 py-1.5 text-sm text-white placeholder:text-xs placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none overflow-hidden ${
+                      className={`w-full px-3 py-1.5 text-sm text-cloudDancer placeholder:text-xs placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none overflow-hidden ${
                         localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                       }`}
                       rows={1}
@@ -1291,7 +1291,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       }}
                       placeholder="What's non-negotiable for you..."
                       disabled={localDecision.resolved}
-                      className={`w-full px-3 py-1.5 text-sm text-white placeholder:text-xs placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none overflow-hidden ${
+                      className={`w-full px-3 py-1.5 text-sm text-cloudDancer placeholder:text-xs placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none overflow-hidden ${
                         localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                       }`}
                       rows={1}
@@ -1316,7 +1316,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       }}
                       placeholder="Criteria you'll use to compare options..."
                       disabled={localDecision.resolved}
-                      className={`w-full px-3 py-1.5 text-sm text-white placeholder:text-xs placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none overflow-hidden ${
+                      className={`w-full px-3 py-1.5 text-sm text-cloudDancer placeholder:text-xs placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none overflow-hidden ${
                         localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                       }`}
                       rows={1}
