@@ -335,7 +335,7 @@ export default function CategoryManagementModal({
           <div className="fixed inset-0 flex items-center justify-center z-[60] p-4">
             <div className="bg-white rounded-2xl w-full max-w-sm p-6">
               <h3 className="text-lg font-bold text-stretchLimo mb-3">
-                삭제할 수 없습니다
+                {t.cannotDelete}
               </h3>
               <p className="text-base text-micron mb-6">
                 {warningMessage}
@@ -344,7 +344,7 @@ export default function CategoryManagementModal({
                 onClick={() => setShowDeleteWarning(false)}
                 className="w-full bg-stretchLimo text-white rounded-lg py-3 text-base font-bold hover:bg-opacity-90 transition-colors"
               >
-                확인
+                {t.ok}
               </button>
             </div>
           </div>
