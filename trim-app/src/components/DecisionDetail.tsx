@@ -1787,7 +1787,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       ? 'text-scarletSmile' 
                       : timeData.isUrgent 
                         ? 'text-scarletSmile animate-pulse' 
-                        : 'text-stretchLimo'
+                        : 'text-stretchLimo700'
                   }`}
                 >
                   {timeData.isOverdue && '-'}
@@ -1798,7 +1798,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   {!timeData.isOverdue && ' left'}
                 </span>
               )}
-              <ChevronRight className="w-4 h-4 text-micron" />
+              <ChevronRight className="w-4 h-4 text-stretchLimo600" />
             </div>
           </button>
         </div>
