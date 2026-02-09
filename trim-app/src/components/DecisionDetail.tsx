@@ -1103,7 +1103,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 onClick={handleDelete}
                 className="block w-full px-6 py-2 text-left hover:bg-stretchLimo100 text-scarletSmile whitespace-nowrap"
               >
-                Delete
+                {t.delete}
               </button>
             </div>
           )}
@@ -1124,7 +1124,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 e.target.style.height = 'auto';
                 e.target.style.height = `${e.target.scrollHeight}px`;
               }}
-              placeholder="What's cluttering your mind?"
+              placeholder={t.titlePlaceholder}
               disabled={localDecision.resolved}
               rows={1}
               className={`flex-1 text-xl font-medium text-black bg-transparent border-none outline-none placeholder-stretchLimo300 resize-none overflow-hidden mt-1 ${
