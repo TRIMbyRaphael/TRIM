@@ -1044,7 +1044,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   return (
     <div className="min-h-screen bg-cloudDancer">
       {/* Header */}
-      <header className="sticky top-0 z-10 bg-cardBg shadow-md px-4 py-3 flex items-center justify-between">
+      <header className="sticky top-0 z-10 bg-cardBg shadow-md border-b border-stretchLimo/[0.06] px-4 py-3 flex items-center justify-between">
         {/* Breadcrumb Navigation */}
         <nav className="flex items-center gap-2 text-sm">
           <button 
@@ -1426,7 +1426,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         </div>
 
         {/* Decision Container Box */}
-        <div className={`bg-cardBg rounded-xl mb-6 shadow-sm ${
+        <div className={`bg-cardBg rounded-xl mb-6 shadow border border-stretchLimo/[0.06] ${
           (currentMode === 'choose_best' || currentMode === 'no_clear_options') ? 'pt-4 px-4 pb-4' : 'p-6'
         }`}>
           {/* Options List */}
@@ -1467,7 +1467,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     ? 'bg-stretchLimo bg-opacity-5 border border-stretchLimo border-dashed'
                     : option.isSelected 
                     ? 'bg-stretchLimo bg-opacity-10 border border-stretchLimo' 
-                    : 'bg-cardBg shadow-sm'
+                    : 'bg-cardBg shadow border border-stretchLimo/[0.06]'
                 }`}
               >
               {/* Option Header */}
@@ -1752,7 +1752,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
             <button
               onClick={handleAddOption}
               disabled={localDecision.resolved}
-              className={`w-full bg-cardBg rounded-lg p-4 flex items-center gap-3 transition-shadow text-micron shadow-sm ${
+              className={`w-full bg-cardBg rounded-lg p-4 flex items-center gap-3 transition-shadow text-micron shadow border border-stretchLimo/[0.06] ${
                 localDecision.resolved ? 'opacity-50 cursor-not-allowed' : 'hover:bg-cloudDancer/30 hover:shadow-md'
               }`}
             >
