@@ -96,8 +96,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     const ts = Date.now();
     if (mode === 'do_or_not') {
       return [
-        { id: `${ts}-do-1`, title: 'Do', isSelected: false },
-        { id: `${ts}-do-2`, title: 'Do Not', isSelected: false },
+        { id: `${ts}-do-1`, title: t.doOption, isSelected: false },
+        { id: `${ts}-do-2`, title: t.doNotOption, isSelected: false },
       ];
     }
     if (mode === 'no_clear_options') {
@@ -539,7 +539,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
   const handleOptionFocus = (optionId: string, currentTitle: string) => {
     // 기본 프리셋 텍스트면 빈칸으로 만들기 (do_or_not 모드에서만)
-    if (currentMode === 'do_or_not' && (currentTitle === 'Do' || currentTitle === 'Do Not')) {
+    if (currentMode === 'do_or_not' && (currentTitle === t.doOption || currentTitle === t.doNotOption)) {
       setLocalDecision({
         ...localDecision,
         options: localDecision.options.map((opt) =>
