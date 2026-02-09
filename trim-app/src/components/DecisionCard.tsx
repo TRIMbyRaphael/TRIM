@@ -313,7 +313,7 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
                         <div className="flex items-start gap-2 p-2">
                           {/* Thumbnail */}
                           {link.image && (
-                            <div className="w-12 h-12 flex-shrink-0 rounded overflow-hidden bg-gray-200">
+                            <div className="w-12 h-12 flex-shrink-0 rounded overflow-hidden bg-stretchLimo200">
                               <img 
                                 src={link.image} 
                                 alt="" 
@@ -369,7 +369,7 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
                 className={`w-full py-2 rounded-lg text-sm font-bold transition-colors ${
                   canTrim
                     ? 'bg-stretchLimo text-white hover:bg-opacity-90'
-                    : 'bg-gray-100 text-micron cursor-not-allowed border-2 border-stretchLimo200'
+                    : 'bg-stretchLimo100 text-micron cursor-not-allowed border-2 border-stretchLimo200'
                 }`}
               >
                 <img 
