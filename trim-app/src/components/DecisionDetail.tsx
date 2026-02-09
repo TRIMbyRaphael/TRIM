@@ -1073,7 +1073,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
             </button>
 
             {showCategoryDropdown && (
-              <div className="absolute top-full mt-1 left-1/2 -translate-x-1/2 bg-white border border-stretchLimo200 rounded-lg shadow-lg overflow-hidden z-10">
+              <div className="absolute top-full mt-1 left-1/2 -translate-x-1/2 bg-warmWhite border border-stretchLimo200 rounded-lg shadow-lg overflow-hidden z-10">
                 {categories.map((category) => (
                   <button
                     key={category}
@@ -1098,7 +1098,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
           </button>
 
           {showKebabMenu && (
-            <div className="absolute top-full right-0 mt-1 bg-white border border-stretchLimo200 rounded-lg shadow-lg overflow-hidden z-10">
+            <div className="absolute top-full right-0 mt-1 bg-warmWhite border border-stretchLimo200 rounded-lg shadow-lg overflow-hidden z-10">
               <button
                 onClick={handleDelete}
                 className="block w-full px-6 py-2 text-left hover:bg-stretchLimo100 text-scarletSmile whitespace-nowrap"
@@ -1415,7 +1415,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         </div>
 
         {/* Decision Container Box */}
-        <div className={`bg-white border border-stretchLimo300 rounded-xl mb-6 ${
+        <div className={`bg-warmWhite border border-stretchLimo300 rounded-xl mb-6 ${
           (currentMode === 'choose_best' || currentMode === 'no_clear_options') ? 'pt-4 px-4 pb-4' : 'p-6'
         }`}>
           {/* Options List */}
@@ -1456,7 +1456,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     ? 'bg-stretchLimo bg-opacity-5 border-2 border-stretchLimo border-dashed'
                     : option.isSelected 
                     ? 'bg-stretchLimo bg-opacity-10 border-2 border-stretchLimo' 
-                    : 'bg-white border border-stretchLimo300'
+                    : 'bg-warmWhite border border-stretchLimo300'
                 }`}
               >
               {/* Option Header */}
@@ -1741,7 +1741,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
             <button
               onClick={handleAddOption}
               disabled={localDecision.resolved}
-              className={`w-full bg-white rounded-lg p-4 flex items-center gap-3 transition-colors text-micron border border-stretchLimo300 shadow-sm ${
+              className={`w-full bg-warmWhite rounded-lg p-4 flex items-center gap-3 transition-colors text-micron border border-stretchLimo300 shadow-sm ${
                 localDecision.resolved ? 'opacity-50 cursor-not-allowed' : 'hover:bg-stretchLimo50'
               }`}
             >
