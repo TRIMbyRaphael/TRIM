@@ -1498,8 +1498,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     onBlur={() => handleOptionBlur(option.id, option.title)}
                     placeholder={
                       currentMode === 'choose_best'
-                        ? `Option ${String.fromCharCode(65 + index)}` // A, B, C, ...
-                        : 'Option'
+                        ? `${t.option} ${String.fromCharCode(65 + index)}` // A, B, C, ...
+                        : t.option
                     }
                     rows={1}
                     disabled={localDecision.resolved}
