@@ -1920,9 +1920,9 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   <Info className="w-4 h-4 text-stretchLimo/60 hover:text-stretchLimo cursor-pointer" />
                 </button>
                 {showChunkingInfo && (
-                  <div className="absolute left-0 bottom-full mb-2 bg-white border border-stretchLimo/20 shadow-lg max-w-lg rounded-lg p-4 z-50">
+                  <div className="absolute left-0 bottom-full mb-2 bg-white border border-stretchLimo/20 shadow-lg max-w-xl rounded-lg p-4 z-50">
                     <div className="flex items-start gap-2">
-                      <h4 className="text-base font-semibold text-black flex-1">
+                      <h4 className="text-sm font-semibold text-black flex-1 whitespace-nowrap">
                         Break a complex decision into smaller ones.
                       </h4>
                       {!showChunkingInfoExpanded && (
@@ -1932,7 +1932,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                             e.stopPropagation();
                             setShowChunkingInfoExpanded(true);
                           }}
-                          className="text-sm text-stretchLimo hover:text-stretchLimo/80 underline flex-shrink-0"
+                          className="text-xs text-stretchLimo hover:text-stretchLimo/80 underline flex-shrink-0"
                         >
                           ...more
                         </button>
@@ -1940,10 +1940,10 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     </div>
                     {showChunkingInfoExpanded && (
                       <div className="mt-2 space-y-2">
-                        <p className="text-sm text-stretchLimo leading-relaxed">
+                        <p className="text-xs text-stretchLimo leading-relaxed">
                           Sometimes a decision feels overwhelming because it contains multiple prior decisions you haven't resolved yet.
                         </p>
-                        <p className="text-sm text-stretchLimo leading-relaxed">
+                        <p className="text-xs text-stretchLimo leading-relaxed">
                           Instead of treating it as one problem, break it into chunks and resolve them step by step.
                         </p>
                       </div>
