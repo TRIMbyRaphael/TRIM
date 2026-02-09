@@ -2269,7 +2269,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
           {/* Modal */}
           <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
-            <div className="bg-cardBg rounded-2xl w-full max-w-md p-6 shadow-lg">
+            <div className="bg-cardBg rounded-2xl w-full max-w-md p-6 shadow-lg border border-stretchLimo/[0.06]">
               <h3 className="text-lg font-bold text-stretchLimo mb-4">
                 {editingLinkId ? t.editLink : t.addLink}
               </h3>
