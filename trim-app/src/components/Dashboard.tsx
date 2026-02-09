@@ -296,7 +296,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
               >
                 <div className="flex items-center gap-2">
                   <h2 className="text-lg font-bold text-scarletSmile">OVERDUE</h2>
-                  <span className="text-sm text-micron">{overdueDecisions.length}</span>
+                  <span className="text-sm text-stretchLimo">{overdueDecisions.length}</span>
                   {expandedSections.overdue ? (
                     <ChevronDown className="w-5 h-5 text-scarletSmile" />
                   ) : (
@@ -328,8 +328,8 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
               className="w-full flex items-center justify-between mb-3 hover:opacity-70 transition-opacity"
             >
               <div className="flex items-center gap-2">
-                <h2 className="text-lg font-bold text-stretchLimo">ACTIVE</h2>
-                <span className="text-sm text-micron">{activeDecisions.length}</span>
+                <h2 className="text-lg font-bold text-black">ACTIVE</h2>
+                <span className="text-sm text-stretchLimo">{activeDecisions.length}</span>
                 {expandedSections.active ? (
                   <ChevronDown className="w-5 h-5 text-stretchLimo" />
                 ) : (
