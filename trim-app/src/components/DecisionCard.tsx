@@ -227,7 +227,7 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
                     e.stopPropagation();
                     onToggleExpand();
                   }}
-                  className="text-xs text-stretchLimo600 hover:text-stretchLimo transition-colors cursor-pointer ml-1"
+                  className="text-xs text-stretchLimo hover:text-stretchLimo transition-colors cursor-pointer ml-1"
                 >
                   ...more
                 </span>
@@ -395,7 +395,7 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
             className="w-full flex items-center justify-center gap-2 py-1.5 mt-2 hover:opacity-70 transition-opacity group/collapse"
           >
             <div className="flex-1 h-px bg-stretchLimo200" />
-            <ChevronUp className="w-4 h-4 text-stretchLimo600 group-hover/collapse:text-stretchLimo transition-colors" />
+            <ChevronUp className="w-4 h-4 text-stretchLimo group-hover/collapse:text-stretchLimo transition-colors" />
             <div className="flex-1 h-px bg-stretchLimo200" />
           </button>
         )}
