@@ -158,7 +158,7 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
 
                 {/* Minutes */}
                 <div className="flex flex-col items-center">
-                  <label className="text-sm text-micron mb-2">M</label>
+                  <label className="text-sm text-micron mb-2">{t.minuteLabel}</label>
                   <select
                     value={minutes}
                     onChange={(e) => handleTimeBudgetChange(days, hours, Number(e.target.value))}
@@ -177,7 +177,7 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
 
             {/* Deadline Section */}
             <div className="mb-6">
-              <h3 className="text-lg font-bold text-stretchLimo mb-4">Deadline</h3>
+              <h3 className="text-lg font-bold text-stretchLimo mb-4">{t.deadline}</h3>
 
               {/* Month Selector */}
               <div className="flex items-center justify-between mb-4">
@@ -200,7 +200,7 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
 
               {/* Calendar Grid */}
               <div className="grid grid-cols-7 gap-2 mb-4">
-                {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map((day) => (
+                {t.weekDays.map((day) => (
                   <div key={day} className="text-center text-xs text-micron font-medium py-2">
                     {day}
                   </div>
