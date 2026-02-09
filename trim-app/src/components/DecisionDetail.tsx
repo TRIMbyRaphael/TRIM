@@ -2224,7 +2224,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 {isActive && (
                   <div className="absolute top-0 left-0 right-0 h-[3px] bg-cloudDancer" />
                 )}
-                {modeOption.label}
+                {t.decisionModes[modeOption.value] || modeOption.label}
               </button>
             );
           })}
