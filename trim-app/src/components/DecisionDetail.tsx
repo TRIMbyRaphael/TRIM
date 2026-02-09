@@ -1897,9 +1897,11 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         <div className="relative bg-white rounded-lg border border-stretchLimo400 shadow-md">
           {/* Info Popover - 섹션 컨테이너 기준 배치 */}
           {showChunkingInfo && (
-            <div ref={chunkingInfoRef} className="absolute left-4 right-4 bottom-full mb-2 bg-white border border-stretchLimo/20 shadow-lg rounded-lg p-4 z-50">
+            <div ref={chunkingInfoRef} className="absolute left-4 right-4 bottom-full mb-2 bg-stretchLimo text-white rounded-lg px-4 py-3 z-50 shadow-lg">
+              {/* 말풍선 꼬리 */}
+              <div className="absolute -bottom-1.5 left-6 w-3 h-3 bg-stretchLimo transform rotate-45" />
               <div>
-                <h4 className="text-xs font-semibold text-black whitespace-nowrap">
+                <h4 className="text-xs font-semibold whitespace-nowrap">
                   Break a complex decision into smaller ones.
                 </h4>
                 {!showChunkingInfoExpanded && (
@@ -1909,7 +1911,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       e.stopPropagation();
                       setShowChunkingInfoExpanded(true);
                     }}
-                    className="text-[11px] text-stretchLimo hover:text-stretchLimo/80 underline mt-1"
+                    className="text-[11px] text-white/70 hover:text-white underline mt-1"
                   >
                     ...more
                   </button>
@@ -1917,10 +1919,10 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               </div>
               {showChunkingInfoExpanded && (
                 <div className="mt-2 space-y-2">
-                  <p className="text-xs text-stretchLimo leading-relaxed">
-                    Sometimes a decision feels overwhelming because it contains multiple prior decisions you haven't resolved yet.
+                  <p className="text-[11px] text-white/80 leading-relaxed">
+                    Sometimes a decision feels overwhelming because it contains <span className="font-bold text-white">multiple prior decisions</span> you haven't resolved yet.
                   </p>
-                  <p className="text-xs text-stretchLimo leading-relaxed">
+                  <p className="text-[11px] text-white/80 leading-relaxed">
                     Instead of treating it as one problem, break it into chunks and resolve them step by step.
                   </p>
                 </div>
