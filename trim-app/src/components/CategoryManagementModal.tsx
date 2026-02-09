@@ -250,7 +250,7 @@ export default function CategoryManagementModal({
             <h3 className="text-lg font-bold text-stretchLimo">{t.manageCategoriesTitle}</h3>
             <button
               onClick={onClose}
-              className="p-1 hover:bg-gray-100 rounded transition-colors"
+              className="p-1 hover:bg-cloudDancer/50 rounded transition-colors"
             >
               <X className="w-5 h-5 text-micron" />
             </button>
