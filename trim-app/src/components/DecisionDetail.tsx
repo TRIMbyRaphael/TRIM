@@ -1767,8 +1767,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
             }`}
           >
             <div className="flex items-center gap-2">
-              <Clock className="w-5 h-5 text-micron" />
-              <span className="text-base text-stretchLimo">Time Budget</span>
+              <Clock className="w-5 h-5 text-stretchLimo600" />
+              <span className="text-base text-black">Time Budget</span>
             </div>
             <div className="flex items-center gap-2">
               {localDecision.resolved && localDecision.resolvedAt ? (
