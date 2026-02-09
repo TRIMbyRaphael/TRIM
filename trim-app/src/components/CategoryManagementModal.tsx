@@ -176,7 +176,7 @@ export default function CategoryManagementModal({
     if (!trimmed) return;
     
     if (localCategories.includes(trimmed) && localCategories[editingIndex] !== trimmed) {
-      alert('이미 존재하는 카테고리명입니다.');
+      alert(t.categoryAlreadyExists);
       return;
     }
 

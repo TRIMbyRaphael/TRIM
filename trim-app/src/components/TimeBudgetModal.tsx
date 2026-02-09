@@ -304,7 +304,7 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
                 onClick={handleTimeConfirm}
                 className="w-full bg-stretchLimo text-white rounded-lg py-3 text-base font-bold hover:bg-opacity-90 transition-colors"
               >
-                Done
+                {t.done}
               </button>
             </div>
           </div>
