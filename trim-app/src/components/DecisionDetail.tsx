@@ -1073,7 +1073,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
             <button
               onClick={() => !localDecision.resolved && setShowCategoryDropdown(!showCategoryDropdown)}
               disabled={localDecision.resolved}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all shadow-sm ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all shadow-sm border border-stretchLimo/20 ${
                 localDecision.resolved 
                   ? 'opacity-50 cursor-not-allowed' 
                   : 'hover:bg-cloudDancer/30 hover:shadow-md'
