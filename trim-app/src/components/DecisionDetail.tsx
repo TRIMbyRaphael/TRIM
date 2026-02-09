@@ -1954,7 +1954,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
       )}
 
       {/* Decision Mode Switch - Fixed Bottom Bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-10 bg-white border-t border-stretchLimo200 shadow-[0_-2px_10px_rgba(0,0,0,0.06)]">
+      <div className="fixed bottom-0 left-0 right-0 z-10 bg-white border-t border-stretchLimo300 shadow-[0_-2px_10px_rgba(0,0,0,0.06)]">
         <div className="max-w-2xl mx-auto flex">
           {DECISION_MODES.map((modeOption) => {
             const currentMode = localDecision.mode || DEFAULT_DECISION_MODE;
