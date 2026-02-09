@@ -1464,7 +1464,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       {/* Pros */}
                       <div>
                         <label className="flex items-center gap-1 text-xs font-semibold text-stretchLimo mb-1">
-                          <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-white border border-gray-300 text-stretchLimo text-[10px] font-bold">+</span>
+                          <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-white border border-stretchLimo300 text-stretchLimo text-[10px] font-bold">+</span>
                           Pros
                         </label>
                         <textarea
@@ -1489,7 +1489,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                           onChange={(e) => handleOptionConsChange(option.id, e.target.value)}
                           placeholder="What's not ideal about this option..."
                           disabled={localDecision.resolved}
-                          className={`w-full px-3 py-2 text-sm text-stretchLimo bg-stretchLimo100 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                          className={`w-full px-3 py-2 text-sm text-stretchLimo bg-stretchLimo100 border border-stretchLimo300 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
                             localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                           }`}
                           rows={2}
@@ -1608,7 +1608,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     </thead>
                     <tbody>
                       {localDecision.options.map((opt, idx) => (
-                        <tr key={opt.id} className="border-t border-gray-100">
+                        <tr key={opt.id} className="border-t border-stretchLimo100">
                           <td className="py-1.5 pr-2 text-sm font-medium text-stretchLimo">
                             <span className="truncate block max-w-[120px]">
                               {getOptionLabel(opt, idx)}
@@ -1897,7 +1897,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 className={`w-full flex items-center justify-center gap-2 p-3 border-2 border-dashed rounded-lg transition-colors text-sm ${
                   localDecision.resolved
                     ? 'border-stretchLimo200 text-micron opacity-50 cursor-not-allowed'
-                    : 'border-gray-300 text-micron hover:border-stretchLimo hover:bg-stretchLimo50 hover:text-stretchLimo'
+                    : 'border-stretchLimo300 text-micron hover:border-stretchLimo hover:bg-stretchLimo50 hover:text-stretchLimo'
                 }`}
               >
                 <Plus className="w-4 h-4" />
