@@ -45,8 +45,8 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
   };
 
   const getShadowClass = () => {
-    if (level === 0) return 'shadow-md';
-    if (level === 1) return 'shadow-lg';
+    if (level === 0) return 'shadow-sm hover:shadow-md transition-shadow';
+    if (level === 1) return 'shadow-md';
     return 'shadow-lg'; // Level 2+
   };
 
