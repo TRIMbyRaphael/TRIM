@@ -257,7 +257,7 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
                       ? 'text-scarletSmile' 
                       : timeData.isUrgent 
                         ? 'text-scarletSmile animate-pulse' 
-                        : 'text-stretchLimo700'
+                        : 'text-stretchLimo'
                   }`}
                 >
                   {/* 초를 제외한 부분 */}
