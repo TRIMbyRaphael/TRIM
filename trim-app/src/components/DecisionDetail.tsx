@@ -1687,7 +1687,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                                 value={criteria.name}
                                 onChange={(e) => handleCriteriaNameChange(criteria.id, e.target.value)}
                                 placeholder="Criteria"
-                                className="w-full text-xs text-center font-medium text-cloudDancer bg-transparent border-none outline-none placeholder-white/50"
+                                className="w-full text-xs text-center font-medium text-stretchLimo bg-cloudDancer border-none outline-none placeholder-micron rounded"
                               />
                               <button
                                 onClick={() => handleDeleteCriteria(criteria.id)}
@@ -1715,7 +1715,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                                 value={criteria.ratings[opt.id] || ''}
                                 onChange={(e) => handleCriteriaRatingChange(criteria.id, opt.id, e.target.value)}
                                 placeholder="—"
-                                className="w-full text-sm text-center text-cloudDancer bg-white/10 border border-white/20 rounded px-1.5 py-1 outline-none focus:ring-1 focus:ring-white/50 focus:bg-white/20 placeholder-white/50"
+                                className="w-full text-sm text-center text-stretchLimo bg-cloudDancer border border-white/20 rounded px-1.5 py-1 outline-none focus:ring-1 focus:ring-white/50 focus:bg-white placeholder-micron"
                               />
                             </td>
                           ))}
