@@ -1654,7 +1654,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 disabled={!localDecision.options.some(opt => opt.isSelected)}
                 className={`rounded-lg py-3 px-16 text-base font-bold transition-colors ${
                   localDecision.options.some(opt => opt.isSelected)
-                    ? 'bg-stretchLimo text-white hover:bg-opacity-90'
+                    ? 'bg-micron text-white hover:bg-opacity-90'
                     : 'bg-stretchLimo100 text-stretchLimo300 cursor-not-allowed border-2 border-stretchLimo200'
                 }`}
               >
