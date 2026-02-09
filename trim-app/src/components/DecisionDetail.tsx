@@ -1235,25 +1235,36 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               <div className="space-y-2">
                 {/* Q1: What happened? - all modes */}
                 <div>
-                  <label className="block text-sm font-medium text-cloudDancer mb-0.5">
-                    What happened?
-                  </label>
-                  <textarea
-                    ref={(el) => (framingRefs.current['whatHappened'] = el)}
-                    value={localDecision.framing?.whatHappened || ''}
-                    onChange={(e) => {
-                      handleFramingChange('whatHappened', e.target.value);
-                      // Auto-resize on input
-                      e.target.style.height = 'auto';
-                      e.target.style.height = `${e.target.scrollHeight}px`;
-                    }}
-                    placeholder="What situation led to this decision..."
-                    disabled={localDecision.resolved}
-                    className={`w-full px-3 py-1.5 text-sm text-white placeholder:text-xs placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none overflow-hidden ${
-                      localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
-                    }`}
-                    rows={1}
-                  />
+                  <button
+                    type="button"
+                    onClick={() => toggleFramingCollapse('whatHappened')}
+                    className="w-full flex items-center justify-between mb-0.5 group/q"
+                  >
+                    <span className="text-sm font-medium text-cloudDancer">What happened?</span>
+                    {collapsedFramingQuestions['whatHappened'] ? (
+                      <ChevronRight className="w-4 h-4 text-cloudDancer/60 group-hover/q:text-cloudDancer transition-colors" />
+                    ) : (
+                      <ChevronDown className="w-4 h-4 text-cloudDancer/60 group-hover/q:text-cloudDancer transition-colors" />
+                    )}
+                  </button>
+                  {!collapsedFramingQuestions['whatHappened'] && (
+                    <textarea
+                      ref={(el) => (framingRefs.current['whatHappened'] = el)}
+                      value={localDecision.framing?.whatHappened || ''}
+                      onChange={(e) => {
+                        handleFramingChange('whatHappened', e.target.value);
+                        // Auto-resize on input
+                        e.target.style.height = 'auto';
+                        e.target.style.height = `${e.target.scrollHeight}px`;
+                      }}
+                      placeholder="What situation led to this decision..."
+                      disabled={localDecision.resolved}
+                      className={`w-full px-3 py-1.5 text-sm text-white placeholder:text-xs placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none overflow-hidden ${
+                        localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
+                      }`}
+                      rows={1}
+                    />
+                  )}
                 </div>
 
                 {/* Q2: Ultimate Goal - all modes */}
