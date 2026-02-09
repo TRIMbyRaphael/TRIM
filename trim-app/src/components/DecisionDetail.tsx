@@ -1612,7 +1612,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                                 openLinkModal('option', option.id, link);
                               }}
                               className="p-1 hover:bg-stretchLimo hover:bg-opacity-10 rounded flex-shrink-0"
-                              title="Edit preview"
+                              title={t.editPreview}
                             >
                               <Edit className="w-3 h-3 text-stretchLimo" />
                             </button>
@@ -1623,7 +1623,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                                 handleDeleteOptionLink(option.id, link.id);
                               }}
                               className="p-1 hover:bg-scarletSmile hover:bg-opacity-10 rounded flex-shrink-0"
-                              title="Delete"
+                              title={t.delete}
                             >
                               <Trash2 className="w-3 h-3 text-scarletSmile" />
                             </button>
