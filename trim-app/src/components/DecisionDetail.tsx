@@ -1563,7 +1563,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                           : "Why shouldn't I do this?"
                       }
                       disabled={localDecision.resolved}
-                      className={`w-full mt-3 px-3 py-2 text-sm text-white placeholder-white/50 bg-micron border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none ${
+                      className={`w-full mt-3 px-3 py-2 text-sm text-white placeholder-white/50 bg-micron border border-white/30 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none ${
                         localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                       }`}
                       rows={2}
