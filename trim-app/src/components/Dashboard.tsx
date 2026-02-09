@@ -344,7 +344,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
                 {/* Pending Decision Button */}
                 <button
                   onClick={onCreateDecision}
-                  className="w-full bg-cardBg rounded-lg p-4 mb-3 flex items-center gap-3 border border-stretchLimo/[0.06] hover:bg-cloudDancer/30 transition-shadow shadow hover:shadow-md"
+                  className="w-full bg-cardBg rounded-lg p-4 mb-3 flex items-center gap-3 border border-stretchLimo/10 hover:bg-cloudDancer/30 transition-shadow shadow hover:shadow-md"
                 >
                   <Plus className="w-5 h-5 text-stretchLimo" />
                   <span className="text-base font-medium text-stretchLimo">
