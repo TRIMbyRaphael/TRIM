@@ -2134,7 +2134,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                           ? 'opacity-50 bg-stretchLimo100'
                           : isDragOver
                           ? 'bg-stretchLimo bg-opacity-10 border border-stretchLimo border-dashed'
-                          : 'bg-cloudDancer border border-stretchLimo200 hover:bg-stretchLimo50'
+                          : 'bg-cloudDancer/40 hover:bg-cloudDancer/50'
                       } ${localDecision.resolved ? 'cursor-default' : 'cursor-pointer'}`}
                     >
                       <div className="flex-1 min-w-0">
@@ -2205,7 +2205,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
           {/* Modal */}
           <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl w-full max-w-sm p-6">
+            <div className="bg-cardBg rounded-2xl w-full max-w-sm p-6 shadow-lg">
               <h3 className="text-lg font-bold text-stretchLimo mb-3">
                 {t.decisionTitleRequired}
               </h3>
@@ -2215,7 +2215,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               <div className="flex gap-3">
                 <button
                   onClick={handleCancelLeave}
-                  className="flex-1 bg-white text-stretchLimo border border-stretchLimo rounded-lg py-3 text-base font-bold hover:bg-stretchLimo50 transition-colors"
+                  className="flex-1 bg-cardBg text-stretchLimo shadow-sm rounded-lg py-3 text-base font-bold hover:bg-cloudDancer/30 transition-colors"
                 >
                   {t.cancel}
                 </button>
