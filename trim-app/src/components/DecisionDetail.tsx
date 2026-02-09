@@ -1709,7 +1709,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                           <textarea
                             value={option.memo || ''}
                             onChange={(e) => handleOptionMemoChange(option.id, e.target.value)}
-                            placeholder="Add notes about this option..."
+                            placeholder={t.addNotesPlaceholder}
                             disabled={localDecision.resolved}
                             className={`w-full px-3 py-2 text-sm text-white placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none ${
                               localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
