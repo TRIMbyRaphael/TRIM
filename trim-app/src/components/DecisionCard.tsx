@@ -170,7 +170,7 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
             onPointerDown={(e) => e.stopPropagation()}
             onPointerUp={(e) => e.stopPropagation()}
           >
-            <div className="bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden min-w-[140px]">
+            <div className="bg-white rounded-xl shadow-xl border border-stretchLimo200 overflow-hidden min-w-[140px]">
               <button
                 onClick={handleDeleteClick}
                 className="w-full flex items-center gap-3 px-4 py-3 text-scarletSmile hover:bg-scarletSmile hover:bg-opacity-5 transition-colors text-sm font-medium select-none"
