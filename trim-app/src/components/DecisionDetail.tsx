@@ -1549,16 +1549,16 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 </div>
               )}
 
-              {/* Option Memo */}
+              {/* Option Memo - Micron 배경 */}
               {showOptionMemos[option.id] && (
-                <>
+                <div className="mt-3 bg-micron rounded-lg p-3">
                   {/* Pros / Cons Template (choose_best, no_clear_options only) */}
                   {(currentMode === 'choose_best' || currentMode === 'no_clear_options') && prosConsEnabled[option.id] ? (
-                    <div className="mt-3 space-y-2">
+                    <div className="space-y-2">
                       {/* Pros */}
                       <div>
-                        <label className="flex items-center gap-1 text-xs font-semibold text-stretchLimo mb-1">
-                          <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-white border border-stretchLimo300 text-stretchLimo text-[10px] font-bold">+</span>
+                        <label className="flex items-center gap-1 text-xs font-semibold text-cloudDancer mb-1">
+                          <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-white/20 border border-white/30 text-white text-[10px] font-bold">+</span>
                           Pros
                         </label>
                         <textarea
@@ -1566,7 +1566,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                           onChange={(e) => handleOptionProsChange(option.id, e.target.value)}
                           placeholder="What's good about this option..."
                           disabled={localDecision.resolved}
-                          className={`w-full px-3 py-2 text-sm text-stretchLimo bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                          className={`w-full px-3 py-2 text-sm text-white placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none ${
                             localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                           }`}
                           rows={2}
@@ -1574,8 +1574,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       </div>
                       {/* Cons */}
                       <div>
-                        <label className="flex items-center gap-1 text-xs font-semibold text-stretchLimo mb-1">
-                          <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-stretchLimo text-white text-[10px] font-bold">&minus;</span>
+                        <label className="flex items-center gap-1 text-xs font-semibold text-cloudDancer mb-1">
+                          <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-white/80 text-micron text-[10px] font-bold">&minus;</span>
                           Cons
                         </label>
                         <textarea
@@ -1583,7 +1583,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                           onChange={(e) => handleOptionConsChange(option.id, e.target.value)}
                           placeholder="What's not ideal about this option..."
                           disabled={localDecision.resolved}
-                          className={`w-full px-3 py-2 text-sm text-stretchLimo bg-stretchLimo100 border border-stretchLimo300 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                          className={`w-full px-3 py-2 text-sm text-white placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none ${
                             localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                           }`}
                           rows={2}
@@ -1593,7 +1593,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       {!localDecision.resolved && (
                         <button
                           onClick={() => toggleProsCons(option.id)}
-                          className="text-xs text-micron hover:text-stretchLimo transition-colors"
+                          className="text-xs text-white/50 hover:text-white transition-colors"
                         >
                           Switch to free-form memo
                         </button>
@@ -1612,7 +1612,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                             : 'Add notes about this option...'
                         }
                         disabled={localDecision.resolved}
-                        className={`w-full mt-3 px-3 py-2 text-sm text-stretchLimo bg-stretchLimo50 border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                        className={`w-full px-3 py-2 text-sm text-white placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none ${
                           localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                         }`}
                         rows={2}
@@ -1621,7 +1621,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       {(currentMode === 'choose_best' || currentMode === 'no_clear_options') && !localDecision.resolved && (
                         <button
                           onClick={() => toggleProsCons(option.id)}
-                          className="mt-2 flex items-center gap-1 text-xs text-micron hover:text-stretchLimo transition-colors"
+                          className="mt-2 flex items-center gap-1 text-xs text-white/50 hover:text-white transition-colors"
                         >
                           <Plus className="w-3 h-3" />
                           <span>Pros / Cons 추가</span>
@@ -1629,7 +1629,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       )}
                     </div>
                   )}
-                </>
+                </div>
               )}
             </div>
             );
