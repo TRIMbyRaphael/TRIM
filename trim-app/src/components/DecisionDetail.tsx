@@ -1480,7 +1480,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       </div>
                       {/* Cons */}
                       <div>
-                        <label className="flex items-center gap-1 text-xs font-semibold text-gray-400 mb-1">
+                        <label className="flex items-center gap-1 text-xs font-semibold text-stretchLimo600 mb-1">
                           <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-stretchLimo text-white text-[10px] font-bold">&minus;</span>
                           Cons
                         </label>
@@ -1679,8 +1679,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   >
                     <Shuffle className="w-5 h-5 text-stretchLimo" />
                     <div className="flex flex-col items-center leading-tight">
-                      <span className="text-[5px] text-[#6B6B6B]">Random</span>
-                      <span className="text-[5px] text-[#6B6B6B]">Pick</span>
+                      <span className="text-[5px] text-stretchLimo700">Random</span>
+                      <span className="text-[5px] text-stretchLimo700">Pick</span>
                     </div>
                   </button>
                   
