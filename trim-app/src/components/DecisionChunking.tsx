@@ -95,7 +95,7 @@ export default function DecisionChunking({
               <button
                 key={subDecision.id}
                 onClick={() => onNavigateToDecision(subDecision.id)}
-                className="w-full flex items-center justify-between p-3 mb-2 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-left"
+                className="w-full flex items-center justify-between p-3 mb-2 bg-cloudDancer/30 hover:bg-cloudDancer/50 rounded-lg transition-colors text-left"
               >
                 <div className="flex-1 min-w-0">
                   <h4 className="text-sm font-medium text-stretchLimo truncate mb-1">
