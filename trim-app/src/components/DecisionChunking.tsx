@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Plus, ChevronDown, ChevronRight, Info } from 'lucide-react';
-import { Decision, IMPORTANCE_LEVELS } from '../types/decision';
+import { Decision } from '../types/decision';
 import { formatTimeRemaining } from '../utils/timeFormat';
 import { t } from '../i18n';
 
