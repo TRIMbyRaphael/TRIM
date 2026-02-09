@@ -41,7 +41,7 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
   };
 
   const getBorderStyle = () => {
-    return '1px solid rgba(26, 26, 26, 0.06)'; // 아주 미세한 테두리로 경계감 보완
+    return '1px solid rgba(26, 26, 26, 0.10)'; // 미세한 테두리로 경계감 보완
   };
 
   const getShadowClass = () => {
@@ -170,7 +170,7 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
             onPointerDown={(e) => e.stopPropagation()}
             onPointerUp={(e) => e.stopPropagation()}
           >
-            <div className="bg-cardBg rounded-xl shadow-xl border border-stretchLimo/[0.06] overflow-hidden min-w-[140px]">
+            <div className="bg-cardBg rounded-xl shadow-xl border border-stretchLimo/10 overflow-hidden min-w-[140px]">
               <button
                 onClick={handleDeleteClick}
                 className="w-full flex items-center gap-3 px-4 py-3 text-scarletSmile hover:bg-scarletSmile hover:bg-opacity-5 transition-colors text-sm font-medium select-none"
