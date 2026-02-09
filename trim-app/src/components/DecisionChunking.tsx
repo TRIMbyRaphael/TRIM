@@ -128,7 +128,7 @@ export default function DecisionChunking({
           {!isResolved && (
             <button
               onClick={() => onAddSubDecision(parentDecision.id)}
-              className="w-full flex items-center justify-center gap-2 p-3 border-2 border-dashed border-gray-300 hover:border-stretchLimo hover:bg-gray-50 rounded-lg transition-colors text-sm text-micron hover:text-stretchLimo"
+              className="w-full flex items-center justify-center gap-2 p-3 border border-dashed border-stretchLimo/20 hover:border-stretchLimo/30 hover:bg-cloudDancer/30 rounded-lg transition-colors text-sm text-micron hover:text-stretchLimo"
             >
               <Plus className="w-4 h-4" />
               <span>{t.addSubDecision}</span>
