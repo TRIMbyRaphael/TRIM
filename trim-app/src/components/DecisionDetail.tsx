@@ -1723,7 +1723,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                               className="mt-2 flex items-center gap-1 text-xs text-white/50 hover:text-white transition-colors"
                             >
                               <Plus className="w-3 h-3" />
-                              <span>Pros / Cons 추가</span>
+                              <span>{t.addProsCons}</span>
                             </button>
                           )}
                         </div>
@@ -1746,7 +1746,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               }`}
             >
               <Plus className="w-5 h-5" />
-              <span className="text-base">Add Option</span>
+              <span className="text-base">{t.addOption}</span>
             </button>
           )}
         </div>
