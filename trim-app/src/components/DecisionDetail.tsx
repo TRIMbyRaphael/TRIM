@@ -2215,7 +2215,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               <div className="flex gap-3">
                 <button
                   onClick={handleCancelLeave}
-                  className="flex-1 bg-white text-stretchLimo border-2 border-stretchLimo rounded-lg py-3 text-base font-bold hover:bg-stretchLimo50 transition-colors"
+                  className="flex-1 bg-white text-stretchLimo border border-stretchLimo rounded-lg py-3 text-base font-bold hover:bg-stretchLimo50 transition-colors"
                 >
                   {t.cancel}
                 </button>
@@ -2351,7 +2351,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               <div className="flex gap-3">
                 <button
                   onClick={() => setShowLinkModal(false)}
-                  className="flex-1 bg-white text-stretchLimo border-2 border-stretchLimo200 rounded-lg py-3 text-base font-bold hover:bg-stretchLimo50 transition-colors"
+                  className="flex-1 bg-white text-stretchLimo border border-stretchLimo/10 rounded-lg py-3 text-base font-bold hover:bg-stretchLimo50 transition-colors"
                 >
                   {t.cancel}
                 </button>
