@@ -178,7 +178,7 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
                 className="w-full flex items-center gap-3 px-4 py-3 text-scarletSmile hover:bg-scarletSmile hover:bg-opacity-5 transition-colors text-sm font-medium select-none"
               >
                 <Trash2 className="w-4 h-4" />
-                <span>Delete</span>
+                <span>{t.delete}</span>
               </button>
             </div>
             {/* 말풍선 꼬리 */}
@@ -245,12 +245,12 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
             <div className="flex items-center gap-1 text-sm flex-shrink-0">
               {decision.resolved && decision.resolvedAt ? (
                 <span className="font-medium text-micron">
-                  {new Date(decision.resolvedAt).toLocaleDateString('en-US', {
+                  {new Date(decision.resolvedAt).toLocaleDateString(t.dateLocale, {
                     month: 'short',
                     day: 'numeric',
                     hour: '2-digit',
                     minute: '2-digit'
-                  })} completed
+                  })} {t.completed}
                 </span>
               ) : (
                 <span 
@@ -296,7 +296,7 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
                     )}
                   </div>
                   <span className={`break-words ${decision.resolved && !option.isSelected ? 'line-through text-micron' : decision.resolved ? 'text-black font-medium' : 'text-black'}`}>
-                    {option.title || '(옵션)'}
+                    {option.title || t.untitledOption}
                   </span>
                 </button>
 
@@ -362,7 +362,7 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
                 onClick={handleReopen}
                 className="w-[200px] py-2 rounded-lg text-sm font-bold transition-colors bg-stretchLimo text-white hover:bg-opacity-90"
               >
-                Re-open
+                {t.reopen}
               </button>
             ) : (
               <button
