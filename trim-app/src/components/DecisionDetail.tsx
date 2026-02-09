@@ -1330,7 +1330,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
         {/* Decision Container Box */}
         <div className={`bg-white border border-stretchLimo300 rounded-xl mb-6 ${
-          (currentMode === 'choose_best' || currentMode === 'no_clear_options') ? 'p-4' : 'p-6'
+          (currentMode === 'choose_best' || currentMode === 'no_clear_options') ? 'pt-4 px-4 pb-6' : 'p-6'
         }`}>
           {/* Options List */}
           <div className={`space-y-3 ${
