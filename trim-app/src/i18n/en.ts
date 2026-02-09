@@ -93,6 +93,7 @@ const en = {
   minute: 'min',
   hour: 'hr',
   day: 'day',
+  days: 'days',
 
   // Decision Chunking
   decisionChunking: 'Decision Chunking',
