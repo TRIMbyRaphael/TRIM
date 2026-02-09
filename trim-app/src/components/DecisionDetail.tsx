@@ -945,7 +945,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         <nav className="flex items-center gap-2 text-sm">
           <button 
             onClick={() => handleNavigateAway(onBack)}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-2 hover:bg-stretchLimo100 rounded-lg transition-colors"
           >
             <Home className="w-5 h-5 text-stretchLimo" />
           </button>
@@ -972,7 +972,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors border border-gray-200 ${
                 localDecision.resolved 
                   ? 'opacity-50 cursor-not-allowed' 
-                  : 'hover:bg-gray-100'
+                  : 'hover:bg-stretchLimo100'
               }`}
             >
               <span className="font-medium text-stretchLimo">{localDecision.category}</span>
@@ -985,7 +985,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   <button
                     key={category}
                     onClick={() => handleCategoryChange(category)}
-                    className="block w-full px-6 py-2 text-left hover:bg-gray-100 text-stretchLimo whitespace-nowrap"
+                    className="block w-full px-6 py-2 text-left hover:bg-stretchLimo100 text-stretchLimo whitespace-nowrap"
                   >
                     {category}
                   </button>
@@ -999,7 +999,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         <div className="relative">
           <button
             onClick={() => setShowKebabMenu(!showKebabMenu)}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-2 hover:bg-stretchLimo100 rounded-lg transition-colors"
           >
             <MoreVertical className="w-5 h-5 text-stretchLimo" />
           </button>
@@ -1008,7 +1008,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
             <div className="absolute top-full right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden z-10">
               <button
                 onClick={handleDelete}
-                className="block w-full px-6 py-2 text-left hover:bg-gray-100 text-scarletSmile whitespace-nowrap"
+                className="block w-full px-6 py-2 text-left hover:bg-stretchLimo100 text-scarletSmile whitespace-nowrap"
               >
                 Delete
               </button>
@@ -1042,7 +1042,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               onClick={() => openLinkModal('decision')}
               disabled={localDecision.resolved}
               className={`p-2 rounded-lg transition-colors ${
-                localDecision.resolved ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'
+                localDecision.resolved ? 'opacity-50 cursor-not-allowed' : 'hover:bg-stretchLimo100'
               }`}
             >
               <LinkIcon className={`w-5 h-5 ${(localDecision.links && localDecision.links.length > 0) ? 'text-stretchLimo' : 'text-micron'}`} />
@@ -1054,7 +1054,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 localDecision.resolved
                   ? 'opacity-50 cursor-not-allowed'
                   : showDecisionMemo
-                    ? 'hover:bg-gray-100'
+                    ? 'hover:bg-stretchLimo100'
                     : 'bg-stretchLimo hover:bg-opacity-80'
               }`}
             >
@@ -1071,7 +1071,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block bg-gray-50 rounded-lg overflow-hidden hover:bg-gray-100 transition-colors group"
+                  className="block bg-gray-50 rounded-lg overflow-hidden hover:bg-stretchLimo100 transition-colors group"
                 >
                   <div className="flex items-start gap-3 p-3">
                     {/* Thumbnail Image */}
@@ -1335,7 +1335,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     onClick={() => openLinkModal('option', option.id)}
                     disabled={localDecision.resolved}
                     className={`p-1 rounded transition-opacity ${
-                      localDecision.resolved ? 'cursor-not-allowed opacity-50' : 'hover:bg-gray-100'
+                      localDecision.resolved ? 'cursor-not-allowed opacity-50' : 'hover:bg-stretchLimo100'
                     }`}
                   >
                     <LinkIcon className={`w-4 h-4 ${(option.links && option.links.length > 0) ? 'text-stretchLimo' : 'text-micron'}`} />
@@ -1344,7 +1344,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     onClick={() => toggleOptionMemo(option.id)}
                     disabled={localDecision.resolved}
                     className={`p-1 rounded transition-opacity ${
-                      localDecision.resolved ? 'cursor-not-allowed opacity-50' : 'hover:bg-gray-100'
+                      localDecision.resolved ? 'cursor-not-allowed opacity-50' : 'hover:bg-stretchLimo100'
                     }`}
                   >
                     <FileText className={`w-4 h-4 ${(option.memo || option.pros || option.cons) ? 'text-stretchLimo' : 'text-micron'}`} />
@@ -1675,7 +1675,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     onClick={handleRandomPick}
                     onMouseEnter={() => setShowRandomPickTooltip(true)}
                     onMouseLeave={() => setShowRandomPickTooltip(false)}
-                    className="flex flex-col items-center gap-1 p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors relative border-0"
+                    className="flex flex-col items-center gap-1 p-3 bg-gray-50 hover:bg-stretchLimo100 rounded-lg transition-colors relative border-0"
                   >
                     <Shuffle className="w-5 h-5 text-stretchLimo" />
                     <div className="flex flex-col items-center leading-tight">
@@ -1736,7 +1736,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   <button
                     key={level}
                     onClick={() => handleImportanceChange(level)}
-                    className={`w-full px-4 py-3 text-left hover:bg-gray-100 transition-colors ${
+                    className={`w-full px-4 py-3 text-left hover:bg-stretchLimo100 transition-colors ${
                       localDecision.importance === level ? 'bg-gray-50' : ''
                     }`}
                   >
@@ -1856,7 +1856,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                           ? 'opacity-50 bg-gray-100'
                           : isDragOver
                           ? 'bg-stretchLimo bg-opacity-10 border-2 border-stretchLimo border-dashed'
-                          : 'bg-gray-50 hover:bg-gray-100'
+                          : 'bg-gray-50 hover:bg-stretchLimo100'
                       } ${localDecision.resolved ? 'cursor-default' : 'cursor-pointer'}`}
                     >
                       <div className="flex-1 min-w-0">
