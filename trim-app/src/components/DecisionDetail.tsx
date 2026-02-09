@@ -1899,17 +1899,11 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               className="flex items-center gap-2 flex-1"
             >
               <h3 className="text-base font-medium text-stretchLimo">Decision Chunking</h3>
-              {showSubDecisions ? (
-                <ChevronDown className="w-4 h-4 text-micron" />
-              ) : (
-                <ChevronRight className="w-4 h-4 text-micron" />
-              )}
-            </button>
-            <div className="flex items-center gap-2">
-              {/* Info Popover */}
+              {/* Info Popover (ChevronDown 자리) */}
               <div className="relative" ref={chunkingInfoRef}>
                 <button
                   onClick={(e) => {
+                    e.preventDefault();
                     e.stopPropagation();
                     setShowChunkingInfo(!showChunkingInfo);
                   }}
@@ -1918,7 +1912,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   <Info className="w-4 h-4 text-stretchLimo/60 hover:text-stretchLimo cursor-pointer" />
                 </button>
                 {showChunkingInfo && (
-                  <div className="absolute right-0 top-full mt-2 bg-white border border-stretchLimo/20 shadow-lg max-w-xs rounded-lg p-4 z-50">
+                  <div className="absolute left-0 top-full mt-2 bg-white border border-stretchLimo/20 shadow-lg max-w-xs rounded-lg p-4 z-50">
                     <h4 className="text-base font-semibold text-black mb-2">
                       Break a complex decision into smaller ones.
                     </h4>
@@ -1933,9 +1927,16 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   </div>
                 )}
               </div>
+            </button>
+            <div className="flex items-center gap-2">
               <span className="text-sm text-stretchLimo">
                 {decisions.filter(d => d.parentId === localDecision.id).length}
               </span>
+              {showSubDecisions ? (
+                <ChevronDown className="w-4 h-4 text-micron" />
+              ) : (
+                <ChevronRight className="w-4 h-4 text-micron" />
+              )}
             </div>
           </div>
 
