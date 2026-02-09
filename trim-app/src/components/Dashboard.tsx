@@ -254,7 +254,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
               className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
                 selectedCategory === 'All'
                   ? 'bg-stretchLimo text-white'
-                  : 'bg-cardBg text-stretchLimo shadow border border-stretchLimo/[0.06] hover:shadow-md hover:bg-cloudDancer/30'
+                  : 'bg-cardBg text-stretchLimo shadow border border-stretchLimo/10 hover:shadow-md hover:bg-cloudDancer/30'
               }`}
             >
               {t.all}
@@ -266,7 +266,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
                 className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
                   selectedCategory === category
                     ? 'bg-stretchLimo text-white'
-                    : 'bg-cardBg text-stretchLimo shadow border border-stretchLimo/[0.06] hover:shadow-md hover:bg-cloudDancer/30'
+                    : 'bg-cardBg text-stretchLimo shadow border border-stretchLimo/10 hover:shadow-md hover:bg-cloudDancer/30'
                 }`}
               >
                 {category}
@@ -275,7 +275,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
           </div>
           <button
             onClick={() => setShowCategoryManagement(true)}
-            className="p-2 bg-cardBg rounded-lg shadow border border-stretchLimo/[0.06] hover:shadow-md hover:bg-cloudDancer/30 transition-all"
+            className="p-2 bg-cardBg rounded-lg shadow border border-stretchLimo/10 hover:shadow-md hover:bg-cloudDancer/30 transition-all"
             title={t.manageCategoriesTitle}
           >
             <Settings className="w-5 h-5 text-stretchLimo" />
