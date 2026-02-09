@@ -1021,7 +1021,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
       <div className="max-w-2xl mx-auto px-4 pt-3 pb-24">
         {/* Title Input */}
         <div className="mb-3">
-          <div className="flex items-start gap-2 pt-1">
+          <div className="flex items-start gap-2">
             <textarea
               ref={titleInputRef}
               value={localDecision.title}
@@ -1034,7 +1034,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               placeholder="What's cluttering your mind?"
               disabled={localDecision.resolved}
               rows={1}
-              className={`flex-1 text-xl font-medium text-black bg-transparent border-none outline-none placeholder-stretchLimo300 resize-none overflow-hidden ${
+              className={`flex-1 text-xl font-medium text-black bg-transparent border-none outline-none placeholder-stretchLimo300 resize-none overflow-hidden mt-1 ${
                 localDecision.resolved ? 'line-through opacity-50 cursor-not-allowed' : ''
               }`}
             />
