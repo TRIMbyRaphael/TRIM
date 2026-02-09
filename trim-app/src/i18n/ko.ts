@@ -33,7 +33,7 @@ const ko: Translations = {
 
   // Dashboard
   all: '전체',
-  overdue: '기한 초과',
+  overdue: '기한 지남',
   active: '진행 중',
   resolved: '해결됨',
   pendingDecision: '새 결정 추가',
