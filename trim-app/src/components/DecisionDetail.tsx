@@ -1707,7 +1707,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         </div>
 
         {/* Settings Section */}
-        <div className="bg-white rounded-lg divide-y divide-stretchLimo200 -mt-2">
+        <div className="bg-white rounded-lg divide-y divide-stretchLimo200 border border-stretchLimo200 shadow-sm -mt-2">
           {/* Importance */}
           <div className="relative">
             <button
