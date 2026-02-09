@@ -228,7 +228,7 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
                 onClick={() => setShowTimePicker(true)}
                 className="w-full flex items-center justify-between px-4 py-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
               >
-                <span className="text-base text-stretchLimo">Time</span>
+                <span className="text-base text-stretchLimo">{t.time}</span>
                 <div className="flex items-center gap-2">
                   <span className="text-base text-stretchLimo">
                     {String(deadline.getHours()).padStart(2, '0')}:{String(deadline.getMinutes()).padStart(2, '0')}
@@ -243,7 +243,7 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
               onClick={handleConfirm}
               className="w-full bg-stretchLimo text-white rounded-lg py-3 text-base font-bold hover:bg-opacity-90 transition-colors"
             >
-              Confirm
+              {t.confirm}
             </button>
           </div>
         </div>
@@ -259,7 +259,7 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
           <div className="fixed inset-0 flex items-center justify-center z-50">
             <div className="bg-white rounded-2xl w-80 p-6">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-bold text-stretchLimo">Set Time</h3>
+                <h3 className="text-lg font-bold text-stretchLimo">{t.setTime}</h3>
                 <button
                   onClick={() => setShowTimePicker(false)}
                   className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
@@ -271,7 +271,7 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
               <div className="flex justify-center gap-4 mb-6">
                 {/* Hour */}
                 <div className="flex flex-col items-center">
-                  <label className="text-sm text-micron mb-2">HH</label>
+                  <label className="text-sm text-micron mb-2">{t.hourHourLabel}</label>
                   <select
                     value={selectedHour}
                     onChange={(e) => setSelectedHour(Number(e.target.value))}
@@ -287,7 +287,7 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
 
                 {/* Minute */}
                 <div className="flex flex-col items-center">
-                  <label className="text-sm text-micron mb-2">MM</label>
+                  <label className="text-sm text-micron mb-2">{t.minuteMinuteLabel}</label>
                   <select
                     value={selectedMinute}
                     onChange={(e) => setSelectedMinute(Number(e.target.value))}
