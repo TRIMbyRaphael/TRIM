@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { t } from '../i18n';
 
 interface TimeBudgetModalProps {
   initialDeadline: string;

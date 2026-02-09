@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { X, Edit, Trash2, Plus, Check, GripVertical } from 'lucide-react';
+import { t } from '../i18n';
 import {
   DndContext,
   closestCenter,

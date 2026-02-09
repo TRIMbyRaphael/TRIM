@@ -2,6 +2,7 @@ import { Trash2, Link as LinkIcon, ChevronUp } from 'lucide-react';
 import { Decision } from '../types/decision';
 import { useCountdown } from '../hooks/useCountdown';
 import { ReactNode, useState, useRef } from 'react';
+import { t } from '../i18n';
 
 interface DecisionCardProps {
   decision: Decision;
