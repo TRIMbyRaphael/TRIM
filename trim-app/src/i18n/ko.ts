@@ -35,7 +35,7 @@ const ko: Translations = {
   all: '전체',
   overdue: '기한 지남',
   active: '진행 중',
-  resolved: '해결됨',
+  resolved: '완료',
   pendingDecision: '새 결정 추가',
   noActiveDecisions: '진행 중인 결정이 없습니다.',
   tapToAdd: '+ 를 눌러 추가하세요.',
@@ -103,7 +103,7 @@ const ko: Translations = {
   chunkingInfoDesc1After: '이 포함되어 있기 때문일 수 있습니다.',
   chunkingInfoDesc2: '하나의 문제로 대하는 대신, 작게 나누어 하나씩 해결해 보세요.',
   addSubDecision: '하위 결정 추가',
-  resolvedText: '해결됨',
+  resolvedText: '완료',
 
   // Leave Warning
   decisionTitleRequired: '결정 제목은 필수입니다',
