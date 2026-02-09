@@ -1018,9 +1018,9 @@ export default function DecisionDetail({ decision, decisions, categories, initia
       </header>
 
       {/* Main Content */}
-      <div className="max-w-2xl mx-auto px-4 py-6 pb-24">
+      <div className="max-w-2xl mx-auto px-4 pt-3 pb-24">
         {/* Title Input */}
-        <div className="mb-6">
+        <div className="mb-3">
           <div className="flex items-start gap-2">
             <textarea
               ref={titleInputRef}
