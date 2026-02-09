@@ -196,8 +196,10 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     });
   }, [localDecision.options]);
 
-  // Auto-resize all framing textareas when framing changes or component mounts
+  // Auto-resize all framing textareas when framing changes
   useEffect(() => {
+    if (!showDecisionMemo) return;
+    
     const framingFields: Array<'whatHappened' | 'goal' | 'constraints' | 'dealbreakers' | 'keyFactors'> = 
       ['whatHappened', 'goal', 'constraints', 'dealbreakers', 'keyFactors'];
     
@@ -208,7 +210,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         textarea.style.height = `${textarea.scrollHeight}px`;
       }
     });
-  }, [localDecision.framing]);
+  }, [localDecision.framing, showDecisionMemo]);
 
   // Auto-save when localDecision changes
   useEffect(() => {
