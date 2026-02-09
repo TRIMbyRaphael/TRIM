@@ -1346,7 +1346,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       onClick={() => toggleFramingCollapse('dealbreakers')}
                       className="w-full flex items-center justify-between mb-0.5 group/q"
                     >
-                      <span className="text-sm font-medium text-cloudDancer">Any deal-breakers?</span>
+                      <span className="text-sm font-medium text-cloudDancer">{t.framingDealbreakers}</span>
                       {collapsedFramingQuestions['dealbreakers'] ? (
                         <ChevronRight className="w-4 h-4 text-cloudDancer/60 group-hover/q:text-cloudDancer transition-colors" />
                       ) : (
