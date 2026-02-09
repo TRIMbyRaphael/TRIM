@@ -247,7 +247,7 @@ export default function CategoryManagementModal({
         <div className="bg-white rounded-2xl w-full max-w-md p-6">
           {/* Header */}
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-bold text-stretchLimo">Manage Categories</h3>
+            <h3 className="text-lg font-bold text-stretchLimo">{t.manageCategoriesTitle}</h3>
             <button
               onClick={onClose}
               className="p-1 hover:bg-gray-100 rounded transition-colors"
@@ -293,7 +293,7 @@ export default function CategoryManagementModal({
               value={newCategoryName}
               onChange={(e) => setNewCategoryName(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleAddCategory()}
-              placeholder="New Category"
+              placeholder={t.newCategory}
               className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stretchLimo"
             />
             <button
@@ -306,7 +306,7 @@ export default function CategoryManagementModal({
               }`}
             >
               <Plus className="w-4 h-4" />
-              Add
+              {t.add}
             </button>
           </div>
 
@@ -316,13 +316,13 @@ export default function CategoryManagementModal({
               onClick={onClose}
               className="flex-1 bg-white text-stretchLimo border-2 border-gray-200 rounded-lg py-3 text-base font-bold hover:bg-gray-50 transition-colors"
             >
-              Cancel
+              {t.cancel}
             </button>
             <button
               onClick={handleSave}
               className="flex-1 bg-stretchLimo text-white rounded-lg py-3 text-base font-bold hover:bg-opacity-90 transition-colors"
             >
-              Save
+              {t.save}
             </button>
           </div>
         </div>
