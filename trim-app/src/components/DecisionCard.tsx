@@ -394,9 +394,9 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
             }}
             className="w-full flex items-center justify-center gap-2 py-1.5 mt-2 hover:opacity-70 transition-opacity group/collapse"
           >
-            <div className="flex-1 h-px bg-gray-300" />
+            <div className="flex-1 h-px bg-stretchLimo300" />
             <ChevronUp className="w-4 h-4 text-micron group-hover/collapse:text-stretchLimo transition-colors" />
-            <div className="flex-1 h-px bg-gray-300" />
+            <div className="flex-1 h-px bg-stretchLimo300" />
           </button>
         )}
 
