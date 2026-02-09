@@ -2030,10 +2030,12 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               {showChunkingInfoExpanded && (
                 <div className="mt-2 space-y-2">
                   <p className="text-[11px] text-white/80 leading-relaxed">
-                    {t.chunkingInfoDesc1Before}<span className="font-bold text-white">{t.chunkingInfoDesc1Bold}</span>{t.chunkingInfoDesc1After}
+                    {t.chunkingInfoDesc1Before.split('의사결정 안에')[0]}의사결정 안에<br className="md:hidden" />
+                    <span className="font-bold text-white">{t.chunkingInfoDesc1Bold}</span>{t.chunkingInfoDesc1After}
                   </p>
                   <p className="text-[11px] text-white/80 leading-relaxed">
-                    {t.chunkingInfoDesc2}
+                    {t.chunkingInfoDesc2.split('쪼개어')[0]}쪼개어<br className="md:hidden" />
+                    {t.chunkingInfoDesc2.split('쪼개어')[1]}
                   </p>
                 </div>
               )}
