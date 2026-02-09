@@ -1856,7 +1856,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                           ? 'opacity-50 bg-stretchLimo100'
                           : isDragOver
                           ? 'bg-stretchLimo bg-opacity-10 border-2 border-stretchLimo border-dashed'
-                          : 'bg-stretchLimo50 hover:bg-stretchLimo100'
+                          : 'bg-cloudDancer border border-stretchLimo200 hover:bg-stretchLimo50'
                       } ${localDecision.resolved ? 'cursor-default' : 'cursor-pointer'}`}
                     >
                       <div className="flex-1 min-w-0">
