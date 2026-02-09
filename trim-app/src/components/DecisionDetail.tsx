@@ -1971,7 +1971,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               >
                 {/* Active indicator bar */}
                 {isActive && (
-                  <div className="absolute top-0 left-2 right-2 h-[3px] bg-stretchLimo rounded-b-full" />
+                  <div className="absolute top-0 left-2 right-2 h-[3px] bg-white rounded-b-full" />
                 )}
                 {modeOption.label}
               </button>
