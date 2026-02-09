@@ -1566,7 +1566,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                           onChange={(e) => handleOptionProsChange(option.id, e.target.value)}
                           placeholder="What's good about this option..."
                           disabled={localDecision.resolved}
-                          className={`w-full px-3 py-2 text-sm text-white placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none ${
+                          className={`w-full px-3 py-2 text-sm text-cloudDancer placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none ${
                             localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                           }`}
                           rows={2}
@@ -1583,7 +1583,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                           onChange={(e) => handleOptionConsChange(option.id, e.target.value)}
                           placeholder="What's not ideal about this option..."
                           disabled={localDecision.resolved}
-                          className={`w-full px-3 py-2 text-sm text-white placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none ${
+                          className={`w-full px-3 py-2 text-sm text-cloudDancer placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none ${
                             localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                           }`}
                           rows={2}
@@ -1612,7 +1612,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                             : 'Add notes about this option...'
                         }
                         disabled={localDecision.resolved}
-                        className={`w-full px-3 py-2 text-sm text-white placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none ${
+                        className={`w-full px-3 py-2 text-sm text-cloudDancer placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none ${
                           localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                         }`}
                         rows={2}
