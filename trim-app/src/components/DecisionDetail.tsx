@@ -1387,7 +1387,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block bg-gray-100 rounded-lg overflow-hidden hover:bg-gray-200 transition-colors relative group/link"
+                      className="block bg-gray-100 rounded-lg overflow-hidden hover:bg-stretchLimo200 transition-colors relative group/link"
                     >
                       <div className="flex items-start gap-3 p-3">
                         {/* Thumbnail Image */}
@@ -1547,7 +1547,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               onClick={handleAddOption}
               disabled={localDecision.resolved}
               className={`w-full bg-white rounded-lg p-4 flex items-center gap-3 transition-colors text-micron ${
-                localDecision.resolved ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-50'
+                localDecision.resolved ? 'opacity-50 cursor-not-allowed' : 'hover:bg-stretchLimo50'
               }`}
             >
               <Plus className="w-5 h-5" />
@@ -1714,7 +1714,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               onClick={() => !localDecision.resolved && setShowImportanceDropdown(!showImportanceDropdown)}
               disabled={localDecision.resolved}
               className={`w-full px-4 py-3 flex items-center justify-between transition-colors ${
-                localDecision.resolved ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-50'
+                localDecision.resolved ? 'opacity-50 cursor-not-allowed' : 'hover:bg-stretchLimo50'
               }`}
             >
               <div className="flex items-center gap-2">
@@ -1763,7 +1763,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
             onClick={() => !localDecision.resolved && setShowTimeBudgetModal(true)}
             disabled={localDecision.resolved}
             className={`w-full px-4 py-3 flex items-center justify-between transition-colors ${
-              localDecision.resolved ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-50'
+              localDecision.resolved ? 'opacity-50 cursor-not-allowed' : 'hover:bg-stretchLimo50'
             }`}
           >
             <div className="flex items-center gap-2">
@@ -1810,7 +1810,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         <div className="bg-white rounded-lg">
           <button
             onClick={() => setShowSubDecisions(!showSubDecisions)}
-            className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors"
+            className="w-full px-4 py-3 flex items-center justify-between hover:bg-stretchLimo50 transition-colors"
           >
             <div className="flex items-center gap-2">
               <h3 className="text-base font-medium text-stretchLimo">Decision Chunking</h3>
@@ -1897,7 +1897,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 className={`w-full flex items-center justify-center gap-2 p-3 border-2 border-dashed rounded-lg transition-colors text-sm ${
                   localDecision.resolved
                     ? 'border-gray-200 text-micron opacity-50 cursor-not-allowed'
-                    : 'border-gray-300 text-micron hover:border-stretchLimo hover:bg-gray-50 hover:text-stretchLimo'
+                    : 'border-gray-300 text-micron hover:border-stretchLimo hover:bg-stretchLimo50 hover:text-stretchLimo'
                 }`}
               >
                 <Plus className="w-4 h-4" />
@@ -1937,7 +1937,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               <div className="flex gap-3">
                 <button
                   onClick={handleCancelLeave}
-                  className="flex-1 bg-white text-stretchLimo border-2 border-stretchLimo rounded-lg py-3 text-base font-bold hover:bg-gray-50 transition-colors"
+                  className="flex-1 bg-white text-stretchLimo border-2 border-stretchLimo rounded-lg py-3 text-base font-bold hover:bg-stretchLimo50 transition-colors"
                 >
                   Cancel
                 </button>
@@ -1966,7 +1966,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 className={`flex-1 py-6 text-sm font-medium transition-colors relative ${
                   isActive
                     ? 'text-stretchLimo'
-                    : 'text-micron hover:text-stretchLimo hover:bg-gray-50'
+                    : 'text-micron hover:text-stretchLimo hover:bg-stretchLimo50'
                 }`}
               >
                 {/* Active indicator bar */}
@@ -2073,7 +2073,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               <div className="flex gap-3">
                 <button
                   onClick={() => setShowLinkModal(false)}
-                  className="flex-1 bg-white text-stretchLimo border-2 border-gray-200 rounded-lg py-3 text-base font-bold hover:bg-gray-50 transition-colors"
+                  className="flex-1 bg-white text-stretchLimo border-2 border-gray-200 rounded-lg py-3 text-base font-bold hover:bg-stretchLimo50 transition-colors"
                 >
                   Cancel
                 </button>
