@@ -97,9 +97,11 @@ const en = {
   chunkingInfoTitle: 'Break a complex decision into smaller ones.',
   chunkingMore: '...more',
   chunkingInfoDesc1Before: 'Sometimes a decision feels overwhelming because it contains ',
+  chunkingInfoDesc1BeforeBreak: '',
   chunkingInfoDesc1Bold: 'multiple prior decisions',
   chunkingInfoDesc1After: " you haven't resolved yet.",
-  chunkingInfoDesc2: 'Instead of treating it as one problem, break it into chunks and resolve them step by step.',
+  chunkingInfoDesc2Before: 'Instead of treating it as one problem, break it into chunks and resolve them step by step.',
+  chunkingInfoDesc2After: '',
   addSubDecision: 'Add Sub-Decision',
   resolvedText: 'Resolved',
 
