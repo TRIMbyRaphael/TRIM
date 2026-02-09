@@ -1770,7 +1770,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
             {showComparisonMatrix && (
               <div className="mt-2 bg-micron rounded-lg p-4">
                 <h4 className="text-xs font-semibold text-cloudDancer uppercase tracking-wide mb-3">
-                  Comparison Matrix
+                  {t.comparisonMatrix}
                 </h4>
 
                 <div className="overflow-x-auto">
@@ -1778,7 +1778,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     <thead>
                       <tr>
                         <th className="text-left text-xs font-medium text-white/70 pb-2 pr-2 min-w-[90px]">
-                          Options
+                          {t.optionsHeader}
                         </th>
                         {(localDecision.comparisonMatrix || []).map((criteria) => (
                           <th key={criteria.id} className="text-center text-xs font-medium text-white/70 pb-2 px-1.5 min-w-[72px] group/criteriaHead">
