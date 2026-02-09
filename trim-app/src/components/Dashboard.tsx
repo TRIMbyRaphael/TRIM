@@ -253,7 +253,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
               className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
                 selectedCategory === 'All'
                   ? 'bg-micron text-white'
-                  : 'bg-white text-stretchLimo border border-stretchLimo200 hover:bg-stretchLimo50'
+                  : 'bg-white text-stretchLimo border border-stretchLimo300 hover:bg-stretchLimo50'
               }`}
             >
               All
@@ -265,7 +265,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
                 className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
                   selectedCategory === category
                     ? 'bg-micron text-white'
-                    : 'bg-white text-stretchLimo border border-stretchLimo200 hover:bg-stretchLimo50'
+                    : 'bg-white text-stretchLimo border border-stretchLimo300 hover:bg-stretchLimo50'
                 }`}
               >
                 {category}
@@ -274,7 +274,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
           </div>
           <button
             onClick={() => setShowCategoryManagement(true)}
-            className="p-2 bg-white rounded-lg border border-stretchLimo200 hover:bg-stretchLimo50 transition-colors"
+            className="p-2 bg-white rounded-lg border border-stretchLimo300 hover:bg-stretchLimo50 transition-colors"
             title="카테고리 관리"
           >
             <Settings className="w-5 h-5 text-stretchLimo" />
