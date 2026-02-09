@@ -115,7 +115,7 @@ export default function DecisionChunking({
                     </span>
                     <span className="text-micron">·</span>
                     <span className="text-micron">
-                      {IMPORTANCE_LEVELS[subDecision.importance].label}
+                      {t.importanceLevels[subDecision.importance]}
                     </span>
                   </div>
                 </div>
@@ -131,7 +131,7 @@ export default function DecisionChunking({
               className="w-full flex items-center justify-center gap-2 p-3 border-2 border-dashed border-gray-300 hover:border-stretchLimo hover:bg-gray-50 rounded-lg transition-colors text-sm text-micron hover:text-stretchLimo"
             >
               <Plus className="w-4 h-4" />
-              <span>Add Sub-Decision</span>
+              <span>{t.addSubDecision}</span>
             </button>
           )}
         </div>
