@@ -2021,7 +2021,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         </div>
 
         {/* Divider after Settings Section */}
-        <div className="border-t border-cloudDancer my-6"></div>
+        <div className="border-t border-stretchLimo/[0.06] my-6"></div>
 
         {/* Sub-Decisions Section */}
         <div className="relative bg-cardBg rounded-lg shadow-md border border-stretchLimo/[0.06]">
@@ -2215,7 +2215,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               <div className="flex gap-3">
                 <button
                   onClick={handleCancelLeave}
-                  className="flex-1 bg-cardBg text-stretchLimo shadow-sm rounded-lg py-3 text-base font-bold hover:bg-cloudDancer/30 transition-colors"
+                  className="flex-1 bg-cardBg text-stretchLimo shadow border border-stretchLimo/[0.06] rounded-lg py-3 text-base font-bold hover:bg-cloudDancer/30 transition-colors"
                 >
                   {t.cancel}
                 </button>
@@ -2351,7 +2351,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               <div className="flex gap-3">
                 <button
                   onClick={() => setShowLinkModal(false)}
-                  className="flex-1 bg-cardBg text-stretchLimo shadow-sm rounded-lg py-3 text-base font-bold hover:bg-cloudDancer/30 transition-colors"
+                  className="flex-1 bg-cardBg text-stretchLimo shadow border border-stretchLimo/[0.06] rounded-lg py-3 text-base font-bold hover:bg-cloudDancer/30 transition-colors"
                 >
                   {t.cancel}
                 </button>
