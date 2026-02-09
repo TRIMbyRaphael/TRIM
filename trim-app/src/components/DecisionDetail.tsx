@@ -1670,7 +1670,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
               {/* Random Pick Button - Right Positioned */}
               {localDecision.options.length >= 2 && (
-                <div className="absolute -right-2 top-[60%] -translate-y-1/2">
+                <div className="absolute -right-2 top-[65%] -translate-y-1/2">
                   <button
                     onClick={handleRandomPick}
                     onMouseEnter={() => setShowRandomPickTooltip(true)}
