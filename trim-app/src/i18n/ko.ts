@@ -46,15 +46,15 @@ const ko: Translations = {
   untitled: '[제목 없음]',
 
   // Framing Questions
-  framingWhatHappened: '무슨 일이 있었나요?',
-  framingUltimateGoal: '궁극적 목표',
-  framingConstraints: '변경 불가한 제약이 있나요?',
-  framingDealbreakers: '절대 양보 못할 조건은?',
-  framingKeyFactors: '핵심 판단 기준은?',
-  framingWhatHappenedPlaceholder: '이 결정을 하게 된 상황...',
-  framingGoalPlaceholder: '이 결정으로 정말 원하는 것...',
-  framingConstraintsPlaceholder: '변경할 수 없는 외부 제약...',
-  framingDealbreakersPlaceholder: '절대 양보할 수 없는 것...',
+  framingWhatHappened: '결정맥락',
+  framingUltimateGoal: '궁극적 목적',
+  framingConstraints: '외부 제약',
+  framingDealbreakers: '나만의 필수 조건',
+  framingKeyFactors: '핵심 판단 기준',
+  framingWhatHappenedPlaceholder: '이 결정을 고민하게 된 상황...',
+  framingGoalPlaceholder: '이 결정을 통해 궁극적으로 얻고자 하는 것...',
+  framingConstraintsPlaceholder: '바꿀 수 없는 외부 조건...',
+  framingDealbreakersPlaceholder: '절대 포기할 수 없는 것...',
   framingKeyFactorsPlaceholder: '선택지를 비교할 기준...',
 
   // Options
