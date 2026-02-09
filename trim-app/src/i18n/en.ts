@@ -90,6 +90,9 @@ const en = {
   timeBudget: 'Time Budget',
   completed: 'completed',
   left: 'left',
+  minute: 'min',
+  hour: 'hr',
+  day: 'day',
 
   // Decision Chunking
   decisionChunking: 'Decision Chunking',
