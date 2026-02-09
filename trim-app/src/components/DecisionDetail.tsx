@@ -2244,14 +2244,14 @@ export default function DecisionDetail({ decision, decisions, categories, initia
           <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-2xl w-full max-w-md p-6">
               <h3 className="text-lg font-bold text-stretchLimo mb-4">
-                {editingLinkId ? 'Edit Link' : 'Add Link'}
+                {editingLinkId ? t.editLink : t.addLink}
               </h3>
               
               <div className="space-y-4 mb-6">
                 {/* URL Input */}
                 <div>
                   <label className="block text-sm font-medium text-stretchLimo mb-2">
-                    URL <span className="text-scarletSmile">*</span>
+                    {t.url} <span className="text-scarletSmile">*</span>
                   </label>
                   <input
                     type="url"
