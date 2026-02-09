@@ -1550,7 +1550,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       className="w-full flex items-center gap-3 px-4 py-3 text-scarletSmile hover:bg-scarletSmile hover:bg-opacity-5 transition-colors text-sm font-medium select-none"
                     >
                       <Trash2 className="w-4 h-4" />
-                      <span>Delete</span>
+                      <span>{t.delete}</span>
                     </button>
                   </div>
                   {/* 말풍선 꼬리 */}
