@@ -231,7 +231,7 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
                   }}
                   className="text-xs text-stretchLimo hover:text-stretchLimo transition-colors cursor-pointer ml-1"
                 >
-                  ...more
+                  {t.chunkingMore}
                 </span>
               )}
             </h3>
