@@ -2326,7 +2326,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   onClick={() => setShowLinkModal(false)}
                   className="flex-1 bg-white text-stretchLimo border-2 border-stretchLimo200 rounded-lg py-3 text-base font-bold hover:bg-stretchLimo50 transition-colors"
                 >
-                  Cancel
+                  {t.cancel}
                 </button>
                 <button
                   onClick={handleSaveLink}
@@ -2337,7 +2337,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       : 'bg-stretchLimo100 text-micron cursor-not-allowed'
                   }`}
                 >
-                  Save
+                  {t.save}
                 </button>
               </div>
             </div>
