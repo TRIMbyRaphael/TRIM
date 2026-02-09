@@ -1275,7 +1275,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     onClick={() => toggleFramingCollapse('goal')}
                     className="w-full flex items-center justify-between mb-0.5 group/q"
                   >
-                    <span className="text-sm font-medium text-cloudDancer">Ultimate Goal</span>
+                    <span className="text-sm font-medium text-cloudDancer">{t.framingUltimateGoal}</span>
                     {collapsedFramingQuestions['goal'] ? (
                       <ChevronRight className="w-4 h-4 text-cloudDancer/60 group-hover/q:text-cloudDancer transition-colors" />
                     ) : (
@@ -1292,7 +1292,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                         e.target.style.height = 'auto';
                         e.target.style.height = `${e.target.scrollHeight}px`;
                       }}
-                      placeholder="What do I really want by making this decision..."
+                      placeholder={t.framingGoalPlaceholder}
                       disabled={localDecision.resolved}
                       className={`w-full px-3 py-1.5 text-sm text-white placeholder:text-xs placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none overflow-hidden ${
                         localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
