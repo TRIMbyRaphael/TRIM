@@ -82,10 +82,10 @@ const ko: Translations = {
   addCriteria: '기준 추가',
 
   // Actions
-  reopen: '다시 열기',
+  reopen: '다시 고민하기',
   randomPickLine1: '랜덤',
   randomPickLine2: '선택',
-  randomPickTooltip: '영향 차이가 미미할 때 고민을 멈추세요',
+  randomPickTooltip: '큰 차이가 없다면, 고민을 멈추세요',
 
   // Settings
   importance: '중요도',
@@ -96,12 +96,12 @@ const ko: Translations = {
   // Decision Chunking
   decisionChunking: '결정 쪼개기',
   chunkingOptional: '(선택사항)',
-  chunkingInfoTitle: '복잡한 결정을 작은 단위로 쪼개세요.',
+  chunkingInfoTitle: '복잡한 결정을 더 작은 결정들로 쪼개보세요.',
   chunkingMore: '...더보기',
-  chunkingInfoDesc1Before: '결정이 부담스럽게 느껴지는 건 아직 해결하지 못한 ',
-  chunkingInfoDesc1Bold: '여러 개의 선행 결정',
-  chunkingInfoDesc1After: '이 포함되어 있기 때문일 수 있습니다.',
-  chunkingInfoDesc2: '하나의 문제로 대하는 대신, 작게 나누어 하나씩 해결해 보세요.',
+  chunkingInfoDesc1Before: '때때로 결정이 막막하게 느껴지는 이유는, 하나의 의사결정 안에 ',
+  chunkingInfoDesc1Bold: '먼저 해결해야 할 결정들이',
+  chunkingInfoDesc1After: '겹겹이 쌓여 있기 때문일 수 있습니다.',
+  chunkingInfoDesc2: '하나의 문제로 대하는 대신, 작은 결정들로 쪼개어 하나씩 판단해보세요.',
   addSubDecision: '하위 결정 추가',
   resolvedText: '완료',
 
