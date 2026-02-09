@@ -92,6 +92,9 @@ const ko: Translations = {
   timeBudget: '시간 예산',
   completed: '완료',
   left: '남음',
+  minute: '분',
+  hour: '시간',
+  day: '일',
 
   // Decision Chunking
   decisionChunking: '결정 쪼개기',
