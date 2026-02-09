@@ -1304,25 +1304,36 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 {/* Q3: Any fixed constraints? - no_clear_options only */}
                 {(localDecision.mode || 'do_or_not') === 'no_clear_options' && (
                   <div>
-                    <label className="block text-sm font-medium text-cloudDancer mb-0.5">
-                      Any fixed constraints?
-                    </label>
-                    <textarea
-                      ref={(el) => (framingRefs.current['constraints'] = el)}
-                      value={localDecision.framing?.constraints || ''}
-                      onChange={(e) => {
-                        handleFramingChange('constraints', e.target.value);
-                        // Auto-resize on input
-                        e.target.style.height = 'auto';
-                        e.target.style.height = `${e.target.scrollHeight}px`;
-                      }}
-                      placeholder="External constraints you can't change..."
-                      disabled={localDecision.resolved}
-                      className={`w-full px-3 py-1.5 text-sm text-white placeholder:text-xs placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none overflow-hidden ${
-                        localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
-                      }`}
-                      rows={1}
-                    />
+                    <button
+                      type="button"
+                      onClick={() => toggleFramingCollapse('constraints')}
+                      className="w-full flex items-center justify-between mb-0.5 group/q"
+                    >
+                      <span className="text-sm font-medium text-cloudDancer">Any fixed constraints?</span>
+                      {collapsedFramingQuestions['constraints'] ? (
+                        <ChevronRight className="w-4 h-4 text-cloudDancer/60 group-hover/q:text-cloudDancer transition-colors" />
+                      ) : (
+                        <ChevronDown className="w-4 h-4 text-cloudDancer/60 group-hover/q:text-cloudDancer transition-colors" />
+                      )}
+                    </button>
+                    {!collapsedFramingQuestions['constraints'] && (
+                      <textarea
+                        ref={(el) => (framingRefs.current['constraints'] = el)}
+                        value={localDecision.framing?.constraints || ''}
+                        onChange={(e) => {
+                          handleFramingChange('constraints', e.target.value);
+                          // Auto-resize on input
+                          e.target.style.height = 'auto';
+                          e.target.style.height = `${e.target.scrollHeight}px`;
+                        }}
+                        placeholder="External constraints you can't change..."
+                        disabled={localDecision.resolved}
+                        className={`w-full px-3 py-1.5 text-sm text-white placeholder:text-xs placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none overflow-hidden ${
+                          localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
+                        }`}
+                        rows={1}
+                      />
+                    )}
                   </div>
                 )}
 
