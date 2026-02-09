@@ -1971,7 +1971,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               >
                 {/* Active indicator bar */}
                 {isActive && (
-                  <div className="absolute top-0 left-2 right-2 h-[3px] bg-stretchLimo rounded-b-full" />
+                  <div className="absolute top-0 left-2 right-2 h-[3px] bg-micron rounded-b-full" />
                 )}
                 {modeOption.label}
               </button>
@@ -2082,7 +2082,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   disabled={!linkUrl.trim()}
                   className={`flex-1 rounded-lg py-3 text-base font-bold transition-colors ${
                     linkUrl.trim()
-                      ? 'bg-stretchLimo text-white hover:bg-opacity-90'
+                      ? 'bg-micron text-white hover:bg-opacity-90'
                       : 'bg-stretchLimo100 text-micron cursor-not-allowed'
                   }`}
                 >
