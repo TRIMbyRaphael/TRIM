@@ -41,11 +41,11 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
   };
 
   const getBorderStyle = () => {
-    return 'none'; // 테두리 제거 - 그림자만으로 depth 표현
+    return '1px solid rgba(26, 26, 26, 0.06)'; // 아주 미세한 테두리로 경계감 보완
   };
 
   const getShadowClass = () => {
-    if (level === 0) return 'shadow-sm hover:shadow-md transition-shadow';
+    if (level === 0) return 'shadow hover:shadow-md transition-shadow';
     if (level === 1) return 'shadow-md';
     return 'shadow-lg'; // Level 2+
   };
