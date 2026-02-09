@@ -1894,63 +1894,62 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         <div className="border-t border-stretchLimo300 my-6"></div>
 
         {/* Sub-Decisions Section */}
-        <div className="bg-white rounded-lg border border-stretchLimo400 shadow-md">
+        <div className="relative bg-white rounded-lg border border-stretchLimo400 shadow-md">
+          {/* Info Popover - 섹션 컨테이너 기준 배치 */}
+          {showChunkingInfo && (
+            <div ref={chunkingInfoRef} className="absolute left-4 right-4 bottom-full mb-2 bg-white border border-stretchLimo/20 shadow-lg rounded-lg p-4 z-50">
+              <div className="flex items-start gap-2">
+                <h4 className="text-sm font-semibold text-black flex-1 whitespace-nowrap">
+                  Break a complex decision into smaller ones.
+                </h4>
+                {!showChunkingInfoExpanded && (
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setShowChunkingInfoExpanded(true);
+                    }}
+                    className="text-xs text-stretchLimo hover:text-stretchLimo/80 underline flex-shrink-0"
+                  >
+                    ...more
+                  </button>
+                )}
+              </div>
+              {showChunkingInfoExpanded && (
+                <div className="mt-2 space-y-2">
+                  <p className="text-xs text-stretchLimo leading-relaxed">
+                    Sometimes a decision feels overwhelming because it contains multiple prior decisions you haven't resolved yet.
+                  </p>
+                  <p className="text-xs text-stretchLimo leading-relaxed">
+                    Instead of treating it as one problem, break it into chunks and resolve them step by step.
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
           <div className="flex items-center justify-between px-4 py-3 hover:bg-stretchLimo50 transition-colors">
             <button
               onClick={() => setShowSubDecisions(!showSubDecisions)}
               className="flex items-center gap-2 flex-1"
             >
               <h3 className="text-base font-medium text-stretchLimo">Decision Chunking</h3>
-              {/* Info Popover (ChevronDown 자리) */}
-              <div className="relative" ref={chunkingInfoRef}>
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    if (showChunkingInfo) {
-                      setShowChunkingInfo(false);
-                      setShowChunkingInfoExpanded(false);
-                    } else {
-                      setShowChunkingInfo(true);
-                      setShowChunkingInfoExpanded(false);
-                    }
-                  }}
-                  className="p-1 rounded-full hover:bg-stretchLimo/5 transition-colors mt-1.5"
-                >
-                  <Info className="w-4 h-4 text-stretchLimo/60 hover:text-stretchLimo cursor-pointer" />
-                </button>
-                {showChunkingInfo && (
-                  <div className="absolute left-0 bottom-full mb-2 bg-white border border-stretchLimo/20 shadow-lg max-w-[calc(100vw-3rem)] sm:max-w-xl rounded-lg p-4 z-50">
-                    <div className="flex items-start gap-2">
-                      <h4 className="text-sm font-semibold text-black flex-1 whitespace-nowrap">
-                        Break a complex decision into smaller ones.
-                      </h4>
-                      {!showChunkingInfoExpanded && (
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            setShowChunkingInfoExpanded(true);
-                          }}
-                          className="text-xs text-stretchLimo hover:text-stretchLimo/80 underline flex-shrink-0"
-                        >
-                          ...more
-                        </button>
-                      )}
-                    </div>
-                    {showChunkingInfoExpanded && (
-                      <div className="mt-2 space-y-2">
-                        <p className="text-xs text-stretchLimo leading-relaxed">
-                          Sometimes a decision feels overwhelming because it contains multiple prior decisions you haven't resolved yet.
-                        </p>
-                        <p className="text-xs text-stretchLimo leading-relaxed">
-                          Instead of treating it as one problem, break it into chunks and resolve them step by step.
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
+              {/* Info Icon */}
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (showChunkingInfo) {
+                    setShowChunkingInfo(false);
+                    setShowChunkingInfoExpanded(false);
+                  } else {
+                    setShowChunkingInfo(true);
+                    setShowChunkingInfoExpanded(false);
+                  }
+                }}
+                className="p-1 rounded-full hover:bg-stretchLimo/5 transition-colors mt-1.5"
+              >
+                <Info className="w-4 h-4 text-stretchLimo/60 hover:text-stretchLimo cursor-pointer" />
+              </button>
             </button>
             <div className="flex items-center gap-2">
               <span className="text-sm text-stretchLimo">
