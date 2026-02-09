@@ -940,22 +940,22 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   return (
     <div className="min-h-screen bg-cloudDancer">
       {/* Header */}
-      <header className="sticky top-0 z-10 bg-white border-b border-stretchLimo300 px-4 py-3 flex items-center justify-between">
+      <header className="sticky top-0 z-10 bg-stretchLimo border-b border-white/20 px-4 py-3 flex items-center justify-between">
         {/* Breadcrumb Navigation */}
         <nav className="flex items-center gap-2 text-sm">
           <button 
             onClick={() => handleNavigateAway(onBack)}
-            className="p-2 hover:bg-stretchLimo100 rounded-lg transition-colors"
+            className="p-2 hover:bg-white/10 rounded-lg transition-colors"
           >
-            <Home className="w-5 h-5 text-stretchLimo" />
+            <Home className="w-5 h-5 text-white" />
           </button>
           
           {breadcrumbPath.map((item) => (
             <div key={item.id} className="flex items-center gap-2">
-              <span className="text-micron"> &gt; </span>
+              <span className="text-white/70"> &gt; </span>
               <button 
                 onClick={() => handleNavigateAway(() => onSelectDecision(item.id))}
-                className="text-stretchLimo hover:text-opacity-70 hover:underline truncate max-w-[150px]"
+                className="text-white hover:text-white/70 hover:underline truncate max-w-[150px]"
               >
                 {item.title}
               </button>
@@ -969,14 +969,14 @@ export default function DecisionDetail({ decision, decisions, categories, initia
             <button
               onClick={() => !localDecision.resolved && setShowCategoryDropdown(!showCategoryDropdown)}
               disabled={localDecision.resolved}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors border border-stretchLimo200 ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors border border-white/30 ${
                 localDecision.resolved 
                   ? 'opacity-50 cursor-not-allowed' 
-                  : 'hover:bg-stretchLimo100'
+                  : 'hover:bg-white/10'
               }`}
             >
-              <span className="font-medium text-stretchLimo">{localDecision.category}</span>
-              <ChevronDown className="w-4 h-4 text-stretchLimo" />
+              <span className="font-medium text-white">{localDecision.category}</span>
+              <ChevronDown className="w-4 h-4 text-white" />
             </button>
 
             {showCategoryDropdown && (
@@ -999,9 +999,9 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         <div className="relative">
           <button
             onClick={() => setShowKebabMenu(!showKebabMenu)}
-            className="p-2 hover:bg-stretchLimo100 rounded-lg transition-colors"
+            className="p-2 hover:bg-white/10 rounded-lg transition-colors"
           >
-            <MoreVertical className="w-5 h-5 text-stretchLimo" />
+            <MoreVertical className="w-5 h-5 text-white" />
           </button>
 
           {showKebabMenu && (
