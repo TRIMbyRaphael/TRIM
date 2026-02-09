@@ -130,10 +130,12 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   useEffect(() => {
     if (!showChunkingInfo) return;
     const handleClickOutside = (e: MouseEvent) => {
-      if (chunkingInfoRef.current && !chunkingInfoRef.current.contains(e.target as Node)) {
-        setShowChunkingInfo(false);
-        setShowChunkingInfoExpanded(false);
-      }
+      const target = e.target as Node;
+      // 팝오버 또는 Info 버튼 클릭은 무시
+      if (chunkingInfoRef.current?.contains(target)) return;
+      if (chunkingInfoBtnRef.current?.contains(target)) return;
+      setShowChunkingInfo(false);
+      setShowChunkingInfoExpanded(false);
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
