@@ -1239,7 +1239,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         </div>
 
         {/* Decision Container Box */}
-        <div className="bg-white border border-stretchLimo200 rounded-xl p-6 mb-6">
+        <div className="bg-white border border-stretchLimo300 rounded-xl p-6 mb-6">
           {/* Options List */}
           <div className="space-y-3 mb-4">
           {/* 삭제 팝업 배경 오버레이 */}
@@ -1276,7 +1276,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     ? 'bg-stretchLimo bg-opacity-5 border-2 border-stretchLimo border-dashed'
                     : option.isSelected 
                     ? 'bg-stretchLimo bg-opacity-10 border-2 border-stretchLimo' 
-                    : 'bg-white border border-stretchLimo200'
+                    : 'bg-white border border-stretchLimo300'
                 }`}
               >
               {/* Option Header */}
