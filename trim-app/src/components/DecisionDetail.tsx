@@ -1340,25 +1340,36 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 {/* Q4: Any deal-breakers? - no_clear_options only */}
                 {(localDecision.mode || 'do_or_not') === 'no_clear_options' && (
                   <div>
-                    <label className="block text-sm font-medium text-cloudDancer mb-0.5">
-                      Any deal-breakers?
-                    </label>
-                    <textarea
-                      ref={(el) => (framingRefs.current['dealbreakers'] = el)}
-                      value={localDecision.framing?.dealbreakers || ''}
-                      onChange={(e) => {
-                        handleFramingChange('dealbreakers', e.target.value);
-                        // Auto-resize on input
-                        e.target.style.height = 'auto';
-                        e.target.style.height = `${e.target.scrollHeight}px`;
-                      }}
-                      placeholder="What's non-negotiable for you..."
-                      disabled={localDecision.resolved}
-                      className={`w-full px-3 py-1.5 text-sm text-white placeholder:text-xs placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none overflow-hidden ${
-                        localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
-                      }`}
-                      rows={1}
-                    />
+                    <button
+                      type="button"
+                      onClick={() => toggleFramingCollapse('dealbreakers')}
+                      className="w-full flex items-center justify-between mb-0.5 group/q"
+                    >
+                      <span className="text-sm font-medium text-cloudDancer">Any deal-breakers?</span>
+                      {collapsedFramingQuestions['dealbreakers'] ? (
+                        <ChevronRight className="w-4 h-4 text-cloudDancer/60 group-hover/q:text-cloudDancer transition-colors" />
+                      ) : (
+                        <ChevronDown className="w-4 h-4 text-cloudDancer/60 group-hover/q:text-cloudDancer transition-colors" />
+                      )}
+                    </button>
+                    {!collapsedFramingQuestions['dealbreakers'] && (
+                      <textarea
+                        ref={(el) => (framingRefs.current['dealbreakers'] = el)}
+                        value={localDecision.framing?.dealbreakers || ''}
+                        onChange={(e) => {
+                          handleFramingChange('dealbreakers', e.target.value);
+                          // Auto-resize on input
+                          e.target.style.height = 'auto';
+                          e.target.style.height = `${e.target.scrollHeight}px`;
+                        }}
+                        placeholder="What's non-negotiable for you..."
+                        disabled={localDecision.resolved}
+                        className={`w-full px-3 py-1.5 text-sm text-white placeholder:text-xs placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none overflow-hidden ${
+                          localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
+                        }`}
+                        rows={1}
+                      />
+                    )}
                   </div>
                 )}
 
