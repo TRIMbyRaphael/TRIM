@@ -99,7 +99,7 @@ const ko: Translations = {
   chunkingInfoTitle: '복잡한 결정을 더 작은 결정들로 쪼개보세요.',
   chunkingMore: '...더보기',
   chunkingInfoDesc1Before: '때때로 결정이 막막하게 느껴지는 이유는, 하나의 의사결정 안에 ',
-  chunkingInfoDesc1Bold: '먼저 해결해야 할 결정들이',
+  chunkingInfoDesc1Bold: '먼저 해결해야 할 결정들이 ',
   chunkingInfoDesc1After: '겹겹이 쌓여 있기 때문일 수 있습니다.',
   chunkingInfoDesc2: '하나의 문제로 대하는 대신, 작은 결정들로 쪼개어 하나씩 판단해보세요.',
   addSubDecision: '하위 결정 추가',
