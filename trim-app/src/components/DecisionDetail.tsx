@@ -101,6 +101,27 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     'no_clear_options': initOptionsForMode('no_clear_options', decision.mode || 'do_or_not', decision.options),
   });
 
+  // Sync localDecision when decision prop changes (e.g., navigating to sub-decision)
+  useEffect(() => {
+    setLocalDecision(decision);
+    initialDecision.current = decision;
+    // 모드별 옵션 ref 초기화
+    const srcMode = decision.mode || 'do_or_not';
+    optionsByModeRef.current = {
+      'do_or_not': initOptionsForMode('do_or_not', srcMode, decision.options),
+      'choose_best': initOptionsForMode('choose_best', srcMode, decision.options),
+      'no_clear_options': initOptionsForMode('no_clear_options', srcMode, decision.options),
+    };
+    // Auto-enable pros/cons for options that already have data
+    const autoEnabled: { [key: string]: boolean } = {};
+    decision.options.forEach(opt => {
+      if (opt.pros || opt.cons) {
+        autoEnabled[opt.id] = true;
+      }
+    });
+    setProsConsEnabled(autoEnabled);
+  }, [decision.id]);
+
   // Auto-resize title textarea on mount
   useEffect(() => {
     if (titleInputRef.current) {
