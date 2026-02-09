@@ -1141,7 +1141,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
           {/* Decision Framing Questions (mode-specific) */}
           {showDecisionMemo && (
-            <div className="mt-3 bg-[#FAFAFA] border border-[#E5E5E5] rounded-xl p-6">
+            <div className="mt-3 bg-white border border-stretchLimo200 rounded-xl p-6">
               <div className="space-y-3">
                 {/* Q1: What happened? - all modes */}
                 <div>
@@ -1239,7 +1239,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         </div>
 
         {/* Decision Container Box */}
-        <div className="bg-[#FAFAFA] border border-[#E5E5E5] rounded-xl p-6 mb-6">
+        <div className="bg-white border border-stretchLimo200 rounded-xl p-6 mb-6">
           {/* Options List */}
           <div className="space-y-3 mb-4">
           {/* 삭제 팝업 배경 오버레이 */}
