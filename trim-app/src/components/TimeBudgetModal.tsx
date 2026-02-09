@@ -183,7 +183,7 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
               <div className="flex items-center justify-between mb-4">
                 <button
                   onClick={() => handleMonthChange(-1)}
-                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  className="p-2 hover:bg-cloudDancer/50 rounded-lg transition-colors"
                 >
                   <ChevronLeft className="w-5 h-5 text-stretchLimo" />
                 </button>
@@ -192,7 +192,7 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
                 </span>
                 <button
                   onClick={() => handleMonthChange(1)}
-                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  className="p-2 hover:bg-cloudDancer/50 rounded-lg transition-colors"
                 >
                   <ChevronRight className="w-5 h-5 text-stretchLimo" />
                 </button>
@@ -214,7 +214,7 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
                       day === deadline.getDate()
                         ? 'bg-stretchLimo text-white font-bold'
                         : day
-                        ? 'text-stretchLimo hover:bg-gray-100'
+                        ? 'text-stretchLimo hover:bg-cloudDancer/50'
                         : ''
                     }`}
                   >
@@ -226,7 +226,7 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
               {/* Time Selector */}
               <button
                 onClick={() => setShowTimePicker(true)}
-                className="w-full flex items-center justify-between px-4 py-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                className="w-full flex items-center justify-between px-4 py-3 bg-gray-50 rounded-lg hover:bg-cloudDancer/50 transition-colors"
               >
                 <span className="text-base text-stretchLimo">{t.time}</span>
                 <div className="flex items-center gap-2">
@@ -262,7 +262,7 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
                 <h3 className="text-lg font-bold text-stretchLimo">{t.setTime}</h3>
                 <button
                   onClick={() => setShowTimePicker(false)}
-                  className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
+                  className="p-1 hover:bg-cloudDancer/50 rounded-lg transition-colors"
                 >
                   <X className="w-5 h-5 text-stretchLimo" />
                 </button>
