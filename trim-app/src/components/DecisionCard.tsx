@@ -308,7 +308,7 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
-                        className="block bg-gray-50 rounded-md overflow-hidden hover:bg-gray-100 transition-colors"
+                        className="block bg-stretchLimo50 rounded-md overflow-hidden hover:bg-stretchLimo100 transition-colors"
                       >
                         <div className="flex items-start gap-2 p-2">
                           {/* Thumbnail */}
