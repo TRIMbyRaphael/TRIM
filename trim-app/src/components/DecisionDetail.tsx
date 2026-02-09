@@ -1071,7 +1071,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block bg-gray-50 rounded-lg overflow-hidden hover:bg-stretchLimo100 transition-colors group"
+                  className="block bg-stretchLimo50 rounded-lg overflow-hidden hover:bg-stretchLimo100 transition-colors group"
                 >
                   <div className="flex items-start gap-3 p-3">
                     {/* Thumbnail Image */}
@@ -1387,7 +1387,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block bg-gray-100 rounded-lg overflow-hidden hover:bg-stretchLimo200 transition-colors relative group/link"
+                      className="block bg-stretchLimo100 rounded-lg overflow-hidden hover:bg-stretchLimo200 transition-colors relative group/link"
                     >
                       <div className="flex items-start gap-3 p-3">
                         {/* Thumbnail Image */}
@@ -1489,7 +1489,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                           onChange={(e) => handleOptionConsChange(option.id, e.target.value)}
                           placeholder="What's not ideal about this option..."
                           disabled={localDecision.resolved}
-                          className={`w-full px-3 py-2 text-sm text-stretchLimo bg-gray-100 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                          className={`w-full px-3 py-2 text-sm text-stretchLimo bg-stretchLimo100 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
                             localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                           }`}
                           rows={2}
@@ -1518,7 +1518,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                             : 'Add notes about this option...'
                         }
                         disabled={localDecision.resolved}
-                        className={`w-full mt-3 px-3 py-2 text-sm text-stretchLimo bg-gray-50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                        className={`w-full mt-3 px-3 py-2 text-sm text-stretchLimo bg-stretchLimo50 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
                           localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                         }`}
                         rows={2}
@@ -1621,7 +1621,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                                 value={criteria.ratings[opt.id] || ''}
                                 onChange={(e) => handleCriteriaRatingChange(criteria.id, opt.id, e.target.value)}
                                 placeholder="—"
-                                className="w-full text-sm text-center text-stretchLimo bg-gray-50 border border-gray-200 rounded px-1.5 py-1 outline-none focus:ring-1 focus:ring-stretchLimo focus:bg-white placeholder-gray-300"
+                                className="w-full text-sm text-center text-stretchLimo bg-stretchLimo50 border border-gray-200 rounded px-1.5 py-1 outline-none focus:ring-1 focus:ring-stretchLimo focus:bg-white placeholder-gray-300"
                               />
                             </td>
                           ))}
@@ -1655,7 +1655,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 className={`rounded-lg py-3 px-16 text-base font-bold transition-colors ${
                   localDecision.options.some(opt => opt.isSelected)
                     ? 'bg-stretchLimo text-white hover:bg-opacity-90'
-                    : 'bg-gray-100 text-micron cursor-not-allowed border-2 border-gray-200'
+                    : 'bg-stretchLimo100 text-micron cursor-not-allowed border-2 border-gray-200'
                 }`}
               >
                 <img 
@@ -1675,7 +1675,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     onClick={handleRandomPick}
                     onMouseEnter={() => setShowRandomPickTooltip(true)}
                     onMouseLeave={() => setShowRandomPickTooltip(false)}
-                    className="flex flex-col items-center gap-1 p-3 bg-gray-50 hover:bg-stretchLimo100 rounded-lg transition-colors relative border-0"
+                    className="flex flex-col items-center gap-1 p-3 bg-stretchLimo50 hover:bg-stretchLimo100 rounded-lg transition-colors relative border-0"
                   >
                     <Shuffle className="w-5 h-5 text-stretchLimo" />
                     <div className="flex flex-col items-center leading-tight">
@@ -1737,7 +1737,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     key={level}
                     onClick={() => handleImportanceChange(level)}
                     className={`w-full px-4 py-3 text-left hover:bg-stretchLimo100 transition-colors ${
-                      localDecision.importance === level ? 'bg-gray-50' : ''
+                      localDecision.importance === level ? 'bg-stretchLimo50' : ''
                     }`}
                   >
                     <div className="flex items-center justify-between">
@@ -1853,10 +1853,10 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       onClick={() => onSelectDecision(subDecision.id)}
                       className={`w-full flex items-center justify-between p-3 mb-2 rounded-lg transition-colors text-left ${
                         isDragging
-                          ? 'opacity-50 bg-gray-100'
+                          ? 'opacity-50 bg-stretchLimo100'
                           : isDragOver
                           ? 'bg-stretchLimo bg-opacity-10 border-2 border-stretchLimo border-dashed'
-                          : 'bg-gray-50 hover:bg-stretchLimo100'
+                          : 'bg-stretchLimo50 hover:bg-stretchLimo100'
                       } ${localDecision.resolved ? 'cursor-default' : 'cursor-pointer'}`}
                     >
                       <div className="flex-1 min-w-0">
@@ -2022,7 +2022,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
                 {/* Preview */}
                 {!isLoadingPreview && (linkTitle || linkImage) && (
-                  <div className="bg-gray-50 rounded-lg p-3">
+                  <div className="bg-stretchLimo50 rounded-lg p-3">
                     <div className="flex gap-3">
                       {linkImage && (
                         <div className="w-16 h-16 flex-shrink-0 rounded overflow-hidden bg-gray-200">
@@ -2083,7 +2083,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   className={`flex-1 rounded-lg py-3 text-base font-bold transition-colors ${
                     linkUrl.trim()
                       ? 'bg-stretchLimo text-white hover:bg-opacity-90'
-                      : 'bg-gray-100 text-micron cursor-not-allowed'
+                      : 'bg-stretchLimo100 text-micron cursor-not-allowed'
                   }`}
                 >
                   Save
