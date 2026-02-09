@@ -1807,7 +1807,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         <div className="border-t border-stretchLimo200 my-6"></div>
 
         {/* Sub-Decisions Section */}
-        <div className="bg-white rounded-lg">
+        <div className="bg-white rounded-lg border border-stretchLimo200 shadow-sm">
           <button
             onClick={() => setShowSubDecisions(!showSubDecisions)}
             className="w-full px-4 py-3 flex items-center justify-between hover:bg-stretchLimo50 transition-colors"
