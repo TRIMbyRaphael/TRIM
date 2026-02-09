@@ -1718,14 +1718,14 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               }`}
             >
               <div className="flex items-center gap-2">
-                <Info className="w-5 h-5 text-micron" />
-                <span className="text-base text-stretchLimo">Importance</span>
+                <Info className="w-5 h-5 text-stretchLimo600" />
+                <span className="text-base text-black">Importance</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-base text-stretchLimo">
+                <span className="text-base text-stretchLimo700">
                   {IMPORTANCE_LEVELS[localDecision.importance].label}
                 </span>
-                <ChevronDown className="w-4 h-4 text-micron" />
+                <ChevronDown className="w-4 h-4 text-stretchLimo600" />
               </div>
             </button>
 
