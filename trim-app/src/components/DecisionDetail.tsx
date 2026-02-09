@@ -1944,11 +1944,13 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       <span className="text-sm text-micron">
                         {IMPORTANCE_LEVELS[level].minutes < 60
                           ? `${IMPORTANCE_LEVELS[level].minutes}${t.minute}`
+                          : IMPORTANCE_LEVELS[level].minutes === 1440
+                          ? `24${t.hour}`
                           : IMPORTANCE_LEVELS[level].minutes < 1440
                           ? `${Math.floor(IMPORTANCE_LEVELS[level].minutes / 60)}${t.hour}`
                           : (() => {
                               const days = Math.floor(IMPORTANCE_LEVELS[level].minutes / 1440);
-                              return `${days}${days === 1 ? t.day : t.days}`;
+                              return `${days}${t.days}`;
                             })()}
                       </span>
                     </div>
