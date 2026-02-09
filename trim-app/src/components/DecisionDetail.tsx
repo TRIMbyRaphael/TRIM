@@ -42,6 +42,20 @@ export default function DecisionDetail({ decision, decisions, categories, initia
       }
     });
     setProsConsEnabled(autoEnabled);
+    
+    // Reset framing textarea heights after DOM update
+    setTimeout(() => {
+      const framingFields: Array<'whatHappened' | 'goal' | 'constraints' | 'dealbreakers' | 'keyFactors'> = 
+        ['whatHappened', 'goal', 'constraints', 'dealbreakers', 'keyFactors'];
+      
+      framingFields.forEach((field) => {
+        const textarea = framingRefs.current[field];
+        if (textarea) {
+          textarea.style.height = 'auto';
+          textarea.style.height = `${textarea.scrollHeight}px`;
+        }
+      });
+    }, 0);
   }, [decision.id]);
   const [showKebabMenu, setShowKebabMenu] = useState(false);
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
