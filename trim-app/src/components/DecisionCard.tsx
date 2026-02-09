@@ -40,8 +40,8 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
   };
 
   const getBorderStyle = () => {
-    if (level === 0) return '1px solid rgba(44, 44, 46, 0.20)'; // stretchLimo/20
-    return '1px solid rgba(44, 44, 46, 0.15)'; // stretchLimo/15
+    if (level === 0) return '1px solid rgba(44, 44, 46, 0.40)'; // stretchLimo/40
+    return '1px solid rgba(44, 44, 46, 0.30)'; // stretchLimo/30
   };
 
   const getShadowClass = () => {
