@@ -1739,8 +1739,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         )}
 
         {/* TRIM Button and Random Pick Button Container */}
-        <div className={`relative flex items-center justify-center mb-0 w-full ${
-          (currentMode === 'choose_best' || currentMode === 'no_clear_options') ? '-mt-2' : ''
+        <div className={`relative flex items-center justify-center w-full ${
+          (currentMode === 'choose_best' || currentMode === 'no_clear_options') ? 'mt-2 mb-2' : 'mb-0'
         }`}>
           {!localDecision.resolved ? (
             <>
