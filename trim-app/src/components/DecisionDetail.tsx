@@ -1652,7 +1652,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
         {/* Compare Options CTA - choose_best, no_clear_options only */}
         {(currentMode === 'choose_best' || currentMode === 'no_clear_options') && !localDecision.resolved && (
-          <div className="mb-1">
+          <div className="mb-1 -mt-2">
             <button
               onClick={handleToggleComparisonMatrix}
               className="flex items-center gap-1.5 text-sm text-micron hover:text-stretchLimo transition-colors py-1.5"
