@@ -79,6 +79,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   const [longPressOptionId, setLongPressOptionId] = useState<string | null>(null); // 꾹 눌러서 삭제 팝업 표시용
   const longPressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const deletePopupShownAtRef = useRef<number | null>(null); // 삭제 팝업이 표시된 시간
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const chunkingInfoRef = useRef<HTMLDivElement>(null);
   const chunkingInfoBtnRef = useRef<HTMLButtonElement>(null);
   const titleInputRef = useRef<HTMLTextAreaElement>(null);
@@ -114,6 +115,16 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     'choose_best': initOptionsForMode('choose_best', decision.mode || 'do_or_not', decision.options),
     'no_clear_options': initOptionsForMode('no_clear_options', decision.mode || 'do_or_not', decision.options),
   });
+
+  // Detect mobile/desktop for responsive placeholder
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    handleResize(); // 초기값 설정
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Persist framing collapse state to localStorage
   useEffect(() => {
