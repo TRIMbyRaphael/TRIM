@@ -70,6 +70,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   const longPressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const deletePopupShownAtRef = useRef<number | null>(null); // 삭제 팝업이 표시된 시간
   const chunkingInfoRef = useRef<HTMLDivElement>(null);
+  const chunkingInfoBtnRef = useRef<HTMLButtonElement>(null);
   const titleInputRef = useRef<HTMLTextAreaElement>(null);
   const optionRefs = useRef<{ [key: string]: HTMLTextAreaElement | null }>({});
   const framingRefs = useRef<{ [key: string]: HTMLTextAreaElement | null }>({});
@@ -1937,6 +1938,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               <h3 className="text-base font-medium text-stretchLimo">Decision Chunking</h3>
               {/* Info Icon */}
               <button
+                ref={chunkingInfoBtnRef}
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
