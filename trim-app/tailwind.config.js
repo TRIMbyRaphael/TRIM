@@ -8,7 +8,7 @@ export default {
     extend: {
       colors: {
         // Pantone Cloud Dancer 11-4201 TCX - 따뜻한 오프화이트
-        cloudDancer: '#F7F5F0',
+        cloudDancer: '#F5F5F5',
         // Pantone Stretch Limo 19-4005 TCX - 거의 블랙에 가까운 진한 차콜
         stretchLimo: '#1A1A1A',
         // Pantone Micron 20-0007 TPM - 중간 차콜 회색
