@@ -3,6 +3,7 @@ import Dashboard from './components/Dashboard';
 import DecisionDetail from './components/DecisionDetail';
 import { Decision, IMPORTANCE_LEVELS, DEFAULT_DECISION_MODE } from './types/decision';
 import { loadDecisions, saveDecisions, loadCategories, saveCategories } from './utils/storage';
+import { t } from './i18n';
 
 type View = 'dashboard' | 'detail';
 
@@ -64,12 +65,12 @@ function App() {
       initialOptions = [
         {
           id: `${baseId}-1`,
-          title: 'Do',
+          title: t.doOption,
           isSelected: false,
         },
         {
           id: `${baseId}-2`,
-          title: 'Do Not',
+          title: t.doNotOption,
           isSelected: false,
         },
       ];
