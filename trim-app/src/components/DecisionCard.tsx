@@ -257,7 +257,7 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
                       ? 'text-scarletSmile' 
                       : timeData.isUrgent 
                         ? 'text-scarletSmile animate-pulse' 
-                        : 'text-micron'
+                        : 'text-stretchLimo700'
                   }`}
                 >
                   {/* 초를 제외한 부분 */}
@@ -369,7 +369,7 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
                 className={`w-full py-2 rounded-lg text-sm font-bold transition-colors ${
                   canTrim
                     ? 'bg-stretchLimo text-white hover:bg-opacity-90'
-                    : 'bg-stretchLimo100 text-micron cursor-not-allowed border-2 border-stretchLimo200'
+                    : 'bg-stretchLimo100 text-stretchLimo300 cursor-not-allowed border-2 border-stretchLimo200'
                 }`}
               >
                 <img 
