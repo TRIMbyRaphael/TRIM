@@ -68,14 +68,14 @@ export default function DecisionChunking({
             {showChunkingInfo && (
               <div className="absolute right-0 top-full mt-2 bg-white border border-stretchLimo/20 shadow-lg max-w-xs rounded-lg p-4 z-50">
                 <h4 className="text-base font-semibold text-black mb-2">
-                  Break a complex decision into smaller ones.
+                  {t.chunkingInfoTitle}
                 </h4>
                 <div className="space-y-2">
                   <p className="text-sm text-stretchLimo leading-relaxed">
-                    Sometimes a decision feels overwhelming because it contains multiple prior decisions you haven't resolved yet.
+                    {t.chunkingInfoDesc1Before}{t.chunkingInfoDesc1Bold}{t.chunkingInfoDesc1After}
                   </p>
                   <p className="text-sm text-stretchLimo leading-relaxed">
-                    Instead of treating it as one problem, break it into chunks and resolve them step by step.
+                    {t.chunkingInfoDesc2}
                   </p>
                 </div>
               </div>
@@ -99,7 +99,7 @@ export default function DecisionChunking({
               >
                 <div className="flex-1 min-w-0">
                   <h4 className="text-sm font-medium text-stretchLimo truncate mb-1">
-                    {subDecision.title || '(제목 없음)'}
+                    {subDecision.title || t.untitledCard}
                   </h4>
                   <div className="flex items-center gap-2 text-xs">
                     <span
@@ -111,7 +111,7 @@ export default function DecisionChunking({
                           : 'text-micron'
                       }`}
                     >
-                      {subDecision.resolved ? 'Resolved' : timeData.text}
+                      {subDecision.resolved ? t.resolvedText : timeData.text}
                     </span>
                     <span className="text-micron">·</span>
                     <span className="text-micron">
