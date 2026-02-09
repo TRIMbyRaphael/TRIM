@@ -1963,15 +1963,15 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               <button
                 key={modeOption.value}
                 onClick={() => handleModeChange(modeOption.value)}
-                className={`flex-1 py-6 text-sm font-medium transition-colors relative ${
+                className={`flex-1 py-6 text-sm transition-colors relative ${
                   isActive
-                    ? 'text-white'
-                    : 'text-white/50 hover:text-white hover:bg-white/5'
+                    ? 'text-white font-bold'
+                    : 'text-white/40 font-medium hover:text-white/70 hover:bg-white/5'
                 }`}
               >
                 {/* Active indicator bar */}
                 {isActive && (
-                  <div className="absolute top-0 left-2 right-2 h-[3px] bg-white rounded-b-full" />
+                  <div className="absolute top-0 left-0 right-0 h-[3px] bg-cloudDancer" />
                 )}
                 {modeOption.label}
               </button>
