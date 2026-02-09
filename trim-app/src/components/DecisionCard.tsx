@@ -195,7 +195,7 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
                 top: '0',
                 width: '2px',
                 height: '14px',
-                backgroundColor: 'rgba(44, 44, 46, 0.40)', // stretchLimo/40
+                backgroundColor: 'rgba(44, 44, 46, 0.50)', // stretchLimo/50
               }}
             />
             {/* 가로선 */}
@@ -206,7 +206,7 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
                 top: '14px',
                 width: '12px',
                 height: '2px',
-                backgroundColor: 'rgba(44, 44, 46, 0.40)', // stretchLimo/40
+                backgroundColor: 'rgba(44, 44, 46, 0.50)', // stretchLimo/50
               }}
             />
           </>
