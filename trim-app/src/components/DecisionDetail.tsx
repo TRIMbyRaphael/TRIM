@@ -1953,11 +1953,11 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               )}
             </div>
           )}
-          <div className="flex items-center justify-between px-4 py-3 hover:bg-stretchLimo50 transition-colors">
-            <button
-              onClick={() => setShowSubDecisions(!showSubDecisions)}
-              className="flex items-center gap-2 flex-1"
-            >
+          <div 
+            onClick={() => setShowSubDecisions(!showSubDecisions)}
+            className="flex items-center justify-between px-4 py-3 hover:bg-stretchLimo50 transition-colors cursor-pointer"
+          >
+            <div className="flex items-center gap-2 flex-1">
               <h3 className="text-base font-medium text-stretchLimo">Decision Chunking</h3>
               {/* Info Icon */}
               <button
@@ -1977,7 +1977,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               >
                 <Info className="w-4 h-4 text-stretchLimo/60 hover:text-stretchLimo cursor-pointer" />
               </button>
-            </button>
+            </div>
             <div className="flex items-center gap-2">
               <span className="text-sm text-stretchLimo">
                 {decisions.filter(d => d.parentId === localDecision.id).length}
