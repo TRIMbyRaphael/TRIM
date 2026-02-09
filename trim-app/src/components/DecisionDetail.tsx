@@ -553,7 +553,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     // 빈칸이면 원래 프리셋으로 복구 (do_or_not 모드에서만)
     if (currentMode === 'do_or_not' && currentTitle.trim() === '') {
       const optionIndex = localDecision.options.findIndex(opt => opt.id === optionId);
-      const originalTitle = optionIndex === 0 ? 'Do' : optionIndex === 1 ? 'Do Not' : '';
+      const originalTitle = optionIndex === 0 ? t.doOption : optionIndex === 1 ? t.doNotOption : '';
       
       if (originalTitle) {
         setLocalDecision({
