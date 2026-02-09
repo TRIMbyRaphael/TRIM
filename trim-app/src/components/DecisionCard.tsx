@@ -32,7 +32,7 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
 
   // Level-based styling - 계층별 depth 표현
   const getBackgroundColor = () => {
-    return '#FFFFFF'; // 모든 레벨 흰색 (cloudDancer 배경에서 떠 있는 느낌)
+    return '#FAFAF8'; // cardBg - Cloud Dancer와 같은 따뜻한 톤
   };
 
   const getPadding = () => {
