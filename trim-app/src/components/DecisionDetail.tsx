@@ -1252,11 +1252,17 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       Key factors?
                     </label>
                     <textarea
+                      ref={(el) => (framingRefs.current['keyFactors'] = el)}
                       value={localDecision.framing?.keyFactors || ''}
-                      onChange={(e) => handleFramingChange('keyFactors', e.target.value)}
+                      onChange={(e) => {
+                        handleFramingChange('keyFactors', e.target.value);
+                        // Auto-resize on input
+                        e.target.style.height = 'auto';
+                        e.target.style.height = `${e.target.scrollHeight}px`;
+                      }}
                       placeholder="Criteria you'll use to compare options..."
                       disabled={localDecision.resolved}
-                      className={`w-full px-3 py-1.5 text-sm text-stretchLimo placeholder:text-xs bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                      className={`w-full px-3 py-1.5 text-sm text-stretchLimo placeholder:text-xs bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none overflow-hidden ${
                         localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                       }`}
                       rows={1}
