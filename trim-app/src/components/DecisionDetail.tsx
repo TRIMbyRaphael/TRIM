@@ -131,6 +131,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     const handleClickOutside = (e: MouseEvent) => {
       if (chunkingInfoRef.current && !chunkingInfoRef.current.contains(e.target as Node)) {
         setShowChunkingInfo(false);
+        setShowChunkingInfoExpanded(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -1906,25 +1907,47 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    setShowChunkingInfo(!showChunkingInfo);
+                    if (showChunkingInfo) {
+                      setShowChunkingInfo(false);
+                      setShowChunkingInfoExpanded(false);
+                    } else {
+                      setShowChunkingInfo(true);
+                      setShowChunkingInfoExpanded(false);
+                    }
                   }}
                   className="p-1 rounded-full hover:bg-stretchLimo/5 transition-colors mt-1.5"
                 >
                   <Info className="w-4 h-4 text-stretchLimo/60 hover:text-stretchLimo cursor-pointer" />
                 </button>
                 {showChunkingInfo && (
-                  <div className="absolute left-0 top-full mt-2 bg-white border border-stretchLimo/20 shadow-lg max-w-xs rounded-lg p-4 z-50">
-                    <h4 className="text-base font-semibold text-black mb-2">
-                      Break a complex decision into smaller ones.
-                    </h4>
-                    <div className="space-y-2">
-                      <p className="text-sm text-stretchLimo leading-relaxed">
-                        Sometimes a decision feels overwhelming because it contains multiple prior decisions you haven't resolved yet.
-                      </p>
-                      <p className="text-sm text-stretchLimo leading-relaxed">
-                        Instead of treating it as one problem, break it into chunks and resolve them step by step.
-                      </p>
+                  <div className="absolute left-0 top-full mt-2 bg-white border border-stretchLimo/20 shadow-lg max-w-sm rounded-lg p-4 z-50">
+                    <div className="flex items-start gap-2">
+                      <h4 className="text-base font-semibold text-black flex-1">
+                        Break a complex decision into smaller ones.
+                      </h4>
+                      {!showChunkingInfoExpanded && (
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setShowChunkingInfoExpanded(true);
+                          }}
+                          className="text-sm text-stretchLimo hover:text-stretchLimo/80 underline flex-shrink-0"
+                        >
+                          ...more
+                        </button>
+                      )}
                     </div>
+                    {showChunkingInfoExpanded && (
+                      <div className="mt-2 space-y-2">
+                        <p className="text-sm text-stretchLimo leading-relaxed">
+                          Sometimes a decision feels overwhelming because it contains multiple prior decisions you haven't resolved yet.
+                        </p>
+                        <p className="text-sm text-stretchLimo leading-relaxed">
+                          Instead of treating it as one problem, break it into chunks and resolve them step by step.
+                        </p>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
