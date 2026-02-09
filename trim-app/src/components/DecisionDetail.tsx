@@ -2190,13 +2190,13 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   onClick={handleCancelLeave}
                   className="flex-1 bg-white text-stretchLimo border-2 border-stretchLimo rounded-lg py-3 text-base font-bold hover:bg-stretchLimo50 transition-colors"
                 >
-                  Cancel
+                  {t.cancel}
                 </button>
                 <button
                   onClick={handleLeaveWithoutSaving}
                   className="flex-1 bg-scarletSmile text-white rounded-lg py-3 text-base font-bold hover:bg-opacity-90 transition-colors"
                 >
-                  Leave
+                  {t.leave}
                 </button>
               </div>
             </div>
