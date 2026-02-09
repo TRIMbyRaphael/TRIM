@@ -1939,7 +1939,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   >
                     <div className="flex items-center justify-between">
                       <span className="text-base text-stretchLimo">
-                        {IMPORTANCE_LEVELS[level].label}
+                        {t.importanceLevels[level]}
                       </span>
                       <span className="text-sm text-micron">
                         {IMPORTANCE_LEVELS[level].minutes < 60
