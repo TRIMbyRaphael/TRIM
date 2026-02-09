@@ -17,7 +17,7 @@ const ko: Translations = {
 
   // Decision Modes
   decisionModes: {
-    choose_best: 'A 또는 B 또는 C',
+    choose_best: 'A or B or C',
     do_or_not: '할까 말까',
     no_clear_options: '선택지 불분명',
   },
@@ -42,7 +42,7 @@ const ko: Translations = {
   manageCategoriesTitle: '카테고리 관리',
 
   // Decision Detail - Title
-  titlePlaceholder: '머릿속을 어지럽히는 게 뭔가요?',
+  titlePlaceholder: '지금 무엇이 머릿속을 복잡하게 하고 있나요?',
   untitled: '[제목 없음]',
 
   // Framing Questions
