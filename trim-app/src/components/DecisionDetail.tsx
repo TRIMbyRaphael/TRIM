@@ -1151,7 +1151,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     onChange={(e) => handleFramingChange('whatHappened', e.target.value)}
                     placeholder="What situation led to this decision..."
                     disabled={localDecision.resolved}
-                    className={`w-full px-3 py-1.5 text-sm text-stretchLimo bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                    className={`w-full px-3 py-1.5 text-sm text-stretchLimo placeholder:text-xs bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
                       localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                     }`}
                     rows={1}
@@ -1168,7 +1168,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     onChange={(e) => handleFramingChange('goal', e.target.value)}
                     placeholder="What do I really want by making this decision..."
                     disabled={localDecision.resolved}
-                    className={`w-full px-3 py-1.5 text-sm text-stretchLimo bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                    className={`w-full px-3 py-1.5 text-sm text-stretchLimo placeholder:text-xs bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
                       localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                     }`}
                     rows={1}
@@ -1186,7 +1186,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       onChange={(e) => handleFramingChange('constraints', e.target.value)}
                       placeholder="External constraints you can't change..."
                       disabled={localDecision.resolved}
-                      className={`w-full px-3 py-1.5 text-sm text-stretchLimo bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                      className={`w-full px-3 py-1.5 text-sm text-stretchLimo placeholder:text-xs bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
                         localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                       }`}
                       rows={1}
