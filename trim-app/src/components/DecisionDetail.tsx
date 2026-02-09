@@ -1752,8 +1752,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
             <button
               onClick={handleAddOption}
               disabled={localDecision.resolved}
-              className={`w-full bg-white rounded-lg p-4 flex items-center gap-3 transition-colors text-micron border border-stretchLimo300 shadow-sm ${
-                localDecision.resolved ? 'opacity-50 cursor-not-allowed' : 'hover:bg-stretchLimo50'
+              className={`w-full bg-cardBg rounded-lg p-4 flex items-center gap-3 transition-shadow text-micron shadow-sm ${
+                localDecision.resolved ? 'opacity-50 cursor-not-allowed' : 'hover:bg-cloudDancer/30 hover:shadow-md'
               }`}
             >
               <Plus className="w-5 h-5" />
