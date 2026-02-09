@@ -1992,7 +1992,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   {(timeData.days > 0 || timeData.hours > 0) && `${timeData.hours}h `}
                   {(timeData.days > 0 || timeData.hours > 0 || timeData.minutes > 0) && `${timeData.minutes}m `}
                   <span className="text-sm">{timeData.seconds}s</span>
-                  {!timeData.isOverdue && ' left'}
+                  {!timeData.isOverdue && ` ${t.left}`}
                 </span>
               )}
               <ChevronRight className="w-4 h-4 text-stretchLimo" />
