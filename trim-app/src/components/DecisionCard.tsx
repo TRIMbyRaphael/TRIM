@@ -376,8 +376,8 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
               >
                 <img 
                   src={canTrim 
-                    ? '/src/assets/logo-button-active.svg' 
-                    : '/src/assets/logo-button-inactive.svg'
+                    ? logoButtonActive 
+                    : logoButtonInactive
                   }
                   alt="TRIM"
                   className="h-4 mx-auto"
