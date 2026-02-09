@@ -42,6 +42,11 @@ export default function DecisionDetail({ decision, decisions, categories, initia
       }
     });
     setProsConsEnabled(autoEnabled);
+  }, [decision.id]);
+
+  // Reset framing textarea heights when decision changes and memo is shown
+  useEffect(() => {
+    if (!showDecisionMemo) return;
     
     // Reset framing textarea heights after DOM update
     setTimeout(() => {
@@ -56,7 +61,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         }
       });
     }, 0);
-  }, [decision.id]);
+  }, [decision.id, showDecisionMemo]);
   const [showKebabMenu, setShowKebabMenu] = useState(false);
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
   const [showImportanceDropdown, setShowImportanceDropdown] = useState(false);
