@@ -1715,7 +1715,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                                 value={criteria.ratings[opt.id] || ''}
                                 onChange={(e) => handleCriteriaRatingChange(criteria.id, opt.id, e.target.value)}
                                 placeholder="—"
-                                className="w-full text-sm text-center text-white bg-white/10 border border-white/20 rounded px-1.5 py-1 outline-none focus:ring-1 focus:ring-white/50 focus:bg-white/20 placeholder-white/50"
+                                className="w-full text-sm text-center text-cloudDancer bg-white/10 border border-white/20 rounded px-1.5 py-1 outline-none focus:ring-1 focus:ring-white/50 focus:bg-white/20 placeholder-white/50"
                               />
                             </td>
                           ))}
