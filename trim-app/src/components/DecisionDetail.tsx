@@ -2152,7 +2152,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 }`}
               >
                 <Plus className="w-4 h-4" />
-                <span>Add Sub-Decision</span>
+                <span>{t.addSubDecision}</span>
               </button>
             </div>
           )}
