@@ -1965,17 +1965,17 @@ export default function DecisionDetail({ decision, decisions, categories, initia
           >
             <div className="flex items-center gap-2">
               <Clock className="w-5 h-5 text-stretchLimo" />
-              <span className="text-base text-black">Time Budget</span>
+              <span className="text-base text-black">{t.timeBudget}</span>
             </div>
             <div className="flex items-center gap-2">
               {localDecision.resolved && localDecision.resolvedAt ? (
                 <span className="text-base font-medium text-micron">
-                  {new Date(localDecision.resolvedAt).toLocaleDateString('en-US', {
+                  {new Date(localDecision.resolvedAt).toLocaleDateString(t.dateLocale, {
                     month: 'short',
                     day: 'numeric',
                     hour: '2-digit',
                     minute: '2-digit'
-                  })} completed
+                  })} {t.completed}
                 </span>
               ) : (
                 <span 
