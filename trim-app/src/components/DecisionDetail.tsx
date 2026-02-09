@@ -1053,12 +1053,10 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               className={`p-2 rounded-lg transition-all duration-200 ${
                 localDecision.resolved
                   ? 'opacity-50 cursor-not-allowed'
-                  : showDecisionMemo
-                    ? 'hover:bg-stretchLimo100'
-                    : 'bg-stretchLimo hover:bg-opacity-80'
+                  : 'hover:bg-stretchLimo100'
               }`}
             >
-              <Brain className="w-5 h-5" stroke={showDecisionMemo ? '#1B1B1B' : 'white'} fill={showDecisionMemo ? 'white' : '#1B1B1B'} />
+              <Brain className="w-5 h-5" stroke={showDecisionMemo ? '#1B1B1B' : '#1C1C1E'} fill={showDecisionMemo ? 'white' : '#2C2C2E'} />
             </button>
           </div>
 
