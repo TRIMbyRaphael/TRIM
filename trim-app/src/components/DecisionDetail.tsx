@@ -1763,7 +1763,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               ) : (
                 <ChevronRight className="w-3.5 h-3.5" />
               )}
-              <span>Compare Options</span>
+              <span>{t.compareOptions}</span>
             </button>
 
             {/* Comparison Matrix - Inline Expand - Micron 배경 */}
