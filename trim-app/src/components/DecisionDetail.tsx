@@ -1324,7 +1324,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     rows={1}
                     disabled={localDecision.resolved}
                     className={`flex-1 text-base bg-transparent border-none outline-none placeholder-stretchLimo300 resize-none overflow-hidden min-w-0 ${
-                      option.isSelected ? 'text-stretchLimo font-medium' : 'text-stretchLimo'
+                      option.isSelected ? 'text-black font-medium' : 'text-black'
                     } ${localDecision.resolved && !option.isSelected ? 'line-through opacity-50' : ''} ${
                       localDecision.resolved ? 'cursor-not-allowed' : ''
                     }`}
