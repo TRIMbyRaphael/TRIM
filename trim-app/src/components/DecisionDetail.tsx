@@ -1943,10 +1943,10 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       </span>
                       <span className="text-sm text-micron">
                         {IMPORTANCE_LEVELS[level].minutes < 60
-                          ? `${IMPORTANCE_LEVELS[level].minutes}min`
+                          ? `${IMPORTANCE_LEVELS[level].minutes}분`
                           : IMPORTANCE_LEVELS[level].minutes < 1440
-                          ? `${Math.floor(IMPORTANCE_LEVELS[level].minutes / 60)}h`
-                          : `${Math.floor(IMPORTANCE_LEVELS[level].minutes / 1440)}d`}
+                          ? `${Math.floor(IMPORTANCE_LEVELS[level].minutes / 60)}시간`
+                          : `${Math.floor(IMPORTANCE_LEVELS[level].minutes / 1440)}일`}
                       </span>
                     </div>
                   </button>
