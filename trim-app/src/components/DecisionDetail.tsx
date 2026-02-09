@@ -2114,7 +2114,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                         <h4 className={`text-sm font-medium text-stretchLimo truncate mb-1 ${
                           subDecision.resolved ? 'line-through' : ''
                         }`}>
-                          {subDecision.title || '[Untitled]'}
+                          {subDecision.title || t.untitled}
                         </h4>
                         <div className="flex items-center gap-2 text-xs">
                           {subDecision.resolved ? (
