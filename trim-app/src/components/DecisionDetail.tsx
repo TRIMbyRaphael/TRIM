@@ -1141,7 +1141,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
           {/* Decision Framing Questions (mode-specific) */}
           {showDecisionMemo && (
-            <div className="mt-3 bg-white border border-stretchLimo200 rounded-xl p-6">
+            <div className="mt-3 bg-white border border-stretchLimo300 rounded-xl p-6">
               <div className="space-y-3">
                 {/* Q1: What happened? - all modes */}
                 <div>

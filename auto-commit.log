@@ -77187,3 +77187,19 @@ After doing this, you may fix the identity used for this commit with:
 
  2 files changed, 18 insertions(+), 2 deletions(-)
 [15:16:18] 자동 커밋 완료: chore: 자동 커밋 - 2026-02-09 15:16:18 - auto-commit.log,trim-app/src/components/DecisionDetail.tsx
+[main fbd69f3] chore: 자동 커밋 - 2026-02-09 15:16:24 - auto-commit.log,trim-app/src/components/DecisionDetail.tsx
+ Committer: ohno <ohno@ohnoui-MacBookAir.local>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 2 files changed, 17 insertions(+), 1 deletion(-)
+[15:16:24] 자동 커밋 완료: chore: 자동 커밋 - 2026-02-09 15:16:24 - auto-commit.log,trim-app/src/components/DecisionDetail.tsx
