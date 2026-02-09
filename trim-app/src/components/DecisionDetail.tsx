@@ -2011,7 +2011,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               {/* 말풍선 꼬리 - info 버튼 바로 위 */}
               <div className={`absolute w-3 h-3 bg-stretchLimo transform rotate-45 ${
                 import.meta.env.VITE_LANG === 'ko' 
-                  ? 'left-[84px] -bottom-1.5' 
+                  ? 'left-[86px] -bottom-1.5' 
                   : 'left-[46.5%] -bottom-1.5'
               }`} />
               <div>
