@@ -254,7 +254,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
               className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
                 selectedCategory === 'All'
                   ? 'bg-stretchLimo text-white'
-                  : 'bg-white text-stretchLimo border border-stretchLimo300 hover:bg-stretchLimo50'
+                  : 'bg-cardBg text-stretchLimo shadow-sm hover:shadow-md hover:bg-cloudDancer/30'
               }`}
             >
               {t.all}
@@ -266,7 +266,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
                 className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
                   selectedCategory === category
                     ? 'bg-stretchLimo text-white'
-                    : 'bg-white text-stretchLimo border border-stretchLimo300 hover:bg-stretchLimo50'
+                    : 'bg-cardBg text-stretchLimo shadow-sm hover:shadow-md hover:bg-cloudDancer/30'
                 }`}
               >
                 {category}
