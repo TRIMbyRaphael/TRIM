@@ -1863,7 +1863,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 className={`rounded-lg py-3 px-16 text-base font-bold transition-colors ${
                   localDecision.options.some(opt => opt.isSelected)
                     ? 'bg-stretchLimo text-white hover:bg-opacity-90'
-                    : 'bg-stretchLimo100 text-stretchLimo300 cursor-not-allowed border border-stretchLimo200'
+                    : 'bg-stretchLimo100 text-stretchLimo300 cursor-not-allowed'
                 }`}
               >
                 <img 
