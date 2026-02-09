@@ -1269,14 +1269,14 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 onDragOver={(e) => handleOptionDragOver(e, option.id)}
                 onDragLeave={handleOptionDragLeave}
                 onDrop={(e) => handleOptionDrop(e, option.id)}
-                className={`rounded-lg py-4 pl-4 pr-2 group transition-colors ${
+                className={`rounded-lg py-4 pl-4 pr-2 group transition-colors shadow-sm ${
                   isDragging
                     ? 'opacity-50'
                     : isDragOver
                     ? 'bg-stretchLimo bg-opacity-5 border-2 border-stretchLimo border-dashed'
                     : option.isSelected 
                     ? 'bg-stretchLimo bg-opacity-10 border-2 border-stretchLimo' 
-                    : 'bg-white'
+                    : 'bg-white border border-stretchLimo200'
                 }`}
               >
               {/* Option Header */}
