@@ -140,7 +140,7 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
       }}
     >
       <div 
-        className="flex-1 rounded-lg shadow-sm relative cursor-pointer"
+        className={`flex-1 rounded-lg ${getShadowClass()} relative cursor-pointer`}
         onClick={onClick}
         onPointerDown={handleDecisionPointerDown}
         onPointerUp={handleDecisionPointerUp}
