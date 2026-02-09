@@ -2030,10 +2030,10 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               {showChunkingInfoExpanded && (
                 <div className="mt-2 space-y-2">
                   <p className="text-[11px] text-white/80 leading-relaxed">
-                    Sometimes a decision feels overwhelming because it contains <span className="font-bold text-white">multiple prior decisions</span> you haven't resolved yet.
+                    {t.chunkingInfoDesc1Before}<span className="font-bold text-white">{t.chunkingInfoDesc1Bold}</span>{t.chunkingInfoDesc1After}
                   </p>
                   <p className="text-[11px] text-white/80 leading-relaxed">
-                    Instead of treating it as one problem, break it into chunks and resolve them step by step.
+                    {t.chunkingInfoDesc2}
                   </p>
                 </div>
               )}
@@ -2044,7 +2044,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
             className="flex items-center justify-between px-4 py-3 hover:bg-stretchLimo50 transition-colors cursor-pointer"
           >
             <div className="flex items-center gap-2 flex-1">
-              <h3 className="text-base font-medium text-stretchLimo">Decision Chunking</h3>
+              <h3 className="text-base font-medium text-stretchLimo">{t.decisionChunking}</h3>
               {/* Info Icon */}
               <button
                 ref={chunkingInfoBtnRef}
