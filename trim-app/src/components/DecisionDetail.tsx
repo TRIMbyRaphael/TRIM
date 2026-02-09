@@ -114,10 +114,31 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     'no_clear_options': initOptionsForMode('no_clear_options', decision.mode || 'do_or_not', decision.options),
   });
 
+  // Persist framing collapse state to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem(`framing-collapsed-${localDecision.id}`, JSON.stringify(collapsedFramingQuestions));
+    } catch { /* ignore */ }
+  }, [collapsedFramingQuestions, localDecision.id]);
+
+  const toggleFramingCollapse = (field: string) => {
+    setCollapsedFramingQuestions(prev => ({
+      ...prev,
+      [field]: !prev[field],
+    }));
+  };
+
   // Sync localDecision when decision prop changes (e.g., navigating to sub-decision)
   useEffect(() => {
     setLocalDecision(decision);
     initialDecision.current = decision;
+    // Load framing collapse state for new decision
+    try {
+      const saved = localStorage.getItem(`framing-collapsed-${decision.id}`);
+      setCollapsedFramingQuestions(saved ? JSON.parse(saved) : {});
+    } catch {
+      setCollapsedFramingQuestions({});
+    }
     // 모드별 옵션 ref 초기화
     const srcMode = decision.mode || 'do_or_not';
     optionsByModeRef.current = {
