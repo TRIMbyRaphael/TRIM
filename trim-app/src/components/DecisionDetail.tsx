@@ -1258,7 +1258,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                         e.target.style.height = 'auto';
                         e.target.style.height = `${e.target.scrollHeight}px`;
                       }}
-                      placeholder="What situation led to this decision..."
+                      placeholder={t.framingWhatHappenedPlaceholder}
                       disabled={localDecision.resolved}
                       className={`w-full px-3 py-1.5 text-sm text-white placeholder:text-xs placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none overflow-hidden ${
                         localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
