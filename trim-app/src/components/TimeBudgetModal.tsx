@@ -112,7 +112,7 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
 
       {/* Modal */}
       <div className="fixed inset-x-0 bottom-0 md:inset-0 md:flex md:items-center md:justify-center z-50">
-        <div className="bg-white rounded-t-2xl md:rounded-2xl w-full md:max-w-lg md:max-h-[90vh] overflow-y-auto">
+        <div className="bg-cardBg rounded-t-2xl md:rounded-2xl w-full md:max-w-lg md:max-h-[90vh] overflow-y-auto shadow-lg">
           {/* Header */}
           <div className="flex justify-end p-4 border-b border-stretchLimo/10">
             <button
