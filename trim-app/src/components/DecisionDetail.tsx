@@ -1016,7 +1016,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
       const parent = decisions.find(d => d.id === currentId);
       if (!parent) break;
       
-      path.unshift({ id: parent.id, title: parent.title || '[Untitled]' });
+      path.unshift({ id: parent.id, title: parent.title || t.untitled });
       currentId = parent.parentId;
       
       // Prevent infinite loops
