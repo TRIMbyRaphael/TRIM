@@ -1688,7 +1688,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   {showRandomPickTooltip && (
                     <div className="absolute bottom-full right-0 mb-2 px-3 py-2 bg-stretchLimo text-white text-xs rounded-lg whitespace-nowrap z-10">
                       Stop thinking when impact differences are minimal
-                      <div className="absolute top-full right-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+                      <div className="absolute top-full right-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-stretchLimo"></div>
                     </div>
                   )}
                 </div>
