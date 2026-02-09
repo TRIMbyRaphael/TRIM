@@ -264,7 +264,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
                 onClick={() => setSelectedCategory(category)}
                 className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
                   selectedCategory === category
-                    ? 'bg-stretchLimo text-white'
+                    ? 'bg-micron text-white'
                     : 'bg-white text-stretchLimo border border-stretchLimo200 hover:bg-stretchLimo50'
                 }`}
               >
