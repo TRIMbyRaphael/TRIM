@@ -2309,13 +2309,13 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 {/* Title Input (Manual Override) */}
                 <div>
                   <label className="block text-sm font-medium text-stretchLimo mb-2">
-                    Title (optional)
+                    {t.titleOptional}
                   </label>
                   <input
                     type="text"
                     value={linkTitle}
                     onChange={(e) => setLinkTitle(e.target.value)}
-                    placeholder="Custom title"
+                    placeholder={t.customTitle}
                     className="w-full px-3 py-2 text-sm text-stretchLimo bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo"
                   />
                 </div>
