@@ -6,6 +6,8 @@ import { fetchOpenGraphData } from '../utils/linkPreview';
 import { useCountdown } from '../hooks/useCountdown';
 import { formatTimeRemaining } from '../utils/timeFormat';
 import { t } from '../i18n';
+import logoButtonActive from '../assets/logo-button-active.svg';
+import logoButtonInactive from '../assets/logo-button-inactive.svg';
 
 interface DecisionDetailProps {
   decision: Decision;
