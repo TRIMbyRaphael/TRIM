@@ -1551,7 +1551,9 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
               {/* Option Memo - Micron 배경 */}
               {showOptionMemos[option.id] && (
-                <div className="mt-3 bg-micron rounded-lg p-3">
+                <div className={`mt-3 bg-micron rounded-lg p-3 ${
+                  currentMode === 'do_or_not' ? 'border border-white/20' : ''
+                }`}>
                   {/* Pros / Cons Template (choose_best, no_clear_options only) */}
                   {(currentMode === 'choose_best' || currentMode === 'no_clear_options') && prosConsEnabled[option.id] ? (
                     <div className="space-y-2">
@@ -1612,7 +1614,9 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                             : 'Add notes about this option...'
                         }
                         disabled={localDecision.resolved}
-                        className={`w-full px-3 py-2 text-sm text-white placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none ${
+                        className={`w-full px-3 py-2 text-sm text-white placeholder-white/50 bg-white/10 ${
+                          currentMode === 'do_or_not' ? 'border-none' : 'border border-white/20'
+                        } rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none ${
                           localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                         }`}
                         rows={2}
