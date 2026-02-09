@@ -1058,7 +1058,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     : 'bg-stretchLimo hover:bg-opacity-80'
               }`}
             >
-              <Brain className="w-5 h-5" stroke={showDecisionMemo ? '#1B1B1B' : 'white'} fill={showDecisionMemo ? 'white' : '#1B1B1B'} />
+              <Brain className="w-5 h-5" stroke={showDecisionMemo ? '#1B1B1B' : '#1C1C1E'} fill={showDecisionMemo ? 'white' : '#1B1B1B'} />
             </button>
           </div>
 
