@@ -92,7 +92,7 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
   const month = deadline.getMonth();
   const firstDay = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const monthNames = t.monthNames;
 
   const calendarDays = [];
   for (let i = 0; i < firstDay; i++) {
@@ -126,11 +126,11 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
           <div className="p-6">
             {/* Time Budget Section */}
             <div className="mb-6">
-              <h3 className="text-lg font-bold text-stretchLimo mb-4">Time Budget</h3>
+              <h3 className="text-lg font-bold text-stretchLimo mb-4">{t.timeBudget}</h3>
               <div className="flex justify-center gap-4">
                 {/* Days */}
                 <div className="flex flex-col items-center">
-                  <label className="text-sm text-micron mb-2">D</label>
+                  <label className="text-sm text-micron mb-2">{t.dayLabel}</label>
                   <select
                     value={days}
                     onChange={(e) => handleTimeBudgetChange(Number(e.target.value), hours, minutes)}
@@ -144,7 +144,7 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
 
                 {/* Hours */}
                 <div className="flex flex-col items-center">
-                  <label className="text-sm text-micron mb-2">H</label>
+                  <label className="text-sm text-micron mb-2">{t.hourLabel}</label>
                   <select
                     value={hours}
                     onChange={(e) => handleTimeBudgetChange(days, Number(e.target.value), minutes)}
