@@ -257,7 +257,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
                   : 'bg-white text-stretchLimo border border-stretchLimo300 hover:bg-stretchLimo50'
               }`}
             >
-              All
+              {t.all}
             </button>
             {categories.map((category) => (
               <button
@@ -276,7 +276,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
           <button
             onClick={() => setShowCategoryManagement(true)}
             className="p-2 bg-white rounded-lg border border-stretchLimo300 hover:bg-stretchLimo50 transition-colors"
-            title="카테고리 관리"
+            title={t.manageCategoriesTitle}
           >
             <Settings className="w-5 h-5 text-stretchLimo" />
           </button>
@@ -296,7 +296,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
                 className="w-full flex items-center justify-between mb-3 hover:opacity-70 transition-opacity"
               >
                 <div className="flex items-center gap-2">
-                  <h2 className="text-lg font-bold text-scarletSmile">OVERDUE</h2>
+                  <h2 className="text-lg font-bold text-scarletSmile">{t.overdue}</h2>
                   <span className="text-sm text-stretchLimo">{overdueDecisions.length}</span>
                   {expandedSections.overdue ? (
                     <ChevronDown className="w-5 h-5 text-scarletSmile" />
@@ -329,7 +329,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
               className="w-full flex items-center justify-between mb-3 hover:opacity-70 transition-opacity"
             >
               <div className="flex items-center gap-2">
-                <h2 className="text-lg font-bold text-black">ACTIVE</h2>
+                <h2 className="text-lg font-bold text-black">{t.active}</h2>
                 <span className="text-sm text-stretchLimo">{activeDecisions.length}</span>
                 {expandedSections.active ? (
                   <ChevronDown className="w-5 h-5 text-stretchLimo" />
