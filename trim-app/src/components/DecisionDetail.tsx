@@ -1426,7 +1426,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         </div>
 
         {/* Decision Container Box */}
-        <div className={`bg-white border border-stretchLimo300 rounded-xl mb-6 ${
+        <div className={`bg-cardBg rounded-xl mb-6 shadow-sm ${
           (currentMode === 'choose_best' || currentMode === 'no_clear_options') ? 'pt-4 px-4 pb-4' : 'p-6'
         }`}>
           {/* Options List */}
@@ -1467,7 +1467,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     ? 'bg-stretchLimo bg-opacity-5 border border-stretchLimo border-dashed'
                     : option.isSelected 
                     ? 'bg-stretchLimo bg-opacity-10 border border-stretchLimo' 
-                    : 'bg-white border border-stretchLimo300'
+                    : 'bg-cardBg shadow-sm'
                 }`}
               >
               {/* Option Header */}
