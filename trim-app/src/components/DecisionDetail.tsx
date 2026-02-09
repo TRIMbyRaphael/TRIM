@@ -2021,7 +2021,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         </div>
 
         {/* Divider after Settings Section */}
-        <div className="border-t border-stretchLimo300 my-6"></div>
+        <div className="border-t border-cloudDancer my-6"></div>
 
         {/* Sub-Decisions Section */}
         <div className="relative bg-cardBg rounded-lg shadow-md">
