@@ -1241,7 +1241,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     onClick={() => toggleFramingCollapse('whatHappened')}
                     className="w-full flex items-center justify-between mb-0.5 group/q"
                   >
-                    <span className="text-sm font-medium text-cloudDancer">What happened?</span>
+                    <span className="text-sm font-medium text-cloudDancer">{t.framingWhatHappened}</span>
                     {collapsedFramingQuestions['whatHappened'] ? (
                       <ChevronRight className="w-4 h-4 text-cloudDancer/60 group-hover/q:text-cloudDancer transition-colors" />
                     ) : (
