@@ -163,6 +163,20 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     });
   }, [localDecision.options]);
 
+  // Auto-resize all framing textareas when framing changes or component mounts
+  useEffect(() => {
+    const framingFields: Array<'whatHappened' | 'goal' | 'constraints' | 'dealbreakers' | 'keyFactors'> = 
+      ['whatHappened', 'goal', 'constraints', 'dealbreakers', 'keyFactors'];
+    
+    framingFields.forEach((field) => {
+      const textarea = framingRefs.current[field];
+      if (textarea) {
+        textarea.style.height = 'auto';
+        textarea.style.height = `${textarea.scrollHeight}px`;
+      }
+    });
+  }, [localDecision.framing]);
+
   // Auto-save when localDecision changes
   useEffect(() => {
     const timer = setTimeout(() => {
