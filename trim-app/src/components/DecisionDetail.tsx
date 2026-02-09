@@ -1076,7 +1076,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   <div className="flex items-start gap-3 p-3">
                     {/* Thumbnail Image */}
                     {link.image && (
-                      <div className="w-20 h-20 flex-shrink-0 rounded overflow-hidden bg-gray-200">
+                      <div className="w-20 h-20 flex-shrink-0 rounded overflow-hidden bg-stretchLimo200">
                         <img 
                           src={link.image} 
                           alt="" 
@@ -1392,7 +1392,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       <div className="flex items-start gap-3 p-3">
                         {/* Thumbnail Image */}
                         {link.image && (
-                          <div className="w-16 h-16 flex-shrink-0 rounded overflow-hidden bg-gray-300">
+                          <div className="w-16 h-16 flex-shrink-0 rounded overflow-hidden bg-stretchLimo300">
                             <img 
                               src={link.image} 
                               alt="" 
@@ -2025,7 +2025,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   <div className="bg-stretchLimo50 rounded-lg p-3">
                     <div className="flex gap-3">
                       {linkImage && (
-                        <div className="w-16 h-16 flex-shrink-0 rounded overflow-hidden bg-gray-200">
+                        <div className="w-16 h-16 flex-shrink-0 rounded overflow-hidden bg-stretchLimo200">
                           <img 
                             src={linkImage} 
                             alt="" 
