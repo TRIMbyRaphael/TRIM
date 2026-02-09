@@ -64,6 +64,15 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   const [dragOverSubDecisionId, setDragOverSubDecisionId] = useState<string | null>(null);
   const [showChunkingInfo, setShowChunkingInfo] = useState(false);
   const [showChunkingInfoExpanded, setShowChunkingInfoExpanded] = useState(false);
+  // Framing question collapse state - persisted per decision
+  const [collapsedFramingQuestions, setCollapsedFramingQuestions] = useState<Record<string, boolean>>(() => {
+    try {
+      const saved = localStorage.getItem(`framing-collapsed-${decision.id}`);
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  });
   const [draggedOptionId, setDraggedOptionId] = useState<string | null>(null);
   const [dragOverOptionId, setDragOverOptionId] = useState<string | null>(null);
   const [longPressOptionId, setLongPressOptionId] = useState<string | null>(null); // 꾹 눌러서 삭제 팝업 표시용
