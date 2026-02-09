@@ -41,9 +41,7 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
   };
 
   const getBorderStyle = () => {
-    if (level === 0) return '1px solid rgba(26, 26, 26, 0.40)'; // stretchLimo/40
-    if (level === 1) return '1px solid rgba(26, 26, 26, 0.50)'; // stretchLimo/50 - 더 진하게
-    return '1px solid rgba(26, 26, 26, 0.60)'; // stretchLimo/60 - 가장 진하게
+    return 'none'; // 테두리 제거 - 그림자만으로 depth 표현
   };
 
   const getShadowClass = () => {
