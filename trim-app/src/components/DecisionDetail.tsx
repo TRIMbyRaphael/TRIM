@@ -1687,7 +1687,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                                 value={criteria.name}
                                 onChange={(e) => handleCriteriaNameChange(criteria.id, e.target.value)}
                                 placeholder="Criteria"
-                                className="w-full text-xs text-center font-medium text-white bg-transparent border-none outline-none placeholder-white/50"
+                                className="w-full text-xs text-center font-medium text-cloudDancer bg-transparent border-none outline-none placeholder-white/50"
                               />
                               <button
                                 onClick={() => handleDeleteCriteria(criteria.id)}
