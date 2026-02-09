@@ -226,7 +226,7 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
               {/* Time Selector */}
               <button
                 onClick={() => setShowTimePicker(true)}
-                className="w-full flex items-center justify-between px-4 py-3 bg-gray-50 rounded-lg hover:bg-cloudDancer/50 transition-colors"
+                className="w-full flex items-center justify-between px-4 py-3 bg-cloudDancer/30 rounded-lg hover:bg-cloudDancer/50 transition-colors"
               >
                 <span className="text-base text-stretchLimo">{t.time}</span>
                 <div className="flex items-center gap-2">
