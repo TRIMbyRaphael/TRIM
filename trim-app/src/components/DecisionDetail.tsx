@@ -1681,7 +1681,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                           <div>
                             <label className="flex items-center gap-1 text-xs font-semibold text-cloudDancer mb-1">
                               <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-white/20 border border-white/30 text-white text-[10px] font-bold">&minus;</span>
-                              Cons
+                              {t.cons}
                             </label>
                             <textarea
                               value={option.cons || ''}
