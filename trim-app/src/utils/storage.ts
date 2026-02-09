@@ -1,8 +1,8 @@
 import { Decision } from '../types/decision';
+import { t } from '../i18n';
 
 const STORAGE_KEY = 'trim-decisions';
 const CATEGORIES_STORAGE_KEY = 'trim-categories';
-const DEFAULT_CATEGORIES = ['개인', '업무'];
 
 export function saveDecisions(decisions: Decision[]): void {
   try {

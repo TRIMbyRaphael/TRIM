@@ -14,6 +14,7 @@ const ko: Translations = {
 
   // Default data
   defaultCategory: '일상',
+  defaultCategories: ['개인', '업무'],
 
   // Decision Modes
   decisionModes: {
