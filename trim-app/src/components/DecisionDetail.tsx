@@ -1084,7 +1084,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
             </button>
 
             {showCategoryDropdown && (
-              <div className="absolute top-full mt-1 left-1/2 -translate-x-1/2 bg-white border border-stretchLimo200 rounded-lg shadow-lg overflow-hidden z-10">
+              <div className="absolute top-full mt-1 left-1/2 -translate-x-1/2 bg-cardBg rounded-lg shadow-lg overflow-hidden z-10">
                 {categories.map((category) => (
                   <button
                     key={category}
@@ -1109,7 +1109,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
           </button>
 
           {showKebabMenu && (
-            <div className="absolute top-full right-0 mt-1 bg-white border border-stretchLimo200 rounded-lg shadow-lg overflow-hidden z-10">
+            <div className="absolute top-full right-0 mt-1 bg-cardBg rounded-lg shadow-lg overflow-hidden z-10">
               <button
                 onClick={handleDelete}
                 className="block w-full px-6 py-2 text-left hover:bg-stretchLimo100 text-scarletSmile whitespace-nowrap"
