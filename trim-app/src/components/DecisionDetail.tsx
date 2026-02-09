@@ -1034,7 +1034,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               placeholder="What's cluttering your mind?"
               disabled={localDecision.resolved}
               rows={1}
-              className={`flex-1 text-xl font-medium text-stretchLimo bg-transparent border-none outline-none placeholder-gray-300 resize-none overflow-hidden ${
+              className={`flex-1 text-xl font-medium text-stretchLimo bg-transparent border-none outline-none placeholder-stretchLimo300 resize-none overflow-hidden ${
                 localDecision.resolved ? 'line-through opacity-50 cursor-not-allowed' : ''
               }`}
             />
@@ -1323,7 +1323,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     }
                     rows={1}
                     disabled={localDecision.resolved}
-                    className={`flex-1 text-base bg-transparent border-none outline-none placeholder-gray-300 resize-none overflow-hidden min-w-0 ${
+                    className={`flex-1 text-base bg-transparent border-none outline-none placeholder-stretchLimo300 resize-none overflow-hidden min-w-0 ${
                       option.isSelected ? 'text-stretchLimo font-medium' : 'text-stretchLimo'
                     } ${localDecision.resolved && !option.isSelected ? 'line-through opacity-50' : ''} ${
                       localDecision.resolved ? 'cursor-not-allowed' : ''
@@ -1593,7 +1593,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                                 value={criteria.name}
                                 onChange={(e) => handleCriteriaNameChange(criteria.id, e.target.value)}
                                 placeholder="Criteria"
-                                className="w-full text-xs text-center font-medium text-stretchLimo bg-transparent border-none outline-none placeholder-gray-300"
+                                className="w-full text-xs text-center font-medium text-stretchLimo bg-transparent border-none outline-none placeholder-stretchLimo300"
                               />
                               <button
                                 onClick={() => handleDeleteCriteria(criteria.id)}
@@ -1621,7 +1621,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                                 value={criteria.ratings[opt.id] || ''}
                                 onChange={(e) => handleCriteriaRatingChange(criteria.id, opt.id, e.target.value)}
                                 placeholder="—"
-                                className="w-full text-sm text-center text-stretchLimo bg-stretchLimo50 border border-stretchLimo200 rounded px-1.5 py-1 outline-none focus:ring-1 focus:ring-stretchLimo focus:bg-white placeholder-gray-300"
+                                className="w-full text-sm text-center text-stretchLimo bg-stretchLimo50 border border-stretchLimo200 rounded px-1.5 py-1 outline-none focus:ring-1 focus:ring-stretchLimo focus:bg-white placeholder-stretchLimo300"
                               />
                             </td>
                           ))}
@@ -1707,7 +1707,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         </div>
 
         {/* Settings Section */}
-        <div className="bg-white rounded-lg divide-y divide-gray-200 -mt-2">
+        <div className="bg-white rounded-lg divide-y divide-stretchLimo200 -mt-2">
           {/* Importance */}
           <div className="relative">
             <button
