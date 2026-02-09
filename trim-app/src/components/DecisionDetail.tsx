@@ -1899,7 +1899,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
           {showChunkingInfo && (
             <div ref={chunkingInfoRef} className="absolute left-4 right-4 bottom-full mb-2 bg-white border border-stretchLimo/20 shadow-lg rounded-lg p-4 z-50">
               <div className="flex items-start gap-2">
-                <h4 className="text-sm font-semibold text-black flex-1 whitespace-nowrap">
+                <h4 className="text-xs font-semibold text-black flex-1">
                   Break a complex decision into smaller ones.
                 </h4>
                 {!showChunkingInfoExpanded && (
@@ -1909,7 +1909,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       e.stopPropagation();
                       setShowChunkingInfoExpanded(true);
                     }}
-                    className="text-xs text-stretchLimo hover:text-stretchLimo/80 underline flex-shrink-0"
+                    className="text-[11px] text-stretchLimo hover:text-stretchLimo/80 underline flex-shrink-0"
                   >
                     ...more
                   </button>
