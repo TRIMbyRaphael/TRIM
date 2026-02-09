@@ -2267,7 +2267,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 {isLoadingPreview && (
                   <div className="flex items-center gap-2 text-sm text-micron">
                     <div className="w-4 h-4 border-2 border-micron border-t-transparent rounded-full animate-spin" />
-                    <span>Loading preview...</span>
+                    <span>{t.loadingPreview}</span>
                   </div>
                 )}
 
