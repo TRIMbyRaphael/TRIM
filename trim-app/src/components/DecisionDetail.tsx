@@ -2172,10 +2172,10 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               <button
                 onClick={() => onCreateSubDecision(localDecision.id)}
                 disabled={localDecision.resolved}
-                className={`w-full flex items-center justify-center gap-2 p-3 border-2 border-dashed rounded-lg transition-colors text-sm ${
+                className={`w-full flex items-center justify-center gap-2 p-3 border border-dashed rounded-lg transition-colors text-sm ${
                   localDecision.resolved
-                    ? 'border-stretchLimo300 text-stretchLimo300 opacity-50 cursor-not-allowed'
-                    : 'border-stretchLimo400 text-stretchLimo hover:border-stretchLimo hover:bg-stretchLimo50 hover:text-stretchLimo'
+                    ? 'border-stretchLimo/20 text-stretchLimo300 opacity-50 cursor-not-allowed'
+                    : 'border-stretchLimo/20 text-stretchLimo hover:border-stretchLimo/30 hover:bg-stretchLimo50 hover:text-stretchLimo'
                 }`}
               >
                 <Plus className="w-4 h-4" />
