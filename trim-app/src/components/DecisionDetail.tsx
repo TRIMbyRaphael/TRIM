@@ -1207,7 +1207,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                             openLinkModal('decision', undefined, link);
                           }}
                           className="p-1 hover:bg-stretchLimo hover:bg-opacity-10 rounded flex-shrink-0"
-                          title="Edit preview"
+                          title={t.editPreview}
                         >
                           <Edit className="w-4 h-4 text-stretchLimo" />
                         </button>
@@ -1218,7 +1218,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                             handleDeleteDecisionLink(link.id);
                           }}
                           className="p-1 hover:bg-scarletSmile hover:bg-opacity-10 rounded flex-shrink-0"
-                          title="Delete"
+                          title={t.delete}
                         >
                           <Trash2 className="w-4 h-4 text-scarletSmile" />
                         </button>
