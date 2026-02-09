@@ -1241,7 +1241,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         {/* Decision Container Box */}
         <div className="bg-white border border-stretchLimo300 rounded-xl p-6 mb-6">
           {/* Options List */}
-          <div className="space-y-3 mb-1">
+          <div className="space-y-3 mb-5">
           {/* 삭제 팝업 배경 오버레이 */}
           {longPressOptionId && (
             <div 
