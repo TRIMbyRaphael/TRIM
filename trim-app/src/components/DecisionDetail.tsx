@@ -1295,8 +1295,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 <button
                   onClick={() => handleOptionSelect(option.id)}
                   disabled={localDecision.resolved}
-                  className={`ml-3 w-5 h-5 rounded-full border-2 border-micron flex-shrink-0 flex items-center justify-center ${
-                    option.isSelected ? 'bg-micron' : ''
+                  className={`ml-3 w-5 h-5 rounded-full border-2 border-stretchLimo flex-shrink-0 flex items-center justify-center ${
+                    option.isSelected ? 'bg-stretchLimo' : ''
                   } ${localDecision.resolved ? 'cursor-not-allowed opacity-50' : 'hover:bg-opacity-70'} transition-colors`}
                 >
                   {option.isSelected && (

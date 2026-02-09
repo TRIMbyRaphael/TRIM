@@ -286,8 +286,8 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
                     decision.resolved ? 'cursor-not-allowed' : 'hover:bg-stretchLimo50'
                   }`}
                 >
-                  <div className={`w-4 h-4 rounded-full border-2 border-micron flex-shrink-0 flex items-center justify-center mt-0.5 ${
-                    option.isSelected ? 'bg-micron' : ''
+                  <div className={`w-4 h-4 rounded-full border-2 border-stretchLimo flex-shrink-0 flex items-center justify-center mt-0.5 ${
+                    option.isSelected ? 'bg-stretchLimo' : ''
                   }`}>
                     {option.isSelected && (
                       <div className="w-1.5 h-1.5 rounded-full bg-white" />
