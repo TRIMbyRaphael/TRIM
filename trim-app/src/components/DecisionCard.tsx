@@ -41,12 +41,13 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
 
   const getBorderStyle = () => {
     if (level === 0) return '1px solid rgba(44, 44, 46, 0.40)'; // stretchLimo/40
-    return '1px solid rgba(44, 44, 46, 0.30)'; // stretchLimo/30
+    if (level === 1) return '1px solid rgba(44, 44, 46, 0.50)'; // stretchLimo/50 - 더 진하게
+    return '1px solid rgba(44, 44, 46, 0.60)'; // stretchLimo/60 - 가장 진하게
   };
 
   const getShadowClass = () => {
-    if (level === 0) return 'shadow-sm';
-    if (level === 1) return 'shadow-md';
+    if (level === 0) return 'shadow-md';
+    if (level === 1) return 'shadow-lg';
     return 'shadow-lg'; // Level 2+
   };
 
