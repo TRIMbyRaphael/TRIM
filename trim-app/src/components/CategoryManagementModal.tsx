@@ -244,7 +244,7 @@ export default function CategoryManagementModal({
 
       {/* Modal */}
       <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
-        <div className="bg-cardBg rounded-2xl w-full max-w-md p-6 shadow-lg border border-stretchLimo/[0.06]">
+        <div className="bg-cardBg rounded-2xl w-full max-w-md p-6 shadow-lg border border-stretchLimo/10">
           {/* Header */}
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-bold text-stretchLimo">{t.manageCategoriesTitle}</h3>
@@ -314,7 +314,7 @@ export default function CategoryManagementModal({
           <div className="flex gap-3">
             <button
               onClick={onClose}
-              className="flex-1 bg-cardBg text-stretchLimo shadow border border-stretchLimo/[0.06] rounded-lg py-3 text-base font-bold hover:bg-cloudDancer/30 transition-colors"
+              className="flex-1 bg-cardBg text-stretchLimo shadow border border-stretchLimo/10 rounded-lg py-3 text-base font-bold hover:bg-cloudDancer/30 transition-colors"
             >
               {t.cancel}
             </button>
@@ -333,7 +333,7 @@ export default function CategoryManagementModal({
         <>
           <div className="fixed inset-0 bg-black bg-opacity-50 z-[60]" />
           <div className="fixed inset-0 flex items-center justify-center z-[60] p-4">
-            <div className="bg-cardBg rounded-2xl w-full max-w-sm p-6 shadow-lg border border-stretchLimo/[0.06]">
+            <div className="bg-cardBg rounded-2xl w-full max-w-sm p-6 shadow-lg border border-stretchLimo/10">
               <h3 className="text-lg font-bold text-stretchLimo mb-3">
                 {t.cannotDelete}
               </h3>
