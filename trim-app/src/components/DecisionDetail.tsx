@@ -1739,7 +1739,9 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         )}
 
         {/* TRIM Button and Random Pick Button Container */}
-        <div className="relative flex items-center justify-center mb-0 w-full">
+        <div className={`relative flex items-center justify-center mb-0 w-full ${
+          (currentMode === 'choose_best' || currentMode === 'no_clear_options') ? '-mt-2' : ''
+        }`}>
           {!localDecision.resolved ? (
             <>
               {/* TRIM Button - Centered */}
