@@ -1480,7 +1480,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       </div>
                       {/* Cons */}
                       <div>
-                        <label className="flex items-center gap-1 text-xs font-semibold text-stretchLimo600 mb-1">
+                        <label className="flex items-center gap-1 text-xs font-semibold text-stretchLimo mb-1">
                           <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-stretchLimo text-white text-[10px] font-bold">&minus;</span>
                           Cons
                         </label>
@@ -1679,8 +1679,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   >
                     <Shuffle className="w-5 h-5 text-stretchLimo" />
                     <div className="flex flex-col items-center leading-tight">
-                      <span className="text-[5px] text-stretchLimo700">Random</span>
-                      <span className="text-[5px] text-stretchLimo700">Pick</span>
+                      <span className="text-[5px] text-stretchLimo">Random</span>
+                      <span className="text-[5px] text-stretchLimo">Pick</span>
                     </div>
                   </button>
                   
@@ -1718,14 +1718,14 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               }`}
             >
               <div className="flex items-center gap-2">
-                <Info className="w-5 h-5 text-stretchLimo600" />
+                <Info className="w-5 h-5 text-stretchLimo" />
                 <span className="text-base text-black">Importance</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-base text-stretchLimo700">
+                <span className="text-base text-stretchLimo">
                   {IMPORTANCE_LEVELS[localDecision.importance].label}
                 </span>
-                <ChevronDown className="w-4 h-4 text-stretchLimo600" />
+                <ChevronDown className="w-4 h-4 text-stretchLimo" />
               </div>
             </button>
 
@@ -1767,7 +1767,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
             }`}
           >
             <div className="flex items-center gap-2">
-              <Clock className="w-5 h-5 text-stretchLimo600" />
+              <Clock className="w-5 h-5 text-stretchLimo" />
               <span className="text-base text-black">Time Budget</span>
             </div>
             <div className="flex items-center gap-2">
@@ -1787,7 +1787,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       ? 'text-scarletSmile' 
                       : timeData.isUrgent 
                         ? 'text-scarletSmile animate-pulse' 
-                        : 'text-stretchLimo700'
+                        : 'text-stretchLimo'
                   }`}
                 >
                   {timeData.isOverdue && '-'}
@@ -1798,7 +1798,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   {!timeData.isOverdue && ' left'}
                 </span>
               )}
-              <ChevronRight className="w-4 h-4 text-stretchLimo600" />
+              <ChevronRight className="w-4 h-4 text-stretchLimo" />
             </div>
           </button>
         </div>
@@ -1820,7 +1820,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 <ChevronRight className="w-4 h-4 text-micron" />
               )}
             </div>
-            <span className="text-sm text-stretchLimo600">
+            <span className="text-sm text-stretchLimo">
               {decisions.filter(d => d.parentId === localDecision.id).length}
             </span>
           </button>
@@ -1897,7 +1897,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 className={`w-full flex items-center justify-center gap-2 p-3 border-2 border-dashed rounded-lg transition-colors text-sm ${
                   localDecision.resolved
                     ? 'border-stretchLimo200 text-stretchLimo300 opacity-50 cursor-not-allowed'
-                    : 'border-stretchLimo200 text-stretchLimo700 hover:border-stretchLimo hover:bg-stretchLimo50 hover:text-stretchLimo'
+                    : 'border-stretchLimo200 text-stretchLimo hover:border-stretchLimo hover:bg-stretchLimo50 hover:text-stretchLimo'
                 }`}
               >
                 <Plus className="w-4 h-4" />
