@@ -673,6 +673,13 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         [field]: value,
       },
     });
+    
+    // Auto-resize textarea
+    const textarea = framingRefs.current[field];
+    if (textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    }
   };
 
   // Comparison Matrix handlers
