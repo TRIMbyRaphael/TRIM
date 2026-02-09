@@ -1920,7 +1920,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   <Info className="w-4 h-4 text-stretchLimo/60 hover:text-stretchLimo cursor-pointer" />
                 </button>
                 {showChunkingInfo && (
-                  <div className="absolute left-0 top-full mt-2 bg-white border border-stretchLimo/20 shadow-lg max-w-sm rounded-lg p-4 z-50">
+                  <div className="absolute left-0 bottom-full mb-2 bg-white border border-stretchLimo/20 shadow-lg max-w-lg rounded-lg p-4 z-50">
                     <div className="flex items-start gap-2">
                       <h4 className="text-base font-semibold text-black flex-1">
                         Break a complex decision into smaller ones.
