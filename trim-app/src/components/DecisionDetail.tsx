@@ -1044,7 +1044,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   return (
     <div className="min-h-screen bg-cloudDancer">
       {/* Header */}
-      <header className="sticky top-0 z-10 bg-cardBg shadow-md border-b border-stretchLimo/[0.06] px-4 py-3 flex items-center justify-between">
+      <header className="sticky top-0 z-10 bg-cardBg shadow-md border-b border-stretchLimo/10 px-4 py-3 flex items-center justify-between">
         {/* Breadcrumb Navigation */}
         <nav className="flex items-center gap-2 text-sm">
           <button 
@@ -1084,7 +1084,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
             </button>
 
             {showCategoryDropdown && (
-              <div className="absolute top-full mt-1 left-1/2 -translate-x-1/2 bg-cardBg rounded-lg shadow-lg border border-stretchLimo/[0.06] overflow-hidden z-10">
+              <div className="absolute top-full mt-1 left-1/2 -translate-x-1/2 bg-cardBg rounded-lg shadow-lg border border-stretchLimo/10 overflow-hidden z-10">
                 {categories.map((category) => (
                   <button
                     key={category}
@@ -1109,7 +1109,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
           </button>
 
           {showKebabMenu && (
-            <div className="absolute top-full right-0 mt-1 bg-cardBg rounded-lg shadow-lg border border-stretchLimo/[0.06] overflow-hidden z-10">
+            <div className="absolute top-full right-0 mt-1 bg-cardBg rounded-lg shadow-lg border border-stretchLimo/10 overflow-hidden z-10">
               <button
                 onClick={handleDelete}
                 className="block w-full px-6 py-2 text-left hover:bg-stretchLimo100 text-scarletSmile whitespace-nowrap"
@@ -1426,7 +1426,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         </div>
 
         {/* Decision Container Box */}
-        <div className={`bg-cardBg rounded-xl mb-6 shadow border border-stretchLimo/[0.06] ${
+        <div className={`bg-cardBg rounded-xl mb-6 shadow border border-stretchLimo/10 ${
           (currentMode === 'choose_best' || currentMode === 'no_clear_options') ? 'pt-4 px-4 pb-4' : 'p-6'
         }`}>
           {/* Options List */}
@@ -1467,7 +1467,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     ? 'bg-stretchLimo bg-opacity-5 border border-stretchLimo border-dashed'
                     : option.isSelected 
                     ? 'bg-stretchLimo bg-opacity-10 border border-stretchLimo' 
-                    : 'bg-cardBg shadow border border-stretchLimo/[0.06]'
+                    : 'bg-cardBg shadow border border-stretchLimo/10'
                 }`}
               >
               {/* Option Header */}
@@ -1551,7 +1551,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   onPointerDown={(e) => e.stopPropagation()}
                   onPointerUp={(e) => e.stopPropagation()}
                 >
-                  <div className="bg-cardBg rounded-xl shadow-xl border border-stretchLimo/[0.06] overflow-hidden min-w-[140px]">
+                  <div className="bg-cardBg rounded-xl shadow-xl border border-stretchLimo/10 overflow-hidden min-w-[140px]">
                     <button
                       onClick={() => {
                         handleDeleteOption(option.id);
@@ -1752,7 +1752,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
             <button
               onClick={handleAddOption}
               disabled={localDecision.resolved}
-              className={`w-full bg-cardBg rounded-lg p-4 flex items-center gap-3 transition-shadow text-micron shadow border border-stretchLimo/[0.06] ${
+              className={`w-full bg-cardBg rounded-lg p-4 flex items-center gap-3 transition-shadow text-micron shadow border border-stretchLimo/10 ${
                 localDecision.resolved ? 'opacity-50 cursor-not-allowed' : 'hover:bg-cloudDancer/30 hover:shadow-md'
               }`}
             >
@@ -1919,7 +1919,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         </div>
 
         {/* Settings Section */}
-        <div className="bg-cardBg rounded-lg divide-y divide-stretchLimo/[0.06] shadow-md border border-stretchLimo/[0.06] -mt-2">
+        <div className="bg-cardBg rounded-lg divide-y divide-stretchLimo/[0.06] shadow-md border border-stretchLimo/10 -mt-2">
           {/* Importance */}
           <div className="relative">
             <button
@@ -1943,7 +1943,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
             {/* Importance Dropdown */}
             {showImportanceDropdown && (
-              <div className="absolute top-full left-0 right-0 bg-cardBg shadow-lg border border-stretchLimo/[0.06] z-10">
+              <div className="absolute top-full left-0 right-0 bg-cardBg shadow-lg border border-stretchLimo/10 z-10">
                 {(Object.keys(IMPORTANCE_LEVELS) as ImportanceLevel[]).map((level) => (
                   <button
                     key={level}
@@ -2021,10 +2021,10 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         </div>
 
         {/* Divider after Settings Section */}
-        <div className="border-t border-stretchLimo/[0.06] my-6"></div>
+        <div className="border-t border-stretchLimo/10 my-6"></div>
 
         {/* Sub-Decisions Section */}
-        <div className="relative bg-cardBg rounded-lg shadow-md border border-stretchLimo/[0.06]">
+        <div className="relative bg-cardBg rounded-lg shadow-md border border-stretchLimo/10">
           {/* Info Popover - 섹션 컨테이너 기준 배치 */}
           {showChunkingInfo && (
             <div ref={chunkingInfoRef} className="absolute left-4 right-4 bottom-full -mb-1 bg-stretchLimo text-white rounded-lg px-4 py-3 z-50 shadow-lg">
@@ -2205,7 +2205,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
           {/* Modal */}
           <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
-            <div className="bg-cardBg rounded-2xl w-full max-w-sm p-6 shadow-lg border border-stretchLimo/[0.06]">
+            <div className="bg-cardBg rounded-2xl w-full max-w-sm p-6 shadow-lg border border-stretchLimo/10">
               <h3 className="text-lg font-bold text-stretchLimo mb-3">
                 {t.decisionTitleRequired}
               </h3>
@@ -2215,7 +2215,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               <div className="flex gap-3">
                 <button
                   onClick={handleCancelLeave}
-                  className="flex-1 bg-cardBg text-stretchLimo shadow border border-stretchLimo/[0.06] rounded-lg py-3 text-base font-bold hover:bg-cloudDancer/30 transition-colors"
+                  className="flex-1 bg-cardBg text-stretchLimo shadow border border-stretchLimo/10 rounded-lg py-3 text-base font-bold hover:bg-cloudDancer/30 transition-colors"
                 >
                   {t.cancel}
                 </button>
@@ -2269,7 +2269,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
           {/* Modal */}
           <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
-            <div className="bg-cardBg rounded-2xl w-full max-w-md p-6 shadow-lg border border-stretchLimo/[0.06]">
+            <div className="bg-cardBg rounded-2xl w-full max-w-md p-6 shadow-lg border border-stretchLimo/10">
               <h3 className="text-lg font-bold text-stretchLimo mb-4">
                 {editingLinkId ? t.editLink : t.addLink}
               </h3>
@@ -2351,7 +2351,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               <div className="flex gap-3">
                 <button
                   onClick={() => setShowLinkModal(false)}
-                  className="flex-1 bg-cardBg text-stretchLimo shadow border border-stretchLimo/[0.06] rounded-lg py-3 text-base font-bold hover:bg-cloudDancer/30 transition-colors"
+                  className="flex-1 bg-cardBg text-stretchLimo shadow border border-stretchLimo/10 rounded-lg py-3 text-base font-bold hover:bg-cloudDancer/30 transition-colors"
                 >
                   {t.cancel}
                 </button>
