@@ -294,7 +294,7 @@ export default function CategoryManagementModal({
               onChange={(e) => setNewCategoryName(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleAddCategory()}
               placeholder={t.newCategory}
-              className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stretchLimo"
+              className="flex-1 px-3 py-2 text-sm border border-stretchLimo/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-stretchLimo"
             />
             <button
               onClick={handleAddCategory}
