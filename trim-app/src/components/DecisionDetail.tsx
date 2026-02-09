@@ -2269,7 +2269,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
           {/* Modal */}
           <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl w-full max-w-md p-6">
+            <div className="bg-cardBg rounded-2xl w-full max-w-md p-6 shadow-lg">
               <h3 className="text-lg font-bold text-stretchLimo mb-4">
                 {editingLinkId ? t.editLink : t.addLink}
               </h3>
@@ -2351,7 +2351,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               <div className="flex gap-3">
                 <button
                   onClick={() => setShowLinkModal(false)}
-                  className="flex-1 bg-white text-stretchLimo border border-stretchLimo/10 rounded-lg py-3 text-base font-bold hover:bg-stretchLimo50 transition-colors"
+                  className="flex-1 bg-cardBg text-stretchLimo shadow-sm rounded-lg py-3 text-base font-bold hover:bg-cloudDancer/30 transition-colors"
                 >
                   {t.cancel}
                 </button>
