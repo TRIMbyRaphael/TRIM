@@ -66,7 +66,7 @@ export default function DecisionChunking({
               <Info className="w-4 h-4 text-stretchLimo/60 hover:text-stretchLimo cursor-pointer" />
             </button>
             {showChunkingInfo && (
-              <div className="absolute right-0 top-full mt-2 bg-white border border-stretchLimo/20 shadow-lg max-w-xs rounded-lg p-4 z-50">
+              <div className="absolute right-0 top-full mt-2 bg-warmWhite border border-stretchLimo/20 shadow-lg max-w-xs rounded-lg p-4 z-50">
                 <h4 className="text-base font-semibold text-black mb-2">
                   {t.chunkingInfoTitle}
                 </h4>
