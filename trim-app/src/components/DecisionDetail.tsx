@@ -2009,8 +2009,10 @@ export default function DecisionDetail({ decision, decisions, categories, initia
           {showChunkingInfo && (
             <div ref={chunkingInfoRef} className="absolute left-4 right-4 bottom-full -mb-1 bg-stretchLimo text-white rounded-lg px-4 py-3 z-50 shadow-lg">
               {/* 말풍선 꼬리 - info 버튼 바로 위 */}
-              <div className={`absolute -bottom-1.5 w-3 h-3 bg-stretchLimo transform rotate-45 ${
-                import.meta.env.VITE_LANG === 'ko' ? 'left-4' : 'left-[46.5%]'
+              <div className={`absolute w-3 h-3 bg-stretchLimo transform rotate-45 ${
+                import.meta.env.VITE_LANG === 'ko' 
+                  ? 'left-4 -bottom-36' 
+                  : 'left-[46.5%] -bottom-1.5'
               }`} />
               <div>
                 <h4 className="text-xs font-semibold whitespace-nowrap">
