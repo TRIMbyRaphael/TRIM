@@ -124,6 +124,18 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     setProsConsEnabled(autoEnabled);
   }, [decision.id]);
 
+  // 배경 클릭 시 Chunking Info popover 닫기
+  useEffect(() => {
+    if (!showChunkingInfo) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (chunkingInfoRef.current && !chunkingInfoRef.current.contains(e.target as Node)) {
+        setShowChunkingInfo(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showChunkingInfo]);
+
   // Auto-resize title textarea on mount
   useEffect(() => {
     if (titleInputRef.current) {
