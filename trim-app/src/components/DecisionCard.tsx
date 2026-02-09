@@ -358,7 +358,7 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
             {decision.resolved ? (
               <button
                 onClick={handleReopen}
-                className="w-[200px] py-2 rounded-lg text-sm font-bold transition-colors bg-stretchLimo text-white hover:bg-opacity-90"
+                className="w-[200px] py-2 rounded-lg text-sm font-bold transition-colors bg-micron text-white hover:bg-opacity-90"
               >
                 Re-open
               </button>
@@ -368,7 +368,7 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
                 disabled={!canTrim}
                 className={`w-full py-2 rounded-lg text-sm font-bold transition-colors ${
                   canTrim
-                    ? 'bg-stretchLimo text-white hover:bg-opacity-90'
+                    ? 'bg-micron text-white hover:bg-opacity-90'
                     : 'bg-stretchLimo100 text-stretchLimo300 cursor-not-allowed border-2 border-stretchLimo200'
                 }`}
               >
