@@ -1199,13 +1199,13 @@ export default function DecisionDetail({ decision, decisions, categories, initia
             </div>
           )}
 
-          {/* Decision Framing Questions (mode-specific) */}
+          {/* Decision Framing Questions (mode-specific) - Micron 배경 */}
           {showDecisionMemo && (
-            <div className="mt-3 bg-white border border-stretchLimo300 rounded-xl p-4">
+            <div className="mt-3 bg-micron rounded-xl p-4">
               <div className="space-y-2">
                 {/* Q1: What happened? - all modes */}
                 <div>
-                  <label className="block text-sm font-medium text-stretchLimo mb-0.5">
+                  <label className="block text-sm font-medium text-cloudDancer mb-0.5">
                     What happened?
                   </label>
                   <textarea
@@ -1219,7 +1219,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     }}
                     placeholder="What situation led to this decision..."
                     disabled={localDecision.resolved}
-                    className={`w-full px-3 py-1.5 text-sm text-stretchLimo placeholder:text-xs bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none overflow-hidden ${
+                    className={`w-full px-3 py-1.5 text-sm text-white placeholder:text-xs placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none overflow-hidden ${
                       localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                     }`}
                     rows={1}
@@ -1228,7 +1228,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
                 {/* Q2: Ultimate Goal - all modes */}
                 <div>
-                  <label className="block text-sm font-medium text-stretchLimo mb-0.5">
+                  <label className="block text-sm font-medium text-cloudDancer mb-0.5">
                     Ultimate Goal
                   </label>
                   <textarea
@@ -1242,7 +1242,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     }}
                     placeholder="What do I really want by making this decision..."
                     disabled={localDecision.resolved}
-                    className={`w-full px-3 py-1.5 text-sm text-stretchLimo placeholder:text-xs bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none overflow-hidden ${
+                    className={`w-full px-3 py-1.5 text-sm text-white placeholder:text-xs placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none overflow-hidden ${
                       localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                     }`}
                     rows={1}
@@ -1252,7 +1252,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 {/* Q3: Any fixed constraints? - no_clear_options only */}
                 {(localDecision.mode || 'do_or_not') === 'no_clear_options' && (
                   <div>
-                    <label className="block text-sm font-medium text-stretchLimo mb-0.5">
+                    <label className="block text-sm font-medium text-cloudDancer mb-0.5">
                       Any fixed constraints?
                     </label>
                     <textarea
@@ -1266,7 +1266,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       }}
                       placeholder="External constraints you can't change..."
                       disabled={localDecision.resolved}
-                      className={`w-full px-3 py-1.5 text-sm text-stretchLimo placeholder:text-xs bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none overflow-hidden ${
+                      className={`w-full px-3 py-1.5 text-sm text-white placeholder:text-xs placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none overflow-hidden ${
                         localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                       }`}
                       rows={1}
@@ -1277,7 +1277,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 {/* Q4: Any deal-breakers? - no_clear_options only */}
                 {(localDecision.mode || 'do_or_not') === 'no_clear_options' && (
                   <div>
-                    <label className="block text-sm font-medium text-stretchLimo mb-0.5">
+                    <label className="block text-sm font-medium text-cloudDancer mb-0.5">
                       Any deal-breakers?
                     </label>
                     <textarea
@@ -1291,7 +1291,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       }}
                       placeholder="What's non-negotiable for you..."
                       disabled={localDecision.resolved}
-                      className={`w-full px-3 py-1.5 text-sm text-stretchLimo placeholder:text-xs bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none overflow-hidden ${
+                      className={`w-full px-3 py-1.5 text-sm text-white placeholder:text-xs placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none overflow-hidden ${
                         localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                       }`}
                       rows={1}
@@ -1302,7 +1302,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 {/* Q5: Key factors? - choose_best and no_clear_options */}
                 {((localDecision.mode || 'do_or_not') === 'choose_best' || (localDecision.mode || 'do_or_not') === 'no_clear_options') && (
                   <div>
-                    <label className="block text-sm font-medium text-stretchLimo mb-0.5">
+                    <label className="block text-sm font-medium text-cloudDancer mb-0.5">
                       Key factors?
                     </label>
                     <textarea
@@ -1316,7 +1316,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       }}
                       placeholder="Criteria you'll use to compare options..."
                       disabled={localDecision.resolved}
-                      className={`w-full px-3 py-1.5 text-sm text-stretchLimo placeholder:text-xs bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none overflow-hidden ${
+                      className={`w-full px-3 py-1.5 text-sm text-white placeholder:text-xs placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none overflow-hidden ${
                         localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                       }`}
                       rows={1}
