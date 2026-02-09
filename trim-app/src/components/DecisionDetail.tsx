@@ -1820,7 +1820,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 <ChevronRight className="w-4 h-4 text-micron" />
               )}
             </div>
-            <span className="text-sm text-micron">
+            <span className="text-sm text-stretchLimo600">
               {decisions.filter(d => d.parentId === localDecision.id).length}
             </span>
           </button>
