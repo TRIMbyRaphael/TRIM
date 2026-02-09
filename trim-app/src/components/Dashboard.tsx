@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Plus, ChevronRight, ChevronDown, Settings } from 'lucide-react';
+import { t } from '../i18n';
 import {
   DndContext,
   closestCenter,
