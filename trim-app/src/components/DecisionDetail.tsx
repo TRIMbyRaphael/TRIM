@@ -1896,8 +1896,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 disabled={localDecision.resolved}
                 className={`w-full flex items-center justify-center gap-2 p-3 border-2 border-dashed rounded-lg transition-colors text-sm ${
                   localDecision.resolved
-                    ? 'border-stretchLimo200 text-micron opacity-50 cursor-not-allowed'
-                    : 'border-stretchLimo300 text-micron hover:border-stretchLimo hover:bg-stretchLimo50 hover:text-stretchLimo'
+                    ? 'border-stretchLimo200 text-stretchLimo300 opacity-50 cursor-not-allowed'
+                    : 'border-stretchLimo200 text-stretchLimo700 hover:border-stretchLimo hover:bg-stretchLimo50 hover:text-stretchLimo'
                 }`}
               >
                 <Plus className="w-4 h-4" />
