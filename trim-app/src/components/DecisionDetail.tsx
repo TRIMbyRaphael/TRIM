@@ -1034,7 +1034,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               placeholder="What's cluttering your mind?"
               disabled={localDecision.resolved}
               rows={1}
-              className={`flex-1 text-xl font-medium text-stretchLimo bg-transparent border-none outline-none placeholder-stretchLimo300 resize-none overflow-hidden ${
+              className={`flex-1 text-xl font-medium text-black bg-transparent border-none outline-none placeholder-stretchLimo300 resize-none overflow-hidden ${
                 localDecision.resolved ? 'line-through opacity-50 cursor-not-allowed' : ''
               }`}
             />
