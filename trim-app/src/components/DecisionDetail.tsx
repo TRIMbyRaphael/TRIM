@@ -1698,7 +1698,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
             /* Re-open Button - When resolved */
             <button
               onClick={handleReopen}
-              className="rounded-lg py-4 px-8 text-lg font-bold transition-colors bg-stretchLimo text-white hover:bg-opacity-90"
+              className="rounded-lg py-4 px-8 text-lg font-bold transition-colors bg-micron text-white hover:bg-opacity-90"
             >
               Re-open
             </button>
