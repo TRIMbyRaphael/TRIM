@@ -43,7 +43,7 @@ const ko: Translations = {
   manageCategoriesTitle: '카테고리 관리',
 
   // Decision Detail - Title
-  titlePlaceholder: '지금 무엇이 머릿속을 복잡하게 하고 있나요?',
+  titlePlaceholder: '지금 무엇이 머릿속을 복잡하게\n하고 있나요?',
   untitled: '[제목 없음]',
 
   // Framing Questions
