@@ -1155,11 +1155,17 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     What happened?
                   </label>
                   <textarea
+                    ref={(el) => (framingRefs.current['whatHappened'] = el)}
                     value={localDecision.framing?.whatHappened || ''}
-                    onChange={(e) => handleFramingChange('whatHappened', e.target.value)}
+                    onChange={(e) => {
+                      handleFramingChange('whatHappened', e.target.value);
+                      // Auto-resize on input
+                      e.target.style.height = 'auto';
+                      e.target.style.height = `${e.target.scrollHeight}px`;
+                    }}
                     placeholder="What situation led to this decision..."
                     disabled={localDecision.resolved}
-                    className={`w-full px-3 py-1.5 text-sm text-stretchLimo placeholder:text-xs bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                    className={`w-full px-3 py-1.5 text-sm text-stretchLimo placeholder:text-xs bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none overflow-hidden ${
                       localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                     }`}
                     rows={1}
@@ -1172,11 +1178,17 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     Ultimate Goal
                   </label>
                   <textarea
+                    ref={(el) => (framingRefs.current['goal'] = el)}
                     value={localDecision.framing?.goal || ''}
-                    onChange={(e) => handleFramingChange('goal', e.target.value)}
+                    onChange={(e) => {
+                      handleFramingChange('goal', e.target.value);
+                      // Auto-resize on input
+                      e.target.style.height = 'auto';
+                      e.target.style.height = `${e.target.scrollHeight}px`;
+                    }}
                     placeholder="What do I really want by making this decision..."
                     disabled={localDecision.resolved}
-                    className={`w-full px-3 py-1.5 text-sm text-stretchLimo placeholder:text-xs bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                    className={`w-full px-3 py-1.5 text-sm text-stretchLimo placeholder:text-xs bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none overflow-hidden ${
                       localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                     }`}
                     rows={1}
@@ -1190,11 +1202,17 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       Any fixed constraints?
                     </label>
                     <textarea
+                      ref={(el) => (framingRefs.current['constraints'] = el)}
                       value={localDecision.framing?.constraints || ''}
-                      onChange={(e) => handleFramingChange('constraints', e.target.value)}
+                      onChange={(e) => {
+                        handleFramingChange('constraints', e.target.value);
+                        // Auto-resize on input
+                        e.target.style.height = 'auto';
+                        e.target.style.height = `${e.target.scrollHeight}px`;
+                      }}
                       placeholder="External constraints you can't change..."
                       disabled={localDecision.resolved}
-                      className={`w-full px-3 py-1.5 text-sm text-stretchLimo placeholder:text-xs bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                      className={`w-full px-3 py-1.5 text-sm text-stretchLimo placeholder:text-xs bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none overflow-hidden ${
                         localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                       }`}
                       rows={1}
@@ -1209,11 +1227,17 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       Any deal-breakers?
                     </label>
                     <textarea
+                      ref={(el) => (framingRefs.current['dealbreakers'] = el)}
                       value={localDecision.framing?.dealbreakers || ''}
-                      onChange={(e) => handleFramingChange('dealbreakers', e.target.value)}
+                      onChange={(e) => {
+                        handleFramingChange('dealbreakers', e.target.value);
+                        // Auto-resize on input
+                        e.target.style.height = 'auto';
+                        e.target.style.height = `${e.target.scrollHeight}px`;
+                      }}
                       placeholder="What's non-negotiable for you..."
                       disabled={localDecision.resolved}
-                      className={`w-full px-3 py-1.5 text-sm text-stretchLimo placeholder:text-xs bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                      className={`w-full px-3 py-1.5 text-sm text-stretchLimo placeholder:text-xs bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none overflow-hidden ${
                         localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                       }`}
                       rows={1}
