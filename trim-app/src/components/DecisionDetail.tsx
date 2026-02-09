@@ -1897,7 +1897,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               onClick={handleReopen}
               className="rounded-lg py-4 px-8 text-lg font-bold transition-colors bg-stretchLimo text-white hover:bg-opacity-90"
             >
-              Re-open
+              {t.reopen}
             </button>
           )}
         </div>
@@ -1916,7 +1916,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
             >
               <div className="flex items-center gap-2">
                 <Info className="w-5 h-5 text-stretchLimo" />
-                <span className="text-base text-black">Importance</span>
+                <span className="text-base text-black">{t.importance}</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-base text-stretchLimo">
