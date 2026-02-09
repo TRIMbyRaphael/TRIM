@@ -36,7 +36,7 @@ export default function DecisionChunking({
   }, [showChunkingInfo]);
 
   return (
-    <div className="bg-white rounded-lg mt-6">
+    <div className="bg-warmWhite rounded-lg mt-6">
       {/* Section Header */}
       <div className="flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors">
         <button
