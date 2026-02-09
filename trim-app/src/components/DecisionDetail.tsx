@@ -1205,7 +1205,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       onChange={(e) => handleFramingChange('dealbreakers', e.target.value)}
                       placeholder="What's non-negotiable for you..."
                       disabled={localDecision.resolved}
-                      className={`w-full px-3 py-1.5 text-sm text-stretchLimo bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                      className={`w-full px-3 py-1.5 text-sm text-stretchLimo placeholder:text-xs bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
                         localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                       }`}
                       rows={1}
@@ -1224,7 +1224,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       onChange={(e) => handleFramingChange('keyFactors', e.target.value)}
                       placeholder="Criteria you'll use to compare options..."
                       disabled={localDecision.resolved}
-                      className={`w-full px-3 py-1.5 text-sm text-stretchLimo bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
+                      className={`w-full px-3 py-1.5 text-sm text-stretchLimo placeholder:text-xs bg-white border border-stretchLimo200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
                         localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                       }`}
                       rows={1}
