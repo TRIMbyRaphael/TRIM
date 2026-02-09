@@ -2030,12 +2030,12 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               {showChunkingInfoExpanded && (
                 <div className="mt-2 space-y-2">
                   <p className="text-[11px] text-white/80 leading-relaxed">
-                    {t.chunkingInfoDesc1Before.split('의사결정 안에')[0]}의사결정 안에<br className="md:hidden" />
+                    때때로 결정이 막막하게 느껴지는 이유는, 하나의 의사결정 안에<br className="md:hidden" />
                     <span className="font-bold text-white">{t.chunkingInfoDesc1Bold}</span>{t.chunkingInfoDesc1After}
                   </p>
                   <p className="text-[11px] text-white/80 leading-relaxed">
-                    {t.chunkingInfoDesc2.split('쪼개어')[0]}쪼개어<br className="md:hidden" />
-                    {t.chunkingInfoDesc2.split('쪼개어')[1]}
+                    하나의 문제로 대하는 대신, 작은 결정들로 쪼개어<br className="md:hidden" />
+                    하나씩 판단해보세요.
                   </p>
                 </div>
               )}
