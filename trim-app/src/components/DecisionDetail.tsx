@@ -62,6 +62,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   const [showComparisonMatrix, setShowComparisonMatrix] = useState(false);
   const [draggedSubDecisionId, setDraggedSubDecisionId] = useState<string | null>(null);
   const [dragOverSubDecisionId, setDragOverSubDecisionId] = useState<string | null>(null);
+  const [showChunkingInfo, setShowChunkingInfo] = useState(false);
   const [draggedOptionId, setDraggedOptionId] = useState<string | null>(null);
   const [dragOverOptionId, setDragOverOptionId] = useState<string | null>(null);
   const [longPressOptionId, setLongPressOptionId] = useState<string | null>(null); // 꾹 눌러서 삭제 팝업 표시용
