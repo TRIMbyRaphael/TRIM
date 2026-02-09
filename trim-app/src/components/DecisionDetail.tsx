@@ -1919,7 +1919,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         </div>
 
         {/* Settings Section */}
-        <div className="bg-white rounded-lg divide-y divide-stretchLimo300 border border-stretchLimo400 shadow-md -mt-2">
+        <div className="bg-cardBg rounded-lg divide-y divide-cloudDancer shadow-md -mt-2">
           {/* Importance */}
           <div className="relative">
             <button
@@ -1943,7 +1943,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
             {/* Importance Dropdown */}
             {showImportanceDropdown && (
-              <div className="absolute top-full left-0 right-0 bg-white border-t border-stretchLimo200 shadow-lg z-10">
+              <div className="absolute top-full left-0 right-0 bg-cardBg shadow-lg z-10">
                 {(Object.keys(IMPORTANCE_LEVELS) as ImportanceLevel[]).map((level) => (
                   <button
                     key={level}
@@ -2024,7 +2024,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         <div className="border-t border-stretchLimo300 my-6"></div>
 
         {/* Sub-Decisions Section */}
-        <div className="relative bg-white rounded-lg border border-stretchLimo400 shadow-md">
+        <div className="relative bg-cardBg rounded-lg shadow-md">
           {/* Info Popover - 섹션 컨테이너 기준 배치 */}
           {showChunkingInfo && (
             <div ref={chunkingInfoRef} className="absolute left-4 right-4 bottom-full -mb-1 bg-stretchLimo text-white rounded-lg px-4 py-3 z-50 shadow-lg">
