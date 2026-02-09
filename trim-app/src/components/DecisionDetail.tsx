@@ -1551,7 +1551,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   onPointerDown={(e) => e.stopPropagation()}
                   onPointerUp={(e) => e.stopPropagation()}
                 >
-                  <div className="bg-white rounded-xl shadow-xl border border-stretchLimo200 overflow-hidden min-w-[140px]">
+                  <div className="bg-cardBg rounded-xl shadow-xl overflow-hidden min-w-[140px]">
                     <button
                       onClick={() => {
                         handleDeleteOption(option.id);
@@ -1565,7 +1565,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     </button>
                   </div>
                   {/* 말풍선 꼬리 */}
-                  <div className="absolute -bottom-1.5 left-6 w-3 h-3 bg-white border-r border-b border-stretchLimo200 transform rotate-45" />
+                  <div className="absolute -bottom-1.5 left-6 w-3 h-3 bg-cardBg transform rotate-45 shadow-sm" />
                 </div>
               )}
 
