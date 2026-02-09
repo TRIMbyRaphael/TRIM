@@ -5,6 +5,7 @@ import TimeBudgetModal from './TimeBudgetModal';
 import { fetchOpenGraphData } from '../utils/linkPreview';
 import { useCountdown } from '../hooks/useCountdown';
 import { formatTimeRemaining } from '../utils/timeFormat';
+import { t } from '../i18n';
 
 interface DecisionDetailProps {
   decision: Decision;
