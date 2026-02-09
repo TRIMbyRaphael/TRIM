@@ -1907,7 +1907,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     e.stopPropagation();
                     setShowChunkingInfo(!showChunkingInfo);
                   }}
-                  className="p-1 rounded-full hover:bg-stretchLimo/5 transition-colors"
+                  className="p-1 rounded-full hover:bg-stretchLimo/5 transition-colors mt-0.5"
                 >
                   <Info className="w-4 h-4 text-stretchLimo/60 hover:text-stretchLimo cursor-pointer" />
                 </button>
