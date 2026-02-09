@@ -106,8 +106,8 @@ const ko: Translations = {
   resolvedText: '완료',
 
   // Leave Warning
-  decisionTitleRequired: '결정 제목은 필수입니다',
-  leaveWithoutSaving: '저장하지 않고 나가시겠어요?',
+  decisionTitleRequired: '제목은 필수입니다',
+  leaveWithoutSaving: '저장하지 않고 나가시겠습니까?',
   leave: '나가기',
   confirmDeleteDecision: '이 결정을 삭제하시겠습니까?',
 
