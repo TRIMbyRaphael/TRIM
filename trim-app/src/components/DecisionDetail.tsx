@@ -1885,7 +1885,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     onMouseLeave={() => setShowRandomPickTooltip(false)}
                     className="flex flex-col items-center gap-1 p-3 rounded-lg transition-colors relative border-0"
                   >
-                    <Shuffle className="w-5 h-5 text-stretchLimo" />
+                    <Shuffle className="w-5 h-5 text-stretchLimo -mt-1" />
                     {import.meta.env.VITE_LANG === 'ko' ? (
                       <span className="text-[5px] text-stretchLimo leading-tight">{t.randomPickLine1} {t.randomPickLine2}</span>
                     ) : (
