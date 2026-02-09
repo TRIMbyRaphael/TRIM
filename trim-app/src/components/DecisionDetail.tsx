@@ -1954,7 +1954,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
       )}
 
       {/* Decision Mode Switch - Fixed Bottom Bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-10 bg-[#EDEBE6] border-t-2 border-stretchLimo200 shadow-[0_-4px_12px_rgba(0,0,0,0.08)]">
+      <div className="fixed bottom-0 left-0 right-0 z-10 bg-micron border-t-2 border-stretchLimo200 shadow-[0_-4px_12px_rgba(0,0,0,0.08)]">
         <div className="max-w-2xl mx-auto flex">
           {DECISION_MODES.map((modeOption) => {
             const currentMode = localDecision.mode || DEFAULT_DECISION_MODE;
@@ -1965,8 +1965,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 onClick={() => handleModeChange(modeOption.value)}
                 className={`flex-1 py-6 text-sm font-medium transition-colors relative ${
                   isActive
-                    ? 'text-stretchLimo'
-                    : 'text-micron hover:text-stretchLimo hover:bg-[#E5E3DE]'
+                    ? 'text-white'
+                    : 'text-white/50 hover:text-white hover:bg-white/5'
                 }`}
               >
                 {/* Active indicator bar */}
