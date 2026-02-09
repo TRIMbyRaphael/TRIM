@@ -1168,7 +1168,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   <textarea
                     value={localDecision.framing?.goal || ''}
                     onChange={(e) => handleFramingChange('goal', e.target.value)}
-                    placeholder="What do I really want by making this decision"
+                    placeholder="What do I really want by making this decision..."
                     disabled={localDecision.resolved}
                     className={`w-full px-3 py-2 text-sm text-stretchLimo bg-white border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-stretchLimo resize-none ${
                       localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
