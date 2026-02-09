@@ -1872,7 +1872,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     onClick={handleRandomPick}
                     onMouseEnter={() => setShowRandomPickTooltip(true)}
                     onMouseLeave={() => setShowRandomPickTooltip(false)}
-                    className="flex flex-col items-center gap-1 p-3 bg-stretchLimo50 hover:bg-stretchLimo100 rounded-lg transition-colors relative border-0"
+                    className="flex flex-col items-center gap-1 p-3 rounded-lg transition-colors relative border-0"
                   >
                     <Shuffle className="w-5 h-5 text-stretchLimo" />
                     <div className="flex flex-col items-center leading-tight">
