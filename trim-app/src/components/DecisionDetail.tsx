@@ -1329,9 +1329,13 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         </div>
 
         {/* Decision Container Box */}
-        <div className="bg-white border border-stretchLimo300 rounded-xl p-6 mb-6">
+        <div className={`bg-white border border-stretchLimo300 rounded-xl mb-6 ${
+          (currentMode === 'choose_best' || currentMode === 'no_clear_options') ? 'p-4' : 'p-6'
+        }`}>
           {/* Options List */}
-          <div className="space-y-3 mb-5">
+          <div className={`space-y-3 ${
+            (currentMode === 'choose_best' || currentMode === 'no_clear_options') ? 'mb-3' : 'mb-5'
+          }`}>
           {/* 삭제 팝업 배경 오버레이 */}
           {longPressOptionId && (
             <div 
@@ -1648,7 +1652,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
         {/* Compare Options CTA - choose_best, no_clear_options only */}
         {(currentMode === 'choose_best' || currentMode === 'no_clear_options') && !localDecision.resolved && (
-          <div className="mb-3">
+          <div className="mb-1">
             <button
               onClick={handleToggleComparisonMatrix}
               className="flex items-center gap-1.5 text-sm text-micron hover:text-stretchLimo transition-colors py-1.5"
