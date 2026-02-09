@@ -637,7 +637,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   };
 
   const handleDelete = () => {
-    if (window.confirm('Are you sure you want to delete this decision?')) {
+    if (window.confirm(t.confirmDeleteDecision)) {
       onDelete();
       onBack();
     }
@@ -816,8 +816,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
   const getOptionLabel = (option: Option, index: number): string => {
     if (option.title.trim()) return option.title;
-    if (currentMode === 'choose_best') return `Option ${String.fromCharCode(65 + index)}`;
-    return `Option ${index + 1}`;
+    if (currentMode === 'choose_best') return `${t.option} ${String.fromCharCode(65 + index)}`;
+    return `${t.option} ${index + 1}`;
   };
 
   // Drag and drop handlers for sub-decisions
