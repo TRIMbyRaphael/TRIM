@@ -180,7 +180,7 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
               </button>
             </div>
             {/* 말풍선 꼬리 */}
-            <div className="absolute -bottom-1.5 left-6 w-3 h-3 bg-white border-r border-b border-gray-200 transform rotate-45" />
+            <div className="absolute -bottom-1.5 left-6 w-3 h-3 bg-white border-r border-b border-stretchLimo200 transform rotate-45" />
           </div>
         )}
         {/* "ㄴ" 모양 연결선 for child items */}
@@ -283,7 +283,7 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
                   onClick={(e) => handleOptionSelect(option.id, e)}
                   disabled={decision.resolved}
                   className={`w-full flex items-start justify-start gap-2 text-sm rounded p-1 transition-colors text-left ${
-                    decision.resolved ? 'cursor-not-allowed' : 'text-stretchLimo hover:bg-gray-50'
+                    decision.resolved ? 'cursor-not-allowed' : 'text-stretchLimo hover:bg-stretchLimo50'
                   }`}
                 >
                   <div className={`w-4 h-4 rounded-full border-2 border-stretchLimo flex-shrink-0 flex items-center justify-center mt-0.5 ${
@@ -369,7 +369,7 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
                 className={`w-full py-2 rounded-lg text-sm font-bold transition-colors ${
                   canTrim
                     ? 'bg-stretchLimo text-white hover:bg-opacity-90'
-                    : 'bg-gray-100 text-micron cursor-not-allowed border-2 border-gray-200'
+                    : 'bg-gray-100 text-micron cursor-not-allowed border-2 border-stretchLimo200'
                 }`}
               >
                 <img 
