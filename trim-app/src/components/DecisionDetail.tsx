@@ -1900,7 +1900,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         <div className="relative bg-white rounded-lg border border-stretchLimo400 shadow-md">
           {/* Info Popover - 섹션 컨테이너 기준 배치 */}
           {showChunkingInfo && (
-            <div ref={chunkingInfoRef} className="absolute left-4 right-4 bottom-full mb-0.5 bg-stretchLimo text-white rounded-lg px-4 py-3 z-50 shadow-lg">
+            <div ref={chunkingInfoRef} className="absolute left-4 right-4 bottom-full mb-0 bg-stretchLimo text-white rounded-lg px-4 py-3 z-50 shadow-lg">
               {/* 말풍선 꼬리 - info 버튼 바로 위 */}
               <div className="absolute -bottom-1.5 left-[46.5%] w-3 h-3 bg-stretchLimo transform rotate-45" />
               <div>
