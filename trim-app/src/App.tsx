@@ -169,8 +169,7 @@ function App() {
       ...prev,
       [newSubDecision.id]: 0,
     }));
-    setCurrentDecisionId(newSubDecision.id);
-    setCurrentView('detail');
+    // 목록에만 추가하고 현재 화면에 머무름 (사용자가 목록에서 선택해야 이동)
   };
 
   const handleUpdateDecision = (updatedDecision: Decision) => {
