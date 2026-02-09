@@ -2180,10 +2180,10 @@ export default function DecisionDetail({ decision, decisions, categories, initia
           <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-2xl w-full max-w-sm p-6">
               <h3 className="text-lg font-bold text-stretchLimo mb-3">
-                Decision title is required
+                {t.decisionTitleRequired}
               </h3>
               <p className="text-base text-micron mb-6">
-                Leave without saving?
+                {t.leaveWithoutSaving}
               </p>
               <div className="flex gap-3">
                 <button
