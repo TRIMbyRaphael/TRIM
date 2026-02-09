@@ -1287,7 +1287,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     draggable={true}
                     onDragStart={(e) => handleOptionDragStart(e, option.id)}
                     onDragEnd={handleOptionDragEnd}
-                    className="absolute -left-3 top-1/2 -translate-y-1/2 cursor-grab active:cursor-grabbing text-micron hover:text-stretchLimo transition-colors"
+                    className="absolute -left-3 top-1/2 -translate-y-1/2 cursor-grab active:cursor-grabbing text-stretchLimo300 hover:text-stretchLimo transition-colors"
                   >
                     <GripVertical className="w-4 h-4" />
                   </div>
