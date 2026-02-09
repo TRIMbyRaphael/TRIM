@@ -348,7 +348,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
                 >
                   <Plus className="w-5 h-5 text-stretchLimo" />
                   <span className="text-base font-medium text-stretchLimo">
-                    Pending Decision
+                    {t.pendingDecision}
                   </span>
                 </button>
 
@@ -393,9 +393,9 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
                   /* Empty State */
                   <div className="text-center py-8">
                     <p className="text-micron text-sm">
-                      No active decisions.
+                      {t.noActiveDecisions}
                       <br />
-                      Tap + to add one.
+                      {t.tapToAdd}
                     </p>
                   </div>
                 )}
