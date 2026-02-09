@@ -1645,8 +1645,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       onChange={(e) => handleOptionMemoChange(option.id, e.target.value)}
                       placeholder={
                         index === 0
-                          ? 'Why should I do this?'
-                          : "Why shouldn't I do this?"
+                          ? t.whyShouldIDo
+                          : t.whyShouldntIDo
                       }
                       disabled={localDecision.resolved}
                       className={`w-full mt-3 px-3 py-2 text-sm text-white placeholder-white/50 bg-micron border border-white/30 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none ${
@@ -1664,7 +1664,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                           <div>
                             <label className="flex items-center gap-1 text-xs font-semibold text-cloudDancer mb-1">
                               <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-white/80 text-micron text-[10px] font-bold">+</span>
-                              Pros
+                              {t.pros}
                             </label>
                             <textarea
                               value={option.pros || ''}
