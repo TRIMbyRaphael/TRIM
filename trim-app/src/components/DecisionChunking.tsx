@@ -36,9 +36,9 @@ export default function DecisionChunking({
   }, [showChunkingInfo]);
 
   return (
-    <div className="bg-white rounded-lg mt-6">
+    <div className="bg-white rounded-lg mt-6 shadow-sm">
       {/* Section Header */}
-      <div className="flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors">
+      <div className="flex items-center justify-between px-4 py-3 hover:bg-cloudDancer/30 transition-colors">
         <button
           onClick={() => setIsExpanded(!isExpanded)}
           className="flex items-center gap-2 flex-1"
