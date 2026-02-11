@@ -1926,17 +1926,23 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     onClick={handleRandomPick}
                     onMouseEnter={() => setShowRandomPickTooltip(true)}
                     onMouseLeave={() => setShowRandomPickTooltip(false)}
-                    className="flex flex-col items-center gap-1 p-3 rounded-lg transition-colors relative border-0"
+                    className="flex items-center justify-center p-2 rounded-lg transition-colors relative border-0"
                   >
-                    <Shuffle className="w-5 h-5 text-stretchLimo -mt-1" />
-                    {import.meta.env.VITE_LANG === 'ko' ? (
-                      <span className="text-[5px] text-stretchLimo leading-tight">{t.randomPickLine1} {t.randomPickLine2}</span>
-                    ) : (
-                      <div className="flex flex-col items-center leading-tight">
-                        <span className="text-[5px] text-stretchLimo">{t.randomPickLine1}</span>
-                        <span className="text-[5px] text-stretchLimo">{t.randomPickLine2}</span>
-                      </div>
-                    )}
+                    {/* Dice with question marks on each face */}
+                    <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-stretchLimo">
+                      {/* Top face */}
+                      <path d="M16 2L28 9V9L16 16L4 9V9L16 2Z" fill="currentColor" fillOpacity="0.15" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+                      {/* Left face */}
+                      <path d="M4 9L16 16V30L4 23V9Z" fill="currentColor" fillOpacity="0.25" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+                      {/* Right face */}
+                      <path d="M28 9L16 16V30L28 23V9Z" fill="currentColor" fillOpacity="0.08" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+                      {/* Question mark - top face */}
+                      <text x="16" y="11" textAnchor="middle" fill="currentColor" fontSize="7" fontWeight="bold" fontFamily="sans-serif">?</text>
+                      {/* Question mark - left face */}
+                      <text x="10" y="23" textAnchor="middle" fill="currentColor" fontSize="8" fontWeight="bold" fontFamily="sans-serif">?</text>
+                      {/* Question mark - right face */}
+                      <text x="22" y="23" textAnchor="middle" fill="currentColor" fontSize="8" fontWeight="bold" fontFamily="sans-serif">?</text>
+                    </svg>
                   </button>
                   
                   {/* Tooltip */}
