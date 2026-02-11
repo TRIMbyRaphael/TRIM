@@ -226,9 +226,9 @@ export default function QuickDecisionSheet({
                   {options.map((option) => (
                     <div
                       key={option.id}
-                      className="bg-cloudDancer rounded-lg py-3 px-4 border border-stretchLimo/10"
+                      className="bg-cloudDancer rounded-lg py-2.5 px-3 border border-stretchLimo/10"
                     >
-                      <span className="text-base text-stretchLimo">{option.title}</span>
+                      <span className="text-sm text-stretchLimo">{option.title}</span>
                     </div>
                   ))}
                 </>
