@@ -315,6 +315,15 @@ function App() {
 
   return (
     <>
+      {/* iOS 키보드 선점용 숨겨진 input — 사용자 탭 체인에서 즉시 포커스하여 키보드 활성화 */}
+      <input
+        ref={keyboardProxyRef}
+        type="text"
+        aria-hidden="true"
+        tabIndex={-1}
+        style={{ position: 'fixed', top: '-9999px', left: '-9999px', opacity: 0, width: 0, height: 0 }}
+      />
+
       <Dashboard
         decisions={decisions}
         categories={categories}
