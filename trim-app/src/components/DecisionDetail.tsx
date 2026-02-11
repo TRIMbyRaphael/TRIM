@@ -2249,17 +2249,19 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               <button
                 key={modeOption.value}
                 onClick={() => handleModeChange(modeOption.value)}
-                className={`flex-1 py-6 text-sm transition-colors relative ${
+                className={`flex-1 py-5 text-sm transition-all duration-200 relative ${
                   isActive
-                    ? 'text-white font-bold'
-                    : 'text-white/40 font-medium hover:text-white/70 hover:bg-white/5'
+                    ? 'text-white font-bold scale-105 bg-white/10'
+                    : 'text-white/35 font-medium hover:text-white/60 hover:bg-white/5'
                 }`}
               >
                 {/* Active indicator bar */}
                 {isActive && (
-                  <div className="absolute top-0 left-0 right-0 h-[3px] bg-cloudDancer" />
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-[3px] rounded-full bg-scarletSmile shadow-[0_0_8px_rgba(255,82,82,0.5)]" />
                 )}
-                {t.decisionModes[modeOption.value] || modeOption.label}
+                <span className={`relative ${isActive ? 'text-[15px]' : 'text-[13px]'}`}>
+                  {t.decisionModes[modeOption.value] || modeOption.label}
+                </span>
               </button>
             );
           })}
