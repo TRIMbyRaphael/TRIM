@@ -4,8 +4,15 @@ import { createSampleDecisions, SAMPLE_DECISION_IDS } from '../data/sampleDecisi
 
 const STORAGE_KEY = 'trim-decisions';
 const CATEGORIES_STORAGE_KEY = 'trim-categories';
-const EXAMPLES_INJECTED_KEY = 'trim-examples-v10-injected';
 const FIRST_DASHBOARD_VIEW_KEY = 'trim-first-dashboard-view';
+const DELETED_SAMPLES_KEY = 'trim-deleted-sample-ids';
+/**
+ * Bump this version to force-sync samples for ALL users (resets deleted list, replaces everything).
+ * Only bump when you need to override user deletions/edits.
+ * For normal sample content updates, keep the same version — smart sync handles it.
+ */
+const SAMPLE_FORCE_VERSION = 'v1';
+const SAMPLE_FORCE_VERSION_KEY = 'trim-sample-force-version';
 
 /**
  * Get or set the timestamp when the user first saw the dashboard.
