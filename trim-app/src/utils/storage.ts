@@ -5,6 +5,20 @@ import { createSampleDecisions, SAMPLE_DECISION_IDS } from '../data/sampleDecisi
 const STORAGE_KEY = 'trim-decisions';
 const CATEGORIES_STORAGE_KEY = 'trim-categories';
 const EXAMPLES_INJECTED_KEY = 'trim-examples-v10-injected';
+const FIRST_DASHBOARD_VIEW_KEY = 'trim-first-dashboard-view';
+
+/**
+ * Get or set the timestamp when the user first saw the dashboard.
+ * Used to start sample decision timers from first view, not from creation.
+ */
+function getOrSetFirstDashboardView(): string {
+  let firstView = localStorage.getItem(FIRST_DASHBOARD_VIEW_KEY);
+  if (!firstView) {
+    firstView = new Date().toISOString();
+    localStorage.setItem(FIRST_DASHBOARD_VIEW_KEY, firstView);
+  }
+  return firstView;
+}
 
 export function saveDecisions(decisions: Decision[]): void {
   try {
