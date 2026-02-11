@@ -61,10 +61,12 @@ export default function QuickDecisionSheet({
     setTitle('');
   }, [decisionType]);
 
-  // Auto-focus title on open
+  // Auto-focus title on open — 애니메이션(300ms) 완료 후 포커스
   useEffect(() => {
-    if (isOpen && titleRef.current) {
-      const timer = setTimeout(() => titleRef.current?.focus(), 150);
+    if (isOpen) {
+      const timer = setTimeout(() => {
+        titleRef.current?.focus();
+      }, 350);
       return () => clearTimeout(timer);
     }
   }, [isOpen]);
