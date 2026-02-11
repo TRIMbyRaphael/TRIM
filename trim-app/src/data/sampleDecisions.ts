@@ -295,7 +295,7 @@ function createEnglishSamples(now: Date): SampleData {
       ],
       framing: {
         whatHappened: 'Since starting my job, I\'ve been feeling exhausted after work, and I often end up spending my evenings with no plan at all.\nMy stamina has dropped, my body is clearly out of shape, and ironically, doing nothing feels more draining than doing something.',
-        goal: 'Pick one meaningful routine to add to my evenings and stick with it consistently.',
+        goal: 'To build a routine that\'s sustainable and easy to maintain.\nOne that energizes me today and supports long-term growth.',
         constraints: 'About 3 hours available after work. Cost should be reasonable.',
         dealbreakers: "It shouldn't be so tiring that it affects the next workday.",
         keyFactors: 'Cost, Sustainability, Health benefits, Time efficiency',
