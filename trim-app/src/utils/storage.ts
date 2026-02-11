@@ -66,40 +66,34 @@ export function loadCategories(): string[] {
 }
 
 /**
- * Inject sample decisions for new users. Once injected, never replace — user edits always persist.
- * Only adds samples whose IDs don't exist in storage. Existing decisions (including edited examples) are never overwritten.
+ * Inject sample decisions. In dev (localhost), always replace 3 samples with latest template.
+ * In production, inject once; user edits persist.
  */
 export function injectSampleDecisions(existingDecisions: Decision[], lang: string): Decision[] {
   try {
+    const isDev = import.meta.env.DEV;
+
+    const samples = createSampleDecisions(lang);
+
+    // Dev: always replace the 3 samples with latest — sampleDecisions.ts changes reflect immediately
+    if (isDev) {
+      const sampleIds = new Set(SAMPLE_DECISION_IDS);
+      const userDecisions = existingDecisions.filter(d => !sampleIds.has(d.id));
+      const maxSampleOrder = Math.max(0, ...samples.filter(s => !s.parentId).map(s => s.order));
+      const shifted = userDecisions.map(d => ({
+        ...d,
+        order: d.parentId ? (d.order ?? 0) : (d.order ?? 0) + maxSampleOrder + 1,
+      }));
+      return [...samples, ...shifted];
+    }
+
     const alreadyInjected = localStorage.getItem(EXAMPLES_INJECTED_KEY);
     if (alreadyInjected) {
       return existingDecisions;
     }
 
-    const samples = createSampleDecisions(lang);
-
-    // Replace example-1 in EN if it has old template (template update)
-    let base = existingDecisions;
-    if (lang === 'en') {
-      const ex1 = base.find(d => d.id === 'example-1');
-      const hasOldTemplate =
-        ex1?.options?.some(o => o.title === 'English Study') ||
-        ex1?.framing?.whatHappened?.includes('After-work hours feel like they pass by meaninglessly') ||
-        ex1?.framing?.goal?.includes('Pick one meaningful routine to add to my evenings') ||
-        ex1?.keyFactors?.some(k => k.criteria === 'Time efficiency' || k.criteria === 'Health benefits') ||
-        ex1?.options?.some(o => o.pros?.includes('Builds physical strength')) ||
-        ex1?.options?.some(o => o.cons === 'Hard to build the initial habit') ||
-        ex1?.options?.some(o => o.pros === 'Posture correction, improved flexibility') ||
-        ex1?.options?.some(o => o.cons === 'Relatively expensive') ||
-        ex1?.options?.some(o => o.pros === 'Expands knowledge, no location constraint') ||
-        ex1?.options?.some(o => o.cons === 'Hard to focus when tired');
-      if (hasOldTemplate) {
-        const newEx1 = samples.find(s => s.id === 'example-1');
-        if (newEx1) base = base.map(d => (d.id === 'example-1' ? newEx1 : d));
-      }
-    }
-
-    const existingIds = new Set(base.map(d => d.id));
+    // Production: inject only when not yet injected
+    const existingIds = new Set(existingDecisions.map(d => d.id));
     const toInject = samples.filter(s => !existingIds.has(s.id));
     if (toInject.length === 0) {
       localStorage.setItem(EXAMPLES_INJECTED_KEY, 'true');
