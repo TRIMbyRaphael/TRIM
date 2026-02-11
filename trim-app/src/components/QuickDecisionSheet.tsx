@@ -121,8 +121,9 @@ export default function QuickDecisionSheet({
   useEffect(() => {
     if (isOpen) {
       // 짧은 딜레이 후 실제 textarea로 포커스 이전 (키보드는 이미 열려 있음)
+      // preventScroll: iOS가 포커스 시 뷰포트를 스크롤하여 배경을 밀어올리는 것을 방지
       const timer = setTimeout(() => {
-        titleRef.current?.focus();
+        titleRef.current?.focus({ preventScroll: true });
       }, 100);
       return () => clearTimeout(timer);
     }
