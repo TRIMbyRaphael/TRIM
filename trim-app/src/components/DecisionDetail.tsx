@@ -88,6 +88,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   const titleInputRef = useRef<HTMLTextAreaElement>(null);
   const optionRefs = useRef<{ [key: string]: HTMLTextAreaElement | null }>({});
   const framingRefs = useRef<{ [key: string]: HTMLTextAreaElement | null }>({});
+  const factorInputRefs = useRef<Record<string, HTMLInputElement | null>>({});
+  const pendingFocusFactorIdRef = useRef<string | null>(null);
   const initialDecision = useRef<Decision>(decision);
   const pendingNavigationRef = useRef<(() => void) | null>(null);
   // Use prop-based initial sub-decision count to persist across remounts
@@ -801,13 +803,14 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   };
 
   // Key Factors handlers
-  const handleAddKeyFactor = () => {
+  const handleAddKeyFactor = (): string => {
     const newFactor: KeyFactor = { id: Date.now().toString(), criteria: '', importance: 0 };
     const updatedFactors = [...(localDecision.keyFactors || []), newFactor];
     setLocalDecision({
       ...localDecision,
       keyFactors: updatedFactors,
     });
+    return newFactor.id;
   };
 
   const handleKeyFactorCriteriaChange = (factorId: string, criteria: string) => {
