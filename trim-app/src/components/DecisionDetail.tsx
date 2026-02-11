@@ -1162,7 +1162,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   : 'hover:bg-stretchLimo100'
               }`}
             >
-              <Lightbulb className="w-5 h-5" stroke={showDecisionMemo ? '#1A1A1A' : '#9E9E9E'} fill={showDecisionMemo ? '#1A1A1A' : 'none'} />
+              <Lightbulb className="w-5 h-5" stroke={showDecisionMemo ? '#9E9E9E' : '#1A1A1A'} fill={showDecisionMemo ? 'none' : '#1A1A1A'} />
             </button>
           </div>
 
