@@ -869,11 +869,20 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   // Comparison Matrix handlers
   const handleToggleComparisonMatrix = () => {
     if (!showComparisonMatrix && (!localDecision.comparisonMatrix || localDecision.comparisonMatrix.length === 0)) {
-      // 처음 열 때 빈 criteria 1개로 초기화
-      setLocalDecision({
-        ...localDecision,
-        comparisonMatrix: [{ id: Date.now().toString(), name: '', ratings: {} }],
-      });
+      // Key Factors가 있으면 그것을 기반으로 초기화
+      const factors = localDecision.keyFactors || [];
+      if (factors.length > 0) {
+        setLocalDecision({
+          ...localDecision,
+          comparisonMatrix: factors.map(f => ({ id: f.id, name: f.criteria, importance: f.importance, ratings: {} })),
+        });
+      } else {
+        // 빈 criteria 1개로 초기화
+        setLocalDecision({
+          ...localDecision,
+          comparisonMatrix: [{ id: Date.now().toString(), name: '', ratings: {} }],
+        });
+      }
     }
     setShowComparisonMatrix(!showComparisonMatrix);
   };
