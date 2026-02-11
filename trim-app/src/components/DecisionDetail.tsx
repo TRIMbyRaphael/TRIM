@@ -1516,7 +1516,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                               onChange={(e) => handleKeyFactorCriteriaChange(factor.id, e.target.value)}
                               placeholder={t.factorCriteriaPlaceholder}
                               disabled={localDecision.resolved}
-                              className={`flex-1 min-w-0 px-3 py-1.5 text-sm text-white placeholder:text-xs placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 ${
+                              className={`flex-1 min-w-0 max-w-[240px] px-3 py-1.5 text-sm text-white placeholder:text-xs placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 ${
                                 localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                               }`}
                             />

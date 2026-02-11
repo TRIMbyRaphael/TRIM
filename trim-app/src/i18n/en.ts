@@ -55,7 +55,7 @@ const en = {
   framingConstraintsPlaceholder: "External constraints you can't change...",
   framingDealbreakersPlaceholder: "What's non-negotiable for you...",
   framingKeyFactorsPlaceholder: "Criteria you'll use to compare options...",
-  addFactor: '+ Add factor',
+  addFactor: 'Add factor',
   factorCriteriaPlaceholder: 'e.g. Cost, Health...',
 
   // Options
