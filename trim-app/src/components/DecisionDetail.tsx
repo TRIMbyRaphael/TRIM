@@ -1473,7 +1473,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   </div>
                 )}
 
-                {/* Q5: Key factors? - choose_best and no_clear_options */}
+                {/* Q5: Key Factors - choose_best and no_clear_options */}
                 {((localDecision.mode || 'do_or_not') === 'choose_best' || (localDecision.mode || 'do_or_not') === 'no_clear_options') && (
                   <div>
                     <button
@@ -1489,22 +1489,78 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       )}
                     </button>
                     {!collapsedFramingQuestions['keyFactors'] && (
-                      <textarea
-                        ref={(el) => (framingRefs.current['keyFactors'] = el)}
-                        value={localDecision.framing?.keyFactors || ''}
-                        onChange={(e) => {
-                          handleFramingChange('keyFactors', e.target.value);
-                          // Auto-resize on input
-                          e.target.style.height = 'auto';
-                          e.target.style.height = `${e.target.scrollHeight}px`;
-                        }}
-                        placeholder={t.framingKeyFactorsPlaceholder}
-                        disabled={localDecision.resolved}
-                        className={`w-full px-3 py-1.5 text-sm text-white placeholder:text-xs placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none overflow-hidden ${
-                          localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
-                        }`}
-                        rows={1}
-                      />
+                      <div className="space-y-2">
+                        {/* Header row */}
+                        {(localDecision.keyFactors || []).length > 0 && (
+                          <div className="flex items-center gap-2 px-1">
+                            <span className="text-xs text-white/50 flex-1">{t.criteria}</span>
+                          </div>
+                        )}
+
+                        {/* Factor rows */}
+                        {(localDecision.keyFactors || []).map((factor) => (
+                          <div key={factor.id} className="flex items-center gap-2 group/factor">
+                            {/* Criteria text input */}
+                            <input
+                              type="text"
+                              value={factor.criteria}
+                              onChange={(e) => handleKeyFactorCriteriaChange(factor.id, e.target.value)}
+                              placeholder={t.factorCriteriaPlaceholder}
+                              disabled={localDecision.resolved}
+                              className={`flex-1 min-w-0 px-3 py-1.5 text-sm text-white placeholder:text-xs placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 ${
+                                localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
+                              }`}
+                            />
+                            {/* Star rating (1-5) */}
+                            <div className="flex items-center gap-0.5 flex-shrink-0">
+                              {[1, 2, 3, 4, 5].map((star) => (
+                                <button
+                                  key={star}
+                                  type="button"
+                                  onClick={() => {
+                                    if (localDecision.resolved) return;
+                                    // 같은 별을 다시 클릭하면 해제
+                                    const newImportance = factor.importance === star ? 0 : star;
+                                    handleKeyFactorImportanceChange(factor.id, newImportance);
+                                  }}
+                                  disabled={localDecision.resolved}
+                                  className={`p-0.5 transition-colors ${
+                                    localDecision.resolved ? 'opacity-50 cursor-not-allowed' : 'hover:scale-110'
+                                  }`}
+                                >
+                                  {star <= factor.importance ? (
+                                    <FaStar className="w-4 h-4 text-yellow-400" />
+                                  ) : (
+                                    <FaRegStar className="w-4 h-4 text-white/40" />
+                                  )}
+                                </button>
+                              ))}
+                            </div>
+                            {/* Delete button */}
+                            {!localDecision.resolved && (
+                              <button
+                                type="button"
+                                onClick={() => handleDeleteKeyFactor(factor.id)}
+                                className="p-1 text-white/30 hover:text-scarletSmile transition-colors flex-shrink-0 opacity-0 group-hover/factor:opacity-100"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            )}
+                          </div>
+                        ))}
+
+                        {/* Add factor button */}
+                        {!localDecision.resolved && (
+                          <button
+                            type="button"
+                            onClick={handleAddKeyFactor}
+                            className="flex items-center gap-1 text-xs text-white/50 hover:text-white transition-colors mt-1"
+                          >
+                            <Plus className="w-3 h-3" />
+                            <span>{t.addFactor}</span>
+                          </button>
+                        )}
+                      </div>
                     )}
                   </div>
                 )}
