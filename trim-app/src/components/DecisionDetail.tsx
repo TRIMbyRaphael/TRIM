@@ -1895,12 +1895,12 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       <path d="M4 9L16 16V30L4 23V9Z" fill="black" stroke="white" strokeWidth="1.5" strokeLinejoin="round"/>
                       {/* Right face */}
                       <path d="M28 9L16 16V30L28 23V9Z" fill="black" stroke="white" strokeWidth="1.5" strokeLinejoin="round"/>
-                      {/* Question mark - top face */}
-                      <text x="16" y="11" textAnchor="middle" fill="white" fontSize="7" fontWeight="bold" fontFamily="sans-serif">?</text>
-                      {/* Question mark - left face */}
-                      <text x="10" y="23" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold" fontFamily="sans-serif">?</text>
-                      {/* Question mark - right face */}
-                      <text x="22" y="23" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold" fontFamily="sans-serif">?</text>
+                      {/* Question mark - top face (compressed vertically to look flat) */}
+                      <text x="16" y="12" textAnchor="middle" fill="white" fontSize="9" fontWeight="bold" fontFamily="sans-serif" transform="translate(0,9) scale(1,0.58) translate(0,-9)">?</text>
+                      {/* Question mark - left face (skewed to follow face slope) */}
+                      <text x="10" y="22" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold" fontFamily="sans-serif" transform="translate(10,0) skewY(30) translate(-10,0)">?</text>
+                      {/* Question mark - right face (skewed opposite direction) */}
+                      <text x="22" y="22" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold" fontFamily="sans-serif" transform="translate(22,0) skewY(-30) translate(-22,0)">?</text>
                     </svg>
                   </button>
                   
