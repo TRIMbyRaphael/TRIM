@@ -244,7 +244,7 @@ export default function QuickDecisionSheet({
         onClick={onClose}
       />
 
-      {/* Bottom Sheet */}
+      {/* Bottom Sheet — bottom:0 고정, filler가 키보드 영역을 채워서 콘텐츠를 위로 밀어올림 */}
       <div ref={sheetRef} className="fixed bottom-0 left-0 right-0 z-50 animate-slideUp">
         <div className="quick-sheet-content bg-cardBg rounded-t-2xl shadow-lg border-t border-stretchLimo/10">
           {/* Handle bar */}
@@ -252,7 +252,7 @@ export default function QuickDecisionSheet({
             <div className="w-10 h-1 bg-stretchLimo200 rounded-full" />
           </div>
 
-          <div className="max-w-2xl mx-auto px-4 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-1">
+          <div className="max-w-2xl mx-auto px-4 pb-2 pt-1">
             {/* Title Row */}
             <div className="flex items-start gap-2 mb-3">
               <textarea
