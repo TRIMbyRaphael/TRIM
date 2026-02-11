@@ -490,7 +490,13 @@ function createEnglishSamples(now: Date): SampleData {
       framing: {
         whatHappened: "Considering Dangsan area as a candidate, but need to verify bus 1999's viability for commuting.",
         goal: 'Determine if bus 1999 can be reliably used during morning rush hour.',
+        keyFactors: 'Bus frequency, Rush hour congestion, Walking distance to stop',
       },
+      keyFactors: [
+        { id: 'example-3-sub-1-sub-1-kf-1', criteria: 'Bus frequency', importance: 5 },
+        { id: 'example-3-sub-1-sub-1-kf-2', criteria: 'Rush hour congestion', importance: 4 },
+        { id: 'example-3-sub-1-sub-1-kf-3', criteria: 'Walking distance to stop', importance: 3 },
+      ],
       order: 0,
       parentId: 'example-3-sub-1',
       mode: 'do_or_not',
