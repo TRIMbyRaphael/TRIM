@@ -61,9 +61,24 @@ export default function QuickDecisionSheet({
     setTitle('');
   }, [decisionType]);
 
-  // 시트가 열려 있을 때 배경 스크롤 차단 (iOS 키보드 올라올 때 포함)
+  // 시트가 열려 있을 때 배경 스크롤 차단 + 배경 위치 고정 (iOS 키보드 올라올 때 포함)
   useEffect(() => {
     if (isOpen) {
+      // 배경(Dashboard) 위치 고정 — 키보드에 의한 뷰포트 변화 시 배경 이동 방지
+      // App.tsx handleTypeSelect에서 이미 고정했을 수 있으므로 중복 방지
+      const dashboard = document.getElementById('dashboard-scroll');
+      if (dashboard && dashboard.style.position !== 'fixed') {
+        const scrollTop = dashboard.scrollTop;
+        dashboard.dataset.lockedScrollTop = String(scrollTop);
+        dashboard.style.position = 'fixed';
+        dashboard.style.top = `-${scrollTop}px`;
+        dashboard.style.left = '0';
+        dashboard.style.right = '0';
+        dashboard.style.height = 'auto';
+        dashboard.style.overflow = 'hidden';
+        dashboard.scrollTop = 0;
+      }
+
       const html = document.documentElement;
       const body = document.body;
       html.style.overflow = 'hidden';
@@ -78,6 +93,21 @@ export default function QuickDecisionSheet({
       document.addEventListener('touchmove', preventScroll, { passive: false });
 
       return () => {
+        // 배경 위치 복원
+        if (dashboard) {
+          const savedScrollTop = parseInt(dashboard.dataset.lockedScrollTop || '0');
+          dashboard.style.position = '';
+          dashboard.style.top = '';
+          dashboard.style.left = '';
+          dashboard.style.right = '';
+          dashboard.style.height = '';
+          dashboard.style.overflow = '';
+          delete dashboard.dataset.lockedScrollTop;
+          requestAnimationFrame(() => {
+            dashboard.scrollTop = savedScrollTop;
+          });
+        }
+
         html.style.overflow = '';
         html.style.height = '';
         body.style.overflow = '';
