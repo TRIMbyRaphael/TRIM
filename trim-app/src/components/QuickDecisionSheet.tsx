@@ -390,8 +390,7 @@ export default function QuickDecisionSheet({
             </div>
           </div>
 
-          {/* Safe area padding for iOS */}
-          <div className="pb-[env(safe-area-inset-bottom)]" />
+          {/* Safe area는 위 컨테이너 pb에 통합됨 */}
         </div>
       </div>
 
