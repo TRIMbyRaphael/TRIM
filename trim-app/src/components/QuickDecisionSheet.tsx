@@ -81,16 +81,23 @@ export default function QuickDecisionSheet({
 
       const html = document.documentElement;
       const body = document.body;
-      html.style.overflow = 'hidden';
-      html.style.height = '100%';
+
+      // iOS 키보드 활성화 시 뷰포트 스크롤/이동 방지 — body를 fixed로 잠금
+      body.style.position = 'fixed';
+      body.style.top = '0';
+      body.style.left = '0';
+      body.style.right = '0';
       body.style.overflow = 'hidden';
-      body.style.height = '100%';
+      html.style.overflow = 'hidden';
+
+      // 키보드 활성화 전에 발생했을 수 있는 뷰포트 스크롤 리셋
+      window.scrollTo(0, 0);
 
       // 모든 touchmove 차단 — 시트 내부에 스크롤 가능 콘텐츠 없음
-      const preventScroll = (e: TouchEvent) => {
+      const preventTouchScroll = (e: TouchEvent) => {
         e.preventDefault();
       };
-      document.addEventListener('touchmove', preventScroll, { passive: false });
+      document.addEventListener('touchmove', preventTouchScroll, { passive: false });
 
       return () => {
         // 배경 위치 복원
@@ -108,11 +115,13 @@ export default function QuickDecisionSheet({
           });
         }
 
-        html.style.overflow = '';
-        html.style.height = '';
+        body.style.position = '';
+        body.style.top = '';
+        body.style.left = '';
+        body.style.right = '';
         body.style.overflow = '';
-        body.style.height = '';
-        document.removeEventListener('touchmove', preventScroll);
+        html.style.overflow = '';
+        document.removeEventListener('touchmove', preventTouchScroll);
       };
     }
   }, [isOpen]);
