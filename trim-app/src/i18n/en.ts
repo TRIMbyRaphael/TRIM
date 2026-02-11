@@ -159,6 +159,9 @@ const en = {
 
   // Quick Decision Sheet
   quickExpandTooltip: 'Expand to full editor',
+
+  // Example Badge
+  exampleBadge: 'Example',
 };
 
 export type Translations = typeof en;
