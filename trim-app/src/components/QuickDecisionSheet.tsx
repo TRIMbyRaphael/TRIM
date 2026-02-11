@@ -36,6 +36,7 @@ export default function QuickDecisionSheet({
 
   const titleRef = useRef<HTMLTextAreaElement>(null);
   const sheetRef = useRef<HTMLDivElement>(null);
+  const fillerRef = useRef<HTMLDivElement>(null);
   const optionRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
   const categoryDropdownRef = useRef<HTMLDivElement>(null);
   const importanceDropdownRef = useRef<HTMLDivElement>(null);
