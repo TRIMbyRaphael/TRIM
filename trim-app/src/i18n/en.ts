@@ -49,7 +49,7 @@ const en = {
   framingUltimateGoal: 'Ultimate Goal',
   framingConstraints: 'Any fixed constraints?',
   framingDealbreakers: 'Any deal-breakers?',
-  framingKeyFactors: 'Key factors?',
+  framingKeyFactors: 'Key Factors',
   framingWhatHappenedPlaceholder: 'What situation led to this decision...',
   framingGoalPlaceholder: 'What do I really want by making this decision...',
   framingConstraintsPlaceholder: "External constraints you can't change...",
