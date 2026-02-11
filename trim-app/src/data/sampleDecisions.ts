@@ -66,14 +66,14 @@ function createKoreanSamples(now: Date): SampleData {
       isExample: true,
     },
 
-    // ─── Decision 2: 설계 검증 (do_or_not, LOW) ───
+    // ─── Decision 2: 설계 검증 (do_or_not, HIGH) ───
     {
       id: 'example-2',
       title: '[TRIM · PM 업무 결정] 중요도를 기준으로 결정에 쓸 시간을 제한하도록 한 현재 설계는 적절한가?',
       category: '업무',
-      importance: 'LOW',
-      timeBudget: IMPORTANCE_LEVELS.LOW.minutes,
-      deadline: new Date(now.getTime() + IMPORTANCE_LEVELS.LOW.minutes * 60 * 1000).toISOString(),
+      importance: 'HIGH',
+      timeBudget: IMPORTANCE_LEVELS.HIGH.minutes,
+      deadline: new Date(now.getTime() + IMPORTANCE_LEVELS.HIGH.minutes * 60 * 1000).toISOString(),
       createdAt: now.toISOString(),
       resolved: false,
       options: [
@@ -103,14 +103,14 @@ function createKoreanSamples(now: Date): SampleData {
       isExample: true,
     },
 
-    // ─── Decision 2 Sub: 권장 시간 체감 검증 (do_or_not, TRIVIAL) ───
+    // ─── Decision 2 Sub: 권장 시간 체감 검증 (do_or_not, MEDIUM) ───
     {
       id: 'example-2-sub-1',
       title: '중요도별로 권장된 고민 시간은 체감상 맞는가?',
       category: '업무',
-      importance: 'TRIVIAL',
-      timeBudget: IMPORTANCE_LEVELS.TRIVIAL.minutes,
-      deadline: new Date(now.getTime() + IMPORTANCE_LEVELS.TRIVIAL.minutes * 60 * 1000).toISOString(),
+      importance: 'MEDIUM',
+      timeBudget: IMPORTANCE_LEVELS.MEDIUM.minutes,
+      deadline: new Date(now.getTime() + IMPORTANCE_LEVELS.MEDIUM.minutes * 60 * 1000).toISOString(),
       createdAt: now.toISOString(),
       resolved: false,
       options: [
@@ -139,14 +139,14 @@ function createKoreanSamples(now: Date): SampleData {
       isExample: true,
     },
 
-    // ─── Decision 3: 이사 (no_clear_options, HIGH) ───
+    // ─── Decision 3: 이사 (no_clear_options, CRITICAL) ───
     {
       id: 'example-3',
       title: '이사 어디로 가지?',
       category: '개인',
-      importance: 'HIGH',
-      timeBudget: IMPORTANCE_LEVELS.HIGH.minutes,
-      deadline: new Date(now.getTime() + IMPORTANCE_LEVELS.HIGH.minutes * 60 * 1000).toISOString(),
+      importance: 'CRITICAL',
+      timeBudget: IMPORTANCE_LEVELS.CRITICAL.minutes,
+      deadline: new Date(now.getTime() + IMPORTANCE_LEVELS.CRITICAL.minutes * 60 * 1000).toISOString(),
       createdAt: now.toISOString(),
       resolved: false,
       options: [
