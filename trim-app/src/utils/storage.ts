@@ -76,10 +76,20 @@ export function injectSampleDecisions(existingDecisions: Decision[], lang: strin
       return existingDecisions;
     }
 
-    const existingIds = new Set(existingDecisions.map(d => d.id));
     const samples = createSampleDecisions(lang);
 
-    // Only inject samples that don't exist — never overwrite user data
+    // Replace example-1 in EN if it still has old "English Study" option (template update)
+    let base = existingDecisions;
+    if (lang === 'en') {
+      const ex1 = base.find(d => d.id === 'example-1');
+      const hasOldTemplate = ex1?.options?.some(o => o.title === 'English Study');
+      if (hasOldTemplate) {
+        const newEx1 = samples.find(s => s.id === 'example-1');
+        if (newEx1) base = base.map(d => (d.id === 'example-1' ? newEx1 : d));
+      }
+    }
+
+    const existingIds = new Set(base.map(d => d.id));
     const toInject = samples.filter(s => !existingIds.has(s.id));
     if (toInject.length === 0) {
       localStorage.setItem(EXAMPLES_INJECTED_KEY, 'true');
