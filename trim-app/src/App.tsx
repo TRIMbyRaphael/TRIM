@@ -25,6 +25,36 @@ function App() {
   // iOS 키보드 선점용 숨겨진 input ref
   const keyboardProxyRef = useRef<HTMLInputElement>(null);
 
+  // overlays-content 모드에서 키보드가 input을 가리지 않도록
+  // 포커스된 요소를 자동으로 스크롤하여 보이게 처리 (DecisionDetail 등)
+  // QuickDecisionSheet는 자체 VisualViewport 핸들러가 있으므로 제외
+  useEffect(() => {
+    const handleFocusIn = (e: FocusEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target || (target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA' && target.tagName !== 'SELECT')) return;
+
+      // QuickDecisionSheet 내부 요소는 자체 처리하므로 스킵
+      if (target.closest('.quick-sheet-content')) return;
+
+      // 키보드 애니메이션 완료 후 스크롤
+      setTimeout(() => {
+        const vv = window.visualViewport;
+        if (!vv) return;
+
+        const rect = target.getBoundingClientRect();
+        const visibleBottom = vv.height + vv.offsetTop;
+
+        // 요소가 키보드에 가려진 경우에만 스크롤
+        if (rect.bottom > visibleBottom - 20) {
+          target.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        }
+      }, 400);
+    };
+
+    document.addEventListener('focusin', handleFocusIn);
+    return () => document.removeEventListener('focusin', handleFocusIn);
+  }, []);
+
   // Load decisions and categories on mount
   useEffect(() => {
     const loaded = loadDecisions();
