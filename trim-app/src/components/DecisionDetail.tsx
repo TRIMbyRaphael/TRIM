@@ -1557,7 +1557,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                                   }`}
                                 >
                                   {star <= factor.importance ? (
-                                    <FaStar className="w-4 h-4 text-yellow-400" />
+                                    <FaStar className="w-4 h-4 text-cloudDancer" />
                                   ) : (
                                     <FaRegStar className="w-4 h-4 text-white/40" />
                                   )}
