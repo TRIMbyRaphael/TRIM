@@ -57,6 +57,8 @@ const ko: Translations = {
   framingConstraintsPlaceholder: '바꿀 수 없는 외부 조건...',
   framingDealbreakersPlaceholder: '절대 포기할 수 없는 것...',
   framingKeyFactorsPlaceholder: '선택지를 비교할 기준...',
+  addFactor: '+ 기준 추가',
+  factorCriteriaPlaceholder: '예: 비용, 건강...',
 
   // Options
   addOption: '선택지 추가',
