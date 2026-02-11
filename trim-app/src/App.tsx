@@ -22,6 +22,9 @@ function App() {
   const [showTypeSelection, setShowTypeSelection] = useState(false);
   const [quickEditorType, setQuickEditorType] = useState<'do_or_not' | 'choose_best' | null>(null);
 
+  // iOS 키보드 선점용 숨겨진 input ref
+  const keyboardProxyRef = useRef<HTMLInputElement>(null);
+
   // Load decisions and categories on mount
   useEffect(() => {
     const loaded = loadDecisions();
