@@ -134,57 +134,77 @@ function applyFirstViewDeadlines(decisions: Decision[]): Decision[] {
 }
 
 /**
- * Inject sample decisions. In dev (localhost), always replace 3 samples with latest template.
- * In production, inject once; user edits persist.
- * Timer for samples starts from first dashboard view.
+ * Smart-sync sample decisions on every app load.
+ *
+ * - Dev: always replace samples with latest template (instant feedback).
+ * - Production:
+ *   · Force sync (SAMPLE_FORCE_VERSION changed): reset everything, inject all samples fresh.
+ *   · Normal sync: for each template sample —
+ *       – Deleted by user → skip
+ *       – Exists with isExample=true → replace with latest template
+ *       – Exists with isExample removed → skip (user modified it)
+ *       – Missing & not deleted → inject (new sample)
+ * - Timer for samples starts from first dashboard view.
  */
 export function injectSampleDecisions(existingDecisions: Decision[], lang: string): Decision[] {
   try {
     const isDev = import.meta.env.DEV;
-
     const samples = createSampleDecisions(lang);
+    const sampleIdSet = new Set(SAMPLE_DECISION_IDS);
 
-    // Dev: always replace the 3 samples with latest — sampleDecisions.ts changes reflect immediately
+    // ── Dev: always replace samples with latest template ──
     if (isDev) {
-      const sampleIds = new Set(SAMPLE_DECISION_IDS);
-      const userDecisions = existingDecisions.filter(d => !sampleIds.has(d.id));
+      const userDecisions = existingDecisions.filter(d => !sampleIdSet.has(d.id));
       const maxSampleOrder = Math.max(0, ...samples.filter(s => !s.parentId).map(s => s.order));
       const shifted = userDecisions.map(d => ({
         ...d,
         order: d.parentId ? (d.order ?? 0) : (d.order ?? 0) + maxSampleOrder + 1,
       }));
-      const merged = [...samples, ...shifted];
-      return applyFirstViewDeadlines(merged);
+      return applyFirstViewDeadlines([...samples, ...shifted]);
     }
 
-    const alreadyInjected = localStorage.getItem(EXAMPLES_INJECTED_KEY);
-    if (alreadyInjected) {
-      return applyFirstViewDeadlines(existingDecisions);
+    // ── Production: smart sync ──
+    const isForceSync = checkAndApplyForceSync();
+    const deletedIds = isForceSync ? new Set<string>() : getDeletedSampleIds();
+
+    // Build a map of existing decisions by id
+    const existingById = new Map(existingDecisions.map(d => [d.id, d]));
+
+    // Determine which template samples to include
+    const samplesToInject: Decision[] = [];
+    for (const sample of samples) {
+      if (deletedIds.has(sample.id)) continue; // user deleted it
+
+      const existing = existingById.get(sample.id);
+      if (existing) {
+        if (existing.isExample) {
+          // User hasn't modified → replace with latest template
+          samplesToInject.push(sample);
+        }
+        // else: user modified (isExample removed) → keep their version (already in existingDecisions)
+      } else {
+        // New sample or force-synced → inject
+        samplesToInject.push(sample);
+      }
     }
 
-    // Production: inject only when not yet injected
-    const existingIds = new Set(existingDecisions.map(d => d.id));
-    const toInject = samples.filter(s => !existingIds.has(s.id));
-    if (toInject.length === 0) {
-      localStorage.setItem(EXAMPLES_INJECTED_KEY, 'true');
-      return applyFirstViewDeadlines(existingDecisions);
-    }
+    // Collect user decisions (non-sample + user-modified samples)
+    const userDecisions = existingDecisions.filter(d => {
+      if (!sampleIdSet.has(d.id)) return true; // user's own decision
+      if (d.isExample) return false; // will be replaced by template
+      if (deletedIds.has(d.id)) return false; // was deleted, skip
+      return true; // user-modified sample, keep
+    });
 
-    const topLevelSamples = toInject.filter(s => !s.parentId);
-    if (topLevelSamples.length > 0) {
-      const maxSampleOrder = Math.max(...topLevelSamples.map(s => s.order));
-      const shiftedExisting = existingDecisions.map(d => ({
-        ...d,
-        order: d.parentId ? d.order : (d.order ?? 0) + maxSampleOrder + 1,
-      }));
-      const merged = [...toInject, ...shiftedExisting];
-      localStorage.setItem(EXAMPLES_INJECTED_KEY, 'true');
-      console.log('📝 Injected sample decisions:', toInject.length);
-      return applyFirstViewDeadlines(merged);
-    }
+    // Shift user decision order below samples
+    const maxSampleOrder = Math.max(0, ...samplesToInject.filter(s => !s.parentId).map(s => s.order));
+    const shifted = userDecisions.map(d => ({
+      ...d,
+      order: d.parentId ? (d.order ?? 0) : (d.order ?? 0) + maxSampleOrder + 1,
+    }));
 
-    const merged = [...toInject, ...existingDecisions];
-    localStorage.setItem(EXAMPLES_INJECTED_KEY, 'true');
+    const merged = [...samplesToInject, ...shifted];
+    console.log(`📝 Sample sync: ${samplesToInject.length} samples, ${shifted.length} user decisions`);
     return applyFirstViewDeadlines(merged);
   } catch (error) {
     console.error('❌ Failed to inject sample decisions:', error);
