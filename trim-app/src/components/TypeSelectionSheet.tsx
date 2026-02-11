@@ -80,10 +80,10 @@ export default function TypeSelectionSheet({ isOpen, onClose, onTypeSelect }: Ty
                   onClick={() => onTypeSelect(option.type)}
                   className="w-full text-left bg-cloudDancer rounded-xl p-4 border border-stretchLimo/10 hover:bg-stretchLimo50 hover:shadow-md active:scale-[0.98] transition-all"
                 >
-                  <div className="font-medium text-stretchLimo text-base">
+                  <div className="font-semibold text-stretchLimo text-lg leading-tight">
                     {option.label}
                   </div>
-                  <div className="text-sm text-micron mt-0.5">
+                  <div className="text-xs text-micron mt-1">
                     {option.description}
                   </div>
                 </button>
