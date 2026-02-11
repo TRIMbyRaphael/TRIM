@@ -384,7 +384,12 @@ function createEnglishSamples(now: Date): SampleData {
       framing: {
         whatHappened: 'Want to check if the time budgets per importance level match real-world intuition.',
         goal: 'Verify that each importance level feels natural from a user perspective.',
+        keyFactors: 'Perceived time per level, Alignment with actual usage patterns',
       },
+      keyFactors: [
+        { id: 'example-2-sub-1-kf-1', criteria: 'Perceived time per level', importance: 5 },
+        { id: 'example-2-sub-1-kf-2', criteria: 'Alignment with actual usage patterns', importance: 4 },
+      ],
       order: 0,
       parentId: 'example-2',
       mode: 'do_or_not',
