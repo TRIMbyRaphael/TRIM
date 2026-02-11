@@ -14,7 +14,7 @@ function createKoreanSamples(now: Date): SampleData {
     // ─── Decision 1: 루틴 추가 (choose_best, MEDIUM) ───
     {
       id: 'example-1',
-      title: '퇴근 후 삶에 하나의 루틴을 추가해볼까?',
+      title: '퇴근 후 삶에 어떤 루틴을 추가해볼까?',
       category: '개인',
       importance: 'MEDIUM',
       timeBudget: IMPORTANCE_LEVELS.MEDIUM.minutes,
