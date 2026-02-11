@@ -222,6 +222,12 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
           >
             <h3 className={`text-base font-medium inline-block ${decision.resolved ? 'line-through text-micron' : 'text-black'}`}>
               {title}
+              {/* Example badge for sample decisions */}
+              {decision.isExample && (
+                <span className="ml-1.5 inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-stretchLimo100 text-micron align-middle leading-none" style={{ verticalAlign: 'middle' }}>
+                  {t.exampleBadge}
+                </span>
+              )}
               {/* ...more button (Collapsed state with children) - Inline with title, appears at end of last line */}
               {hasChildren && !isExpanded && onToggleExpand && (
                 <span
