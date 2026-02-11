@@ -202,7 +202,13 @@ function createKoreanSamples(now: Date): SampleData {
       framing: {
         whatHappened: '이사할 지역을 먼저 좁혀야 구체적인 매물 검색이 가능하다.',
         goal: '출퇴근, 생활 인프라, 예산을 고려한 후보 지역 목록 만들기.',
+        keyFactors: '대중교통 접근성, 주변 편의시설, 평균 월세 수준',
       },
+      keyFactors: [
+        { id: 'example-3-sub-1-kf-1', criteria: '대중교통 접근성', importance: 5 },
+        { id: 'example-3-sub-1-kf-2', criteria: '주변 편의시설', importance: 3 },
+        { id: 'example-3-sub-1-kf-3', criteria: '평균 월세 수준', importance: 4 },
+      ],
       order: 0,
       parentId: 'example-3',
       mode: 'no_clear_options',
