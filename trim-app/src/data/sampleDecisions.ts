@@ -283,14 +283,14 @@ function createEnglishSamples(now: Date): SampleData {
           title: 'Pilates',
           isSelected: false,
           pros: '- Because classes are scheduled, it\'s easier to stick to a routine.\n- It definitely helps with posture correction.',
-          cons: 'Relatively expensive',
+          cons: '- It doesn\'t seem to noticeably improve stamina or muscle strength.\n- The results don\'t feel significant relative to the cost.',
         },
         {
           id: 'example-1-opt-3',
           title: 'Reading',
           isSelected: false,
-          pros: 'Expands knowledge, no location constraint',
-          cons: 'Hard to focus when tired',
+          pros: 'It feels like an area where the gap only widens with age.',
+          cons: '- There\'s a high chance I\'ll default to YouTube or my phone.\n- I might just keep telling myself "I\'ll read it someday" and let books pile up.',
         },
       ],
       framing: {
