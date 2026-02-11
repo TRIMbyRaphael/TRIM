@@ -282,7 +282,7 @@ function createEnglishSamples(now: Date): SampleData {
           id: 'example-1-opt-2',
           title: 'Pilates',
           isSelected: false,
-          pros: 'Posture correction, improved flexibility',
+          pros: '- Because classes are scheduled, it\'s easier to stick to a routine.\n- It definitely helps with posture correction.',
           cons: 'Relatively expensive',
         },
         {
