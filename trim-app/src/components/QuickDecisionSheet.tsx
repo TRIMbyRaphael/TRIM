@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Plus, X, ChevronDown, AlertCircle, Clock, Maximize2, Check, FolderOpen } from 'lucide-react';
 import { Decision, Option, IMPORTANCE_LEVELS, ImportanceLevel, DecisionMode } from '../types/decision';
 import TimeBudgetModal from './TimeBudgetModal';
@@ -33,7 +33,6 @@ export default function QuickDecisionSheet({
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
   const [showImportanceDropdown, setShowImportanceDropdown] = useState(false);
   const [showTimeBudgetModal, setShowTimeBudgetModal] = useState(false);
-  const [bottomOffset, setBottomOffset] = useState(0);
 
   const titleRef = useRef<HTMLTextAreaElement>(null);
   const optionRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
@@ -87,31 +86,6 @@ export default function QuickDecisionSheet({
       };
     }
   }, [isOpen]);
-
-  // iOS 키보드 위치 보정: visualViewport로 실시간 추적
-  const updateBottomOffset = useCallback(() => {
-    const vv = window.visualViewport;
-    if (!vv) return;
-    // 키보드가 올라오면 visualViewport가 줄어듦 → 그 차이만큼 시트를 올림
-    const offset = window.innerHeight - vv.height - vv.offsetTop;
-    setBottomOffset(Math.max(0, offset));
-  }, []);
-
-  useEffect(() => {
-    if (!isOpen) return;
-    const vv = window.visualViewport;
-    if (!vv) return;
-
-    vv.addEventListener('resize', updateBottomOffset);
-    vv.addEventListener('scroll', updateBottomOffset);
-    updateBottomOffset();
-
-    return () => {
-      vv.removeEventListener('resize', updateBottomOffset);
-      vv.removeEventListener('scroll', updateBottomOffset);
-      setBottomOffset(0);
-    };
-  }, [isOpen, updateBottomOffset]);
 
   // 키보드가 이미 프록시 input으로 열린 상태 → 실제 textarea로 포커스 이전
   useEffect(() => {
