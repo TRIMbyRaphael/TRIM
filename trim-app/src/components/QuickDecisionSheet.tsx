@@ -140,9 +140,9 @@ export default function QuickDecisionSheet({
     setShowCategoryDropdown(false);
   };
 
-  // Time budget change (from modal)
+  // Time budget change (from modal) — 사용자가 직접 설정한 deadline 저장
   const handleTimeBudgetConfirm = (newDeadline: string, newTimeBudget: number) => {
-    setDeadline(newDeadline);
+    setCustomDeadline(newDeadline);
     setTimeBudget(newTimeBudget);
     setShowTimeBudgetModal(false);
   };
