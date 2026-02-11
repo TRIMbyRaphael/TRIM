@@ -1982,7 +1982,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   {t.comparisonMatrix}
                 </h4>
 
-                <div className="overflow-x-auto ml-6">
+                <div className="overflow-x-auto">
                   <table className="w-full text-sm border-collapse">
                     <thead>
                       <tr>
