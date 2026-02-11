@@ -126,13 +126,11 @@ export default function QuickDecisionSheet({
     setOptions(options.filter(opt => opt.id !== optionId));
   };
 
-  // Importance change
+  // Importance change — timeBudget만 갱신, deadline은 아직 계산하지 않음
   const handleImportanceChange = (level: ImportanceLevel) => {
     setImportance(level);
-    const newTimeBudget = IMPORTANCE_LEVELS[level].minutes;
-    const newDeadline = new Date(Date.now() + newTimeBudget * 60 * 1000).toISOString();
-    setTimeBudget(newTimeBudget);
-    setDeadline(newDeadline);
+    setTimeBudget(IMPORTANCE_LEVELS[level].minutes);
+    setCustomDeadline(null); // 중요도 변경 시 사용자 지정 deadline 초기화
     setShowImportanceDropdown(false);
   };
 
