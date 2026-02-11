@@ -81,7 +81,6 @@ function createKoreanSamples(now: Date): SampleData {
           id: 'example-2-opt-1',
           title: '한다',
           isSelected: false,
-          pros: '시간 제한이 결정 피로를 줄여주고, 중요도에 맞는 에너지 배분을 유도한다.',
           cons: '획일적인 시간 배분이 모든 상황에 맞지 않을 수 있다.',
         },
         {
@@ -92,9 +91,7 @@ function createKoreanSamples(now: Date): SampleData {
           cons: '사소한 결정에 과도한 시간을 소비할 위험이 있다.',
         },
       ],
-      framing: {
-        goal: '결정의 중요도를 넘는 결정 비용을 쓰지 않게 하고,\n동시에 결정을 미루지 않고 제때 끝내도록 돕는 구조를 만드는 것.',
-      },
+      framing: {},
       keyFactors: [
         { id: 'example-2-kf-1', criteria: '결정 피로 감소 효과', importance: 5 },
         { id: 'example-2-kf-2', criteria: '사용자 체감 적절성', importance: 4 },
