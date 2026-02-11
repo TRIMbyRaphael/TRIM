@@ -53,54 +53,50 @@ function App() {
     }
   }, [categories, isInitialLoad]);
 
+  // 1단계: "Pending Decision" 버튼 클릭 → 타입 선택 시트 표시
   const handleCreateDecision = () => {
+    setShowTypeSelection(true);
+  };
+
+  // 2단계: 타입 선택 후 분기
+  const handleTypeSelect = (type: DecisionMode) => {
+    setShowTypeSelection(false);
+
+    if (type === 'no_clear_options') {
+      // no_clear_options → 바로 전체 작성 화면으로 이동
+      createDecisionWithMode(type);
+    } else {
+      // do_or_not / choose_best → 간이 작성 화면 표시
+      setQuickEditorType(type as 'do_or_not' | 'choose_best');
+    }
+  };
+
+  // 모드와 함께 Decision 생성 (전체 편집기용)
+  const createDecisionWithMode = (mode: DecisionMode) => {
     const now = new Date();
-    const timeBudget = IMPORTANCE_LEVELS.MEDIUM.minutes;
-    const deadline = new Date(now.getTime() + timeBudget * 60 * 1000);
+    const timeBudgetVal = IMPORTANCE_LEVELS.MEDIUM.minutes;
+    const deadlineVal = new Date(now.getTime() + timeBudgetVal * 60 * 1000);
     const baseId = Date.now();
 
-    // 새 사안을 맨 위에 표시하기 위해 order를 최소값으로 설정
-    const activeDecisions = decisions.filter(d => !d.resolved && !d.parentId);
-    const minOrder = activeDecisions.length > 0 
-      ? Math.min(...activeDecisions.map(d => d.order || 0)) - 1 
+    const activeDecisionsArr = decisions.filter(d => !d.resolved && !d.parentId);
+    const minOrder = activeDecisionsArr.length > 0
+      ? Math.min(...activeDecisionsArr.map(d => d.order || 0)) - 1
       : 0;
 
-    const defaultMode = DEFAULT_DECISION_MODE;
     let initialOptions;
-    if (defaultMode === 'do_or_not') {
+    if (mode === 'do_or_not') {
       initialOptions = [
-        {
-          id: `${baseId}-1`,
-          title: t.doOption,
-          isSelected: false,
-        },
-        {
-          id: `${baseId}-2`,
-          title: t.doNotOption,
-          isSelected: false,
-        },
+        { id: `${baseId}-1`, title: t.doOption, isSelected: false },
+        { id: `${baseId}-2`, title: t.doNotOption, isSelected: false },
       ];
-    } else if (defaultMode === 'no_clear_options') {
+    } else if (mode === 'no_clear_options') {
       initialOptions = [
-        {
-          id: `${baseId}-1`,
-          title: '',
-          isSelected: false,
-        },
+        { id: `${baseId}-1`, title: '', isSelected: false },
       ];
     } else {
-      // choose_best 모드
       initialOptions = [
-        {
-          id: `${baseId}-1`,
-          title: '',
-          isSelected: false,
-        },
-        {
-          id: `${baseId}-2`,
-          title: '',
-          isSelected: false,
-        },
+        { id: `${baseId}-1`, title: '', isSelected: false },
+        { id: `${baseId}-2`, title: '', isSelected: false },
       ];
     }
 
@@ -109,23 +105,65 @@ function App() {
       title: '',
       category: categories[0] || t.defaultCategory,
       importance: 'MEDIUM',
-      timeBudget,
-      deadline: deadline.toISOString(),
+      timeBudget: timeBudgetVal,
+      deadline: deadlineVal.toISOString(),
       createdAt: now.toISOString(),
       resolved: false,
       options: initialOptions,
       order: minOrder,
-      mode: defaultMode,
+      mode,
     };
 
     setDecisions([...decisions, newDecision]);
-    // Track initial sub-decision count (0 for new decision)
     setInitialSubDecisionCounts(prev => ({
       ...prev,
       [newDecision.id]: 0,
     }));
     setCurrentDecisionId(newDecision.id);
     setCurrentView('detail');
+  };
+
+  // 간이 작성 완료 → Decision 생성 후 상세 화면 이동
+  const handleQuickComplete = (partialDecision: Partial<Decision>) => {
+    const now = new Date();
+    const baseId = Date.now();
+
+    const activeDecisionsArr = decisions.filter(d => !d.resolved && !d.parentId);
+    const minOrder = activeDecisionsArr.length > 0
+      ? Math.min(...activeDecisionsArr.map(d => d.order || 0)) - 1
+      : 0;
+
+    const newDecision: Decision = {
+      id: baseId.toString(),
+      title: partialDecision.title || '',
+      category: partialDecision.category || categories[0] || t.defaultCategory,
+      importance: partialDecision.importance || 'MEDIUM',
+      timeBudget: partialDecision.timeBudget || IMPORTANCE_LEVELS.MEDIUM.minutes,
+      deadline: partialDecision.deadline || new Date(now.getTime() + IMPORTANCE_LEVELS.MEDIUM.minutes * 60 * 1000).toISOString(),
+      createdAt: now.toISOString(),
+      resolved: false,
+      options: (partialDecision.options || []).map((opt, idx) => ({
+        ...opt,
+        id: `${baseId}-${idx + 1}`,
+      })),
+      order: minOrder,
+      mode: partialDecision.mode || 'do_or_not',
+    };
+
+    setDecisions([...decisions, newDecision]);
+    setInitialSubDecisionCounts(prev => ({
+      ...prev,
+      [newDecision.id]: 0,
+    }));
+    setQuickEditorType(null);
+    setCurrentDecisionId(newDecision.id);
+    setCurrentView('detail');
+  };
+
+  // 간이 작성 → 전체 편집기로 확장
+  const handleQuickExpand = (partialDecision: Partial<Decision>) => {
+    // 동일하게 Decision 생성 후 전체 편집기로 이동
+    handleQuickComplete(partialDecision);
   };
 
   const handleCreateSubDecision = (parentId: string) => {
