@@ -149,6 +149,15 @@ const en = {
   // DecisionCard
   untitledCard: '(Untitled)',
   untitledOption: '(Option)',
+
+  // Type Selection Sheet
+  chooseDecisionType: 'Choose decision type.',
+  typeDescDoOrNot: 'Yes/No decision',
+  typeDescChooseBest: 'Choose between options',
+  typeDescNoClear: 'Need to explore first',
+
+  // Quick Decision Sheet
+  quickExpandTooltip: 'Expand to full editor',
 };
 
 export type Translations = typeof en;
