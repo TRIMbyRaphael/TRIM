@@ -205,9 +205,9 @@ export default function QuickDecisionSheet({
                   e.target.style.height = 'auto';
                   e.target.style.height = `${e.target.scrollHeight}px`;
                 }}
-                placeholder={t.titlePlaceholder}
+                placeholder={t.titlePlaceholder.replace(/\n/g, ' ')}
                 rows={1}
-                className="flex-1 text-lg font-medium text-black bg-transparent border-none outline-none placeholder-stretchLimo300 resize-none overflow-hidden mt-1"
+                className="flex-1 text-base font-medium text-black bg-transparent border-none outline-none placeholder-stretchLimo300 resize-none overflow-hidden mt-1"
               />
               <button
                 onClick={handleExpand}
