@@ -32,9 +32,19 @@ export default {
           '0%, 100%': { transform: 'rotate(-0.5deg)' },
           '50%': { transform: 'rotate(0.5deg)' },
         },
+        slideUp: {
+          '0%': { transform: 'translateY(100%)' },
+          '100%': { transform: 'translateY(0)' },
+        },
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
       },
       animation: {
         wiggle: 'wiggle 0.3s ease-in-out infinite',
+        slideUp: 'slideUp 0.3s ease-out',
+        fadeIn: 'fadeIn 0.2s ease-out',
       },
     },
   },
