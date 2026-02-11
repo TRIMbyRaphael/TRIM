@@ -309,18 +309,39 @@ function App() {
   }
 
   return (
-    <Dashboard
-      decisions={decisions}
-      categories={categories}
-      onCreateDecision={handleCreateDecision}
-      onSelectDecision={handleSelectDecision}
-      onDeleteDecision={handleDeleteDecision}
-      onReorderDecisions={handleReorderDecisions}
-      onUpdateDecision={handleUpdateDecision}
-      onTrimDecision={handleTrimDecision}
-      onReopenDecision={handleReopenDecision}
-      onUpdateCategories={handleUpdateCategories}
-    />
+    <>
+      <Dashboard
+        decisions={decisions}
+        categories={categories}
+        onCreateDecision={handleCreateDecision}
+        onSelectDecision={handleSelectDecision}
+        onDeleteDecision={handleDeleteDecision}
+        onReorderDecisions={handleReorderDecisions}
+        onUpdateDecision={handleUpdateDecision}
+        onTrimDecision={handleTrimDecision}
+        onReopenDecision={handleReopenDecision}
+        onUpdateCategories={handleUpdateCategories}
+      />
+
+      {/* 1단계: Decision Type 선택 Bottom Sheet */}
+      <TypeSelectionSheet
+        isOpen={showTypeSelection}
+        onClose={() => setShowTypeSelection(false)}
+        onTypeSelect={handleTypeSelect}
+      />
+
+      {/* 2단계: 간이 작성 Bottom Sheet (do_or_not / choose_best) */}
+      {quickEditorType && (
+        <QuickDecisionSheet
+          isOpen={!!quickEditorType}
+          decisionType={quickEditorType}
+          categories={categories}
+          onClose={() => setQuickEditorType(null)}
+          onComplete={handleQuickComplete}
+          onExpand={handleQuickExpand}
+        />
+      )}
+    </>
   );
 }
 
