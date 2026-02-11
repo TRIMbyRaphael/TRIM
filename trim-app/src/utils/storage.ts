@@ -113,7 +113,7 @@ export function injectSampleDecisions(existingDecisions: Decision[], lang: strin
       return merged;
     }
 
-    const merged = [...toInject, ...base];
+    const merged = [...toInject, ...existingDecisions];
     localStorage.setItem(EXAMPLES_INJECTED_KEY, 'true');
     return merged;
   } catch (error) {
