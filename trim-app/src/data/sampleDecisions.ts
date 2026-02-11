@@ -332,14 +332,14 @@ function createEnglishSamples(now: Date): SampleData {
       isExample: true,
     },
 
-    // ─── Decision 2 Sub: Recommended time validation (do_or_not, TRIVIAL) ───
+    // ─── Decision 2 Sub: Recommended time validation (do_or_not, MEDIUM) ───
     {
       id: 'example-2-sub-1',
       title: 'Do the recommended time budgets for each importance level feel right in practice?',
       category: 'Work',
-      importance: 'TRIVIAL',
-      timeBudget: IMPORTANCE_LEVELS.TRIVIAL.minutes,
-      deadline: new Date(now.getTime() + IMPORTANCE_LEVELS.TRIVIAL.minutes * 60 * 1000).toISOString(),
+      importance: 'MEDIUM',
+      timeBudget: IMPORTANCE_LEVELS.MEDIUM.minutes,
+      deadline: new Date(now.getTime() + IMPORTANCE_LEVELS.MEDIUM.minutes * 60 * 1000).toISOString(),
       createdAt: now.toISOString(),
       resolved: false,
       options: [
