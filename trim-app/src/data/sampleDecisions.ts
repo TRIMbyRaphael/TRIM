@@ -406,7 +406,7 @@ function createEnglishSamples(now: Date): SampleData {
         },
       ],
       framing: {
-        whatHappened: 'My current lease is about to expire, and I need to find a new place.',
+        whatHappened: 'I changed jobs, and my commute has become too long.',
         goal: 'Move to a place with a convenient commute and a good living environment.',
         constraints: 'Monthly rent budget is limited. Commute must be under 1 hour.',
         dealbreakers: 'Commute time must not exceed 1 hour one way.',
