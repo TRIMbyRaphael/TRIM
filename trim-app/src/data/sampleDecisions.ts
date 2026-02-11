@@ -292,14 +292,14 @@ function createEnglishSamples(now: Date): SampleData {
       isExample: true,
     },
 
-    // ─── Decision 2: Design validation (do_or_not, LOW) ───
+    // ─── Decision 2: Design validation (do_or_not, HIGH) ───
     {
       id: 'example-2',
       title: '[TRIM · PM Work Decision] Is the current design for limiting decision time based on importance well-designed?',
       category: 'Work',
-      importance: 'LOW',
-      timeBudget: IMPORTANCE_LEVELS.LOW.minutes,
-      deadline: new Date(now.getTime() + IMPORTANCE_LEVELS.LOW.minutes * 60 * 1000).toISOString(),
+      importance: 'HIGH',
+      timeBudget: IMPORTANCE_LEVELS.HIGH.minutes,
+      deadline: new Date(now.getTime() + IMPORTANCE_LEVELS.HIGH.minutes * 60 * 1000).toISOString(),
       createdAt: now.toISOString(),
       resolved: false,
       options: [
