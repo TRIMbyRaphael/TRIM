@@ -29,9 +29,16 @@ export interface Option {
   links?: Link[];
 }
 
+export interface KeyFactor {
+  id: string;
+  criteria: string;
+  importance: number; // 1-5
+}
+
 export interface ComparisonCriteria {
   id: string;
   name: string;
+  importance?: number; // 1-5, synced from KeyFactor
   ratings: { [optionId: string]: string };
 }
 
