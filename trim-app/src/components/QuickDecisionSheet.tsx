@@ -275,7 +275,7 @@ export default function QuickDecisionSheet({
             </div>
 
             {/* Bottom Controls Bar */}
-            <div className="flex items-center gap-2 pt-2 border-t border-stretchLimo/[0.06]">
+            <div className="flex items-center gap-2 pt-1 border-t border-stretchLimo/[0.06]">
               {/* Category Selector (compact) */}
               <div className="relative" ref={categoryDropdownRef}>
                 <button
