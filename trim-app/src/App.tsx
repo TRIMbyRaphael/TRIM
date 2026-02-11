@@ -158,7 +158,7 @@ function App() {
     setCurrentView('detail');
   };
 
-  // 간이 작성 완료 → Decision 생성 후 상세 화면 이동
+  // 간이 작성 완료 → Decision 생성 후 대시보드에 머무름
   const handleQuickComplete = (partialDecision: Partial<Decision>) => {
     const now = new Date();
     const baseId = Date.now();
@@ -191,14 +191,26 @@ function App() {
       [newDecision.id]: 0,
     }));
     setQuickEditorType(null);
-    setCurrentDecisionId(newDecision.id);
-    setCurrentView('detail');
   };
 
   // 간이 작성 → 전체 편집기로 확장
   const handleQuickExpand = (partialDecision: Partial<Decision>) => {
-    // 동일하게 Decision 생성 후 전체 편집기로 이동
+    // Decision 생성 후 전체 편집기(상세 화면)로 이동
     handleQuickComplete(partialDecision);
+    // handleQuickComplete가 마지막에 생성한 Decision의 ID로 상세 화면 이동
+    const lastId = Date.now().toString();
+    // 방금 생성된 Decision 찾기 위해 최신 decisions에서 탐색
+    setCurrentDecisionId(
+      // handleQuickComplete에서 생성한 ID는 baseId.toString()이므로
+      // decisions가 아직 업데이트 전이라 직접 계산
+      (() => {
+        const now = new Date();
+        const baseId = Date.now();
+        // 이미 handleQuickComplete에서 생성됨 — 가장 최근 추가된 것을 찾기
+        return baseId.toString();
+      })()
+    );
+    setCurrentView('detail');
   };
 
   const handleCreateSubDecision = (parentId: string) => {
