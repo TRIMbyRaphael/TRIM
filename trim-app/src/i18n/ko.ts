@@ -84,8 +84,6 @@ const ko: Translations = {
 
   // Actions
   reopen: '다시 고민하기',
-  randomPickLine1: '랜덤',
-  randomPickLine2: '선택',
   randomPickTooltip: '큰 차이가 없다면, 고민을 멈추세요',
 
   // Settings

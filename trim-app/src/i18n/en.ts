@@ -82,8 +82,6 @@ const en = {
 
   // Actions
   reopen: 'Re-open',
-  randomPickLine1: 'Random',
-  randomPickLine2: 'Pick',
   randomPickTooltip: 'Stop thinking when impact differences are minimal',
 
   // Settings
