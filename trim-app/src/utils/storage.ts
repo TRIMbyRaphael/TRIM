@@ -4,7 +4,7 @@ import { createSampleDecisions, SAMPLE_DECISION_IDS } from '../data/sampleDecisi
 
 const STORAGE_KEY = 'trim-decisions';
 const CATEGORIES_STORAGE_KEY = 'trim-categories';
-const EXAMPLES_INJECTED_KEY = 'trim-examples-v6-injected';
+const EXAMPLES_INJECTED_KEY = 'trim-examples-v7-injected';
 
 export function saveDecisions(decisions: Decision[]): void {
   try {
@@ -86,7 +86,8 @@ export function injectSampleDecisions(existingDecisions: Decision[], lang: strin
         ex1?.options?.some(o => o.title === 'English Study') ||
         ex1?.framing?.whatHappened?.includes('After-work hours feel like they pass by meaninglessly') ||
         ex1?.framing?.goal?.includes('Pick one meaningful routine to add to my evenings') ||
-        ex1?.keyFactors?.some(k => k.criteria === 'Time efficiency' || k.criteria === 'Health benefits');
+        ex1?.keyFactors?.some(k => k.criteria === 'Time efficiency' || k.criteria === 'Health benefits') ||
+        ex1?.options?.some(o => o.pros?.includes('Builds physical strength'));
       if (hasOldTemplate) {
         const newEx1 = samples.find(s => s.id === 'example-1');
         if (newEx1) base = base.map(d => (d.id === 'example-1' ? newEx1 : d));
