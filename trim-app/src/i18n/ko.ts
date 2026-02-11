@@ -71,7 +71,7 @@ const ko: Translations = {
   whyShouldntIDo: '왜 안 해야 할까?',
   pros: '장점',
   cons: '단점',
-  prosPlaceholder: '이 선택지의 좋은 점...',
+  prosPlaceholder: '- 체력이 너무 부족하고 근육이 거의 없음\n- 나중에 후회하지 않으려면 지금 시작하는 게 맞는 것 같음',
   consPlaceholder: '이 선택지의 아쉬운 점...',
   switchToFreeFormMemo: '자유 메모로 전환',
   addNotesPlaceholder: '이 선택지에 대한 메모...',
