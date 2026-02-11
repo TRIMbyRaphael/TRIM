@@ -33,7 +33,6 @@ export default function QuickDecisionSheet({
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
   const [showImportanceDropdown, setShowImportanceDropdown] = useState(false);
   const [showTimeBudgetModal, setShowTimeBudgetModal] = useState(false);
-  const [keyboardOffset, setKeyboardOffset] = useState(0);
 
   const titleRef = useRef<HTMLTextAreaElement>(null);
   const optionRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
@@ -77,30 +76,6 @@ export default function QuickDecisionSheet({
         }
       };
     }
-  }, [isOpen]);
-
-  // iOS 모바일 키보드 대응: visualViewport로 키보드 높이 감지
-  useEffect(() => {
-    if (!isOpen) return;
-    const vv = window.visualViewport;
-    if (!vv) return;
-
-    const handleResize = () => {
-      // 키보드가 올라오면 visualViewport.height < window.innerHeight
-      const offset = window.innerHeight - vv.height;
-      setKeyboardOffset(offset > 0 ? offset : 0);
-    };
-
-    vv.addEventListener('resize', handleResize);
-    vv.addEventListener('scroll', handleResize);
-    // 초기 체크
-    handleResize();
-
-    return () => {
-      vv.removeEventListener('resize', handleResize);
-      vv.removeEventListener('scroll', handleResize);
-      setKeyboardOffset(0);
-    };
   }, [isOpen]);
 
   // Auto-focus title on open — 애니메이션(300ms) 완료 후 포커스
@@ -231,10 +206,7 @@ export default function QuickDecisionSheet({
       />
 
       {/* Bottom Sheet */}
-      <div
-        className="fixed left-0 right-0 z-50 animate-slideUp"
-        style={{ bottom: `${keyboardOffset}px` }}
-      >
+      <div className="fixed bottom-0 left-0 right-0 z-50 animate-slideUp">
         <div className="bg-cardBg rounded-t-2xl shadow-lg border-t border-stretchLimo/10">
           {/* Handle bar */}
           <div className="flex justify-center pt-3 pb-1">
