@@ -157,16 +157,23 @@ export default function QuickDecisionSheet({
     onExpand(buildDecision());
   };
 
-  // Format time for compact display
+  // Format time for compact display — 카운트다운이 아닌 정적 시간 예산 표시
   const formatCompactTime = () => {
-    const diffMs = new Date(deadline).getTime() - Date.now();
-    if (diffMs <= 0) return '0m';
-    const totalMinutes = Math.floor(diffMs / 60000);
-    if (totalMinutes < 60) return `${totalMinutes}m`;
-    const hours = Math.floor(totalMinutes / 60);
-    if (hours < 24) return `${hours}h`;
-    const days = Math.floor(hours / 24);
-    return `${days}d`;
+    if (customDeadline) {
+      // 사용자가 직접 설정한 경우: 남은 시간 표시 (정적, 실시간 갱신 아님)
+      const diffMs = new Date(customDeadline).getTime() - Date.now();
+      if (diffMs <= 0) return '0m';
+      const totalMinutes = Math.floor(diffMs / 60000);
+      if (totalMinutes < 60) return `${totalMinutes}m`;
+      const hours = Math.floor(totalMinutes / 60);
+      if (hours < 24) return `${hours}h`;
+      const days = Math.floor(hours / 24);
+      return `${days}d`;
+    }
+    // 기본: timeBudget 기반 정적 표시 (카운트다운 없음)
+    if (timeBudget < 60) return `${timeBudget}${t.minute}`;
+    if (timeBudget < 1440) return `${Math.floor(timeBudget / 60)}${t.hour}`;
+    return `${Math.floor(timeBudget / 1440)}${t.day}`;
   };
 
   if (!isOpen) return null;
