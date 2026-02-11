@@ -96,10 +96,14 @@ export default function QuickDecisionSheet({
       // 시트는 bottom:0 고정, filler가 키보드 영역을 시트 색으로 채우면서
       // 시트 콘텐츠를 키보드 위로 밀어올림 → 진짜 bottom sheet 느낌
       const vv = window.visualViewport;
+      const SHEET_LIFT_NO_KEYBOARD = 48; // 키보드 없을 때 시트를 살짝 위로
       const updateSheetPosition = () => {
         if (!vv || !fillerRef.current) return;
         const keyboardHeight = window.innerHeight - vv.height;
-        fillerRef.current.style.height = `${Math.max(0, keyboardHeight)}px`;
+        const isKeyboardOpen = keyboardHeight > 50;
+        fillerRef.current.style.height = isKeyboardOpen
+          ? `${keyboardHeight}px`
+          : `${SHEET_LIFT_NO_KEYBOARD}px`;
       };
 
       if (vv) {
