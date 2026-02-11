@@ -74,7 +74,33 @@ export default function TypeSelectionSheet({ isOpen, onClose, onTypeSelect }: Ty
             </h2>
 
             <div className="space-y-3">
-              {typeOptions.map((option) => (
+              {/* 첫 두 옵션: Do or Not, A or B or C */}
+              {typeOptions.slice(0, 2).map((option) => (
+                <button
+                  key={option.type}
+                  onClick={() => onTypeSelect(option.type)}
+                  className="w-full text-left bg-cloudDancer rounded-xl p-4 border border-stretchLimo/10 hover:bg-stretchLimo50 hover:shadow-md active:scale-[0.98] transition-all"
+                >
+                  <div className="font-semibold text-stretchLimo text-lg leading-tight">
+                    {option.label}
+                  </div>
+                  <div className="text-xs text-micron mt-1">
+                    {option.description}
+                  </div>
+                </button>
+              ))}
+
+              {/* ── or ── 구분선 */}
+              <div className="flex items-center gap-3 my-1">
+                <div className="flex-1 h-px bg-stretchLimo/15" />
+                <span className="text-xs text-micron/70 font-medium shrink-0">
+                  {t.typeSelectionOr}
+                </span>
+                <div className="flex-1 h-px bg-stretchLimo/15" />
+              </div>
+
+              {/* 세 번째 옵션: 선택지 불분명 */}
+              {typeOptions.slice(2).map((option) => (
                 <button
                   key={option.type}
                   onClick={() => onTypeSelect(option.type)}
