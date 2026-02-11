@@ -33,6 +33,7 @@ export default function QuickDecisionSheet({
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
   const [showImportanceDropdown, setShowImportanceDropdown] = useState(false);
   const [showTimeBudgetModal, setShowTimeBudgetModal] = useState(false);
+  const [keyboardOffset, setKeyboardOffset] = useState(0);
 
   const titleRef = useRef<HTMLTextAreaElement>(null);
   const optionRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
