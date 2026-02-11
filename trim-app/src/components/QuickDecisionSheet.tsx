@@ -66,6 +66,21 @@ export default function QuickDecisionSheet({
   // 시트가 열려 있을 때 배경 스크롤 차단 + VisualViewport로 시트 위치 제어
   useEffect(() => {
     if (isOpen) {
+      // 배경(Dashboard) 위치를 시트가 열려 있는 동안 고정
+      // → 키보드가 닫혔다 다시 열려도 배경이 이동하지 않음
+      const dashboard = document.getElementById('dashboard-scroll');
+      let savedScrollTop = 0;
+      if (dashboard) {
+        savedScrollTop = dashboard.scrollTop;
+        dashboard.style.position = 'fixed';
+        dashboard.style.top = `-${savedScrollTop}px`;
+        dashboard.style.left = '0';
+        dashboard.style.right = '0';
+        dashboard.style.height = 'auto';
+        dashboard.style.overflow = 'hidden';
+        dashboard.scrollTop = 0;
+      }
+
       const html = document.documentElement;
       const body = document.body;
       html.style.overflow = 'hidden';
@@ -94,6 +109,19 @@ export default function QuickDecisionSheet({
       }
 
       return () => {
+        // 배경 위치 복원
+        if (dashboard) {
+          dashboard.style.position = '';
+          dashboard.style.top = '';
+          dashboard.style.left = '';
+          dashboard.style.right = '';
+          dashboard.style.height = '';
+          dashboard.style.overflow = '';
+          requestAnimationFrame(() => {
+            dashboard.scrollTop = savedScrollTop;
+          });
+        }
+
         html.style.overflow = '';
         body.style.overflow = '';
         document.removeEventListener('touchmove', preventTouchScroll);
