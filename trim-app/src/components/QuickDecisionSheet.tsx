@@ -209,6 +209,7 @@ export default function QuickDecisionSheet({
                 }}
                 placeholder={t.titlePlaceholder.replace(/\n/g, ' ')}
                 rows={1}
+                autoFocus
                 className="flex-1 text-base font-medium text-black bg-transparent border-none outline-none placeholder-stretchLimo300 resize-none overflow-hidden mt-1"
               />
               <button
