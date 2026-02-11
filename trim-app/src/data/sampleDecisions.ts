@@ -135,7 +135,12 @@ function createKoreanSamples(now: Date): SampleData {
       framing: {
         whatHappened: '중요도별 권장 시간이 실제 체감과 맞는지 확인해보고 싶다.',
         goal: '각 중요도 레벨에 부여된 시간이 사용자 입장에서 자연스럽게 느껴지는지 검증.',
+        keyFactors: '각 레벨별 체감 시간, 실제 사용 패턴과의 일치도',
       },
+      keyFactors: [
+        { id: 'example-2-sub-1-kf-1', criteria: '각 레벨별 체감 시간', importance: 5 },
+        { id: 'example-2-sub-1-kf-2', criteria: '실제 사용 패턴과의 일치도', importance: 4 },
+      ],
       order: 0,
       parentId: 'example-2',
       mode: 'do_or_not',
