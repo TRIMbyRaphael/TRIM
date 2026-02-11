@@ -68,7 +68,7 @@ export default function TypeSelectionSheet({ isOpen, onClose, onTypeSelect }: Ty
             <div className="w-10 h-1 bg-stretchLimo200 rounded-full" />
           </div>
 
-          <div className="max-w-2xl mx-auto px-6 pb-2 md:pb-8 pt-2">
+          <div className="max-w-2xl mx-auto px-6 pb-1 md:pb-8 pt-2">
             <h2 className="text-lg font-bold text-stretchLimo mb-5">
               {t.chooseDecisionType}
             </h2>
