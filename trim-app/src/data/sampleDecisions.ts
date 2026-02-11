@@ -176,7 +176,7 @@ function createKoreanSamples(now: Date): SampleData {
     // ─── Decision 3 Sub 1: 후보 지역 (choose_best, MEDIUM) ───
     {
       id: 'example-3-sub-1',
-      title: '어떤 지역이 적절한 후보인가?',
+      title: '어디 역쪽을 알아볼까?',
       category: '개인',
       importance: 'MEDIUM',
       timeBudget: IMPORTANCE_LEVELS.MEDIUM.minutes,
