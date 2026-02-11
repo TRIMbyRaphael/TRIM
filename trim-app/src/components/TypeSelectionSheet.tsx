@@ -68,7 +68,7 @@ export default function TypeSelectionSheet({ isOpen, onClose, onTypeSelect }: Ty
             <div className="w-10 h-1 bg-stretchLimo200 rounded-full" />
           </div>
 
-          <div className="max-w-2xl mx-auto px-6 pb-0 md:pb-8 pt-2">
+          <div className="max-w-2xl mx-auto px-6 pb-4 md:pb-8 pt-2">
             <h2 className="text-lg font-bold text-stretchLimo mb-5">
               {t.chooseDecisionType}
             </h2>
@@ -117,8 +117,8 @@ export default function TypeSelectionSheet({ isOpen, onClose, onTypeSelect }: Ty
             </div>
           </div>
 
-          {/* Safe area padding for iOS (모바일에서 축소) */}
-          <div className="pb-[max(0px,calc(env(safe-area-inset-bottom)-12px))] md:pb-[env(safe-area-inset-bottom)]" />
+          {/* Safe area padding for iOS */}
+          <div className="pb-[env(safe-area-inset-bottom)]" />
         </div>
       </div>
     </>
