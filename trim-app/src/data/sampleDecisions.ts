@@ -69,7 +69,7 @@ function createKoreanSamples(now: Date): SampleData {
     // ─── Decision 2: 설계 검증 (do_or_not, LOW) ───
     {
       id: 'example-2',
-      title: '중요도를 기준으로 결정에 쓸 시간(결정 비용)을 제한하도록 한 현재 설계는 적절한가?',
+      title: '중요도를 기준으로 결정에 쓸 시간을 제한하도록 한 현재 설계는 적절한가?',
       category: '업무',
       importance: 'LOW',
       timeBudget: IMPORTANCE_LEVELS.LOW.minutes,
