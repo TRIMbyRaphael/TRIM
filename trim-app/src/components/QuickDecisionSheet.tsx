@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Plus, X, ChevronDown, Info, Clock, Maximize2, Check, FolderOpen } from 'lucide-react';
+import { Plus, X, ChevronDown, AlertCircle, Clock, Maximize2, Check, FolderOpen } from 'lucide-react';
 import { Decision, Option, IMPORTANCE_LEVELS, ImportanceLevel, DecisionMode } from '../types/decision';
 import TimeBudgetModal from './TimeBudgetModal';
 import { t } from '../i18n';
