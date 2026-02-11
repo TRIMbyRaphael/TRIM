@@ -71,13 +71,9 @@ export default function QuickDecisionSheet({
       body.style.overflow = 'hidden';
       body.style.height = '100%';
 
-      // touchmove로 배경 스크롤 차단
+      // 모든 touchmove 차단 — 시트 내부에 스크롤 가능 콘텐츠 없음
       const preventScroll = (e: TouchEvent) => {
-        // 시트 내부 스크롤은 허용, 배경만 차단
-        const target = e.target as HTMLElement;
-        if (!target.closest('.quick-sheet-content')) {
-          e.preventDefault();
-        }
+        e.preventDefault();
       };
       document.addEventListener('touchmove', preventScroll, { passive: false });
 
