@@ -77,14 +77,14 @@ export default function QuickDecisionSheet({
       };
       document.addEventListener('touchmove', preventTouchScroll, { passive: false });
 
-      // VisualViewport API로 키보드 높이를 감지하여 시트 위치 조정
-      // (overlays-content 모드에서는 레이아웃 뷰포트가 변하지 않으므로
-      //  시트를 키보드 위로 수동 배치해야 함)
+      // VisualViewport API로 키보드 높이를 감지하여 filler 높이 조정
+      // 시트는 bottom:0 고정, filler가 키보드 영역을 시트 색으로 채우면서
+      // 시트 콘텐츠를 키보드 위로 밀어올림 → 진짜 bottom sheet 느낌
       const vv = window.visualViewport;
       const updateSheetPosition = () => {
-        if (!vv || !sheetRef.current) return;
+        if (!vv || !fillerRef.current) return;
         const keyboardHeight = window.innerHeight - vv.height;
-        sheetRef.current.style.bottom = `${Math.max(0, keyboardHeight)}px`;
+        fillerRef.current.style.height = `${Math.max(0, keyboardHeight)}px`;
       };
 
       if (vv) {
@@ -102,8 +102,8 @@ export default function QuickDecisionSheet({
           vv.removeEventListener('resize', updateSheetPosition);
           vv.removeEventListener('scroll', updateSheetPosition);
         }
-        if (sheetRef.current) {
-          sheetRef.current.style.bottom = '';
+        if (fillerRef.current) {
+          fillerRef.current.style.height = '';
         }
 
         // viewport interactive-widget을 resizes-content로 복원
