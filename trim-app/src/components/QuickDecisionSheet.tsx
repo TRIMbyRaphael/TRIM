@@ -62,67 +62,54 @@ export default function QuickDecisionSheet({
     setTitle('');
   }, [decisionType]);
 
-  // 시트가 열려 있을 때 배경 스크롤 차단 + 배경 위치 고정 (iOS 키보드 올라올 때 포함)
+  // 시트가 열려 있을 때 배경 스크롤 차단 + VisualViewport로 시트 위치 제어
   useEffect(() => {
     if (isOpen) {
-      // 배경(Dashboard) 위치 고정 — 키보드에 의한 뷰포트 변화 시 배경 이동 방지
-      // App.tsx handleTypeSelect에서 이미 고정했을 수 있으므로 중복 방지
-      const dashboard = document.getElementById('dashboard-scroll');
-      if (dashboard && dashboard.style.position !== 'fixed') {
-        const scrollTop = dashboard.scrollTop;
-        dashboard.dataset.lockedScrollTop = String(scrollTop);
-        dashboard.style.position = 'fixed';
-        dashboard.style.top = `-${scrollTop}px`;
-        dashboard.style.left = '0';
-        dashboard.style.right = '0';
-        dashboard.style.height = 'auto';
-        dashboard.style.overflow = 'hidden';
-        dashboard.scrollTop = 0;
-      }
-
       const html = document.documentElement;
       const body = document.body;
-
-      // iOS 키보드 활성화 시 뷰포트 스크롤/이동 방지 — body를 fixed로 잠금
-      body.style.position = 'fixed';
-      body.style.top = '0';
-      body.style.left = '0';
-      body.style.right = '0';
-      body.style.overflow = 'hidden';
       html.style.overflow = 'hidden';
+      body.style.overflow = 'hidden';
 
-      // 키보드 활성화 전에 발생했을 수 있는 뷰포트 스크롤 리셋
-      window.scrollTo(0, 0);
-
-      // 모든 touchmove 차단 — 시트 내부에 스크롤 가능 콘텐츠 없음
+      // 모든 touchmove 차단 — 시트 뒤 배경 스크롤 방지
       const preventTouchScroll = (e: TouchEvent) => {
         e.preventDefault();
       };
       document.addEventListener('touchmove', preventTouchScroll, { passive: false });
 
+      // VisualViewport API로 키보드 높이를 감지하여 시트 위치 조정
+      // (overlays-content 모드에서는 레이아웃 뷰포트가 변하지 않으므로
+      //  시트를 키보드 위로 수동 배치해야 함)
+      const vv = window.visualViewport;
+      const updateSheetPosition = () => {
+        if (!vv || !sheetRef.current) return;
+        const keyboardHeight = window.innerHeight - vv.height;
+        sheetRef.current.style.bottom = `${Math.max(0, keyboardHeight)}px`;
+      };
+
+      if (vv) {
+        vv.addEventListener('resize', updateSheetPosition);
+        vv.addEventListener('scroll', updateSheetPosition);
+        updateSheetPosition();
+      }
+
       return () => {
-        // 배경 위치 복원
-        if (dashboard) {
-          const savedScrollTop = parseInt(dashboard.dataset.lockedScrollTop || '0');
-          dashboard.style.position = '';
-          dashboard.style.top = '';
-          dashboard.style.left = '';
-          dashboard.style.right = '';
-          dashboard.style.height = '';
-          dashboard.style.overflow = '';
-          delete dashboard.dataset.lockedScrollTop;
-          requestAnimationFrame(() => {
-            dashboard.scrollTop = savedScrollTop;
-          });
+        html.style.overflow = '';
+        body.style.overflow = '';
+        document.removeEventListener('touchmove', preventTouchScroll);
+
+        if (vv) {
+          vv.removeEventListener('resize', updateSheetPosition);
+          vv.removeEventListener('scroll', updateSheetPosition);
+        }
+        if (sheetRef.current) {
+          sheetRef.current.style.bottom = '';
         }
 
-        body.style.position = '';
-        body.style.top = '';
-        body.style.left = '';
-        body.style.right = '';
-        body.style.overflow = '';
-        html.style.overflow = '';
-        document.removeEventListener('touchmove', preventTouchScroll);
+        // viewport interactive-widget을 resizes-content로 복원
+        const meta = document.querySelector('meta[name="viewport"]') as HTMLMetaElement;
+        if (meta && meta.content.includes('overlays-content')) {
+          meta.content = meta.content.replace('overlays-content', 'resizes-content');
+        }
       };
     }
   }, [isOpen]);
