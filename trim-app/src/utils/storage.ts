@@ -93,13 +93,13 @@ export function injectSampleDecisions(existingDecisions: Decision[], lang: strin
     const toInject = samples.filter(s => !existingIds.has(s.id));
     if (toInject.length === 0) {
       localStorage.setItem(EXAMPLES_INJECTED_KEY, 'true');
-      return existingDecisions;
+      return base;
     }
 
     const topLevelSamples = toInject.filter(s => !s.parentId);
     if (topLevelSamples.length > 0) {
       const maxSampleOrder = Math.max(...topLevelSamples.map(s => s.order));
-      const shiftedExisting = existingDecisions.map(d => ({
+      const shiftedExisting = base.map(d => ({
         ...d,
         order: d.parentId ? d.order : (d.order ?? 0) + maxSampleOrder + 1,
       }));
@@ -109,7 +109,7 @@ export function injectSampleDecisions(existingDecisions: Decision[], lang: strin
       return merged;
     }
 
-    const merged = [...toInject, ...existingDecisions];
+    const merged = [...toInject, ...base];
     localStorage.setItem(EXAMPLES_INJECTED_KEY, 'true');
     return merged;
   } catch (error) {
