@@ -151,6 +151,15 @@ const ko: Translations = {
   // DecisionCard
   untitledCard: '(제목 없음)',
   untitledOption: '(옵션)',
+
+  // Type Selection Sheet
+  chooseDecisionType: '결정 유형을 선택하세요.',
+  typeDescDoOrNot: '예/아니오 결정',
+  typeDescChooseBest: '여러 옵션 중 선택',
+  typeDescNoClear: '먼저 탐색 필요',
+
+  // Quick Decision Sheet
+  quickExpandTooltip: '전체 작성 화면으로 전환',
 };
 
 export default ko;
