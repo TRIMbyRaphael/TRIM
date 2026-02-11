@@ -26,10 +26,9 @@ export default function QuickDecisionSheet({
   const [category, setCategory] = useState(categories[0] || t.defaultCategory);
   const [importance, setImportance] = useState<ImportanceLevel>('MEDIUM');
   const [timeBudget, setTimeBudget] = useState(IMPORTANCE_LEVELS.MEDIUM.minutes);
-  const [deadline, setDeadline] = useState(() => {
-    const now = new Date();
-    return new Date(now.getTime() + IMPORTANCE_LEVELS.MEDIUM.minutes * 60 * 1000).toISOString();
-  });
+  // deadline은 사용자가 TimeBudgetModal에서 직접 설정한 경우에만 저장
+  // null이면 complete/expand 시점에 timeBudget 기준으로 계산
+  const [customDeadline, setCustomDeadline] = useState<string | null>(null);
 
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
   const [showImportanceDropdown, setShowImportanceDropdown] = useState(false);
