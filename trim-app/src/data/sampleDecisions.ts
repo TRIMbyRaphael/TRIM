@@ -203,7 +203,7 @@ function createKoreanSamples(now: Date): SampleData {
     // ─── Decision 3 Sub 1 Sub 1: 버스 탑승 가능 여부 (do_or_not, LOW) ───
     {
       id: 'example-3-sub-1-sub-1',
-      title: '오전 8시경 당산역 정류장에서 1999번 버스를 무리 없이 제때 탈 수 있는가?',
+      title: '출근 시간에 당산역 정류장에서 1999번 버스를 무리 없이 제때 탈 수 있는가?',
       category: '개인',
       importance: 'LOW',
       timeBudget: IMPORTANCE_LEVELS.LOW.minutes,
