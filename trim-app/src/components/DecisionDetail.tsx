@@ -145,7 +145,19 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
   // Sync localDecision when decision prop changes (e.g., navigating to sub-decision)
   useEffect(() => {
-    setLocalDecision(decision);
+    const mode = decision.mode || 'do_or_not';
+    const needsKeyFactors = mode === 'choose_best' || mode === 'no_clear_options';
+    const hasNoKeyFactors = !decision.keyFactors || decision.keyFactors.length === 0;
+
+    const initDecision =
+      needsKeyFactors && hasNoKeyFactors
+        ? {
+            ...decision,
+            keyFactors: [{ id: Date.now().toString(), criteria: '', importance: 0 }],
+          }
+        : decision;
+
+    setLocalDecision(initDecision);
     initialDecision.current = decision;
     // Load framing collapse state for new decision
     try {
@@ -1521,7 +1533,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                               }`}
                             />
                             {/* Star rating (1-5) */}
-                            <div className="flex items-center gap-0.5 flex-shrink-0">
+                            <div className="flex items-center gap-0.5 flex-shrink-0 ml-4">
                               {[1, 2, 3, 4, 5].map((star) => (
                                 <button
                                   key={star}
