@@ -1931,11 +1931,11 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     {/* Dice with question marks on each face */}
                     <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-stretchLimo">
                       {/* Top face */}
-                      <path d="M16 2L28 9V9L16 16L4 9V9L16 2Z" fill="currentColor" fillOpacity="0.15" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+                      <path d="M16 2L28 9V9L16 16L4 9V9L16 2Z" fill="white" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
                       {/* Left face */}
-                      <path d="M4 9L16 16V30L4 23V9Z" fill="currentColor" fillOpacity="0.25" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+                      <path d="M4 9L16 16V30L4 23V9Z" fill="white" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
                       {/* Right face */}
-                      <path d="M28 9L16 16V30L28 23V9Z" fill="currentColor" fillOpacity="0.08" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+                      <path d="M28 9L16 16V30L28 23V9Z" fill="white" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
                       {/* Question mark - top face */}
                       <text x="16" y="11" textAnchor="middle" fill="currentColor" fontSize="7" fontWeight="bold" fontFamily="sans-serif">?</text>
                       {/* Question mark - left face */}
