@@ -214,7 +214,7 @@ export default function QuickDecisionSheet({
             <div className="w-10 h-1 bg-stretchLimo200 rounded-full" />
           </div>
 
-          <div className="max-w-2xl mx-auto px-4 pb-3 pt-1">
+          <div className="max-w-2xl mx-auto px-4 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-1">
             {/* Title Row */}
             <div className="flex items-start gap-2 mb-3">
               <textarea
