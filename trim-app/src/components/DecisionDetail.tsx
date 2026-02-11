@@ -1162,61 +1162,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   : 'hover:bg-stretchLimo100'
               }`}
             >
-              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
-                {/* Cerebrum (main brain mass - side view with bumpy gyri) */}
-                <path
-                  d="M3.5 15C2.5 13.5 2 11.5 2 10C2 8 2.5 6.5 4 5Q6 2 8.5 3.5Q10 1 12 3Q14 1 16 3.5Q18.5 1.5 19.5 5C20.5 7 20.5 9 20 10.5C19.5 12 18.5 13 17.5 13.5C15 14.5 10 15 3.5 15Z"
-                  fill={showDecisionMemo ? '#1A1A1A' : 'none'}
-                  stroke={showDecisionMemo ? '#1A1A1A' : '#9E9E9E'}
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                {/* Cerebellum */}
-                <path
-                  d="M18 13.5C19.5 14 21 15.5 21 17C21 18.5 19.5 20 17.5 20C15.5 20 14 19.5 13 18.5C12.5 17 14 15 18 13.5Z"
-                  fill={showDecisionMemo ? '#1A1A1A' : 'none'}
-                  stroke={showDecisionMemo ? '#1A1A1A' : '#9E9E9E'}
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                {/* Brain stem */}
-                <path
-                  d="M13 18.5C12.5 19.5 12 20.5 11.5 21.5"
-                  stroke={showDecisionMemo ? '#1A1A1A' : '#9E9E9E'}
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-                {/* Cerebrum-cerebellum gap (only visible when filled) */}
-                {showDecisionMemo && (
-                  <path
-                    d="M17.5 13.5C16 15 14.5 16.5 13 18.5"
-                    stroke="#F0EEE9"
-                    strokeWidth="1.2"
-                    strokeLinecap="round"
-                    fill="none"
-                  />
-                )}
-                {/* Cerebrum sulci (fold lines) */}
-                <path d="M6 5.5C8.5 4.5 11 5 14 7"
-                  stroke={showDecisionMemo ? '#F0EEE9' : '#9E9E9E'}
-                  strokeWidth="1" strokeLinecap="round" fill="none"
-                />
-                <path d="M4 9.5C7 8 11.5 9 17 11.5"
-                  stroke={showDecisionMemo ? '#F0EEE9' : '#9E9E9E'}
-                  strokeWidth="1" strokeLinecap="round" fill="none"
-                />
-                <path d="M5 12.5C8 11.5 12 12 16 13.5"
-                  stroke={showDecisionMemo ? '#F0EEE9' : '#9E9E9E'}
-                  strokeWidth="1" strokeLinecap="round" fill="none"
-                />
-                {/* Cerebellum fold */}
-                <path d="M15 17C17 16.5 19 17 20 18"
-                  stroke={showDecisionMemo ? '#F0EEE9' : '#9E9E9E'}
-                  strokeWidth="1" strokeLinecap="round" fill="none"
-                />
-              </svg>
+              <Lightbulb className="w-5 h-5" stroke={showDecisionMemo ? '#1A1A1A' : '#9E9E9E'} fill={showDecisionMemo ? '#1A1A1A' : 'none'} />
             </button>
           </div>
 
