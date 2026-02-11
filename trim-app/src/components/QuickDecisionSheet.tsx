@@ -88,6 +88,31 @@ export default function QuickDecisionSheet({
     }
   }, [isOpen]);
 
+  // iOS 키보드 위치 보정: visualViewport로 실시간 추적
+  const updateBottomOffset = useCallback(() => {
+    const vv = window.visualViewport;
+    if (!vv) return;
+    // 키보드가 올라오면 visualViewport가 줄어듦 → 그 차이만큼 시트를 올림
+    const offset = window.innerHeight - vv.height - vv.offsetTop;
+    setBottomOffset(Math.max(0, offset));
+  }, []);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const vv = window.visualViewport;
+    if (!vv) return;
+
+    vv.addEventListener('resize', updateBottomOffset);
+    vv.addEventListener('scroll', updateBottomOffset);
+    updateBottomOffset();
+
+    return () => {
+      vv.removeEventListener('resize', updateBottomOffset);
+      vv.removeEventListener('scroll', updateBottomOffset);
+      setBottomOffset(0);
+    };
+  }, [isOpen, updateBottomOffset]);
+
   // 키보드가 이미 프록시 input으로 열린 상태 → 실제 textarea로 포커스 이전
   useEffect(() => {
     if (isOpen) {
