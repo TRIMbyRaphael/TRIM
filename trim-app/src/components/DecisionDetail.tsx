@@ -1990,8 +1990,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                           {t.optionsHeader}
                         </th>
                         {(localDecision.comparisonMatrix || []).map((criteria) => (
-                          <th key={criteria.id} className="text-center text-xs font-medium text-white/70 pb-2 px-1.5 min-w-[72px] group/criteriaHead">
-                            <div className="flex items-center justify-center gap-1">
+                          <th key={criteria.id} className="text-center text-xs font-medium text-white/70 pb-2 px-1 min-w-[72px] group/criteriaHead relative">
+                            <div className="relative">
                               <input
                                 type="text"
                                 value={criteria.name}
@@ -2001,7 +2001,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                               />
                               <button
                                 onClick={() => handleDeleteCriteria(criteria.id)}
-                                className="p-0.5 text-white/50 hover:text-scarletSmile transition-colors flex-shrink-0 opacity-0 group-hover/criteriaHead:opacity-100"
+                                className="absolute -right-1 top-1/2 -translate-y-1/2 p-0.5 text-white/50 hover:text-scarletSmile transition-colors opacity-0 group-hover/criteriaHead:opacity-100"
                               >
                                 <Trash2 className="w-3 h-3" />
                               </button>
