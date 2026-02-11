@@ -64,3 +64,44 @@ export function loadCategories(): string[] {
     return t.defaultCategories;
   }
 }
+
+/**
+ * Inject sample decisions for all users (new and existing) — runs once.
+ * Returns the merged decisions array with samples prepended.
+ */
+export function injectSampleDecisions(existingDecisions: Decision[], lang: string): Decision[] {
+  try {
+    const alreadyInjected = localStorage.getItem(EXAMPLES_INJECTED_KEY);
+    if (alreadyInjected) {
+      return existingDecisions;
+    }
+
+    // Check if user already has any example decisions (e.g. from a previous version)
+    const hasExamples = existingDecisions.some(d => SAMPLE_DECISION_IDS.includes(d.id));
+    if (hasExamples) {
+      localStorage.setItem(EXAMPLES_INJECTED_KEY, 'true');
+      return existingDecisions;
+    }
+
+    // Create sample decisions with current timestamps
+    const samples = createSampleDecisions(lang);
+
+    // Adjust order of existing decisions to make room for samples at the top
+    const maxSampleOrder = Math.max(...samples.filter(s => !s.parentId).map(s => s.order));
+    const shiftedExisting = existingDecisions.map(d => ({
+      ...d,
+      order: d.parentId ? d.order : d.order + maxSampleOrder + 1,
+    }));
+
+    const merged = [...samples, ...shiftedExisting];
+
+    // Mark as injected so it only happens once
+    localStorage.setItem(EXAMPLES_INJECTED_KEY, 'true');
+    console.log('📝 Injected sample decisions:', samples.length);
+
+    return merged;
+  } catch (error) {
+    console.error('❌ Failed to inject sample decisions:', error);
+    return existingDecisions;
+  }
+}
