@@ -205,8 +205,9 @@ export default function QuickDecisionSheet({
     <>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black bg-opacity-50 z-50 animate-fadeIn"
+        className="fixed inset-0 bg-black bg-opacity-50 z-50 animate-fadeIn touch-none"
         onClick={onClose}
+        onTouchMove={(e) => e.preventDefault()}
       />
 
       {/* Bottom Sheet */}
