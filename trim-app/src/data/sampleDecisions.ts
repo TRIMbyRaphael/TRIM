@@ -190,7 +190,7 @@ function createKoreanSamples(now: Date): SampleData {
         { id: 'example-3-sub-1-opt-1', title: '사당 A집', isSelected: false },
         { id: 'example-3-sub-1-opt-2', title: '서울대입구역 B집', isSelected: false },
         { id: 'example-3-sub-1-opt-3', title: '서울대입구역 C집', isSelected: false },
-        { id: 'example-3-sub-1-opt-4', title: '당산역 D집', isSelected: false },
+        { id: 'example-3-sub-1-opt-4', title: '당사역 D집', isSelected: false },
       ],
       framing: {
         whatHappened: '이사할 지역을 먼저 좁혀야 구체적인 매물 검색이 가능하다.',
