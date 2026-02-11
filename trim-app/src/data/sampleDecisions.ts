@@ -313,7 +313,7 @@ function createEnglishSamples(now: Date): SampleData {
     // ─── Decision 2: Design validation (do_or_not, LOW) ───
     {
       id: 'example-2',
-      title: 'Is the current design of limiting decision time based on importance appropriate?',
+      title: 'Is the current design for limiting decision time based on importance well-designed?',
       category: 'Work',
       importance: 'LOW',
       timeBudget: IMPORTANCE_LEVELS.LOW.minutes,
@@ -353,7 +353,7 @@ function createEnglishSamples(now: Date): SampleData {
     // ─── Decision 2 Sub: Recommended time validation (do_or_not, TRIVIAL) ───
     {
       id: 'example-2-sub-1',
-      title: 'Does the recommended deliberation time per importance level feel right?',
+      title: 'Do the recommended time budgets for each importance level feel right in practice?',
       category: 'Work',
       importance: 'TRIVIAL',
       timeBudget: IMPORTANCE_LEVELS.TRIVIAL.minutes,
