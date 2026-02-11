@@ -337,8 +337,8 @@ function createEnglishSamples(now: Date): SampleData {
         },
       ],
       framing: {
-        whatHappened: "Want to validate TRIM's core premise — limiting deliberation time based on a decision's importance.",
-        goal: 'Ensure users spend proportional effort: less on trivial decisions, more on critical ones.',
+        whatHappened: '',
+        goal: 'Creating a structure that prevents spending more decision effort than a decision deserves, while also helping decisions get made on time instead of being delayed.',
         keyFactors: 'Decision fatigue reduction, User-perceived appropriateness',
       },
       keyFactors: [
