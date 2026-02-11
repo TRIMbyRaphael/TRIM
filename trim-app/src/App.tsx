@@ -57,15 +57,20 @@ function App() {
 
   // Load decisions and categories on mount
   useEffect(() => {
+    const lang = import.meta.env.VITE_LANG || 'en';
     const loaded = loadDecisions();
     const loadedCategories = loadCategories();
-    setDecisions(loaded);
+
+    // Inject sample decisions (runs once for all users, new and existing)
+    const withSamples = injectSampleDecisions(loaded, lang);
+
+    setDecisions(withSamples);
     setCategories(loadedCategories);
     
     // Initialize sub-decision counts for loaded decisions
     const initialCounts: Record<string, number> = {};
-    loaded.forEach(decision => {
-      initialCounts[decision.id] = loaded.filter(d => d.parentId === decision.id).length;
+    withSamples.forEach(decision => {
+      initialCounts[decision.id] = withSamples.filter(d => d.parentId === decision.id).length;
     });
     setInitialSubDecisionCounts(initialCounts);
     
