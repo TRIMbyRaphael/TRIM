@@ -343,8 +343,9 @@ export default function QuickDecisionSheet({
 
                 {showImportanceDropdown && (
                   <div className="absolute bottom-full mb-1 left-0 bg-cardBg rounded-lg shadow-lg border border-stretchLimo/10 overflow-hidden z-10 min-w-[140px]">
-                    <div className="px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-stretchLimo/50 border-b border-stretchLimo/[0.06] bg-stretchLimo/[0.04]">
-                      {t.importance}
+                    <div className="flex items-center gap-2 px-4 py-2 border-b border-stretchLimo/[0.06] bg-stretchLimo/[0.04]">
+                      <AlertCircle className="w-4 h-4 text-stretchLimo" />
+                      <span className="text-sm font-medium text-black">{t.importance}</span>
                     </div>
                     {(Object.keys(IMPORTANCE_LEVELS) as ImportanceLevel[]).map((level) => (
                       <button
