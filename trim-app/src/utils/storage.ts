@@ -66,8 +66,10 @@ export function loadCategories(): string[] {
 }
 
 /**
- * Inject sample decisions for all users (new and existing) — runs once.
- * Returns the merged decisions array with samples prepended.
+ * Inject sample decisions for all users (new and existing) — runs once per version.
+ * If an older version of examples exists (same IDs, isExample: true), they are
+ * replaced with the latest version. User-edited examples (isExample: false) or
+ * user-deleted examples are NOT re-injected.
  */
 export function injectSampleDecisions(existingDecisions: Decision[], lang: string): Decision[] {
   try {
@@ -76,30 +78,61 @@ export function injectSampleDecisions(existingDecisions: Decision[], lang: strin
       return existingDecisions;
     }
 
-    // Check if user already has any example decisions (e.g. from a previous version)
-    const hasExamples = existingDecisions.some(d => SAMPLE_DECISION_IDS.includes(d.id));
-    if (hasExamples) {
-      localStorage.setItem(EXAMPLES_INJECTED_KEY, 'true');
-      return existingDecisions;
-    }
-
     // Create sample decisions with current timestamps
     const samples = createSampleDecisions(lang);
 
-    // Adjust order of existing decisions to make room for samples at the top
-    const maxSampleOrder = Math.max(...samples.filter(s => !s.parentId).map(s => s.order));
-    const shiftedExisting = existingDecisions.map(d => ({
-      ...d,
-      order: d.parentId ? d.order : d.order + maxSampleOrder + 1,
-    }));
+    // Separate existing decisions into:
+    // 1) Old example decisions still marked isExample (will be replaced)
+    // 2) User-edited former examples (isExample removed) → keep as-is
+    // 3) Regular user decisions → keep as-is
+    const oldExampleIds = new Set(
+      existingDecisions
+        .filter(d => SAMPLE_DECISION_IDS.includes(d.id) && d.isExample)
+        .map(d => d.id)
+    );
+    const userDecisions = existingDecisions.filter(d => !oldExampleIds.has(d.id));
 
-    const merged = [...samples, ...shiftedExisting];
+    // Check if user previously had examples and deleted some — don't re-inject deleted ones
+    const previousVersionKey = 'trim-examples-v1-injected';
+    const hadPreviousVersion = localStorage.getItem(previousVersionKey);
+    let samplesToInject = samples;
 
-    // Mark as injected so it only happens once
+    if (hadPreviousVersion) {
+      // User had a previous version. Only inject samples whose IDs don't already
+      // exist in userDecisions (those were edited by user and kept, or never deleted).
+      // Also skip IDs that were in the old set but got deleted by user (not in existing at all).
+      const existingIds = new Set(existingDecisions.map(d => d.id));
+      const editedExampleIds = new Set(
+        userDecisions
+          .filter(d => SAMPLE_DECISION_IDS.includes(d.id))
+          .map(d => d.id)
+      );
+      samplesToInject = samples.filter(s => {
+        // If user edited this example (isExample was removed), don't replace it
+        if (editedExampleIds.has(s.id)) return false;
+        // If the ID previously existed but was deleted by user, don't re-inject
+        if (hadPreviousVersion && !existingIds.has(s.id) && !oldExampleIds.has(s.id)) return false;
+        return true;
+      });
+    }
+
+    // Adjust order of user decisions to make room for samples at the top
+    const topLevelSamples = samplesToInject.filter(s => !s.parentId);
+    if (topLevelSamples.length > 0) {
+      const maxSampleOrder = Math.max(...topLevelSamples.map(s => s.order));
+      const shifted = userDecisions.map(d => ({
+        ...d,
+        order: d.parentId ? d.order : d.order + maxSampleOrder + 1,
+      }));
+      const merged = [...samplesToInject, ...shifted];
+      localStorage.setItem(EXAMPLES_INJECTED_KEY, 'true');
+      console.log('📝 Injected sample decisions:', samplesToInject.length);
+      return merged;
+    }
+
+    // No new samples to inject (all were edited/deleted by user)
     localStorage.setItem(EXAMPLES_INJECTED_KEY, 'true');
-    console.log('📝 Injected sample decisions:', samples.length);
-
-    return merged;
+    return userDecisions;
   } catch (error) {
     console.error('❌ Failed to inject sample decisions:', error);
     return existingDecisions;
