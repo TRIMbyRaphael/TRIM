@@ -116,6 +116,7 @@ function createKoreanSamples(now: Date): SampleData {
           id: 'example-2-sub-1-opt-1',
           title: '한다',
           isSelected: false,
+          memo: '현재 설정: Trivial 10분, Low 1시간, Medium 24시간, High 3일, Critical 7일',
         },
         {
           id: 'example-2-sub-1-opt-2',
