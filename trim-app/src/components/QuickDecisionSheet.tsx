@@ -87,12 +87,13 @@ export default function QuickDecisionSheet({
     }
   }, [isOpen]);
 
-  // Auto-focus title on open — 애니메이션 완료 직후 포커스
+  // 키보드가 이미 프록시 input으로 열린 상태 → 실제 textarea로 포커스 이전
   useEffect(() => {
     if (isOpen) {
+      // 짧은 딜레이 후 실제 textarea로 포커스 이전 (키보드는 이미 열려 있음)
       const timer = setTimeout(() => {
         titleRef.current?.focus();
-      }, 350);
+      }, 100);
       return () => clearTimeout(timer);
     }
   }, [isOpen]);
