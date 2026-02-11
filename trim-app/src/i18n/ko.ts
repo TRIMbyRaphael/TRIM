@@ -19,7 +19,7 @@ const ko: Translations = {
   // Decision Modes
   decisionModes: {
     choose_best: 'A or B or C',
-    do_or_not: '할까 말까',
+    do_or_not: 'Do or Not',
     no_clear_options: '선택지 불분명',
   },
 
@@ -152,7 +152,7 @@ const ko: Translations = {
 
   // Type Selection Sheet
   chooseDecisionType: '결정 유형을 선택하세요.',
-  typeDescDoOrNot: '예/아니오 결정',
+  typeDescDoOrNot: '할지/말지 결정',
   typeDescChooseBest: '여러 옵션 중 선택',
   typeDescNoClear: '먼저 탐색 필요',
 
