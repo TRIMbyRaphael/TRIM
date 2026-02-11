@@ -15,19 +15,23 @@ interface TypeOption {
 }
 
 export default function TypeSelectionSheet({ isOpen, onClose, onTypeSelect }: TypeSelectionSheetProps) {
-  // 시트가 열려 있을 때 배경 스크롤 차단
+  // 시트가 열려 있을 때 배경 스크롤 완전 차단 (iOS Safari 포함)
   useEffect(() => {
     if (isOpen) {
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
       document.body.style.overflow = 'hidden';
-      const root = document.getElementById('root');
-      if (root?.firstElementChild) {
-        (root.firstElementChild as HTMLElement).style.overflow = 'hidden';
-      }
+
       return () => {
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.left = '';
+        document.body.style.right = '';
         document.body.style.overflow = '';
-        if (root?.firstElementChild) {
-          (root.firstElementChild as HTMLElement).style.overflow = '';
-        }
+        window.scrollTo(0, scrollY);
       };
     }
   }, [isOpen]);
