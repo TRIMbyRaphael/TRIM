@@ -1,0 +1,380 @@
+import { useState, useRef, useEffect } from 'react';
+import { Plus, X, ChevronDown, Info, Clock, Maximize2, Check, FolderOpen } from 'lucide-react';
+import { Decision, Option, IMPORTANCE_LEVELS, ImportanceLevel, DecisionMode } from '../types/decision';
+import TimeBudgetModal from './TimeBudgetModal';
+import { t } from '../i18n';
+
+interface QuickDecisionSheetProps {
+  isOpen: boolean;
+  decisionType: 'do_or_not' | 'choose_best';
+  categories: string[];
+  onClose: () => void;
+  onComplete: (decision: Partial<Decision>) => void;
+  onExpand: (decision: Partial<Decision>) => void;
+}
+
+export default function QuickDecisionSheet({
+  isOpen,
+  decisionType,
+  categories,
+  onClose,
+  onComplete,
+  onExpand,
+}: QuickDecisionSheetProps) {
+  const [title, setTitle] = useState('');
+  const [options, setOptions] = useState<Option[]>(() => initOptions(decisionType));
+  const [category, setCategory] = useState(categories[0] || t.defaultCategory);
+  const [importance, setImportance] = useState<ImportanceLevel>('MEDIUM');
+  const [timeBudget, setTimeBudget] = useState(IMPORTANCE_LEVELS.MEDIUM.minutes);
+  const [deadline, setDeadline] = useState(() => {
+    const now = new Date();
+    return new Date(now.getTime() + IMPORTANCE_LEVELS.MEDIUM.minutes * 60 * 1000).toISOString();
+  });
+
+  const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
+  const [showImportanceDropdown, setShowImportanceDropdown] = useState(false);
+  const [showTimeBudgetModal, setShowTimeBudgetModal] = useState(false);
+
+  const titleRef = useRef<HTMLTextAreaElement>(null);
+  const optionRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
+  const categoryDropdownRef = useRef<HTMLDivElement>(null);
+  const importanceDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Initialize options based on decision type
+  function initOptions(type: DecisionMode): Option[] {
+    const ts = Date.now();
+    if (type === 'do_or_not') {
+      return [
+        { id: `${ts}-1`, title: t.doOption, isSelected: false },
+        { id: `${ts}-2`, title: t.doNotOption, isSelected: false },
+      ];
+    }
+    // choose_best
+    return [
+      { id: `${ts}-1`, title: '', isSelected: false },
+      { id: `${ts}-2`, title: '', isSelected: false },
+    ];
+  }
+
+  // Reset state when type changes
+  useEffect(() => {
+    setOptions(initOptions(decisionType));
+    setTitle('');
+  }, [decisionType]);
+
+  // Auto-focus title on open
+  useEffect(() => {
+    if (isOpen && titleRef.current) {
+      const timer = setTimeout(() => titleRef.current?.focus(), 150);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
+
+  // Close dropdowns on outside click
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as Node;
+      if (showCategoryDropdown && categoryDropdownRef.current && !categoryDropdownRef.current.contains(target)) {
+        setShowCategoryDropdown(false);
+      }
+      if (showImportanceDropdown && importanceDropdownRef.current && !importanceDropdownRef.current.contains(target)) {
+        setShowImportanceDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showCategoryDropdown, showImportanceDropdown]);
+
+  // Build partial decision data
+  const buildDecision = (): Partial<Decision> => ({
+    title,
+    category,
+    importance,
+    timeBudget,
+    deadline,
+    mode: decisionType,
+    options: options.filter(opt => opt.title.trim() !== '' || decisionType === 'do_or_not'),
+  });
+
+  // Handle option text change (choose_best only)
+  const handleOptionChange = (optionId: string, value: string) => {
+    setOptions(options.map(opt =>
+      opt.id === optionId ? { ...opt, title: value } : opt
+    ));
+  };
+
+  // Add new option (choose_best only)
+  const handleAddOption = () => {
+    const newOption: Option = {
+      id: Date.now().toString(),
+      title: '',
+      isSelected: false,
+    };
+    setOptions([...options, newOption]);
+    // Focus the new option
+    setTimeout(() => {
+      optionRefs.current[newOption.id]?.focus();
+    }, 50);
+  };
+
+  // Remove option (choose_best only, minimum 2)
+  const handleRemoveOption = (optionId: string) => {
+    if (options.length <= 2) return;
+    setOptions(options.filter(opt => opt.id !== optionId));
+  };
+
+  // Importance change
+  const handleImportanceChange = (level: ImportanceLevel) => {
+    setImportance(level);
+    const newTimeBudget = IMPORTANCE_LEVELS[level].minutes;
+    const newDeadline = new Date(Date.now() + newTimeBudget * 60 * 1000).toISOString();
+    setTimeBudget(newTimeBudget);
+    setDeadline(newDeadline);
+    setShowImportanceDropdown(false);
+  };
+
+  // Category change
+  const handleCategoryChange = (cat: string) => {
+    setCategory(cat);
+    setShowCategoryDropdown(false);
+  };
+
+  // Time budget change (from modal)
+  const handleTimeBudgetConfirm = (newDeadline: string, newTimeBudget: number) => {
+    setDeadline(newDeadline);
+    setTimeBudget(newTimeBudget);
+    setShowTimeBudgetModal(false);
+  };
+
+  // Handle complete
+  const handleComplete = () => {
+    onComplete(buildDecision());
+  };
+
+  // Handle expand to full editor
+  const handleExpand = () => {
+    onExpand(buildDecision());
+  };
+
+  // Format time for compact display
+  const formatCompactTime = () => {
+    const diffMs = new Date(deadline).getTime() - Date.now();
+    if (diffMs <= 0) return '0m';
+    const totalMinutes = Math.floor(diffMs / 60000);
+    if (totalMinutes < 60) return `${totalMinutes}m`;
+    const hours = Math.floor(totalMinutes / 60);
+    if (hours < 24) return `${hours}h`;
+    const days = Math.floor(hours / 24);
+    return `${days}d`;
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <>
+      {/* Backdrop */}
+      <div
+        className="fixed inset-0 bg-black bg-opacity-50 z-50 animate-fadeIn"
+        onClick={onClose}
+      />
+
+      {/* Bottom Sheet */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 animate-slideUp">
+        <div className="bg-cardBg rounded-t-2xl shadow-lg border-t border-stretchLimo/10">
+          {/* Handle bar */}
+          <div className="flex justify-center pt-3 pb-1">
+            <div className="w-10 h-1 bg-stretchLimo200 rounded-full" />
+          </div>
+
+          <div className="max-w-2xl mx-auto px-4 pb-3 pt-1">
+            {/* Title Row */}
+            <div className="flex items-start gap-2 mb-3">
+              <textarea
+                ref={titleRef}
+                value={title}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                  e.target.style.height = 'auto';
+                  e.target.style.height = `${e.target.scrollHeight}px`;
+                }}
+                placeholder={t.titlePlaceholder}
+                rows={1}
+                className="flex-1 text-lg font-medium text-black bg-transparent border-none outline-none placeholder-stretchLimo300 resize-none overflow-hidden mt-1"
+              />
+              <button
+                onClick={handleExpand}
+                className="p-2 rounded-lg hover:bg-stretchLimo100 transition-colors flex-shrink-0"
+                title={t.quickExpandTooltip}
+              >
+                <Maximize2 className="w-5 h-5 text-stretchLimo" />
+              </button>
+            </div>
+
+            {/* Options Area */}
+            <div className="space-y-2 mb-3">
+              {decisionType === 'do_or_not' ? (
+                /* Do or Not: Fixed options, non-editable */
+                <>
+                  {options.map((option) => (
+                    <div
+                      key={option.id}
+                      className="bg-cloudDancer rounded-lg py-3 px-4 border border-stretchLimo/10"
+                    >
+                      <span className="text-base text-stretchLimo">{option.title}</span>
+                    </div>
+                  ))}
+                </>
+              ) : (
+                /* Choose Best: Editable options with delete */
+                <>
+                  {options.map((option, index) => (
+                    <div
+                      key={option.id}
+                      className="flex items-center gap-2 bg-cloudDancer rounded-lg py-2 px-3 border border-stretchLimo/10"
+                    >
+                      <input
+                        ref={(el) => (optionRefs.current[option.id] = el)}
+                        type="text"
+                        value={option.title}
+                        onChange={(e) => handleOptionChange(option.id, e.target.value)}
+                        placeholder={`${t.option} ${String.fromCharCode(65 + index)}`}
+                        className="flex-1 text-base text-black bg-transparent border-none outline-none placeholder-stretchLimo300"
+                      />
+                      {options.length > 2 && (
+                        <button
+                          onClick={() => handleRemoveOption(option.id)}
+                          className="p-1 rounded hover:bg-stretchLimo100 transition-colors flex-shrink-0"
+                        >
+                          <X className="w-4 h-4 text-micron" />
+                        </button>
+                      )}
+                    </div>
+                  ))}
+
+                  {/* Add Option */}
+                  <button
+                    onClick={handleAddOption}
+                    className="w-full flex items-center gap-2 py-2 px-3 text-micron hover:text-stretchLimo transition-colors"
+                  >
+                    <Plus className="w-4 h-4" />
+                    <span className="text-sm">{t.addOption}</span>
+                  </button>
+                </>
+              )}
+            </div>
+
+            {/* Bottom Controls Bar */}
+            <div className="flex items-center gap-2 pt-2 border-t border-stretchLimo/[0.06]">
+              {/* Category Selector (compact) */}
+              <div className="relative" ref={categoryDropdownRef}>
+                <button
+                  onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm text-stretchLimo hover:bg-stretchLimo50 transition-colors"
+                >
+                  <FolderOpen className="w-4 h-4" />
+                  <span className="max-w-[60px] truncate">{category}</span>
+                  <ChevronDown className="w-3 h-3" />
+                </button>
+
+                {showCategoryDropdown && (
+                  <div className="absolute bottom-full mb-1 left-0 bg-cardBg rounded-lg shadow-lg border border-stretchLimo/10 overflow-hidden z-10 min-w-[120px]">
+                    {categories.map((cat) => (
+                      <button
+                        key={cat}
+                        onClick={() => handleCategoryChange(cat)}
+                        className={`block w-full px-4 py-2 text-left text-sm hover:bg-stretchLimo100 text-stretchLimo whitespace-nowrap ${
+                          category === cat ? 'bg-stretchLimo50' : ''
+                        }`}
+                      >
+                        {cat}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Importance Selector (compact) */}
+              <div className="relative" ref={importanceDropdownRef}>
+                <button
+                  onClick={() => setShowImportanceDropdown(!showImportanceDropdown)}
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm text-stretchLimo hover:bg-stretchLimo50 transition-colors"
+                >
+                  <Info className="w-4 h-4" />
+                  <span>{t.importanceLevels[importance]}</span>
+                  <ChevronDown className="w-3 h-3" />
+                </button>
+
+                {showImportanceDropdown && (
+                  <div className="absolute bottom-full mb-1 left-0 bg-cardBg rounded-lg shadow-lg border border-stretchLimo/10 overflow-hidden z-10 min-w-[140px]">
+                    {(Object.keys(IMPORTANCE_LEVELS) as ImportanceLevel[]).map((level) => (
+                      <button
+                        key={level}
+                        onClick={() => handleImportanceChange(level)}
+                        className={`w-full px-4 py-2 text-left text-sm hover:bg-stretchLimo100 transition-colors ${
+                          importance === level ? 'bg-stretchLimo50' : ''
+                        }`}
+                      >
+                        <div className="flex items-center justify-between gap-4">
+                          <span className="text-stretchLimo">
+                            {t.importanceLevels[level]}
+                          </span>
+                          <span className="text-xs text-micron">
+                            {IMPORTANCE_LEVELS[level].minutes < 60
+                              ? `${IMPORTANCE_LEVELS[level].minutes}${t.minute}`
+                              : IMPORTANCE_LEVELS[level].minutes === 1440
+                              ? `24${t.hour}`
+                              : IMPORTANCE_LEVELS[level].minutes < 1440
+                              ? `${Math.floor(IMPORTANCE_LEVELS[level].minutes / 60)}${t.hour}`
+                              : `${Math.floor(IMPORTANCE_LEVELS[level].minutes / 1440)}${t.days}`}
+                          </span>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Time Budget Selector (compact) */}
+              <button
+                onClick={() => setShowTimeBudgetModal(true)}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm text-stretchLimo hover:bg-stretchLimo50 transition-colors"
+              >
+                <Clock className="w-4 h-4" />
+                <span>{formatCompactTime()}</span>
+              </button>
+
+              {/* Spacer */}
+              <div className="flex-1" />
+
+              {/* Complete Button */}
+              <button
+                onClick={handleComplete}
+                disabled={!title.trim()}
+                className={`p-2.5 rounded-lg transition-colors flex-shrink-0 ${
+                  title.trim()
+                    ? 'bg-stretchLimo text-white hover:bg-opacity-90'
+                    : 'bg-stretchLimo100 text-stretchLimo300 cursor-not-allowed'
+                }`}
+              >
+                <Check className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+
+          {/* Safe area padding for iOS */}
+          <div className="pb-[env(safe-area-inset-bottom)]" />
+        </div>
+      </div>
+
+      {/* Time Budget Modal */}
+      {showTimeBudgetModal && (
+        <TimeBudgetModal
+          initialDeadline={deadline}
+          initialTimeBudget={timeBudget}
+          onConfirm={handleTimeBudgetConfirm}
+          onClose={() => setShowTimeBudgetModal(false)}
+        />
+      )}
+    </>
+  );
+}
