@@ -69,12 +69,6 @@ function App() {
       // no_clear_options → 바로 전체 작성 화면으로 이동
       createDecisionWithMode(type);
     } else {
-      // 키보드가 열리기 전에 viewport interactive-widget을 overlays-content로 전환
-      // → 키보드가 뷰포트를 리사이즈하지 않으므로 배경이 그대로 유지됨
-      const meta = document.querySelector('meta[name="viewport"]') as HTMLMetaElement;
-      if (meta && meta.content.includes('resizes-content')) {
-        meta.content = meta.content.replace('resizes-content', 'overlays-content');
-      }
       // 사용자 탭 이벤트 체인 안에서 즉시 숨겨진 input 포커스 → iOS 키보드 선점
       keyboardProxyRef.current?.focus({ preventScroll: true });
       // do_or_not / choose_best → 간이 작성 화면 표시
