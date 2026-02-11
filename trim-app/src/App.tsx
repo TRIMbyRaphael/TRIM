@@ -18,6 +18,10 @@ function App() {
   // Track initial sub-decision count for each decision
   const [initialSubDecisionCounts, setInitialSubDecisionCounts] = useState<Record<string, number>>({});
 
+  // Type Selection & Quick Editor states
+  const [showTypeSelection, setShowTypeSelection] = useState(false);
+  const [quickEditorType, setQuickEditorType] = useState<'do_or_not' | 'choose_best' | null>(null);
+
   // Load decisions and categories on mount
   useEffect(() => {
     const loaded = loadDecisions();
