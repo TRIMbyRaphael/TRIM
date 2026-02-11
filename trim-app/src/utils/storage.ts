@@ -79,9 +79,23 @@ export function loadCategories(): string[] {
   }
 }
 
+/** Apply first-dashboard-view deadline to sample decisions (timer starts when user first sees dashboard). */
+function applyFirstViewDeadlines(decisions: Decision[]): Decision[] {
+  const firstView = getOrSetFirstDashboardView();
+  const baseTime = new Date(firstView).getTime();
+  const sampleIds = new Set(SAMPLE_DECISION_IDS);
+
+  return decisions.map((d) => {
+    if (!sampleIds.has(d.id)) return d;
+    const deadline = new Date(baseTime + d.timeBudget * 60 * 1000).toISOString();
+    return { ...d, deadline };
+  });
+}
+
 /**
  * Inject sample decisions. In dev (localhost), always replace 3 samples with latest template.
  * In production, inject once; user edits persist.
+ * Timer for samples starts from first dashboard view.
  */
 export function injectSampleDecisions(existingDecisions: Decision[], lang: string): Decision[] {
   try {
@@ -98,12 +112,13 @@ export function injectSampleDecisions(existingDecisions: Decision[], lang: strin
         ...d,
         order: d.parentId ? (d.order ?? 0) : (d.order ?? 0) + maxSampleOrder + 1,
       }));
-      return [...samples, ...shifted];
+      const merged = [...samples, ...shifted];
+      return applyFirstViewDeadlines(merged);
     }
 
     const alreadyInjected = localStorage.getItem(EXAMPLES_INJECTED_KEY);
     if (alreadyInjected) {
-      return existingDecisions;
+      return applyFirstViewDeadlines(existingDecisions);
     }
 
     // Production: inject only when not yet injected
@@ -111,7 +126,7 @@ export function injectSampleDecisions(existingDecisions: Decision[], lang: strin
     const toInject = samples.filter(s => !existingIds.has(s.id));
     if (toInject.length === 0) {
       localStorage.setItem(EXAMPLES_INJECTED_KEY, 'true');
-      return existingDecisions;
+      return applyFirstViewDeadlines(existingDecisions);
     }
 
     const topLevelSamples = toInject.filter(s => !s.parentId);
@@ -124,12 +139,12 @@ export function injectSampleDecisions(existingDecisions: Decision[], lang: strin
       const merged = [...toInject, ...shiftedExisting];
       localStorage.setItem(EXAMPLES_INJECTED_KEY, 'true');
       console.log('📝 Injected sample decisions:', toInject.length);
-      return merged;
+      return applyFirstViewDeadlines(merged);
     }
 
     const merged = [...toInject, ...existingDecisions];
     localStorage.setItem(EXAMPLES_INJECTED_KEY, 'true');
-    return merged;
+    return applyFirstViewDeadlines(merged);
   } catch (error) {
     console.error('❌ Failed to inject sample decisions:', error);
     return existingDecisions;
