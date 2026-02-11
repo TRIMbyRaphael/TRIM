@@ -69,21 +69,13 @@ function App() {
       // no_clear_options → 바로 전체 작성 화면으로 이동
       createDecisionWithMode(type);
     } else {
-      // 키보드가 열리기 전에 배경(Dashboard) 위치 고정 — 뷰포트 변화 시 배경 이동 방지
-      const dashboard = document.getElementById('dashboard-scroll');
-      if (dashboard) {
-        const scrollTop = dashboard.scrollTop;
-        dashboard.dataset.lockedScrollTop = String(scrollTop);
-        dashboard.style.position = 'fixed';
-        dashboard.style.top = `-${scrollTop}px`;
-        dashboard.style.left = '0';
-        dashboard.style.right = '0';
-        dashboard.style.height = 'auto';
-        dashboard.style.overflow = 'hidden';
-        dashboard.scrollTop = 0;
+      // 키보드가 열리기 전에 viewport interactive-widget을 overlays-content로 전환
+      // → 키보드가 뷰포트를 리사이즈하지 않으므로 배경이 그대로 유지됨
+      const meta = document.querySelector('meta[name="viewport"]') as HTMLMetaElement;
+      if (meta && meta.content.includes('resizes-content')) {
+        meta.content = meta.content.replace('resizes-content', 'overlays-content');
       }
       // 사용자 탭 이벤트 체인 안에서 즉시 숨겨진 input 포커스 → iOS 키보드 선점
-      // preventScroll: iOS가 포커스 시 뷰포트를 스크롤하여 배경을 밀어올리는 것을 방지
       keyboardProxyRef.current?.focus({ preventScroll: true });
       // do_or_not / choose_best → 간이 작성 화면 표시
       setQuickEditorType(type as 'do_or_not' | 'choose_best');
