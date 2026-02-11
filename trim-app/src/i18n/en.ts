@@ -153,6 +153,7 @@ const en = {
   typeDescDoOrNot: 'Yes/No decision',
   typeDescChooseBest: 'Choose between options',
   typeDescNoClear: 'Need to explore first',
+  typeSelectionOr: 'or',
 
   // Quick Decision Sheet
   quickExpandTooltip: 'Expand to full editor',
