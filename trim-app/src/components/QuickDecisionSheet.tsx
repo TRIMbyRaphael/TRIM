@@ -61,19 +61,32 @@ export default function QuickDecisionSheet({
     setTitle('');
   }, [decisionType]);
 
-  // 시트가 열려 있을 때 배경 스크롤 차단
+  // 시트가 열려 있을 때 배경 스크롤 차단 (iOS 키보드 올라올 때 포함)
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
-      const root = document.getElementById('root');
-      if (root?.firstElementChild) {
-        (root.firstElementChild as HTMLElement).style.overflow = 'hidden';
-      }
-      return () => {
-        document.body.style.overflow = '';
-        if (root?.firstElementChild) {
-          (root.firstElementChild as HTMLElement).style.overflow = '';
+      const html = document.documentElement;
+      const body = document.body;
+      html.style.overflow = 'hidden';
+      html.style.height = '100%';
+      body.style.overflow = 'hidden';
+      body.style.height = '100%';
+
+      // touchmove로 배경 스크롤 차단
+      const preventScroll = (e: TouchEvent) => {
+        // 시트 내부 스크롤은 허용, 배경만 차단
+        const target = e.target as HTMLElement;
+        if (!target.closest('.quick-sheet-content')) {
+          e.preventDefault();
         }
+      };
+      document.addEventListener('touchmove', preventScroll, { passive: false });
+
+      return () => {
+        html.style.overflow = '';
+        html.style.height = '';
+        body.style.overflow = '';
+        body.style.height = '';
+        document.removeEventListener('touchmove', preventScroll);
       };
     }
   }, [isOpen]);
