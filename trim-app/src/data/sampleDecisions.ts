@@ -294,7 +294,7 @@ function createEnglishSamples(now: Date): SampleData {
         },
       ],
       framing: {
-        whatHappened: 'After-work hours feel like they pass by meaninglessly, and I feel the need for a change.',
+        whatHappened: 'Since starting my job, I\'ve been feeling exhausted after work, and I often end up spending my evenings with no plan at all.\nMy stamina has dropped, my body is clearly out of shape, and ironically, doing nothing feels more draining than doing something.',
         goal: 'Pick one meaningful routine to add to my evenings and stick with it consistently.',
         constraints: 'About 3 hours available after work. Cost should be reasonable.',
         dealbreakers: "It shouldn't be so tiring that it affects the next workday.",
