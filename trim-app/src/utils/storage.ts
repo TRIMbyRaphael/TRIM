@@ -4,7 +4,7 @@ import { createSampleDecisions, SAMPLE_DECISION_IDS } from '../data/sampleDecisi
 
 const STORAGE_KEY = 'trim-decisions';
 const CATEGORIES_STORAGE_KEY = 'trim-categories';
-const EXAMPLES_INJECTED_KEY = 'trim-examples-v1-injected';
+const EXAMPLES_INJECTED_KEY = 'trim-examples-v2-injected';
 
 export function saveDecisions(decisions: Decision[]): void {
   try {
