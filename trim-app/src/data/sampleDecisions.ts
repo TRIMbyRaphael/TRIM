@@ -26,7 +26,7 @@ function createKoreanSamples(now: Date): SampleData {
           id: 'example-1-opt-1',
           title: '헬스',
           isSelected: false,
-          pros: '체력 증진, 스트레스 해소에 효과적',
+          pros: '- 체력이 너무 부족하고 근육이 거의 없음\n- 나중에 후회하지 않으려면 지금 시작하는 게 맞는 것 같음',
           cons: '초기에 습관 만들기가 어려울 수 있음',
         },
         {
