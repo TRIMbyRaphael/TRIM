@@ -198,7 +198,7 @@ export default function QuickDecisionSheet({
 
           <div className="max-w-2xl mx-auto px-4 pb-1 pt-1">
             {/* Title Row */}
-            <div className="flex items-start gap-2 mb-3">
+            <div className="flex items-start gap-2 mb-2">
               <textarea
                 ref={titleRef}
                 value={title}
@@ -222,7 +222,7 @@ export default function QuickDecisionSheet({
             </div>
 
             {/* Options Area */}
-            <div className="space-y-2 mb-3">
+            <div className="space-y-2 mb-2">
               {decisionType === 'do_or_not' ? (
                 /* Do or Not: Fixed options, non-editable */
                 <>
