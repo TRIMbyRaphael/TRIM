@@ -1518,13 +1518,10 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     </button>
                     {!collapsedFramingQuestions['keyFactors'] && (
                       <div className="space-y-2">
-                        {/* Header row - aligned with input column */}
+                        {/* Header row */}
                         {(localDecision.keyFactors || []).length > 0 && (
-                          <div className="flex items-center gap-2">
-                            <div className="flex-1 min-w-0 max-w-[240px] flex justify-center">
-                              <span className="text-xs text-white/50">{t.criteria}</span>
-                            </div>
-                            <div className="flex-shrink-0 ml-4" aria-hidden />
+                          <div className="flex items-center gap-2 px-1">
+                            <span className="text-xs text-white/50 flex-1">{t.criteria}</span>
                           </div>
                         )}
 
