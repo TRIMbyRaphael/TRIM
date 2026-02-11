@@ -275,7 +275,7 @@ function createEnglishSamples(now: Date): SampleData {
           id: 'example-1-opt-1',
           title: 'Gym',
           isSelected: false,
-          pros: 'Builds physical strength, effective stress relief',
+          pros: '- My stamina is very low, and I have almost no muscle.\n- If I don\'t start now, I feel like I\'ll regret it later.',
           cons: 'Hard to build the initial habit',
         },
         {
