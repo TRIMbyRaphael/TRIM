@@ -87,12 +87,13 @@ export default function QuickDecisionSheet({
     }
   }, [isOpen]);
 
-  // Auto-focus title on open — 애니메이션(300ms) 완료 후 포커스
+  // Auto-focus title on open — iOS에서 키보드가 뜰 때 레이아웃이 안정된 후 포커스
   useEffect(() => {
     if (isOpen) {
+      // 1단계: 애니메이션 완료 대기 후 포커스
       const timer = setTimeout(() => {
         titleRef.current?.focus();
-      }, 350);
+      }, 600);
       return () => clearTimeout(timer);
     }
   }, [isOpen]);
