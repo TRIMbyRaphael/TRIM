@@ -215,7 +215,6 @@ function createKoreanSamples(now: Date): SampleData {
           id: 'example-3-sub-1-sub-1-opt-1',
           title: '한다',
           isSelected: false,
-          memo: '출근 시간대 배차 간격과 혼잡도를 확인해야 한다.',
         },
         {
           id: 'example-3-sub-1-sub-1-opt-2',
@@ -223,11 +222,7 @@ function createKoreanSamples(now: Date): SampleData {
           isSelected: false,
         },
       ],
-      framing: {
-        whatHappened: 'D집에서 직장까지 지하철만으로는 통근 시간이 길어지고, 1999번 버스를 이용할 수 있어야 설정한 통근 시간 제약을 만족한다.',
-        goal: '출근 시간대에 1999번 버스를 안정적으로 탈 수 있는지 판단.',
-        keyFactors: '배차 간격, 출근 시간대 혼잡도, 정류장까지 도보 거리',
-      },
+      framing: {},
       keyFactors: [
         { id: 'example-3-sub-1-sub-1-kf-1', criteria: '배차 간격', importance: 5 },
         { id: 'example-3-sub-1-sub-1-kf-2', criteria: '출근 시간대 혼잡도', importance: 4 },
