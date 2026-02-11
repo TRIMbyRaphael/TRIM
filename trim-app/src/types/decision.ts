@@ -64,6 +64,7 @@ export interface Decision {
   memo?: string;
   links?: Link[];
   framing?: DecisionFraming;
+  keyFactors?: KeyFactor[];
   order: number;
   parentId?: string; // For sub-decisions (chunking)
   mode?: DecisionMode; // Decision mode: choose_best | do_or_not | no_clear_options
