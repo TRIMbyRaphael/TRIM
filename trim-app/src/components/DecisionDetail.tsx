@@ -284,6 +284,10 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         ...localDecision,
         options: localDecision.options.filter(opt => opt.title.trim() !== ''),
       };
+      // 유저가 샘플을 수정하면 isExample 제거 → 이후 자동 업데이트 대상에서 제외
+      if (filteredDecision.isExample && hasChanges()) {
+        delete (filteredDecision as Partial<Decision>).isExample;
+      }
       onUpdate(filteredDecision);
     }, 500);
 
