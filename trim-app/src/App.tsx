@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Dashboard from './components/Dashboard';
 import DecisionDetail from './components/DecisionDetail';
 import TypeSelectionSheet from './components/TypeSelectionSheet';
