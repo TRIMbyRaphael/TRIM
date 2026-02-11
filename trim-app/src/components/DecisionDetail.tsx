@@ -1044,7 +1044,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   // Real-time countdown display (removed getTimeRemaining, using timeData from hook)
 
   return (
-    <div className="min-h-screen bg-cloudDancer">
+    <div className="h-full bg-cloudDancer overflow-y-auto">
       {/* Header */}
       <header className="sticky top-0 z-10 bg-cardBg shadow-md border-b border-stretchLimo/10 px-4 py-3 flex items-center justify-between">
         {/* Breadcrumb Navigation */}
