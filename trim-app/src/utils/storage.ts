@@ -4,7 +4,7 @@ import { createSampleDecisions, SAMPLE_DECISION_IDS } from '../data/sampleDecisi
 
 const STORAGE_KEY = 'trim-decisions';
 const CATEGORIES_STORAGE_KEY = 'trim-categories';
-const EXAMPLES_INJECTED_KEY = 'trim-examples-v3-injected';
+const EXAMPLES_INJECTED_KEY = 'trim-examples-v4-injected';
 
 export function saveDecisions(decisions: Decision[]): void {
   try {
@@ -78,11 +78,13 @@ export function injectSampleDecisions(existingDecisions: Decision[], lang: strin
 
     const samples = createSampleDecisions(lang);
 
-    // Replace example-1 in EN if it still has old "English Study" option (template update)
+    // Replace example-1 in EN if it has old template (template update)
     let base = existingDecisions;
     if (lang === 'en') {
       const ex1 = base.find(d => d.id === 'example-1');
-      const hasOldTemplate = ex1?.options?.some(o => o.title === 'English Study');
+      const hasOldTemplate =
+        ex1?.options?.some(o => o.title === 'English Study') ||
+        ex1?.framing?.whatHappened?.includes('After-work hours feel like they pass by meaninglessly');
       if (hasOldTemplate) {
         const newEx1 = samples.find(s => s.id === 'example-1');
         if (newEx1) base = base.map(d => (d.id === 'example-1' ? newEx1 : d));
