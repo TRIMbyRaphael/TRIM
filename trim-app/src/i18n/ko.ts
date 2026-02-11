@@ -155,6 +155,7 @@ const ko: Translations = {
   typeDescDoOrNot: '할지/말지 결정',
   typeDescChooseBest: '여러 옵션 중 선택',
   typeDescNoClear: '먼저 탐색 필요',
+  typeSelectionOr: '또는',
 
   // Quick Decision Sheet
   quickExpandTooltip: '전체 작성 화면으로 전환',
