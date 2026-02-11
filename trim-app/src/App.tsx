@@ -271,6 +271,10 @@ function App() {
   const handleDeleteDecision = (decisionId: string) => {
     // When deleting a parent decision, also delete all its sub-decisions
     const deletedIds = [decisionId, ...decisions.filter(d => d.parentId === decisionId).map(d => d.id)];
+
+    // Track sample deletions so they aren't re-injected on next load
+    deletedIds.forEach(id => markSampleAsDeleted(id));
+
     setDecisions(decisions.filter((d) => 
       d.id !== decisionId && d.parentId !== decisionId
     ));
