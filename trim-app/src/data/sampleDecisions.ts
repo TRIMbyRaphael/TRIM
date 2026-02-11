@@ -374,8 +374,8 @@ function createEnglishSamples(now: Date): SampleData {
         },
       ],
       framing: {
-        whatHappened: 'Want to check if the time budgets per importance level match real-world intuition.',
-        goal: 'Verify that each importance level feels natural from a user perspective.',
+        whatHappened: 'Decision time budgets are set as follows: Trivial – 10 minutes / Low – 1 hour / Medium – 24 hours / High – 3 days / Critical – 7 days.',
+        goal: 'For the automatically suggested decision time, based on importance, to feel reasonable and acceptable in most situations.',
         keyFactors: 'Perceived time per level, Alignment with actual usage patterns',
       },
       keyFactors: [
