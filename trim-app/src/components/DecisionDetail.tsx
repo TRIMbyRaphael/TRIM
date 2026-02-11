@@ -1162,7 +1162,48 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   : 'hover:bg-stretchLimo100'
               }`}
             >
-              <Brain className="w-5 h-5" stroke={showDecisionMemo ? '#1A1A1A' : '#9E9E9E'} fill={showDecisionMemo ? 'white' : '#1A1A1A'} />
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
+                {/* Brain silhouette */}
+                <path
+                  d="M12 2.5C9.5 2.5 7 4 5.5 6.5C4 9 3.5 11.5 4 14C4.5 16.5 6 18.5 8 19.5C9.5 20.5 10.5 21 12 21.5C13.5 21 14.5 20.5 16 19.5C18 18.5 19.5 16.5 20 14C20.5 11.5 20 9 18.5 6.5C17 4 14.5 2.5 12 2.5Z"
+                  fill={showDecisionMemo ? '#1A1A1A' : 'none'}
+                  stroke={showDecisionMemo ? '#1A1A1A' : '#9E9E9E'}
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                {/* Center fissure */}
+                <path d="M12 4.5V19.5"
+                  stroke={showDecisionMemo ? '#F0EEE9' : '#9E9E9E'}
+                  strokeWidth="1.2" strokeLinecap="round"
+                />
+                {/* Left hemisphere folds */}
+                <path d="M11.5 7.5C10 7 8 7.5 6 9.5"
+                  stroke={showDecisionMemo ? '#F0EEE9' : '#9E9E9E'}
+                  strokeWidth="1.2" strokeLinecap="round" fill="none"
+                />
+                <path d="M11.5 12C10 11.5 7.5 12 5.5 14"
+                  stroke={showDecisionMemo ? '#F0EEE9' : '#9E9E9E'}
+                  strokeWidth="1.2" strokeLinecap="round" fill="none"
+                />
+                <path d="M11.5 16C10 15.8 8.5 16.2 7 17.5"
+                  stroke={showDecisionMemo ? '#F0EEE9' : '#9E9E9E'}
+                  strokeWidth="1.2" strokeLinecap="round" fill="none"
+                />
+                {/* Right hemisphere folds */}
+                <path d="M12.5 7.5C14 7 16 7.5 18 9.5"
+                  stroke={showDecisionMemo ? '#F0EEE9' : '#9E9E9E'}
+                  strokeWidth="1.2" strokeLinecap="round" fill="none"
+                />
+                <path d="M12.5 12C14 11.5 16.5 12 18.5 14"
+                  stroke={showDecisionMemo ? '#F0EEE9' : '#9E9E9E'}
+                  strokeWidth="1.2" strokeLinecap="round" fill="none"
+                />
+                <path d="M12.5 16C14 15.8 15.5 16.2 17 17.5"
+                  stroke={showDecisionMemo ? '#F0EEE9' : '#9E9E9E'}
+                  strokeWidth="1.2" strokeLinecap="round" fill="none"
+                />
+              </svg>
             </button>
           </div>
 
