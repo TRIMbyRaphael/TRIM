@@ -295,7 +295,7 @@ function createEnglishSamples(now: Date): SampleData {
     // ─── Decision 2: Design validation (do_or_not, LOW) ───
     {
       id: 'example-2',
-      title: 'Is the current design for limiting decision time based on importance well-designed?',
+      title: '[TRIM · PM Work Decision] Is the current design for limiting decision time based on importance well-designed?',
       category: 'Work',
       importance: 'LOW',
       timeBudget: IMPORTANCE_LEVELS.LOW.minutes,
