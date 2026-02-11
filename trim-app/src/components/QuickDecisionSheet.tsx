@@ -222,7 +222,7 @@ export default function QuickDecisionSheet({
             </div>
 
             {/* Options Area */}
-            <div className="space-y-2 mb-2">
+            <div className="space-y-2 mb-3">
               {decisionType === 'do_or_not' ? (
                 /* Do or Not: Fixed options, non-editable */
                 <>
@@ -275,7 +275,7 @@ export default function QuickDecisionSheet({
             </div>
 
             {/* Bottom Controls Bar */}
-            <div className="flex items-center gap-2 pt-1 border-t border-stretchLimo/[0.06]">
+            <div className="flex items-center gap-2 pt-2 border-t border-stretchLimo/[0.06]">
               {/* Category Selector (compact) */}
               <div className="relative" ref={categoryDropdownRef}>
                 <button
