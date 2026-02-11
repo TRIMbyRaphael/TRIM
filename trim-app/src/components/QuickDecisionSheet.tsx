@@ -35,6 +35,7 @@ export default function QuickDecisionSheet({
   const [showTimeBudgetModal, setShowTimeBudgetModal] = useState(false);
 
   const titleRef = useRef<HTMLTextAreaElement>(null);
+  const sheetRef = useRef<HTMLDivElement>(null);
   const optionRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
   const categoryDropdownRef = useRef<HTMLDivElement>(null);
   const importanceDropdownRef = useRef<HTMLDivElement>(null);
