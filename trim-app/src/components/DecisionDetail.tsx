@@ -2257,7 +2257,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               >
                 {/* Active indicator bar */}
                 {isActive && (
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-[3px] rounded-full bg-scarletSmile shadow-[0_0_8px_rgba(255,82,82,0.5)]" />
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-[3px] rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.4)]" />
                 )}
                 <span className={`relative ${isActive ? 'text-[15px]' : 'text-[13px]'}`}>
                   {t.decisionModes[modeOption.value] || modeOption.label}
