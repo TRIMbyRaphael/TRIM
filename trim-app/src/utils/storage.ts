@@ -1,8 +1,10 @@
 import { Decision } from '../types/decision';
 import { t } from '../i18n';
+import { createSampleDecisions, SAMPLE_DECISION_IDS } from '../data/sampleDecisions';
 
 const STORAGE_KEY = 'trim-decisions';
 const CATEGORIES_STORAGE_KEY = 'trim-categories';
+const EXAMPLES_INJECTED_KEY = 'trim-examples-v1-injected';
 
 export function saveDecisions(decisions: Decision[]): void {
   try {
