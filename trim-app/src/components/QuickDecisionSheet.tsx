@@ -133,12 +133,6 @@ export default function QuickDecisionSheet({
         if (fillerRef.current) {
           fillerRef.current.style.height = '';
         }
-
-        // viewport interactive-widget을 resizes-content로 복원
-        const meta = document.querySelector('meta[name="viewport"]') as HTMLMetaElement;
-        if (meta && meta.content.includes('overlays-content')) {
-          meta.content = meta.content.replace('overlays-content', 'resizes-content');
-        }
       };
     }
   }, [isOpen]);
