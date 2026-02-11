@@ -161,6 +161,9 @@ const ko: Translations = {
 
   // Quick Decision Sheet
   quickExpandTooltip: '전체 작성 화면으로 전환',
+
+  // Example Badge
+  exampleBadge: '예시',
 };
 
 export default ko;
