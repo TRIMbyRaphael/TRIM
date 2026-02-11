@@ -781,6 +781,91 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     }
   };
 
+  // Key Factors handlers
+  const handleAddKeyFactor = () => {
+    const newFactor: KeyFactor = { id: Date.now().toString(), criteria: '', importance: 0 };
+    const updatedFactors = [...(localDecision.keyFactors || []), newFactor];
+    setLocalDecision({
+      ...localDecision,
+      keyFactors: updatedFactors,
+    });
+  };
+
+  const handleKeyFactorCriteriaChange = (factorId: string, criteria: string) => {
+    const updatedFactors = (localDecision.keyFactors || []).map(f =>
+      f.id === factorId ? { ...f, criteria } : f
+    );
+    setLocalDecision({
+      ...localDecision,
+      keyFactors: updatedFactors,
+    });
+  };
+
+  const handleKeyFactorImportanceChange = (factorId: string, importance: number) => {
+    const updatedFactors = (localDecision.keyFactors || []).map(f =>
+      f.id === factorId ? { ...f, importance } : f
+    );
+    setLocalDecision({
+      ...localDecision,
+      keyFactors: updatedFactors,
+    });
+  };
+
+  const handleDeleteKeyFactor = (factorId: string) => {
+    const updatedFactors = (localDecision.keyFactors || []).filter(f => f.id !== factorId);
+    // Also remove from comparison matrix
+    const updatedMatrix = (localDecision.comparisonMatrix || []).filter(c => c.id !== factorId);
+    setLocalDecision({
+      ...localDecision,
+      keyFactors: updatedFactors,
+      comparisonMatrix: updatedMatrix,
+    });
+  };
+
+  // Sync Key Factors → Comparison Matrix
+  useEffect(() => {
+    const factors = localDecision.keyFactors || [];
+    if (factors.length === 0) return;
+
+    const existingMatrix = localDecision.comparisonMatrix || [];
+    const existingIds = new Set(existingMatrix.map(c => c.id));
+    const factorIds = new Set(factors.map(f => f.id));
+
+    // Add new factors to matrix, update existing ones
+    let updated = false;
+    let newMatrix = existingMatrix.map(c => {
+      if (factorIds.has(c.id)) {
+        const factor = factors.find(f => f.id === c.id)!;
+        if (c.name !== factor.criteria || c.importance !== factor.importance) {
+          updated = true;
+          return { ...c, name: factor.criteria, importance: factor.importance };
+        }
+      }
+      return c;
+    });
+
+    // Add factors that don't exist in matrix yet
+    for (const factor of factors) {
+      if (!existingIds.has(factor.id)) {
+        newMatrix.push({ id: factor.id, name: factor.criteria, importance: factor.importance, ratings: {} });
+        updated = true;
+      }
+    }
+
+    // Remove matrix entries that were from key factors but were deleted
+    const beforeLen = newMatrix.length;
+    newMatrix = newMatrix.filter(c => factorIds.has(c.id) || !factors.some(() => false));
+    if (newMatrix.length !== beforeLen) updated = true;
+
+    if (updated) {
+      setLocalDecision(prev => ({
+        ...prev,
+        comparisonMatrix: newMatrix,
+      }));
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [localDecision.keyFactors]);
+
   // Comparison Matrix handlers
   const handleToggleComparisonMatrix = () => {
     if (!showComparisonMatrix && (!localDecision.comparisonMatrix || localDecision.comparisonMatrix.length === 0)) {
