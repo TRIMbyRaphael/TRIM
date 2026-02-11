@@ -3,10 +3,8 @@
 @tailwind utilities;
 
 /* iOS Safari 자동 확대 방지: 모든 입력 요소 최소 16px */
-@supports (-webkit-touch-callout: none) {
-  input, textarea, select {
-    font-size: 16px !important;
-  }
+input, textarea, select {
+  font-size: max(16px, 1em);
 }
 
 html, body, #root {
