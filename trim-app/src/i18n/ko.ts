@@ -151,7 +151,7 @@ const ko: Translations = {
   untitledOption: '(옵션)',
 
   // Type Selection Sheet
-  chooseDecisionType: '결정 유형을 선택하세요.',
+  chooseDecisionType: '결정 유형 선택',
   typeDescDoOrNot: '할지/말지 결정',
   typeDescChooseBest: '여러 옵션 중 선택',
   typeDescNoClear: '먼저 탐색 필요',
