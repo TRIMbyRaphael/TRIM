@@ -222,7 +222,9 @@ function createKoreanSamples(now: Date): SampleData {
           isSelected: false,
         },
       ],
-      framing: {},
+      framing: {
+        whatHappened: 'D집에서 직장까지 지하철만으로는 통근 시간이 길어지고, 1999번 버스를 이용할 수 있어야 설정한 통근 시간 제약을 만족한다.',
+      },
       keyFactors: [
         { id: 'example-3-sub-1-sub-1-kf-1', criteria: '배차 간격', importance: 5 },
         { id: 'example-3-sub-1-sub-1-kf-2', criteria: '출근 시간대 혼잡도', importance: 4 },
