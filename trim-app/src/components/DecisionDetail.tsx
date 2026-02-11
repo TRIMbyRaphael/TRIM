@@ -1932,7 +1932,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               }`}
             >
               <div className="flex items-center gap-2">
-                <Info className="w-5 h-5 text-stretchLimo" />
+                <AlertCircle className="w-5 h-5 text-stretchLimo" />
                 <span className="text-base text-black">{t.importance}</span>
               </div>
               <div className="flex items-center gap-2">
