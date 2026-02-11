@@ -149,8 +149,8 @@ const en = {
   untitledOption: '(Option)',
 
   // Type Selection Sheet
-  chooseDecisionType: 'Choose decision type.',
-  typeDescDoOrNot: 'Yes/No decision',
+  chooseDecisionType: 'Choose decision type',
+  typeDescDoOrNot: 'Make a go / no-go decision',
   typeDescChooseBest: 'Choose between options',
   typeDescNoClear: 'Need to explore first',
   typeSelectionOr: 'or',
