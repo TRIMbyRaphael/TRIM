@@ -1151,7 +1151,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 localDecision.resolved ? 'opacity-50 cursor-not-allowed' : 'hover:bg-stretchLimo100'
               }`}
             >
-              <LinkIcon className={`w-5 h-5 ${(localDecision.links && localDecision.links.length > 0) ? 'text-stretchLimo' : 'text-micron'}`} />
+              <LinkIcon className={`w-5 h-5 ${(localDecision.links && localDecision.links.length > 0) ? 'text-stretchLimo' : 'text-black'}`} />
             </button>
             <button
               onClick={toggleDecisionMemo}
