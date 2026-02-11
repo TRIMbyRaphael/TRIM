@@ -307,7 +307,7 @@ export default function QuickDecisionSheet({
                   onClick={() => setShowImportanceDropdown(!showImportanceDropdown)}
                   className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm text-stretchLimo hover:bg-stretchLimo50 transition-colors"
                 >
-                  <Info className="w-4 h-4" />
+                  <AlertCircle className="w-4 h-4" />
                   <span>{t.importanceLevels[importance]}</span>
                   <ChevronDown className="w-3 h-3" />
                 </button>
