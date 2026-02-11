@@ -330,7 +330,7 @@ export default function QuickDecisionSheet({
                         value={option.title}
                         onChange={(e) => handleOptionChange(option.id, e.target.value)}
                         placeholder={`${t.option} ${String.fromCharCode(65 + index)}`}
-                        className="flex-1 text-sm text-black bg-transparent border-none outline-none placeholder-stretchLimo300"
+                        className="flex-1 text-base text-black bg-transparent border-none outline-none placeholder-stretchLimo300"
                       />
                       {options.length > 2 && (
                         <button

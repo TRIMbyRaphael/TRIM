@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* iOS Safari 자동 확대 방지: 모든 입력 요소 최소 16px */
+@supports (-webkit-touch-callout: none) {
+  input, textarea, select {
+    font-size: 16px !important;
+  }
+}
+
 html, body, #root {
   height: 100%;
   overflow: hidden;
