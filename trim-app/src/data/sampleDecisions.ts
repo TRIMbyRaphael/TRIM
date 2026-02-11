@@ -41,7 +41,7 @@ function createKoreanSamples(now: Date): SampleData {
           title: '독서',
           isSelected: false,
           pros: '나이가 들수록 격차가 벌어질 수 있는 영역이라는 생각이 듦',
-          cons: '- 결국 유튜브나 휴대폰을 더 보게 될 가능성이 큼\n- "'언젠가 읽어야지'" 하다 책만 쌓아둘 것 같음',
+          cons: "- 결국 유튜브나 휴대폰을 더 보게 될 가능성이 큼\n- '언젠가 읽어야지' 하다 책만 쌓아둘 것 같음",
         },
         {
           id: 'example-1-opt-4',
