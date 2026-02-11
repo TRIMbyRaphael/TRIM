@@ -27,6 +27,40 @@ function getOrSetFirstDashboardView(): string {
   return firstView;
 }
 
+/** Get the list of sample IDs the user has explicitly deleted. */
+function getDeletedSampleIds(): Set<string> {
+  try {
+    const saved = localStorage.getItem(DELETED_SAMPLES_KEY);
+    if (!saved) return new Set();
+    return new Set(JSON.parse(saved));
+  } catch {
+    return new Set();
+  }
+}
+
+/** Record that the user deleted a sample decision (so it won't be re-injected). */
+export function markSampleAsDeleted(decisionId: string): void {
+  const sampleIds = new Set(SAMPLE_DECISION_IDS);
+  if (!sampleIds.has(decisionId)) return; // not a sample, ignore
+  const deleted = getDeletedSampleIds();
+  deleted.add(decisionId);
+  localStorage.setItem(DELETED_SAMPLES_KEY, JSON.stringify([...deleted]));
+}
+
+/**
+ * Check if a force-sync is needed (version mismatch → reset everything).
+ * Returns true if this is a fresh force-sync.
+ */
+function checkAndApplyForceSync(): boolean {
+  const stored = localStorage.getItem(SAMPLE_FORCE_VERSION_KEY);
+  if (stored === SAMPLE_FORCE_VERSION) return false;
+  // Version changed or first time → force sync: reset deleted list & first-view
+  localStorage.removeItem(DELETED_SAMPLES_KEY);
+  localStorage.removeItem(FIRST_DASHBOARD_VIEW_KEY);
+  localStorage.setItem(SAMPLE_FORCE_VERSION_KEY, SAMPLE_FORCE_VERSION);
+  return true;
+}
+
 export function saveDecisions(decisions: Decision[]): void {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(decisions));
