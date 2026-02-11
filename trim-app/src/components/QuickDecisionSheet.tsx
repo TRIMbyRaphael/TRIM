@@ -84,16 +84,20 @@ export default function QuickDecisionSheet({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [showCategoryDropdown, showImportanceDropdown]);
 
-  // Build partial decision data
-  const buildDecision = (): Partial<Decision> => ({
-    title,
-    category,
-    importance,
-    timeBudget,
-    deadline,
-    mode: decisionType,
-    options: options.filter(opt => opt.title.trim() !== '' || decisionType === 'do_or_not'),
-  });
+  // Build partial decision data — deadline은 이 시점에 계산 (카운트다운 시작)
+  const buildDecision = (): Partial<Decision> => {
+    const finalDeadline = customDeadline
+      || new Date(Date.now() + timeBudget * 60 * 1000).toISOString();
+    return {
+      title,
+      category,
+      importance,
+      timeBudget,
+      deadline: finalDeadline,
+      mode: decisionType,
+      options: options.filter(opt => opt.title.trim() !== '' || decisionType === 'do_or_not'),
+    };
+  };
 
   // Handle option text change (choose_best only)
   const handleOptionChange = (optionId: string, value: string) => {
