@@ -69,6 +69,8 @@ function App() {
       // no_clear_options → 바로 전체 작성 화면으로 이동
       createDecisionWithMode(type);
     } else {
+      // 사용자 탭 이벤트 체인 안에서 즉시 숨겨진 input 포커스 → iOS 키보드 선점
+      keyboardProxyRef.current?.focus();
       // do_or_not / choose_best → 간이 작성 화면 표시
       setQuickEditorType(type as 'do_or_not' | 'choose_best');
     }
