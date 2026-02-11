@@ -241,7 +241,13 @@ function createKoreanSamples(now: Date): SampleData {
       framing: {
         whatHappened: '당산역 근처를 후보로 고려 중인데, 핵심 통근 수단인 1999번 버스의 이용 가능성을 확인해야 한다.',
         goal: '출근 시간대에 1999번 버스를 안정적으로 탈 수 있는지 판단.',
+        keyFactors: '배차 간격, 출근 시간대 혼잡도, 정류장까지 도보 거리',
       },
+      keyFactors: [
+        { id: 'example-3-sub-1-sub-1-kf-1', criteria: '배차 간격', importance: 5 },
+        { id: 'example-3-sub-1-sub-1-kf-2', criteria: '출근 시간대 혼잡도', importance: 4 },
+        { id: 'example-3-sub-1-sub-1-kf-3', criteria: '정류장까지 도보 거리', importance: 3 },
+      ],
       order: 0,
       parentId: 'example-3-sub-1',
       mode: 'do_or_not',
