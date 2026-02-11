@@ -186,17 +186,11 @@ function createKoreanSamples(now: Date): SampleData {
       createdAt: now.toISOString(),
       resolved: false,
       options: [
-        {
-          id: 'example-3-sub-1-opt-1',
-          title: '',
-          isSelected: false,
-        },
+        { id: 'example-3-sub-1-opt-1', title: '사당역', isSelected: false },
+        { id: 'example-3-sub-1-opt-2', title: '서울대입구역', isSelected: false },
+        { id: 'example-3-sub-1-opt-3', title: '당산역', isSelected: false },
       ],
-      framing: {
-        whatHappened: '이사할 지역을 먼저 좁혀야 구체적인 매물 검색이 가능하다.',
-        goal: '출퇴근, 생활 인프라, 예산을 고려한 후보 지역 목록 만들기.',
-        keyFactors: '대중교통 접근성, 주변 편의시설, 평균 월세 수준',
-      },
+      framing: {},
       keyFactors: [
         { id: 'example-3-sub-1-kf-1', criteria: '교통 편의성', importance: 5 },
         { id: 'example-3-sub-1-kf-2', criteria: '생활 인프라', importance: 3 },
