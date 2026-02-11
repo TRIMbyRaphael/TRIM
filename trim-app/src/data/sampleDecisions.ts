@@ -123,7 +123,10 @@ function createKoreanSamples(now: Date): SampleData {
           isSelected: false,
         },
       ],
-      framing: {},
+      framing: {
+        whatHappened: '사소함–10분 / 낮음–1시간 / 보통–24시간 / 높음–3일 / 매우 중요–7일\n의 결정 시간 예산을 설정해두었다.',
+        goal: '중요도에 따라 자동으로 제시된 결정 시간이\n대부분의 상황에서 납득 가능하게 느껴지도록 하는 것.',
+      },
       keyFactors: [
         { id: 'example-2-sub-1-kf-1', criteria: '각 레벨별 체감 시간', importance: 5 },
         { id: 'example-2-sub-1-kf-2', criteria: '실제 사용 패턴과의 일치도', importance: 4 },
