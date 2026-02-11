@@ -451,7 +451,13 @@ function createEnglishSamples(now: Date): SampleData {
       framing: {
         whatHappened: 'Need to narrow down candidate areas before searching for specific listings.',
         goal: 'Create a shortlist of areas considering commute, amenities, and budget.',
+        keyFactors: 'Public transit access, Nearby amenities, Average rent level',
       },
+      keyFactors: [
+        { id: 'example-3-sub-1-kf-1', criteria: 'Public transit access', importance: 5 },
+        { id: 'example-3-sub-1-kf-2', criteria: 'Nearby amenities', importance: 3 },
+        { id: 'example-3-sub-1-kf-3', criteria: 'Average rent level', importance: 4 },
+      ],
       order: 0,
       parentId: 'example-3',
       mode: 'no_clear_options',
