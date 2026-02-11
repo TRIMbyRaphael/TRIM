@@ -220,7 +220,7 @@ export default function QuickDecisionSheet({
 
       {/* Bottom Sheet */}
       <div className="fixed bottom-0 left-0 right-0 z-50 animate-slideUp">
-        <div className="bg-cardBg rounded-t-2xl shadow-lg border-t border-stretchLimo/10">
+        <div className="quick-sheet-content bg-cardBg rounded-t-2xl shadow-lg border-t border-stretchLimo/10">
           {/* Handle bar */}
           <div className="flex justify-center pt-3 pb-1">
             <div className="w-10 h-1 bg-stretchLimo200 rounded-full" />
