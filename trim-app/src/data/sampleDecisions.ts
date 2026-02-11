@@ -98,7 +98,12 @@ function createKoreanSamples(now: Date): SampleData {
       framing: {
         whatHappened: 'TRIM 앱의 핵심 전제 — 결정의 중요도에 따라 고민에 쓸 시간을 제한한다 — 를 검증하고 싶다.',
         goal: '사용자가 사소한 결정에 과도한 시간을 쓰지 않고, 중요한 결정에 충분한 시간을 투자하도록 유도하는 것.',
+        keyFactors: '결정 피로 감소 효과, 사용자 체감 적절성',
       },
+      keyFactors: [
+        { id: 'example-2-kf-1', criteria: '결정 피로 감소 효과', importance: 5 },
+        { id: 'example-2-kf-2', criteria: '사용자 체감 적절성', importance: 4 },
+      ],
       order: 1,
       mode: 'do_or_not',
       isExample: true,
