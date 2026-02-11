@@ -198,7 +198,7 @@ function createKoreanSamples(now: Date): SampleData {
       ],
       order: 0,
       parentId: 'example-3',
-      mode: 'no_clear_options',
+      mode: 'choose_best',
       isExample: true,
     },
 
