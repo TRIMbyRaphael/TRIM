@@ -773,7 +773,14 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     // 3. 대상 모드의 옵션을 ref에서 로드
     const targetOptions = optionsByModeRef.current[mode].map(opt => ({ ...opt }));
 
-    setLocalDecision({ ...localDecision, mode, options: targetOptions });
+    // 4. choose_best / no_clear_options 전환 시 keyFactors가 비어있으면 기본 1행 추가
+    const needsKeyFactors = mode === 'choose_best' || mode === 'no_clear_options';
+    const hasNoKeyFactors = !localDecision.keyFactors || localDecision.keyFactors.length === 0;
+    const keyFactors = needsKeyFactors && hasNoKeyFactors
+      ? [{ id: Date.now().toString(), criteria: '', importance: 0 }]
+      : (localDecision.keyFactors || []);
+
+    setLocalDecision({ ...localDecision, mode, options: targetOptions, keyFactors });
   };
 
   const handleFramingChange = (field: 'whatHappened' | 'goal' | 'constraints' | 'dealbreakers' | 'keyFactors', value: string) => {
