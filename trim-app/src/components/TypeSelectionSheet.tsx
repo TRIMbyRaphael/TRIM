@@ -117,8 +117,8 @@ export default function TypeSelectionSheet({ isOpen, onClose, onTypeSelect }: Ty
             </div>
           </div>
 
-          {/* Safe area padding for iOS */}
-          <div className="pb-[env(safe-area-inset-bottom)]" />
+          {/* Safe area padding for iOS (모바일에서 축소) */}
+          <div className="pb-[max(0px,calc(env(safe-area-inset-bottom)-12px))] md:pb-[env(safe-area-inset-bottom)]" />
         </div>
       </div>
     </>
