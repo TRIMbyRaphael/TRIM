@@ -1529,13 +1529,37 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                         )}
 
                         {/* Factor rows */}
-                        {(localDecision.keyFactors || []).map((factor) => (
+                        {(localDecision.keyFactors || []).map((factor, factorIndex) => (
                           <div key={factor.id} className="flex items-center gap-2 group/factor">
                             {/* Criteria text input */}
                             <input
+                              ref={(el) => {
+                                if (el) {
+                                  factorInputRefs.current[factor.id] = el;
+                                  if (factor.id === pendingFocusFactorIdRef.current) {
+                                    el.focus();
+                                    pendingFocusFactorIdRef.current = null;
+                                  }
+                                } else {
+                                  delete factorInputRefs.current[factor.id];
+                                }
+                              }}
                               type="text"
                               value={factor.criteria}
                               onChange={(e) => handleKeyFactorCriteriaChange(factor.id, e.target.value)}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter' && !localDecision.resolved) {
+                                  e.preventDefault();
+                                  const factors = localDecision.keyFactors || [];
+                                  if (factorIndex < factors.length - 1) {
+                                    const nextFactor = factors[factorIndex + 1];
+                                    factorInputRefs.current[nextFactor.id]?.focus();
+                                  } else {
+                                    const newId = handleAddKeyFactor();
+                                    pendingFocusFactorIdRef.current = newId;
+                                  }
+                                }
+                              }}
                               placeholder={t.factorCriteriaPlaceholder}
                               disabled={localDecision.resolved}
                               className={`flex-1 min-w-0 max-w-[240px] px-3 py-1.5 text-sm text-white placeholder:text-xs placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 ${
