@@ -83,7 +83,8 @@ function App() {
         dashboard.scrollTop = 0;
       }
       // 사용자 탭 이벤트 체인 안에서 즉시 숨겨진 input 포커스 → iOS 키보드 선점
-      keyboardProxyRef.current?.focus();
+      // preventScroll: iOS가 포커스 시 뷰포트를 스크롤하여 배경을 밀어올리는 것을 방지
+      keyboardProxyRef.current?.focus({ preventScroll: true });
       // do_or_not / choose_best → 간이 작성 화면 표시
       setQuickEditorType(type as 'do_or_not' | 'choose_best');
     }
