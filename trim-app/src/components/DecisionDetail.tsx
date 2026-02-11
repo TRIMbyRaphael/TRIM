@@ -1163,45 +1163,58 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               }`}
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
-                {/* Brain silhouette */}
+                {/* Cerebrum (main brain mass - side view with bumpy gyri) */}
                 <path
-                  d="M12 2.5C9.5 2.5 7 4 5.5 6.5C4 9 3.5 11.5 4 14C4.5 16.5 6 18.5 8 19.5C9.5 20.5 10.5 21 12 21.5C13.5 21 14.5 20.5 16 19.5C18 18.5 19.5 16.5 20 14C20.5 11.5 20 9 18.5 6.5C17 4 14.5 2.5 12 2.5Z"
+                  d="M3.5 15C2.5 13.5 2 11.5 2 10C2 8 2.5 6.5 4 5Q6 2 8.5 3.5Q10 1 12 3Q14 1 16 3.5Q18.5 1.5 19.5 5C20.5 7 20.5 9 20 10.5C19.5 12 18.5 13 17.5 13.5C15 14.5 10 15 3.5 15Z"
                   fill={showDecisionMemo ? '#1A1A1A' : 'none'}
                   stroke={showDecisionMemo ? '#1A1A1A' : '#9E9E9E'}
                   strokeWidth="1.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
-                {/* Center fissure */}
-                <path d="M12 4.5V19.5"
-                  stroke={showDecisionMemo ? '#F0EEE9' : '#9E9E9E'}
-                  strokeWidth="1.2" strokeLinecap="round"
+                {/* Cerebellum */}
+                <path
+                  d="M18 13.5C19.5 14 21 15.5 21 17C21 18.5 19.5 20 17.5 20C15.5 20 14 19.5 13 18.5C12.5 17 14 15 18 13.5Z"
+                  fill={showDecisionMemo ? '#1A1A1A' : 'none'}
+                  stroke={showDecisionMemo ? '#1A1A1A' : '#9E9E9E'}
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
-                {/* Left hemisphere folds */}
-                <path d="M11.5 7.5C10 7 8 7.5 6 9.5"
-                  stroke={showDecisionMemo ? '#F0EEE9' : '#9E9E9E'}
-                  strokeWidth="1.2" strokeLinecap="round" fill="none"
+                {/* Brain stem */}
+                <path
+                  d="M13 18.5C12.5 19.5 12 20.5 11.5 21.5"
+                  stroke={showDecisionMemo ? '#1A1A1A' : '#9E9E9E'}
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
                 />
-                <path d="M11.5 12C10 11.5 7.5 12 5.5 14"
+                {/* Cerebrum-cerebellum gap (only visible when filled) */}
+                {showDecisionMemo && (
+                  <path
+                    d="M17.5 13.5C16 15 14.5 16.5 13 18.5"
+                    stroke="#F0EEE9"
+                    strokeWidth="1.2"
+                    strokeLinecap="round"
+                    fill="none"
+                  />
+                )}
+                {/* Cerebrum sulci (fold lines) */}
+                <path d="M6 5.5C8.5 4.5 11 5 14 7"
                   stroke={showDecisionMemo ? '#F0EEE9' : '#9E9E9E'}
-                  strokeWidth="1.2" strokeLinecap="round" fill="none"
+                  strokeWidth="1" strokeLinecap="round" fill="none"
                 />
-                <path d="M11.5 16C10 15.8 8.5 16.2 7 17.5"
+                <path d="M4 9.5C7 8 11.5 9 17 11.5"
                   stroke={showDecisionMemo ? '#F0EEE9' : '#9E9E9E'}
-                  strokeWidth="1.2" strokeLinecap="round" fill="none"
+                  strokeWidth="1" strokeLinecap="round" fill="none"
                 />
-                {/* Right hemisphere folds */}
-                <path d="M12.5 7.5C14 7 16 7.5 18 9.5"
+                <path d="M5 12.5C8 11.5 12 12 16 13.5"
                   stroke={showDecisionMemo ? '#F0EEE9' : '#9E9E9E'}
-                  strokeWidth="1.2" strokeLinecap="round" fill="none"
+                  strokeWidth="1" strokeLinecap="round" fill="none"
                 />
-                <path d="M12.5 12C14 11.5 16.5 12 18.5 14"
+                {/* Cerebellum fold */}
+                <path d="M15 17C17 16.5 19 17 20 18"
                   stroke={showDecisionMemo ? '#F0EEE9' : '#9E9E9E'}
-                  strokeWidth="1.2" strokeLinecap="round" fill="none"
-                />
-                <path d="M12.5 16C14 15.8 15.5 16.2 17 17.5"
-                  stroke={showDecisionMemo ? '#F0EEE9' : '#9E9E9E'}
-                  strokeWidth="1.2" strokeLinecap="round" fill="none"
+                  strokeWidth="1" strokeLinecap="round" fill="none"
                 />
               </svg>
             </button>
