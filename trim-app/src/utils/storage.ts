@@ -88,7 +88,8 @@ export function injectSampleDecisions(existingDecisions: Decision[], lang: strin
         ex1?.framing?.goal?.includes('Pick one meaningful routine to add to my evenings') ||
         ex1?.keyFactors?.some(k => k.criteria === 'Time efficiency' || k.criteria === 'Health benefits') ||
         ex1?.options?.some(o => o.pros?.includes('Builds physical strength')) ||
-        ex1?.options?.some(o => o.cons === 'Hard to build the initial habit');
+        ex1?.options?.some(o => o.cons === 'Hard to build the initial habit') ||
+        ex1?.options?.some(o => o.pros === 'Posture correction, improved flexibility');
       if (hasOldTemplate) {
         const newEx1 = samples.find(s => s.id === 'example-1');
         if (newEx1) base = base.map(d => (d.id === 'example-1' ? newEx1 : d));
