@@ -66,7 +66,6 @@ export default function QuickDecisionSheet({
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
-      // Dashboard 래퍼의 스크롤도 차단
       const root = document.getElementById('root');
       if (root?.firstElementChild) {
         (root.firstElementChild as HTMLElement).style.overflow = 'hidden';
@@ -78,6 +77,30 @@ export default function QuickDecisionSheet({
         }
       };
     }
+  }, [isOpen]);
+
+  // iOS 모바일 키보드 대응: visualViewport로 키보드 높이 감지
+  useEffect(() => {
+    if (!isOpen) return;
+    const vv = window.visualViewport;
+    if (!vv) return;
+
+    const handleResize = () => {
+      // 키보드가 올라오면 visualViewport.height < window.innerHeight
+      const offset = window.innerHeight - vv.height;
+      setKeyboardOffset(offset > 0 ? offset : 0);
+    };
+
+    vv.addEventListener('resize', handleResize);
+    vv.addEventListener('scroll', handleResize);
+    // 초기 체크
+    handleResize();
+
+    return () => {
+      vv.removeEventListener('resize', handleResize);
+      vv.removeEventListener('scroll', handleResize);
+      setKeyboardOffset(0);
+    };
   }, [isOpen]);
 
   // Auto-focus title on open — 애니메이션(300ms) 완료 후 포커스
