@@ -69,6 +69,19 @@ function App() {
       // no_clear_options → 바로 전체 작성 화면으로 이동
       createDecisionWithMode(type);
     } else {
+      // 키보드가 열리기 전에 배경(Dashboard) 위치 고정 — 뷰포트 변화 시 배경 이동 방지
+      const dashboard = document.getElementById('dashboard-scroll');
+      if (dashboard) {
+        const scrollTop = dashboard.scrollTop;
+        dashboard.dataset.lockedScrollTop = String(scrollTop);
+        dashboard.style.position = 'fixed';
+        dashboard.style.top = `-${scrollTop}px`;
+        dashboard.style.left = '0';
+        dashboard.style.right = '0';
+        dashboard.style.height = 'auto';
+        dashboard.style.overflow = 'hidden';
+        dashboard.scrollTop = 0;
+      }
       // 사용자 탭 이벤트 체인 안에서 즉시 숨겨진 input 포커스 → iOS 키보드 선점
       keyboardProxyRef.current?.focus();
       // do_or_not / choose_best → 간이 작성 화면 표시
