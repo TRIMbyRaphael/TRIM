@@ -235,7 +235,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
   };
 
   return (
-    <div className="h-full bg-cloudDancer overflow-y-auto">
+    <div id="dashboard-scroll" className="h-full bg-cloudDancer overflow-y-auto">
       {/* Header */}
       <header className="py-6 px-4 flex justify-center">
         <img 
