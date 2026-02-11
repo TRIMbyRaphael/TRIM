@@ -292,13 +292,6 @@ function createEnglishSamples(now: Date): SampleData {
           pros: 'Expands knowledge, no location constraint',
           cons: 'Hard to focus when tired',
         },
-        {
-          id: 'example-1-opt-4',
-          title: 'English Study',
-          isSelected: false,
-          pros: 'Directly benefits career, self-improvement',
-          cons: 'Hard to stay consistent alone',
-        },
       ],
       framing: {
         whatHappened: 'After-work hours feel like they pass by meaninglessly, and I feel the need for a change.',
