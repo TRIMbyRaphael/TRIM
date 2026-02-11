@@ -433,6 +433,8 @@ export default function QuickDecisionSheet({
 
           {/* Safe area는 위 컨테이너 pb에 통합됨 */}
         </div>
+        {/* Keyboard filler — 키보드 영역을 시트 배경색으로 채워서 bottom sheet 느낌 유지 */}
+        <div ref={fillerRef} className="bg-cardBg" />
       </div>
 
       {/* Time Budget Modal */}
