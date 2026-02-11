@@ -200,8 +200,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     
     // Use setTimeout to ensure DOM is updated
     setTimeout(() => {
-      const framingFields: Array<'whatHappened' | 'goal' | 'constraints' | 'dealbreakers' | 'keyFactors'> = 
-        ['whatHappened', 'goal', 'constraints', 'dealbreakers', 'keyFactors'];
+      const framingFields: Array<'whatHappened' | 'goal' | 'constraints' | 'dealbreakers'> = 
+        ['whatHappened', 'goal', 'constraints', 'dealbreakers'];
       
       framingFields.forEach((field) => {
         const textarea = framingRefs.current[field];
