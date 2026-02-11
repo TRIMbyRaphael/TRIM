@@ -1565,7 +1565,6 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                             onClick={handleAddKeyFactor}
                             className="flex items-center gap-1 text-xs text-white/50 hover:text-white transition-colors mt-1"
                           >
-                            <Plus className="w-3 h-3" />
                             <span>{t.addFactor}</span>
                           </button>
                         )}
