@@ -152,11 +152,10 @@ function createKoreanSamples(now: Date): SampleData {
       createdAt: now.toISOString(),
       resolved: false,
       options: [
-        {
-          id: 'example-3-opt-1',
-          title: '',
-          isSelected: false,
-        },
+        { id: 'example-3-opt-1', title: '사당 A집', isSelected: false },
+        { id: 'example-3-opt-2', title: '서울대입구역 B집', isSelected: false },
+        { id: 'example-3-opt-3', title: '서울대입구역 C집', isSelected: false },
+        { id: 'example-3-opt-4', title: '당사역 D집', isSelected: false },
       ],
       framing: {
         whatHappened: '- 이직해서 출근 시간이 너무 길어짐',
