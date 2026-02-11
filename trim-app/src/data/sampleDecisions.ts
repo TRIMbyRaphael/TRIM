@@ -276,7 +276,7 @@ function createEnglishSamples(now: Date): SampleData {
           title: 'Gym',
           isSelected: false,
           pros: '- My stamina is very low, and I have almost no muscle.\n- If I don\'t start now, I feel like I\'ll regret it later.',
-          cons: 'Hard to build the initial habit',
+          cons: '- I don\'t enjoy it enough to keep it up.\n- I\'ve tried before, and I usually end up quitting.',
         },
         {
           id: 'example-1-opt-2',
