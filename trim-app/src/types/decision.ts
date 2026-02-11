@@ -69,6 +69,7 @@ export interface Decision {
   parentId?: string; // For sub-decisions (chunking)
   mode?: DecisionMode; // Decision mode: choose_best | do_or_not | no_clear_options
   comparisonMatrix?: ComparisonCriteria[];
+  isExample?: boolean; // true for sample decisions, removed on user edit
 }
 
 export const IMPORTANCE_LEVELS = {
