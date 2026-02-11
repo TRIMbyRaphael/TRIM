@@ -263,12 +263,8 @@ function App() {
   };
 
   const handleUpdateDecision = (updatedDecision: Decision) => {
-    // Remove example flag when user edits any example decision
-    const finalDecision = updatedDecision.isExample
-      ? { ...updatedDecision, isExample: false }
-      : updatedDecision;
     setDecisions(decisions.map((d) => 
-      d.id === finalDecision.id ? finalDecision : d
+      d.id === updatedDecision.id ? updatedDecision : d
     ));
   };
 
