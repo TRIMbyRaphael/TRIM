@@ -161,21 +161,12 @@ export default function QuickDecisionSheet({
     }
   }, [isOpen]);
 
-  // TimeBudgetModal 열림/닫힘 시 키보드 제어
+  // TimeBudgetModal이 열릴 때 키보드 비활성화
   useEffect(() => {
     if (showTimeBudgetModal) {
-      wasTimeBudgetModalOpenRef.current = true;
-      // TimeBudgetModal이 열릴 때 키보드 비활성화
       (document.activeElement as HTMLElement)?.blur();
-    } else if (wasTimeBudgetModalOpenRef.current && isOpen) {
-      wasTimeBudgetModalOpenRef.current = false;
-      // TimeBudgetModal이 닫힐 때 키보드 복원
-      const timer = setTimeout(() => {
-        titleRef.current?.focus({ preventScroll: true });
-      }, 100);
-      return () => clearTimeout(timer);
     }
-  }, [showTimeBudgetModal, isOpen]);
+  }, [showTimeBudgetModal]);
 
   // Close dropdowns on outside click
   useEffect(() => {
