@@ -1080,7 +1080,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     const el = swipeElementRefs.current[optionId];
     if (el) {
       el.style.transition = 'transform 0.25s ease-out';
-      el.style.transform = `translateX(-${SWIPE_DELETE_WIDTH}px)`;
+      el.style.transform = `translateX(-${SWIPE_ACTION_WIDTH}px)`;
     }
     setSwipedOptionId(optionId);
   };
@@ -1095,7 +1095,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
       resetSwipe(swipedOptionId);
     }
     swipeStartRef.current = { x: touch.clientX, y: touch.clientY, optionId, decided: false };
-    swipeCurrentXRef.current = swipedOptionId === optionId ? -SWIPE_DELETE_WIDTH : 0;
+    swipeCurrentXRef.current = swipedOptionId === optionId ? -SWIPE_ACTION_WIDTH : 0;
     const el = swipeElementRefs.current[optionId];
     if (el) {
       el.style.transition = 'none'; // 드래그 중 애니메이션 제거
@@ -1124,8 +1124,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
     // 수평 스와이프 처리 - 스크롤 방지
     e.stopPropagation();
-    const baseOffset = swipedOptionId === optionId ? -SWIPE_DELETE_WIDTH : 0;
-    const newOffset = Math.max(-SWIPE_DELETE_WIDTH, Math.min(0, baseOffset + deltaX));
+    const baseOffset = swipedOptionId === optionId ? -SWIPE_ACTION_WIDTH : 0;
+    const newOffset = Math.max(-SWIPE_ACTION_WIDTH, Math.min(0, baseOffset + deltaX));
 
     const el = swipeElementRefs.current[optionId];
     if (el) {
@@ -1733,7 +1733,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               {!localDecision.resolved && (
                 <div
                   className="absolute right-0 top-0 bottom-0 flex items-center justify-center bg-scarletSmile"
-                  style={{ width: `${SWIPE_DELETE_WIDTH}px` }}
+                  style={{ width: `${SWIPE_ACTION_WIDTH}px` }}
                   onClick={() => {
                     handleDeleteOption(option.id);
                     setSwipedOptionId(null);
@@ -1748,7 +1748,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 ref={(el) => { swipeElementRefs.current[option.id] = el; }}
                 className="relative bg-cloudDancer"
                 style={{
-                  transform: swipedOptionId === option.id ? `translateX(-${SWIPE_DELETE_WIDTH}px)` : 'translateX(0)',
+                  transform: swipedOptionId === option.id ? `translateX(-${SWIPE_ACTION_WIDTH}px)` : 'translateX(0)',
                   transition: 'transform 0.25s ease-out',
                 }}
               >
