@@ -22,6 +22,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { Decision } from '../types/decision';
 import DecisionCard from './DecisionCard';
 import CategoryManagementModal from './CategoryManagementModal';
+import { SAMPLE_DECISION_IDS } from '../data/sampleDecisions';
 
 interface DashboardProps {
   decisions: Decision[];
