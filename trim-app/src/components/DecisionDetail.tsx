@@ -190,6 +190,20 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // 스와이프 열림 상태에서 다른 곳 터치 시 닫기
+  useEffect(() => {
+    if (!swipedOptionId) return;
+    const handleTouchOutside = () => {
+      // swipedOptionId가 있으면 닫기
+      resetSwipe(swipedOptionId);
+    };
+    // capture 단계에서 감지하여 빠르게 닫기
+    document.addEventListener('touchstart', handleTouchOutside, { capture: false });
+    return () => {
+      document.removeEventListener('touchstart', handleTouchOutside, { capture: false });
+    };
+  }, [swipedOptionId]);
+
   // Persist framing collapse state to localStorage
   useEffect(() => {
     try {
