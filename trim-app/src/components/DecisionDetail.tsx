@@ -512,6 +512,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
       description: linkDescription.trim() || undefined,
       image: linkImage.trim() || undefined,
       siteName: linkSiteName.trim() || domain,  // siteName이 없으면 domain 사용
+      favicon: linkFavicon.trim() || undefined,
     };
 
     if (linkModalType === 'decision') {
