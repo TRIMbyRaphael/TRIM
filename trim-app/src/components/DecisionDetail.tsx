@@ -1737,7 +1737,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 >
                   {/* 제외 버튼 (좌측 - 가위 아이콘) */}
                   <button
-                    className="flex-1 flex items-center justify-center bg-stretchLimo500 active:brightness-90 transition-colors"
+                    className="flex-1 flex items-center justify-center bg-micron active:brightness-90 transition-colors"
                     onClick={() => {
                       handleExcludeOption(option.id);
                       resetSwipe(option.id);
