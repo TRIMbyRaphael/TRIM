@@ -146,8 +146,9 @@ function createKoreanSamples(now: Date): SampleData {
       category: '개인',
       importance: 'CRITICAL',
       timeBudget: IMPORTANCE_LEVELS.CRITICAL.minutes,
-      deadline: new Date(now.getTime() + IMPORTANCE_LEVELS.CRITICAL.minutes * 60 * 1000).toISOString(),
-      createdAt: now.toISOString(),
+      // overdue by 6d 23h (10020 min)
+      deadline: new Date(now.getTime() - 10020 * 60 * 1000).toISOString(),
+      createdAt: new Date(now.getTime() - (IMPORTANCE_LEVELS.CRITICAL.minutes + 10020) * 60 * 1000).toISOString(),
       resolved: false,
       options: [
         { id: 'example-3-opt-1', title: '사당 A집', isSelected: false },
