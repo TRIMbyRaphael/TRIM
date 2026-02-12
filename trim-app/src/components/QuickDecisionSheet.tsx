@@ -40,7 +40,6 @@ export default function QuickDecisionSheet({
   const optionRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
   const categoryDropdownRef = useRef<HTMLDivElement>(null);
   const importanceDropdownRef = useRef<HTMLDivElement>(null);
-  const wasTimeBudgetModalOpenRef = useRef(false);
   // iOS 키보드 유지용 숨겨진 proxy input — TimeBudgetModal 닫힐 때 사용
   const keyboardProxyRef = useRef<HTMLInputElement>(null);
 
