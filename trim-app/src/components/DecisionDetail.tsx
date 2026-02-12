@@ -1590,28 +1590,29 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               }}
             />
           )}
+          <DndContext
+            sensors={dndSensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleOptionDragEnd}
+          >
+            <SortableContext
+              items={localDecision.options.map(opt => opt.id)}
+              strategy={verticalListSortingStrategy}
+            >
           {localDecision.options.map((option, index) => {
-            const isDragging = draggedOptionId === option.id;
-            const isDragOver = dragOverOptionId === option.id;
             const showDeletePopup = longPressOptionId === option.id;
             return (
+            <SortableItemWrapper key={option.id} id={option.id} disabled={!!localDecision.resolved}>
+              {({ setNodeRef, style, isDragging, handleProps }) => (
             <div
-              key={option.id}
+              ref={setNodeRef}
+              style={{ ...style, zIndex: showDeletePopup ? 50 : 'auto' }}
               className="relative"
-              style={{ zIndex: showDeletePopup ? 50 : 'auto' }}
             >
               <div
-                draggable={!localDecision.resolved}
-                onDragStart={(e) => handleOptionDragStart(e, option.id)}
-                onDragEnd={handleOptionDragEnd}
-                onDragOver={(e) => handleOptionDragOver(e, option.id)}
-                onDragLeave={handleOptionDragLeave}
-                onDrop={(e) => handleOptionDrop(e, option.id)}
                 className={`rounded-lg py-4 pl-4 pr-2 group transition-colors shadow-sm ${
                   isDragging
                     ? 'opacity-50'
-                    : isDragOver
-                    ? 'bg-stretchLimo bg-opacity-5 border border-stretchLimo border-dashed'
                     : option.isSelected 
                     ? 'bg-stretchLimo bg-opacity-10 border border-stretchLimo' 
                     : 'bg-cardBg shadow border border-stretchLimo/10'
@@ -1619,12 +1620,10 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               >
               {/* Option Header */}
               <div className="flex items-center gap-1 relative">
-                {/* Drag Handle - absolute positioned */}
+                {/* Drag Handle - @dnd-kit listeners 바인딩 */}
                 {!localDecision.resolved && (
                   <div
-                    draggable={true}
-                    onDragStart={(e) => handleOptionDragStart(e, option.id)}
-                    onDragEnd={handleOptionDragEnd}
+                    {...handleProps}
                     className="absolute -left-3 top-1/2 -translate-y-1/2 cursor-grab active:cursor-grabbing text-stretchLimo500 hover:text-stretchLimo transition-colors"
                   >
                     <GripVertical className="w-4 h-4" />
