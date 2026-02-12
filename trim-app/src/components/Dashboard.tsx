@@ -105,7 +105,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
 
   const [expandedSections, setExpandedSections] = useState({
     overdue: false,
-    sampleDecisions: true,
+    sampleDecisions: false,
     active: true,
     resolved: false,
   });
