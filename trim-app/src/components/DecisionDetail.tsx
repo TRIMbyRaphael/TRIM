@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { MoreVertical, Plus, ChevronDown, ChevronRight, Info, AlertCircle, Clock, Lightbulb, FileText, Trash2, Link as LinkIcon, Edit, Home, GripVertical } from 'lucide-react';
+import { MoreVertical, Plus, ChevronDown, ChevronRight, Info, AlertCircle, Clock, Lightbulb, FileText, Trash2, Link as LinkIcon, Edit, Home, GripVertical, ScissorsLineDashed } from 'lucide-react';
 import { Decision, Option, IMPORTANCE_LEVELS, ImportanceLevel, Link, DecisionMode, DECISION_MODES, DEFAULT_DECISION_MODE, KeyFactor } from '../types/decision';
 import { FaStar, FaRegStar } from 'react-icons/fa';
 import TimeBudgetModal from './TimeBudgetModal';
