@@ -131,6 +131,9 @@ export function loadCategories(): string[] {
   }
 }
 
+/** IDs that keep template overdue deadlines (not overwritten by firstView). */
+const OVERDUE_SAMPLE_IDS = new Set(['example-3', 'example-3-sub-1', 'example-3-sub-1-sub-1']);
+
 /** Apply first-dashboard-view deadline to sample decisions (timer starts when user first sees dashboard). */
 function applyFirstViewDeadlines(decisions: Decision[]): Decision[] {
   const firstView = getOrSetFirstDashboardView();
@@ -139,6 +142,7 @@ function applyFirstViewDeadlines(decisions: Decision[]): Decision[] {
 
   return decisions.map((d) => {
     if (!sampleIds.has(d.id)) return d;
+    if (OVERDUE_SAMPLE_IDS.has(d.id)) return d; // keep template overdue deadlines
     const deadline = new Date(baseTime + d.timeBudget * 60 * 1000).toISOString();
     return { ...d, deadline };
   });
