@@ -290,6 +290,15 @@ export default function QuickDecisionSheet({
 
   return (
     <>
+      {/* iOS 키보드 유지용 숨겨진 proxy input — TimeBudgetModal 닫힐 때 키보드 선점 */}
+      <input
+        ref={keyboardProxyRef}
+        type="text"
+        aria-hidden="true"
+        tabIndex={-1}
+        style={{ position: 'fixed', top: '-9999px', left: '-9999px', opacity: 0, width: 0, height: 0 }}
+      />
+
       {/* Backdrop */}
       <div
         className="fixed inset-0 bg-black bg-opacity-50 z-50 animate-fadeIn"
