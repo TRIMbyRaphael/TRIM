@@ -17,6 +17,7 @@ export interface Link {
   description?: string;
   image?: string;
   siteName?: string;
+  favicon?: string;
 }
 
 export interface Option {
