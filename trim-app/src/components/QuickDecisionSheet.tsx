@@ -379,6 +379,7 @@ export default function QuickDecisionSheet({
               {/* Category Selector (compact) */}
               <div className="relative" ref={categoryDropdownRef}>
                 <button
+                  onMouseDown={preventBlur}
                   onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
                   className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm text-stretchLimo hover:bg-stretchLimo50 transition-colors"
                 >
@@ -392,6 +393,7 @@ export default function QuickDecisionSheet({
                     {categories.map((cat) => (
                       <button
                         key={cat}
+                        onMouseDown={preventBlur}
                         onClick={() => handleCategoryChange(cat)}
                         className={`block w-full px-4 py-2 text-left text-sm hover:bg-stretchLimo100 text-stretchLimo whitespace-nowrap ${
                           category === cat ? 'bg-stretchLimo50' : ''
