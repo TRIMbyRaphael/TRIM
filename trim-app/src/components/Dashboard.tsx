@@ -190,21 +190,19 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
     return decision.category === selectedCategory;
   });
 
-  // Get overdue decisions (not resolved and deadline passed) - sorted by order
+  // Get overdue decisions: 그룹(부모+하위) 중 하나라도 overdue면 전체 overdue
   const overdueDecisions = filteredDecisions
     .filter((decision) => {
       if (decision.resolved) return false;
-      const isOverdue = new Date(decision.deadline) < new Date();
-      return isOverdue;
+      return isGroupOverdue(decision, decisions);
     })
     .sort((a, b) => (a.order || 0) - (b.order || 0));
 
-  // Get active decisions (not resolved and not overdue) - sorted by order
+  // Get active decisions: 그룹 전체가 active일 때만 (overdue 해결 후 복귀)
   const activeDecisions = filteredDecisions
     .filter((decision) => {
       if (decision.resolved) return false;
-      const isOverdue = new Date(decision.deadline) < new Date();
-      return !isOverdue;
+      return !isGroupOverdue(decision, decisions);
     })
     .sort((a, b) => (a.order || 0) - (b.order || 0));
 
