@@ -710,6 +710,15 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     });
   };
 
+  const handleExcludeOption = (optionId: string) => {
+    setLocalDecision({
+      ...localDecision,
+      options: localDecision.options.map((opt) =>
+        opt.id === optionId ? { ...opt, excluded: !opt.excluded, isSelected: false } : opt
+      ),
+    });
+  };
+
   const handleRandomPick = () => {
     if (localDecision.options.length < 2) return;
 
