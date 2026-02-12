@@ -313,6 +313,7 @@ export default function QuickDecisionSheet({
                 className="flex-1 text-base font-medium text-black bg-transparent border-none outline-none placeholder-stretchLimo300 resize-none overflow-hidden mt-1"
               />
               <button
+                onMouseDown={preventBlur}
                 onClick={handleExpand}
                 className="p-2 rounded-lg hover:bg-stretchLimo100 transition-colors flex-shrink-0"
                 title={t.quickExpandTooltip}
