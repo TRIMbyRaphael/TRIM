@@ -1995,13 +1995,23 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                             </label>
                             <textarea
                               value={option.pros || ''}
-                              onChange={(e) => handleOptionProsChange(option.id, e.target.value)}
+                              onChange={(e) => {
+                                handleOptionProsChange(option.id, e.target.value);
+                                e.target.style.height = 'auto';
+                                e.target.style.height = `${Math.max(e.target.scrollHeight, 40)}px`;
+                              }}
                               placeholder={t.prosPlaceholder}
                               disabled={localDecision.resolved}
-                              className={`w-full px-3 py-2 text-sm text-white placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none ${
+                              ref={(el) => {
+                                if (el) {
+                                  el.style.height = 'auto';
+                                  el.style.height = `${Math.max(el.scrollHeight, 40)}px`;
+                                }
+                              }}
+                              className={`w-full px-3 py-2 text-sm text-white placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none overflow-hidden ${
                                 localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                               }`}
-                              rows={2}
+                              rows={1}
                             />
                           </div>
                           {/* Cons */}
@@ -2012,13 +2022,23 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                             </label>
                             <textarea
                               value={option.cons || ''}
-                              onChange={(e) => handleOptionConsChange(option.id, e.target.value)}
+                              onChange={(e) => {
+                                handleOptionConsChange(option.id, e.target.value);
+                                e.target.style.height = 'auto';
+                                e.target.style.height = `${Math.max(e.target.scrollHeight, 40)}px`;
+                              }}
                               placeholder={t.consPlaceholder}
                               disabled={localDecision.resolved}
-                              className={`w-full px-3 py-2 text-sm text-white placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none ${
+                              ref={(el) => {
+                                if (el) {
+                                  el.style.height = 'auto';
+                                  el.style.height = `${Math.max(el.scrollHeight, 40)}px`;
+                                }
+                              }}
+                              className={`w-full px-3 py-2 text-sm text-white placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none overflow-hidden ${
                                 localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                               }`}
-                              rows={2}
+                              rows={1}
                             />
                           </div>
                           {/* Toggle back to free-form memo */}
@@ -2035,13 +2055,23 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                         <div>
                           <textarea
                             value={option.memo || ''}
-                            onChange={(e) => handleOptionMemoChange(option.id, e.target.value)}
+                            onChange={(e) => {
+                              handleOptionMemoChange(option.id, e.target.value);
+                              e.target.style.height = 'auto';
+                              e.target.style.height = `${Math.max(e.target.scrollHeight, 40)}px`;
+                            }}
                             placeholder={t.addNotesPlaceholder}
                             disabled={localDecision.resolved}
-                            className={`w-full px-3 py-2 text-sm text-white placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none ${
+                            ref={(el) => {
+                              if (el) {
+                                el.style.height = 'auto';
+                                el.style.height = `${Math.max(el.scrollHeight, 40)}px`;
+                              }
+                            }}
+                            className={`w-full px-3 py-2 text-sm text-white placeholder-white/50 bg-white/10 border border-white/20 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none overflow-hidden ${
                               localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                             }`}
-                            rows={2}
+                            rows={1}
                           />
                           {/* Pros / Cons 추가 button */}
                           {!localDecision.resolved && (
