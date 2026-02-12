@@ -102,7 +102,6 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [showCategoryManagement, setShowCategoryManagement] = useState(false);
   const sampleIdSet = new Set(SAMPLE_DECISION_IDS);
-  const lang = import.meta.env.VITE_LANG || 'en';
 
   const [expandedSections, setExpandedSections] = useState({
     overdue: false,
@@ -199,9 +198,6 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
   const sampleDecisionsArr = filteredDecisions
     .filter((decision) => !decision.resolved && sampleIdSet.has(decision.id))
     .sort((a, b) => (a.order || 0) - (b.order || 0));
-
-  const showSampleSection = sampleDecisionsArr.length > 0;
-  const sectionTitleMinWidth = lang === 'ko' ? '5rem' : '9.5rem';
 
   // Get overdue decisions: 그룹(부모+하위) 중 하나라도 overdue면 전체 overdue (샘플 제외)
   const overdueDecisions = filteredDecisions
@@ -321,8 +317,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
                 className="w-full flex items-center justify-between mb-3 hover:opacity-70 transition-opacity"
               >
                 <div className="flex items-center gap-2">
-                  {showSampleSection && <span className="w-6 shrink-0" />}
-                  <h2 className="text-lg font-bold text-scarletSmile" style={showSampleSection ? { minWidth: sectionTitleMinWidth } : undefined}>{t.overdue}</h2>
+                  <h2 className="text-lg font-bold text-scarletSmile">{t.overdue}</h2>
                   <span className="text-sm text-scarletSmile">{overdueDecisions.length}</span>
                   {expandedSections.overdue ? (
                     <ChevronDown className="w-5 h-5 text-scarletSmile" />
@@ -351,8 +346,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
               className="w-full flex items-center justify-between mb-3 hover:opacity-70 transition-opacity"
             >
               <div className="flex items-center gap-2">
-                <span className="w-6 shrink-0 text-center text-lg leading-none">💡</span>
-                <h2 className="text-lg font-semibold text-stretchLimo/80" style={{ minWidth: sectionTitleMinWidth }}>{t.sampleDecisionsSection}</h2>
+                <h2 className="text-lg font-semibold text-stretchLimo/80">{t.sampleDecisionsSection}</h2>
                 <span className="text-sm text-stretchLimo/50">{sampleDecisionsArr.length}</span>
                 {expandedSections.sampleDecisions ? (
                   <ChevronDown className="w-5 h-5 text-stretchLimo/50" />
@@ -384,8 +378,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
               className="w-full flex items-center justify-between mb-3 hover:opacity-70 transition-opacity"
             >
               <div className="flex items-center gap-2">
-                {showSampleSection && <span className="w-6 shrink-0" />}
-                <h2 className="text-lg font-bold text-black" style={showSampleSection ? { minWidth: sectionTitleMinWidth } : undefined}>{t.active}</h2>
+                <h2 className="text-lg font-bold text-black">{t.active}</h2>
                 <span className="text-sm text-stretchLimo">{activeDecisions.length}</span>
                 {expandedSections.active ? (
                   <ChevronDown className="w-5 h-5 text-stretchLimo" />
