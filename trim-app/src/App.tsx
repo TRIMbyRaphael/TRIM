@@ -302,8 +302,9 @@ function App() {
     setDecisions(decisions.map((d) => {
       if (d.id !== decisionId) return d;
       // trim 시 isExample 제거 → 재시작 시 템플릿으로 원상복구되지 않음
-      const { isExample, ...rest } = d;
-      return { ...rest, resolved: true, resolvedAt: new Date().toISOString() };
+      const rest = { ...d };
+      delete rest.isExample;
+      return Object.assign(rest, { resolved: true, resolvedAt: new Date().toISOString() });
     }));
   };
 
@@ -311,8 +312,9 @@ function App() {
     setDecisions(decisions.map((d) => {
       if (d.id !== decisionId) return d;
       // reopen 시에도 isExample 제거 → 유저가 조작한 것으로 간주
-      const { isExample, ...rest } = d;
-      return { ...rest, resolved: false, resolvedAt: undefined };
+      const rest = { ...d };
+      delete rest.isExample;
+      return Object.assign(rest, { resolved: false, resolvedAt: undefined });
     }));
   };
 
