@@ -7,4 +7,8 @@ export default defineConfig({
     host: '0.0.0.0', // 모바일 접근 허용
     port: 5173,
   },
+  preview: {
+    host: '0.0.0.0',
+    port: 4173,
+  },
 })
