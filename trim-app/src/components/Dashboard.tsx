@@ -337,6 +337,34 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
           </DndContext>
         )}
 
+        {/* 💡 SAMPLE DECISIONS Section - Only show if there are sample decisions */}
+        {sampleDecisionsArr.length > 0 && (
+          <section className="mb-6">
+            {/* Section Header */}
+            <button
+              onClick={() => toggleSection('sampleDecisions')}
+              className="w-full flex items-center justify-between mb-3 hover:opacity-70 transition-opacity"
+            >
+              <div className="flex items-center gap-2">
+                <h2 className="text-lg font-semibold text-stretchLimo/80">{t.sampleDecisionsSection}</h2>
+                <span className="text-sm text-stretchLimo/50">{sampleDecisionsArr.length}</span>
+                {expandedSections.sampleDecisions ? (
+                  <ChevronDown className="w-5 h-5 text-stretchLimo/50" />
+                ) : (
+                  <ChevronRight className="w-5 h-5 text-stretchLimo/50" />
+                )}
+              </div>
+            </button>
+
+            {/* Sample Decision Cards */}
+            {expandedSections.sampleDecisions && (
+              <div className="space-y-3">
+                {sampleDecisionsArr.map((decision) => renderDecisionWithChildren(decision, 0))}
+              </div>
+            )}
+          </section>
+        )}
+
         {/* ACTIVE Section */}
         <DndContext
           sensors={sensors}
