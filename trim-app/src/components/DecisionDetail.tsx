@@ -1894,69 +1894,71 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block bg-stretchLimo100 rounded-lg overflow-hidden hover:bg-stretchLimo200 transition-colors relative group/link"
+                      className="block rounded-lg overflow-hidden border border-stretchLimo/10 hover:bg-stretchLimo50 transition-colors relative group/link"
                     >
-                      <div className="flex items-start gap-3 p-3">
-                        {/* Thumbnail Image */}
+                      <div className="flex">
+                        {/* 좌측: 텍스트 정보 */}
+                        <div className="flex-1 min-w-0 p-3">
+                          <p className="text-sm font-semibold text-stretchLimo truncate mb-0.5">
+                            {link.title || link.url}
+                          </p>
+                          {link.description && (
+                            <p className="text-xs text-micron line-clamp-1 mb-2">
+                              {link.description}
+                            </p>
+                          )}
+                          <div className="flex items-center gap-1.5">
+                            {link.favicon ? (
+                              <img src={link.favicon} alt="" className="w-3.5 h-3.5 flex-shrink-0" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                            ) : (
+                              <LinkIcon className="w-3 h-3 text-micron flex-shrink-0" />
+                            )}
+                            <span className="text-xs text-micron truncate">
+                              {link.url}
+                            </span>
+                          </div>
+                        </div>
+                        {/* 우측: 썸네일 이미지 */}
                         {link.image && (
-                          <div className="w-16 h-16 flex-shrink-0 rounded overflow-hidden bg-stretchLimo300">
+                          <div className="w-[100px] flex-shrink-0 border-l border-stretchLimo/10">
                             <img 
                               src={link.image} 
                               alt="" 
                               className="w-full h-full object-cover"
                               onError={(e) => {
-                                e.currentTarget.style.display = 'none';
+                                (e.currentTarget.parentElement as HTMLElement).style.display = 'none';
                               }}
                             />
                           </div>
                         )}
-                        
-                        {/* Content */}
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            {!link.image && <LinkIcon className="w-3 h-3 text-micron flex-shrink-0" />}
-                            <span className="text-sm font-bold text-stretchLimo truncate">
-                              {link.title || link.url}
-                            </span>
-                          </div>
-                          <p className="text-xs text-micron mb-1">
-                            {link.siteName || getDomain(link.url)}
-                          </p>
-                          {link.description && (
-                            <p className="text-xs text-micron line-clamp-2">
-                              {link.description}
-                            </p>
-                          )}
-                        </div>
-                        
-                        {/* Edit & Delete Buttons */}
-                        {!localDecision.resolved && (
-                          <div className="flex gap-1 opacity-0 group-hover/link:opacity-100 transition-opacity">
-                            <button
-                              onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                openLinkModal('option', option.id, link);
-                              }}
-                              className="p-1 hover:bg-stretchLimo hover:bg-opacity-10 rounded flex-shrink-0"
-                              title={t.editPreview}
-                            >
-                              <Edit className="w-3 h-3 text-stretchLimo" />
-                            </button>
-                            <button
-                              onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                handleDeleteOptionLink(option.id, link.id);
-                              }}
-                              className="p-1 hover:bg-scarletSmile hover:bg-opacity-10 rounded flex-shrink-0"
-                              title={t.delete}
-                            >
-                              <Trash2 className="w-3 h-3 text-scarletSmile" />
-                            </button>
-                          </div>
-                        )}
                       </div>
+                      {/* Edit & Delete Buttons */}
+                      {!localDecision.resolved && (
+                        <div className="absolute top-1 right-1 flex gap-1 opacity-0 group-hover/link:opacity-100 transition-opacity">
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              openLinkModal('option', option.id, link);
+                            }}
+                            className="p-1 bg-cardBg rounded shadow-sm hover:bg-stretchLimo100 flex-shrink-0"
+                            title={t.editPreview}
+                          >
+                            <Edit className="w-3 h-3 text-stretchLimo" />
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              handleDeleteOptionLink(option.id, link.id);
+                            }}
+                            className="p-1 bg-cardBg rounded shadow-sm hover:bg-scarletSmile/10 flex-shrink-0"
+                            title={t.delete}
+                          >
+                            <Trash2 className="w-3 h-3 text-scarletSmile" />
+                          </button>
+                        </div>
+                      )}
                     </a>
                   ))}
                 </div>
