@@ -159,12 +159,15 @@ export default function QuickDecisionSheet({
     }
   }, [isOpen]);
 
-  // TimeBudgetModal이 닫힌 후 포커스 복원 → 키보드 유지
+  // TimeBudgetModal 열림/닫힘 시 키보드 제어
   useEffect(() => {
     if (showTimeBudgetModal) {
       wasTimeBudgetModalOpenRef.current = true;
+      // TimeBudgetModal이 열릴 때 키보드 비활성화
+      (document.activeElement as HTMLElement)?.blur();
     } else if (wasTimeBudgetModalOpenRef.current && isOpen) {
       wasTimeBudgetModalOpenRef.current = false;
+      // TimeBudgetModal이 닫힐 때 키보드 복원
       const timer = setTimeout(() => {
         titleRef.current?.focus({ preventScroll: true });
       }, 100);
