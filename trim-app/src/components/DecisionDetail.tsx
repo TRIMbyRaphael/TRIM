@@ -111,6 +111,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   const [linkDescription, setLinkDescription] = useState('');
   const [linkImage, setLinkImage] = useState('');
   const [linkSiteName, setLinkSiteName] = useState('');
+  const [linkFavicon, setLinkFavicon] = useState('');
   const [isLoadingPreview, setIsLoadingPreview] = useState(false);
   const [showRandomPickTooltip, setShowRandomPickTooltip] = useState(false);
   const [showComparisonMatrix, setShowComparisonMatrix] = useState(false);
