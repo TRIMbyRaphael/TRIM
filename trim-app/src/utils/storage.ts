@@ -208,9 +208,9 @@ export function injectSampleDecisions(existingDecisions: Decision[], lang: strin
     // Collect user decisions (non-sample + user-modified samples)
     const userDecisions = existingDecisions.filter(d => {
       if (!sampleIdSet.has(d.id)) return true; // user's own decision
-      if (d.isExample) return false; // will be replaced by template
+      if (d.isExample && !d.resolved) return false; // pristine & not trimmed → will be replaced by template
       if (deletedIds.has(d.id)) return false; // was deleted, skip
-      return true; // user-modified sample, keep
+      return true; // user-modified or trimmed sample, keep
     });
 
     // Shift user decision order below samples
