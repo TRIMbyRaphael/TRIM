@@ -141,6 +141,10 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   const swipeStartRef = useRef<{ x: number; y: number; optionId: string; decided: boolean } | null>(null);
   const swipeCurrentXRef = useRef<number>(0);
   const swipeElementRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  // 옵션 Long press 삭제 관련 state & refs (스와이프와 공존)
+  const [longPressOptionId, setLongPressOptionId] = useState<string | null>(null);
+  const longPressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const deletePopupShownAtRef = useRef<number | null>(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const chunkingInfoRef = useRef<HTMLDivElement>(null);
   const chunkingInfoBtnRef = useRef<HTMLButtonElement>(null);
