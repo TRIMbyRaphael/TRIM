@@ -239,11 +239,22 @@ export default function QuickDecisionSheet({
     setShowCategoryDropdown(false);
   };
 
+  // TimeBudgetModal 닫힌 후 키보드 복원
+  // 사용자 탭 이벤트 체인 안에서 proxy input 포커스 → iOS 키보드 선점
+  // 이후 실제 textarea로 포커스 이전
+  const restoreKeyboardAfterModal = () => {
+    keyboardProxyRef.current?.focus({ preventScroll: true });
+    setShowTimeBudgetModal(false);
+    setTimeout(() => {
+      titleRef.current?.focus({ preventScroll: true });
+    }, 100);
+  };
+
   // Time budget change (from modal) — 사용자가 직접 설정한 deadline 저장
   const handleTimeBudgetConfirm = (newDeadline: string, newTimeBudget: number) => {
     setCustomDeadline(newDeadline);
     setTimeBudget(newTimeBudget);
-    setShowTimeBudgetModal(false);
+    restoreKeyboardAfterModal();
   };
 
   // Handle complete
