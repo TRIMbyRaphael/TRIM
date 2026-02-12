@@ -1708,12 +1708,13 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               strategy={verticalListSortingStrategy}
             >
           {localDecision.options.map((option, index) => {
+            const showLongPressPopup = longPressOptionId === option.id;
             return (
             <SortableItemWrapper key={option.id} id={option.id} disabled={!!localDecision.resolved}>
               {({ setNodeRef, style, isDragging, handleProps }) => (
             <div
               ref={setNodeRef}
-              style={style}
+              style={{ ...style, zIndex: showLongPressPopup ? 50 : 'auto' }}
               className="relative overflow-hidden rounded-lg"
               onTouchStart={(e) => handleOptionTouchStart(e, option.id)}
               onTouchMove={(e) => handleOptionTouchMove(e, option.id)}
