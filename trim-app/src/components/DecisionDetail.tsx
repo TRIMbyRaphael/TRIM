@@ -190,17 +190,21 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // 스와이프 열림 상태에서 다른 곳 터치 시 닫기
+  // 스와이프 열림 상태에서 다른 곳 터치/클릭 시 닫기
   useEffect(() => {
     if (!swipedOptionId) return;
-    const handleTouchOutside = () => {
-      // swipedOptionId가 있으면 닫기
+    const handleOutside = (e: TouchEvent | MouseEvent) => {
+      const el = swipeElementRefs.current[swipedOptionId];
+      const target = e.target as Node;
+      // 스와이프된 옵션 내부(콘텐츠 + 삭제 버튼 영역) 터치면 무시
+      if (el && el.parentElement?.contains(target)) return;
       resetSwipe(swipedOptionId);
     };
-    // capture 단계에서 감지하여 빠르게 닫기
-    document.addEventListener('touchstart', handleTouchOutside, { capture: false });
+    document.addEventListener('touchstart', handleOutside, { passive: true });
+    document.addEventListener('mousedown', handleOutside);
     return () => {
-      document.removeEventListener('touchstart', handleTouchOutside, { capture: false });
+      document.removeEventListener('touchstart', handleOutside);
+      document.removeEventListener('mousedown', handleOutside);
     };
   }, [swipedOptionId]);
 
