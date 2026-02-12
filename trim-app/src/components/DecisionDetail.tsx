@@ -1771,6 +1771,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 className={`rounded-lg py-4 pl-4 pr-2 group transition-colors shadow-sm ${
                   isDragging
                     ? 'opacity-50'
+                    : option.excluded
+                    ? 'bg-cardBg shadow border border-stretchLimo/10 opacity-50'
                     : option.isSelected 
                     ? 'bg-stretchLimo bg-opacity-10 border border-stretchLimo' 
                     : 'bg-cardBg shadow border border-stretchLimo/10'
@@ -1789,10 +1791,10 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 )}
                 <button
                   onClick={() => handleOptionSelect(option.id)}
-                  disabled={localDecision.resolved}
+                  disabled={localDecision.resolved || option.excluded}
                   className={`ml-3 w-5 h-5 rounded-full border-2 border-stretchLimo flex-shrink-0 flex items-center justify-center ${
                     option.isSelected ? 'bg-stretchLimo' : ''
-                  } ${localDecision.resolved ? 'cursor-not-allowed opacity-50' : 'hover:bg-opacity-70'} transition-colors`}
+                  } ${(localDecision.resolved || option.excluded) ? 'cursor-not-allowed opacity-50' : 'hover:bg-opacity-70'} transition-colors`}
                 >
                   {option.isSelected && (
                     <div className="w-2 h-2 rounded-full bg-white" />
@@ -1816,11 +1818,12 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                         : t.option
                     }
                     rows={1}
-                    disabled={localDecision.resolved}
+                    disabled={localDecision.resolved || option.excluded}
                     className={`flex-1 text-base bg-transparent border-none outline-none placeholder-stretchLimo300 resize-none overflow-hidden min-w-0 ${
                       option.isSelected ? 'text-black font-medium' : 'text-black'
-                    } ${localDecision.resolved && !option.isSelected ? 'line-through opacity-50' : ''} ${
-                      localDecision.resolved ? 'cursor-not-allowed' : ''
+                    } ${option.excluded ? 'line-through opacity-60' : ''} ${
+                      localDecision.resolved && !option.isSelected ? 'line-through opacity-50' : ''
+                    } ${localDecision.resolved ? 'cursor-not-allowed' : ''
                     }`}
                   />
                 </div>
