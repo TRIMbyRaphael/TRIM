@@ -364,6 +364,7 @@ export default function QuickDecisionSheet({
 
                   {/* Add Option */}
                   <button
+                    onMouseDown={preventBlur}
                     onClick={handleAddOption}
                     className="w-full flex items-center gap-2 py-2 px-3 text-micron hover:text-stretchLimo transition-colors"
                   >
