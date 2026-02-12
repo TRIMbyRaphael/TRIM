@@ -101,8 +101,11 @@ function SortableDecisionCard({
 export default function Dashboard({ decisions, categories, onCreateDecision, onSelectDecision, onDeleteDecision, onReorderDecisions, onUpdateDecision, onTrimDecision, onReopenDecision, onUpdateCategories }: DashboardProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [showCategoryManagement, setShowCategoryManagement] = useState(false);
+  const sampleIdSet = new Set(SAMPLE_DECISION_IDS);
+
   const [expandedSections, setExpandedSections] = useState({
     overdue: false,
+    sampleDecisions: true,
     active: true,
     resolved: false,
   });
