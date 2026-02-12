@@ -209,8 +209,9 @@ function createKoreanSamples(now: Date): SampleData {
       category: '개인',
       importance: 'LOW',
       timeBudget: IMPORTANCE_LEVELS.LOW.minutes,
-      deadline: new Date(now.getTime() + IMPORTANCE_LEVELS.LOW.minutes * 60 * 1000).toISOString(),
-      createdAt: now.toISOString(),
+      // overdue by ~0m
+      deadline: new Date(now.getTime() - 1 * 60 * 1000).toISOString(),
+      createdAt: new Date(now.getTime() - (IMPORTANCE_LEVELS.LOW.minutes + 1) * 60 * 1000).toISOString(),
       resolved: false,
       options: [
         {
