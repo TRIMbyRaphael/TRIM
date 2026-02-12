@@ -345,8 +345,8 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
               onClick={() => toggleSection('sampleDecisions')}
               className="w-full flex items-center justify-between mb-3 hover:opacity-70 transition-opacity"
             >
+              <h2 className="text-lg font-semibold text-stretchLimo/80">{t.sampleDecisionsSection}</h2>
               <div className="flex items-center gap-2">
-                <h2 className="text-lg font-semibold text-stretchLimo/80">{t.sampleDecisionsSection}</h2>
                 {expandedSections.sampleDecisions ? (
                   <ChevronDown className="w-5 h-5 text-stretchLimo/50" />
                 ) : (
@@ -376,8 +376,8 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
               onClick={() => toggleSection('active')}
               className="w-full flex items-center justify-between mb-3 hover:opacity-70 transition-opacity"
             >
+              <h2 className="text-lg font-bold text-black">{t.active}</h2>
               <div className="flex items-center gap-2">
-                <h2 className="text-lg font-bold text-black">{t.active}</h2>
                 <span className="text-sm text-stretchLimo">{activeDecisions.length}</span>
                 {expandedSections.active ? (
                   <ChevronDown className="w-5 h-5 text-stretchLimo" />
@@ -460,8 +460,8 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
               onClick={() => toggleSection('resolved')}
               className="w-full flex items-center justify-between mb-3 hover:opacity-70 transition-opacity"
             >
+              <h2 className="text-lg font-bold text-black">{t.resolved}</h2>
               <div className="flex items-center gap-2">
-                <h2 className="text-lg font-bold text-black">{t.resolved}</h2>
                 <span className="text-sm text-stretchLimo">{resolvedDecisions.length}</span>
                 {expandedSections.resolved ? (
                   <ChevronDown className="w-5 h-5 text-stretchLimo" />
