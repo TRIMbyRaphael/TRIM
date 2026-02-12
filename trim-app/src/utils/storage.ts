@@ -136,9 +136,9 @@ export function loadCategories(): string[] {
  * Positive = time remaining, Negative = already overdue.
  */
 const CUSTOM_DEADLINE_OFFSETS: Record<string, number> = {
-  'example-3': 6 * 24 * 60 + 23 * 60,       // 6일 23시간 남음
-  'example-3-sub-1': 23 * 60,                 // 23시간 남음
-  'example-3-sub-1-sub-1': -1,                // 즉시 overdue (1분 초과)
+  'example-3': 7 * 24 * 60,                   // 7일 (168시간)
+  'example-3-sub-1': 24 * 60,                 // 24시간
+  'example-3-sub-1-sub-1': 60,                // 1시간
 };
 
 /** Apply first-dashboard-view deadline to sample decisions (timer starts when user first sees dashboard). */
