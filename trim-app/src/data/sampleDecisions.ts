@@ -146,8 +146,8 @@ function createKoreanSamples(now: Date): SampleData {
       category: '개인',
       importance: 'CRITICAL',
       timeBudget: IMPORTANCE_LEVELS.CRITICAL.minutes,
-      // 6일 23시간 남음 (applyFirstViewDeadlines에서 firstView 기준으로 재계산됨)
-      deadline: new Date(now.getTime() + (6 * 24 * 60 + 23 * 60) * 60 * 1000).toISOString(),
+      // 7일 = 168시간 (applyFirstViewDeadlines에서 firstView 기준으로 재계산됨)
+      deadline: new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString(),
       createdAt: now.toISOString(),
       resolved: false,
       options: [
