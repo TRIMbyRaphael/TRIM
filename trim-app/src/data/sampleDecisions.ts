@@ -181,9 +181,9 @@ function createKoreanSamples(now: Date): SampleData {
       category: '개인',
       importance: 'MEDIUM',
       timeBudget: IMPORTANCE_LEVELS.MEDIUM.minutes,
-      // overdue by 23h (1380 min)
-      deadline: new Date(now.getTime() - 1380 * 60 * 1000).toISOString(),
-      createdAt: new Date(now.getTime() - (IMPORTANCE_LEVELS.MEDIUM.minutes + 1380) * 60 * 1000).toISOString(),
+      // 23시간 남음 (applyFirstViewDeadlines에서 firstView 기준으로 재계산됨)
+      deadline: new Date(now.getTime() + 23 * 60 * 60 * 1000).toISOString(),
+      createdAt: now.toISOString(),
       resolved: false,
       options: [
         { id: 'example-3-sub-1-opt-1', title: '사당역', isSelected: false },
