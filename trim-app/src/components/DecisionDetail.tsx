@@ -1064,8 +1064,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   };
 
   // 옵션 스와이프 삭제 핸들러
-  const SWIPE_DELETE_WIDTH = 72; // 삭제 버튼 노출 너비 (px)
-  const SWIPE_THRESHOLD = 36; // 이 거리 이상 스와이프하면 삭제 버튼 고정 노출
+  const SWIPE_ACTION_WIDTH = 144; // 스와이프 액션 영역 총 너비 (제외 72px + 삭제 72px)
+  const SWIPE_THRESHOLD = 50; // 이 거리 이상 스와이프하면 액션 버튼 고정 노출
 
   const resetSwipe = (optionId: string) => {
     const el = swipeElementRefs.current[optionId];
