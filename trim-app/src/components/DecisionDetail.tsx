@@ -2261,7 +2261,23 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
           {showSubDecisions && (
             <div className="px-4 pb-4">
-              {/* Sub-Decision List */}
+              {/* Sub-Decision List - @dnd-kit */}
+              <DndContext
+                sensors={dndSensors}
+                collisionDetection={closestCenter}
+                onDragEnd={handleSubDecisionDragEnd}
+              >
+                <SortableContext
+                  items={decisions
+                    .filter(d => d.parentId === localDecision.id)
+                    .sort((a, b) => {
+                      if (a.resolved && !b.resolved) return 1;
+                      if (!a.resolved && b.resolved) return -1;
+                      return (a.order || 0) - (b.order || 0);
+                    })
+                    .map(d => d.id)}
+                  strategy={verticalListSortingStrategy}
+                >
               {decisions
                 .filter(d => d.parentId === localDecision.id)
                 .sort((a, b) => {
@@ -2273,56 +2289,67 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 })
                 .map((subDecision) => {
                   const subTimeData = formatTimeRemaining(subDecision.deadline);
-                  const isDragging = draggedSubDecisionId === subDecision.id;
-                  const isDragOver = dragOverSubDecisionId === subDecision.id;
                   return (
-                    <button
-                      key={subDecision.id}
-                      draggable={!localDecision.resolved}
-                      onDragStart={(e) => handleDragStart(e, subDecision.id)}
-                      onDragEnd={handleDragEnd}
-                      onDragOver={(e) => handleDragOver(e, subDecision.id)}
-                      onDragLeave={handleDragLeave}
-                      onDrop={(e) => handleDrop(e, subDecision.id)}
-                      onClick={() => onSelectDecision(subDecision.id)}
-                      className={`w-full flex items-center justify-between p-3 mb-2 rounded-lg transition-colors text-left ${
-                        isDragging
-                          ? 'opacity-50 bg-stretchLimo100'
-                          : isDragOver
-                          ? 'bg-stretchLimo bg-opacity-10 border border-stretchLimo border-dashed'
-                          : 'bg-cloudDancer/40 hover:bg-cloudDancer/50'
-                      } ${localDecision.resolved ? 'cursor-default' : 'cursor-pointer'}`}
+                    <SortableItemWrapper key={subDecision.id} id={subDecision.id} disabled={!!localDecision.resolved}>
+                      {({ setNodeRef, style, isDragging, handleProps }) => (
+                    <div
+                      ref={setNodeRef}
+                      style={style}
+                      className="mb-2"
                     >
-                      <div className="flex-1 min-w-0">
-                        <h4 className={`text-sm font-medium text-stretchLimo truncate mb-1 ${
-                          subDecision.resolved ? 'line-through' : ''
-                        }`}>
-                          {subDecision.title || t.untitled}
-                        </h4>
-                        <div className="flex items-center gap-2 text-xs">
-                          {subDecision.resolved ? (
-                            <span className="font-bold text-black">
-                              {t.resolvedText}
-                            </span>
-                          ) : (
-                            <>
-                              <span className={`${
-                                subTimeData.isOverdue 
-                                  ? 'text-scarletSmile' 
-                                  : 'text-micron'
-                              }`}>
-                                {subTimeData.text}
+                      <button
+                        onClick={() => onSelectDecision(subDecision.id)}
+                        className={`w-full flex items-center justify-between p-3 rounded-lg transition-colors text-left ${
+                          isDragging
+                            ? 'opacity-50 bg-stretchLimo100'
+                            : 'bg-cloudDancer/40 hover:bg-cloudDancer/50'
+                        } ${localDecision.resolved ? 'cursor-default' : 'cursor-pointer'}`}
+                      >
+                        {/* Drag Handle */}
+                        {!localDecision.resolved && (
+                          <div
+                            {...handleProps}
+                            onClick={(e) => e.stopPropagation()}
+                            className="cursor-grab active:cursor-grabbing mr-2 text-micron hover:text-stretchLimo transition-colors"
+                          >
+                            <GripVertical className="w-4 h-4" />
+                          </div>
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <h4 className={`text-sm font-medium text-stretchLimo truncate mb-1 ${
+                            subDecision.resolved ? 'line-through' : ''
+                          }`}>
+                            {subDecision.title || t.untitled}
+                          </h4>
+                          <div className="flex items-center gap-2 text-xs">
+                            {subDecision.resolved ? (
+                              <span className="font-bold text-black">
+                                {t.resolvedText}
                               </span>
-                              <span className="text-micron">·</span>
-                              <span className="text-micron">{t.importanceLevels[subDecision.importance]}</span>
-                            </>
-                          )}
+                            ) : (
+                              <>
+                                <span className={`${
+                                  subTimeData.isOverdue 
+                                    ? 'text-scarletSmile' 
+                                    : 'text-micron'
+                                }`}>
+                                  {subTimeData.text}
+                                </span>
+                                <span className="text-micron">·</span>
+                                <span className="text-micron">{t.importanceLevels[subDecision.importance]}</span>
+                              </>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                      <ChevronRight className="w-4 h-4 text-micron flex-shrink-0 ml-2" />
-                    </button>
+                        <ChevronRight className="w-4 h-4 text-micron flex-shrink-0 ml-2" />
+                      </button>
+                    </div>
+                      )}
+                    </SortableItemWrapper>
                   );
                 })}
+                </SortableContext>
+              </DndContext>
 
               {/* Add Sub-Decision Button */}
               <button
