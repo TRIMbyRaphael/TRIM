@@ -238,8 +238,8 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
                   {t.chunkingMore}
                 </span>
               )}
-              {/* Example badge for sample decisions - after ...더보기 when both present */}
-              {decision.isExample && (
+              {/* Example badge for sample decisions - always shown for sample IDs */}
+              {sampleIdSet.has(decision.id) && (
                 <span className="ml-1.5 inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-stretchLimo100 text-micron align-middle leading-none" style={{ verticalAlign: 'middle' }}>
                   {t.exampleBadge}
                 </span>
