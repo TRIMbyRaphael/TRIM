@@ -320,8 +320,9 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
                 onClick={() => toggleSection('overdue')}
                 className="w-full flex items-center justify-between mb-3 hover:opacity-70 transition-opacity"
               >
-                <div className="flex items-center gap-2 w-full">
-                  <h2 className="flex-1 text-left text-lg font-bold text-scarletSmile">{t.overdue}</h2>
+                <div className="flex items-center gap-2">
+                  {showSampleSection && <span className="w-6 shrink-0" />}
+                  <h2 className="text-lg font-bold text-scarletSmile" style={showSampleSection ? { minWidth: sectionTitleMinWidth } : undefined}>{t.overdue}</h2>
                   <span className="text-sm text-scarletSmile">{overdueDecisions.length}</span>
                   {expandedSections.overdue ? (
                     <ChevronDown className="w-5 h-5 text-scarletSmile" />
