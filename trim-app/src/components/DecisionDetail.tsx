@@ -27,6 +27,39 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
+// @dnd-kit 기반 Sortable 래퍼 컴포넌트 (옵션 & 서브디시전 공용)
+function SortableItemWrapper({
+  id,
+  disabled,
+  children,
+}: {
+  id: string;
+  disabled: boolean;
+  children: (props: {
+    setNodeRef: (node: HTMLElement | null) => void;
+    style: React.CSSProperties;
+    isDragging: boolean;
+    handleProps: Record<string, any>;
+  }) => React.ReactNode;
+}) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id, disabled });
+
+  const style: React.CSSProperties = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  return <>{children({ setNodeRef, style, isDragging, handleProps: { ...attributes, ...listeners } })}</>;
+}
+
 interface DecisionDetailProps {
   decision: Decision;
   decisions: Decision[]; // All decisions for sub-decision lookup
