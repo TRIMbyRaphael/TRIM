@@ -102,6 +102,8 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [showCategoryManagement, setShowCategoryManagement] = useState(false);
   const sampleIdSet = new Set(SAMPLE_DECISION_IDS);
+  const lang = import.meta.env.VITE_LANG || 'en';
+  const alignMinWidth = lang === 'ko' ? '5rem' : '7rem';
 
   const [expandedSections, setExpandedSections] = useState({
     overdue: false,
@@ -346,7 +348,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
               className="w-full flex items-center justify-between mb-3 hover:opacity-70 transition-opacity"
             >
               <div className="flex items-center gap-2">
-                <h2 className="text-lg font-semibold text-stretchLimo/80">{t.sampleDecisionsSection}</h2>
+                <h2 className="text-lg font-semibold text-stretchLimo/80 shrink-0" style={{ minWidth: alignMinWidth }}>{t.sampleDecisionsSection}</h2>
                 {expandedSections.sampleDecisions ? (
                   <ChevronDown className="w-5 h-5 text-stretchLimo/50" />
                 ) : (
@@ -377,7 +379,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
               className="w-full flex items-center justify-between mb-3 hover:opacity-70 transition-opacity"
             >
               <div className="flex items-center gap-2">
-                <h2 className="text-lg font-bold text-black">{t.active}</h2>
+                <h2 className="text-lg font-bold text-black shrink-0" style={{ minWidth: alignMinWidth }}>{t.active}</h2>
                 <span className="text-sm text-stretchLimo">{activeDecisions.length}</span>
                 {expandedSections.active ? (
                   <ChevronDown className="w-5 h-5 text-stretchLimo" />
