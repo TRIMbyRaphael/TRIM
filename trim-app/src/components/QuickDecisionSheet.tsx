@@ -503,7 +503,7 @@ export default function QuickDecisionSheet({
           initialDeadline={customDeadline || new Date(Date.now() + timeBudget * 60 * 1000).toISOString()}
           initialTimeBudget={timeBudget}
           onConfirm={handleTimeBudgetConfirm}
-          onClose={() => setShowTimeBudgetModal(false)}
+          onClose={restoreKeyboardAfterModal}
         />
       )}
     </>
