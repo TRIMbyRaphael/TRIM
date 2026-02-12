@@ -41,6 +41,8 @@ export default function QuickDecisionSheet({
   const categoryDropdownRef = useRef<HTMLDivElement>(null);
   const importanceDropdownRef = useRef<HTMLDivElement>(null);
   const wasTimeBudgetModalOpenRef = useRef(false);
+  // iOS 키보드 유지용 숨겨진 proxy input — TimeBudgetModal 닫힐 때 사용
+  const keyboardProxyRef = useRef<HTMLInputElement>(null);
 
   // 버튼 클릭 시 input 포커스를 빼앗지 않도록 방지 → 키보드 유지
   const preventBlur = (e: React.MouseEvent | React.TouchEvent) => {
