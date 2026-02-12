@@ -341,14 +341,21 @@ export default function QuickDecisionSheet({
             {/* Options Area */}
             <div className="space-y-2 mb-3">
               {decisionType === 'do_or_not' ? (
-                /* Do or Not: Fixed options, non-editable */
+                /* Do or Not: Editable options (2 fixed slots, no add/delete) */
                 <>
-                  {options.map((option) => (
+                  {options.map((option, index) => (
                     <div
                       key={option.id}
-                      className="bg-cloudDancer rounded-lg py-2.5 px-3 border border-stretchLimo/10"
+                      className="flex items-center gap-2 bg-cloudDancer rounded-lg py-2 px-3 border border-stretchLimo/10"
                     >
-                      <span className="text-sm text-stretchLimo">{option.title}</span>
+                      <input
+                        ref={(el) => (optionRefs.current[option.id] = el)}
+                        type="text"
+                        value={option.title}
+                        onChange={(e) => handleOptionChange(option.id, e.target.value)}
+                        placeholder={index === 0 ? t.doOption : t.doNotOption}
+                        className="flex-1 text-base text-black bg-transparent border-none outline-none placeholder-stretchLimo300"
+                      />
                     </div>
                   ))}
                 </>
