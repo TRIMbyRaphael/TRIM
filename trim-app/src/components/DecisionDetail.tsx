@@ -470,6 +470,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
       setLinkDescription('');
       setLinkImage('');
       setLinkSiteName('');
+      setLinkFavicon('');
       return;
     }
 
@@ -483,6 +484,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
       setLinkDescription(ogData.description || '');
       setLinkImage(ogData.image || '');
       setLinkSiteName(ogData.siteName || '');
+      setLinkFavicon(ogData.favicon || '');
     } catch (error) {
       console.error('Failed to fetch preview:', error);
       // 에러 발생 시에도 기본 정보 설정
@@ -490,6 +492,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
       setLinkSiteName(getDomain(url));
       setLinkDescription('');
       setLinkImage('');
+      setLinkFavicon('');
     } finally {
       setIsLoadingPreview(false);
     }
