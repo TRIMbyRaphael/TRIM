@@ -162,6 +162,9 @@ const en = {
 
   // Example Badge
   exampleBadge: 'Example',
+
+  // Sample Decisions Section
+  sampleDecisionsSection: '💡 Sample Decisions',
 };
 
 export type Translations = typeof en;
