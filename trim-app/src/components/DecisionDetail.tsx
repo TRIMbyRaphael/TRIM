@@ -1634,15 +1634,40 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               strategy={verticalListSortingStrategy}
             >
           {localDecision.options.map((option, index) => {
-            const showDeletePopup = longPressOptionId === option.id;
             return (
             <SortableItemWrapper key={option.id} id={option.id} disabled={!!localDecision.resolved}>
               {({ setNodeRef, style, isDragging, handleProps }) => (
             <div
               ref={setNodeRef}
-              style={{ ...style, zIndex: showDeletePopup ? 50 : 'auto' }}
-              className="relative"
+              style={style}
+              className="relative overflow-hidden rounded-lg"
+              onTouchStart={(e) => handleOptionTouchStart(e, option.id)}
+              onTouchMove={(e) => handleOptionTouchMove(e, option.id)}
+              onTouchEnd={() => handleOptionTouchEnd(option.id)}
             >
+              {/* 스와이프 시 노출되는 삭제 버튼 (뒤에 고정) */}
+              {!localDecision.resolved && (
+                <div
+                  className="absolute right-0 top-0 bottom-0 flex items-center justify-center bg-scarletSmile"
+                  style={{ width: `${SWIPE_DELETE_WIDTH}px` }}
+                  onClick={() => {
+                    handleDeleteOption(option.id);
+                    setSwipedOptionId(null);
+                  }}
+                >
+                  <Trash2 className="w-5 h-5 text-white" />
+                </div>
+              )}
+
+              {/* 스와이프 가능한 콘텐츠 영역 */}
+              <div
+                ref={(el) => { swipeElementRefs.current[option.id] = el; }}
+                className="relative bg-cloudDancer"
+                style={{
+                  transform: swipedOptionId === option.id ? `translateX(-${SWIPE_DELETE_WIDTH}px)` : 'translateX(0)',
+                  transition: 'transform 0.25s ease-out',
+                }}
+              >
               <div
                 className={`rounded-lg py-4 pl-4 pr-2 group transition-colors shadow-sm ${
                   isDragging
@@ -1674,12 +1699,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                     <div className="w-2 h-2 rounded-full bg-white" />
                   )}
                 </button>
-                {/* Long press 영역: 체크박스 우측부터 첨부파일 버튼 좌측까지 */}
                 <div
                   className="flex-1 flex items-center min-w-0"
-                  onPointerDown={(e) => handleOptionPointerDown(e, option.id)}
-                  onPointerUp={handleOptionPointerUp}
-                  onPointerCancel={handleOptionPointerCancel}
                 >
                   <textarea
                     ref={(el) => (optionRefs.current[option.id] = el)}
@@ -1723,31 +1744,6 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 </div>
               </div>
               </div>
-
-              {/* Long press 삭제 팝업 */}
-              {showDeletePopup && (
-                <div 
-                  className="absolute -top-12 left-4 z-50 select-none"
-                  onPointerDown={(e) => e.stopPropagation()}
-                  onPointerUp={(e) => e.stopPropagation()}
-                >
-                  <div className="bg-cardBg rounded-xl shadow-xl border border-stretchLimo/10 overflow-hidden min-w-[140px]">
-                    <button
-                      onClick={() => {
-                        handleDeleteOption(option.id);
-                        setLongPressOptionId(null);
-                        deletePopupShownAtRef.current = null;
-                      }}
-                      className="w-full flex items-center gap-3 px-4 py-3 text-scarletSmile hover:bg-scarletSmile hover:bg-opacity-5 transition-colors text-sm font-medium select-none"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                      <span>{t.delete}</span>
-                    </button>
-                  </div>
-                  {/* 말풍선 꼬리 */}
-                  <div className="absolute -bottom-1.5 left-6 w-3 h-3 bg-cardBg transform rotate-45" />
-                </div>
-              )}
 
               {/* Option Links */}
               {option.links && option.links.length > 0 && (
