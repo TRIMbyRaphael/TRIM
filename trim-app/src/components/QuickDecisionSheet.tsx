@@ -455,6 +455,7 @@ export default function QuickDecisionSheet({
 
               {/* Time Budget Selector (compact) */}
               <button
+                onMouseDown={preventBlur}
                 onClick={() => setShowTimeBudgetModal(true)}
                 className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm text-stretchLimo hover:bg-stretchLimo50 transition-colors"
               >
