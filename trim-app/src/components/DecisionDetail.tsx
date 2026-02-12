@@ -1766,6 +1766,9 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 </button>
                 <div
                   className="flex-1 flex items-center min-w-0"
+                  onPointerDown={(e) => handleOptionPointerDown(e, option.id)}
+                  onPointerUp={handleOptionPointerUp}
+                  onPointerCancel={handleOptionPointerCancel}
                 >
                   <textarea
                     ref={(el) => (optionRefs.current[option.id] = el)}
