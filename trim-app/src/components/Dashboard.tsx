@@ -133,6 +133,17 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
     }));
   };
 
+  // 부모 + 미해결 자손 중 하나라도 overdue면 그룹 전체 overdue. 모두 해결되면 active로 복귀
+  const isGroupOverdue = (parent: Decision, allDecisions: Decision[]): boolean => {
+    const collectNonResolved = (d: Decision): Decision[] => {
+      const children = allDecisions.filter(c => c.parentId === d.id && !c.resolved);
+      return [d, ...children.flatMap(collectNonResolved)];
+    };
+    const group = collectNonResolved(parent);
+    const now = new Date();
+    return group.some(d => new Date(d.deadline) < now);
+  };
+
   // Recursive function to render decision with all its children
   const renderDecisionWithChildren = (decision: Decision, level: number = 0): JSX.Element => {
     // resolved된 sub-decision은 표시하지 않음 (관계는 유지되어 reopen시 원래 위치로 복귀)
