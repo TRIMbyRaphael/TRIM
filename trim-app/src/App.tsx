@@ -307,11 +307,12 @@ function App() {
   };
 
   const handleReopenDecision = (decisionId: string) => {
-    setDecisions(decisions.map((d) => 
-      d.id === decisionId
-        ? { ...d, resolved: false, resolvedAt: undefined }
-        : d
-    ));
+    setDecisions(decisions.map((d) => {
+      if (d.id !== decisionId) return d;
+      // reopen 시에도 isExample 제거 → 유저가 조작한 것으로 간주
+      const { isExample, ...rest } = d;
+      return { ...rest, resolved: false, resolvedAt: undefined };
+    }));
   };
 
   const handleSelectDecision = (decisionId: string) => {
