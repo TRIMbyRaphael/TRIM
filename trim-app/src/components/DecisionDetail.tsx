@@ -1959,17 +1959,27 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   {currentMode === 'do_or_not' ? (
                     <textarea
                       value={option.memo || ''}
-                      onChange={(e) => handleOptionMemoChange(option.id, e.target.value)}
+                      onChange={(e) => {
+                        handleOptionMemoChange(option.id, e.target.value);
+                        e.target.style.height = 'auto';
+                        e.target.style.height = `${Math.max(e.target.scrollHeight, 40)}px`;
+                      }}
                       placeholder={
                         index === 0
                           ? t.whyShouldIDo
                           : t.whyShouldntIDo
                       }
                       disabled={localDecision.resolved}
-                      className={`w-full mt-3 px-3 py-2 text-sm text-white placeholder-white/50 bg-micron border border-white/30 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none ${
+                      ref={(el) => {
+                        if (el) {
+                          el.style.height = 'auto';
+                          el.style.height = `${Math.max(el.scrollHeight, 40)}px`;
+                        }
+                      }}
+                      className={`w-full mt-3 px-3 py-2 text-sm text-white placeholder-white/50 bg-micron border border-white/30 rounded-lg outline-none focus:ring-2 focus:ring-white/50 resize-none overflow-hidden ${
                         localDecision.resolved ? 'opacity-50 cursor-not-allowed' : ''
                       }`}
-                      rows={2}
+                      rows={1}
                     />
                   ) : (
                     /* choose_best, no_clear_options 모드: 컨테이너 필요 (pros/cons 구조) */
