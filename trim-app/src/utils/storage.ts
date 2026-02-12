@@ -131,8 +131,15 @@ export function loadCategories(): string[] {
   }
 }
 
-/** IDs that keep template overdue deadlines (not overwritten by firstView). */
-const OVERDUE_SAMPLE_IDS = new Set(['example-3', 'example-3-sub-1', 'example-3-sub-1-sub-1']);
+/**
+ * Custom deadline offsets (minutes from firstView) for specific samples.
+ * Positive = time remaining, Negative = already overdue.
+ */
+const CUSTOM_DEADLINE_OFFSETS: Record<string, number> = {
+  'example-3': 6 * 24 * 60 + 23 * 60,       // 6일 23시간 남음
+  'example-3-sub-1': 23 * 60,                 // 23시간 남음
+  'example-3-sub-1-sub-1': -1,                // 즉시 overdue (1분 초과)
+};
 
 /** Apply first-dashboard-view deadline to sample decisions (timer starts when user first sees dashboard). */
 function applyFirstViewDeadlines(decisions: Decision[]): Decision[] {
@@ -142,8 +149,8 @@ function applyFirstViewDeadlines(decisions: Decision[]): Decision[] {
 
   return decisions.map((d) => {
     if (!sampleIds.has(d.id)) return d;
-    if (OVERDUE_SAMPLE_IDS.has(d.id)) return d; // keep template overdue deadlines
-    const deadline = new Date(baseTime + d.timeBudget * 60 * 1000).toISOString();
+    const offsetMinutes = CUSTOM_DEADLINE_OFFSETS[d.id] ?? d.timeBudget;
+    const deadline = new Date(baseTime + offsetMinutes * 60 * 1000).toISOString();
     return { ...d, deadline };
   });
 }
