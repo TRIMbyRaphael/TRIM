@@ -409,6 +409,7 @@ export default function QuickDecisionSheet({
               {/* Importance Selector (compact) */}
               <div className="relative" ref={importanceDropdownRef}>
                 <button
+                  onMouseDown={preventBlur}
                   onClick={() => setShowImportanceDropdown(!showImportanceDropdown)}
                   className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm text-stretchLimo hover:bg-stretchLimo50 transition-colors"
                 >
@@ -419,13 +420,14 @@ export default function QuickDecisionSheet({
 
                 {showImportanceDropdown && (
                   <div className="absolute bottom-full mb-1 left-0 bg-cardBg rounded-lg shadow-lg border border-stretchLimo/10 overflow-hidden z-10 min-w-[140px]">
-                    <div className="flex items-center gap-2 px-4 py-2 border-b border-stretchLimo/[0.06] bg-stretchLimo/[0.04]">
+                    <div onMouseDown={preventBlur} className="flex items-center gap-2 px-4 py-2 border-b border-stretchLimo/[0.06] bg-stretchLimo/[0.04]">
                       <AlertCircle className="w-4 h-4 text-stretchLimo" />
                       <span className="text-sm font-medium text-black">{t.importance}</span>
                     </div>
                     {(Object.keys(IMPORTANCE_LEVELS) as ImportanceLevel[]).map((level) => (
                       <button
                         key={level}
+                        onMouseDown={preventBlur}
                         onClick={() => handleImportanceChange(level)}
                         className={`w-full px-4 py-2 text-left text-sm hover:bg-stretchLimo100 transition-colors ${
                           importance === level ? 'bg-stretchLimo50' : ''
