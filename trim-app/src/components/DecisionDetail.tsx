@@ -1729,17 +1729,32 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               onTouchMove={(e) => handleOptionTouchMove(e, option.id)}
               onTouchEnd={() => handleOptionTouchEnd(option.id)}
             >
-              {/* 스와이프 시 노출되는 삭제 버튼 (뒤에 고정) */}
+              {/* 스와이프 시 노출되는 액션 버튼들 (뒤에 고정: 제외 + 삭제) */}
               {!localDecision.resolved && (
                 <div
-                  className="absolute right-0 top-0 bottom-0 flex items-center justify-center bg-scarletSmile"
+                  className="absolute right-0 top-0 bottom-0 flex"
                   style={{ width: `${SWIPE_ACTION_WIDTH}px` }}
-                  onClick={() => {
-                    handleDeleteOption(option.id);
-                    setSwipedOptionId(null);
-                  }}
                 >
-                  <Trash2 className="w-5 h-5 text-white" />
+                  {/* 제외 버튼 (좌측 - 가위 아이콘) */}
+                  <button
+                    className="flex-1 flex items-center justify-center bg-stretchLimo500 active:brightness-90 transition-colors"
+                    onClick={() => {
+                      handleExcludeOption(option.id);
+                      resetSwipe(option.id);
+                    }}
+                  >
+                    <ScissorsLineDashed className="w-5 h-5 text-white" />
+                  </button>
+                  {/* 삭제 버튼 (우측) */}
+                  <button
+                    className="flex-1 flex items-center justify-center bg-scarletSmile active:brightness-90 transition-colors"
+                    onClick={() => {
+                      handleDeleteOption(option.id);
+                      setSwipedOptionId(null);
+                    }}
+                  >
+                    <Trash2 className="w-5 h-5 text-white" />
+                  </button>
                 </div>
               )}
 
