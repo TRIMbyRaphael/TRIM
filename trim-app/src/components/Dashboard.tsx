@@ -194,18 +194,25 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
     return decision.category === selectedCategory;
   });
 
-  // Get overdue decisions: 그룹(부모+하위) 중 하나라도 overdue면 전체 overdue
+  // 💡 Sample decisions: 샘플 ID에 해당하는 미완료 top-level 결정 (Overdue/Active에서 제외)
+  const sampleDecisionsArr = filteredDecisions
+    .filter((decision) => !decision.resolved && sampleIdSet.has(decision.id))
+    .sort((a, b) => (a.order || 0) - (b.order || 0));
+
+  // Get overdue decisions: 그룹(부모+하위) 중 하나라도 overdue면 전체 overdue (샘플 제외)
   const overdueDecisions = filteredDecisions
     .filter((decision) => {
       if (decision.resolved) return false;
+      if (sampleIdSet.has(decision.id)) return false; // 샘플은 Overdue로 이동하지 않음
       return isGroupOverdue(decision, decisions);
     })
     .sort((a, b) => (a.order || 0) - (b.order || 0));
 
-  // Get active decisions: 그룹 전체가 active일 때만 (overdue 해결 후 복귀)
+  // Get active decisions: 그룹 전체가 active일 때만 (샘플 제외)
   const activeDecisions = filteredDecisions
     .filter((decision) => {
       if (decision.resolved) return false;
+      if (sampleIdSet.has(decision.id)) return false; // 샘플은 Active에서도 제외
       return !isGroupOverdue(decision, decisions);
     })
     .sort((a, b) => (a.order || 0) - (b.order || 0));
