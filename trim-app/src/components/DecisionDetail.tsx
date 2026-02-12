@@ -136,8 +136,6 @@ export default function DecisionDetail({ decision, decisions, categories, initia
       return {};
     }
   });
-  const [draggedOptionId, setDraggedOptionId] = useState<string | null>(null);
-  const [dragOverOptionId, setDragOverOptionId] = useState<string | null>(null);
   const [longPressOptionId, setLongPressOptionId] = useState<string | null>(null); // 꾹 눌러서 삭제 팝업 표시용
   const longPressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const deletePopupShownAtRef = useRef<number | null>(null); // 삭제 팝업이 표시된 시간
