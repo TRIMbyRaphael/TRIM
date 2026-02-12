@@ -1715,7 +1715,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
             <div
               ref={setNodeRef}
               style={{ ...style, zIndex: showLongPressPopup ? 50 : 'auto' }}
-              className="relative overflow-hidden rounded-lg"
+              className={`relative rounded-lg ${showLongPressPopup ? '' : 'overflow-hidden'}`}
               onTouchStart={(e) => handleOptionTouchStart(e, option.id)}
               onTouchMove={(e) => handleOptionTouchMove(e, option.id)}
               onTouchEnd={() => handleOptionTouchEnd(option.id)}
