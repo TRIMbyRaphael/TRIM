@@ -1032,42 +1032,83 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     }
   };
 
-  // Long press handler for delete popup
-  const clearLongPressTimer = () => {
-    if (longPressTimerRef.current) {
-      clearTimeout(longPressTimerRef.current);
-      longPressTimerRef.current = null;
+  // 옵션 스와이프 삭제 핸들러
+  const SWIPE_DELETE_WIDTH = 72; // 삭제 버튼 노출 너비 (px)
+  const SWIPE_THRESHOLD = 36; // 이 거리 이상 스와이프하면 삭제 버튼 고정 노출
+
+  const resetSwipe = (optionId: string) => {
+    const el = swipeElementRefs.current[optionId];
+    if (el) {
+      el.style.transition = 'transform 0.25s ease-out';
+      el.style.transform = 'translateX(0)';
+    }
+    setSwipedOptionId(null);
+  };
+
+  const snapSwipeOpen = (optionId: string) => {
+    const el = swipeElementRefs.current[optionId];
+    if (el) {
+      el.style.transition = 'transform 0.25s ease-out';
+      el.style.transform = `translateX(-${SWIPE_DELETE_WIDTH}px)`;
+    }
+    setSwipedOptionId(optionId);
+  };
+
+  const handleOptionTouchStart = (e: React.TouchEvent, optionId: string) => {
+    if (localDecision.resolved) return;
+    const touch = e.touches[0];
+    // 이미 열려있는 다른 옵션이 있으면 닫기
+    if (swipedOptionId && swipedOptionId !== optionId) {
+      resetSwipe(swipedOptionId);
+    }
+    swipeStartRef.current = { x: touch.clientX, y: touch.clientY, optionId, decided: false };
+    swipeCurrentXRef.current = swipedOptionId === optionId ? -SWIPE_DELETE_WIDTH : 0;
+    const el = swipeElementRefs.current[optionId];
+    if (el) {
+      el.style.transition = 'none'; // 드래그 중 애니메이션 제거
     }
   };
 
-  const handleOptionPointerDown = (e: React.PointerEvent, optionId: string) => {
-    if (localDecision.resolved) return;
-    // 버튼이나 링크 클릭 시 long press 무시
-    const target = e.target as HTMLElement;
-    if (target.closest('button') || target.closest('a')) return;
+  const handleOptionTouchMove = (e: React.TouchEvent, optionId: string) => {
+    if (!swipeStartRef.current || swipeStartRef.current.optionId !== optionId) return;
+    const touch = e.touches[0];
+    const deltaX = touch.clientX - swipeStartRef.current.x;
+    const deltaY = touch.clientY - swipeStartRef.current.y;
 
-    // 400ms 후 삭제 팝업 표시
-    longPressTimerRef.current = setTimeout(() => {
-      // textarea에서 long press 시 포커스/선택 해제
-      const activeEl = document.activeElement as HTMLElement;
-      if (activeEl?.closest('textarea')) {
-        activeEl.blur();
+    // 아직 방향이 결정되지 않은 경우
+    if (!swipeStartRef.current.decided) {
+      // 최소 이동 거리 확인
+      if (Math.abs(deltaX) < 5 && Math.abs(deltaY) < 5) return;
+      // 세로 스크롤이 더 큰 경우 스와이프 무시
+      if (Math.abs(deltaY) > Math.abs(deltaX)) {
+        swipeStartRef.current = null;
+        return;
       }
-      window.getSelection()?.removeAllRanges();
+      swipeStartRef.current.decided = true;
+    }
 
-      setLongPressOptionId(optionId);
-      deletePopupShownAtRef.current = Date.now(); // 팝업 표시 시간 기록
-      longPressTimerRef.current = null;
-    }, 400);
+    // 수평 스와이프 처리 - 스크롤 방지
+    e.stopPropagation();
+    const baseOffset = swipedOptionId === optionId ? -SWIPE_DELETE_WIDTH : 0;
+    const newOffset = Math.max(-SWIPE_DELETE_WIDTH, Math.min(0, baseOffset + deltaX));
+
+    const el = swipeElementRefs.current[optionId];
+    if (el) {
+      el.style.transform = `translateX(${newOffset}px)`;
+    }
+    swipeCurrentXRef.current = newOffset;
   };
 
-  const handleOptionPointerUp = () => {
-    // 타이머만 취소하고, 이미 표시된 팝업은 유지
-    clearLongPressTimer();
-  };
+  const handleOptionTouchEnd = (optionId: string) => {
+    if (!swipeStartRef.current || swipeStartRef.current.optionId !== optionId) return;
 
-  const handleOptionPointerCancel = () => {
-    clearLongPressTimer();
+    const currentOffset = swipeCurrentXRef.current;
+    if (currentOffset < -SWIPE_THRESHOLD) {
+      snapSwipeOpen(optionId);
+    } else {
+      resetSwipe(optionId);
+    }
+    swipeStartRef.current = null;
   };
 
   // Drag and drop handlers for options
