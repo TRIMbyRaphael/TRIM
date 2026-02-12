@@ -198,7 +198,7 @@ export default function QuickDecisionSheet({
     };
   };
 
-  // Handle option text change (choose_best only)
+  // Handle option text change (do_or_not & choose_best)
   const handleOptionChange = (optionId: string, value: string) => {
     setOptions(options.map(opt =>
       opt.id === optionId ? { ...opt, title: value } : opt
