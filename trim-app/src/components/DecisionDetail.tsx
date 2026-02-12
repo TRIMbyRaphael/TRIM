@@ -1919,7 +1919,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   )}
                 </>
               )}
-            </div>
+              </div>{/* 스와이프 콘텐츠 래퍼 닫기 */}
+            </div>{/* 스와이프 컨테이너 닫기 */}
               )}
             </SortableItemWrapper>
             );
