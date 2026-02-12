@@ -1078,6 +1078,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
 
   const handleOptionTouchStart = (e: React.TouchEvent, optionId: string) => {
     if (localDecision.resolved) return;
+    // long press 팝업이 열려있으면 스와이프 무시
+    if (longPressOptionId) return;
     const touch = e.touches[0];
     // 이미 열려있는 다른 옵션이 있으면 닫기
     if (swipedOptionId && swipedOptionId !== optionId) {
@@ -1107,6 +1109,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
         return;
       }
       swipeStartRef.current.decided = true;
+      // 수평 스와이프 확정 → long press 타이머 취소 (충돌 방지)
+      clearLongPressTimer();
     }
 
     // 수평 스와이프 처리 - 스크롤 방지
@@ -1131,6 +1135,45 @@ export default function DecisionDetail({ decision, decisions, categories, initia
       resetSwipe(optionId);
     }
     swipeStartRef.current = null;
+  };
+
+  // Long press 삭제 핸들러 (스와이프와 공존)
+  const clearLongPressTimer = () => {
+    if (longPressTimerRef.current) {
+      clearTimeout(longPressTimerRef.current);
+      longPressTimerRef.current = null;
+    }
+  };
+
+  const handleOptionPointerDown = (e: React.PointerEvent, optionId: string) => {
+    if (localDecision.resolved) return;
+    // 버튼이나 링크 클릭 시 long press 무시
+    const target = e.target as HTMLElement;
+    if (target.closest('button') || target.closest('a')) return;
+    // 스와이프가 열린 상태면 long press 무시
+    if (swipedOptionId) return;
+
+    // 400ms 후 삭제 팝업 표시
+    longPressTimerRef.current = setTimeout(() => {
+      // textarea에서 long press 시 포커스/선택 해제
+      const activeEl = document.activeElement as HTMLElement;
+      if (activeEl?.closest('textarea')) {
+        activeEl.blur();
+      }
+      window.getSelection()?.removeAllRanges();
+
+      setLongPressOptionId(optionId);
+      deletePopupShownAtRef.current = Date.now();
+      longPressTimerRef.current = null;
+    }, 400);
+  };
+
+  const handleOptionPointerUp = () => {
+    clearLongPressTimer();
+  };
+
+  const handleOptionPointerCancel = () => {
+    clearLongPressTimer();
   };
 
   // Drag and drop handlers for options
