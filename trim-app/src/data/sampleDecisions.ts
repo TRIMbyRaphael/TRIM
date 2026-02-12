@@ -209,8 +209,8 @@ function createKoreanSamples(now: Date): SampleData {
       category: '개인',
       importance: 'LOW',
       timeBudget: IMPORTANCE_LEVELS.LOW.minutes,
-      // 즉시 overdue (applyFirstViewDeadlines에서 firstView - 1분으로 재계산됨)
-      deadline: new Date(now.getTime() - 1 * 60 * 1000).toISOString(),
+      // 1시간 (applyFirstViewDeadlines에서 firstView 기준으로 재계산됨)
+      deadline: new Date(now.getTime() + 1 * 60 * 60 * 1000).toISOString(),
       createdAt: now.toISOString(),
       resolved: false,
       options: [
