@@ -164,6 +164,9 @@ const ko: Translations = {
 
   // Example Badge
   exampleBadge: '예시',
+
+  // Sample Decisions Section
+  sampleDecisionsSection: '💡 샘플 결정',
 };
 
 export default ko;
