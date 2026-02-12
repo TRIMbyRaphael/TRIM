@@ -23,6 +23,7 @@ export interface Option {
   id: string;
   title: string;
   isSelected: boolean;
+  excluded?: boolean; // 고려 대상에서 제외 (취소선 표시)
   memo?: string;
   pros?: string;
   cons?: string;
