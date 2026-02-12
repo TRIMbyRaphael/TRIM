@@ -159,6 +159,19 @@ export default function QuickDecisionSheet({
     }
   }, [isOpen]);
 
+  // TimeBudgetModal이 닫힌 후 포커스 복원 → 키보드 유지
+  useEffect(() => {
+    if (showTimeBudgetModal) {
+      wasTimeBudgetModalOpenRef.current = true;
+    } else if (wasTimeBudgetModalOpenRef.current && isOpen) {
+      wasTimeBudgetModalOpenRef.current = false;
+      const timer = setTimeout(() => {
+        titleRef.current?.focus({ preventScroll: true });
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [showTimeBudgetModal, isOpen]);
+
   // Close dropdowns on outside click
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
