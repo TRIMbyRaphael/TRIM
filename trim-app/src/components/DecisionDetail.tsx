@@ -114,8 +114,17 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   const [isLoadingPreview, setIsLoadingPreview] = useState(false);
   const [showRandomPickTooltip, setShowRandomPickTooltip] = useState(false);
   const [showComparisonMatrix, setShowComparisonMatrix] = useState(false);
-  const [draggedSubDecisionId, setDraggedSubDecisionId] = useState<string | null>(null);
-  const [dragOverSubDecisionId, setDragOverSubDecisionId] = useState<string | null>(null);
+  // @dnd-kit sensors (옵션 & 서브디시전 공용)
+  const dndSensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
   const [showChunkingInfo, setShowChunkingInfo] = useState(false);
   const [showChunkingInfoExpanded, setShowChunkingInfoExpanded] = useState(false);
   // Framing question collapse state - persisted per decision
