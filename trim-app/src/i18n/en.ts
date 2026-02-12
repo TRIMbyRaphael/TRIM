@@ -164,7 +164,7 @@ const en = {
   exampleBadge: 'Example',
 
   // Sample Decisions Section
-  sampleDecisionsSection: '💡 Sample Decisions',
+  sampleDecisionsSection: 'Sample Decisions 💡',
 };
 
 export type Translations = typeof en;
