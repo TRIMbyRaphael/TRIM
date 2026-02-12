@@ -158,7 +158,8 @@ export default function DecisionCard({ decision, onClick, onDelete, onUpdateDeci
         {showDeletePopup && (
           <div 
             className="fixed inset-0 z-30"
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation(); // 카드 onClick(상세화면 이동)으로 버블링 방지
               setShowDeletePopup(false);
               deletePopupShownAtRef.current = null;
             }}
