@@ -3,8 +3,11 @@ import { Decision } from '../types/decision';
 import { useCountdown } from '../hooks/useCountdown';
 import { ReactNode, useState, useRef } from 'react';
 import { t } from '../i18n';
+import { SAMPLE_DECISION_IDS } from '../data/sampleDecisions';
 import logoButtonActive from '../assets/logo-button-active.svg';
 import logoButtonInactive from '../assets/logo-button-inactive.svg';
+
+const sampleIdSet = new Set(SAMPLE_DECISION_IDS);
 
 interface DecisionCardProps {
   decision: Decision;
