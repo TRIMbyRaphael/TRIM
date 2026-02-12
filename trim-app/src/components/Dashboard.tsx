@@ -102,6 +102,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [showCategoryManagement, setShowCategoryManagement] = useState(false);
   const sampleIdSet = new Set(SAMPLE_DECISION_IDS);
+  const lang = import.meta.env.VITE_LANG || 'en';
 
   const [expandedSections, setExpandedSections] = useState({
     overdue: false,
