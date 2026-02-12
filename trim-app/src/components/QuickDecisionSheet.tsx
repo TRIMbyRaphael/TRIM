@@ -40,6 +40,12 @@ export default function QuickDecisionSheet({
   const optionRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
   const categoryDropdownRef = useRef<HTMLDivElement>(null);
   const importanceDropdownRef = useRef<HTMLDivElement>(null);
+  const wasTimeBudgetModalOpenRef = useRef(false);
+
+  // 버튼 클릭 시 input 포커스를 빼앗지 않도록 방지 → 키보드 유지
+  const preventBlur = (e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault();
+  };
 
   // Initialize options based on decision type
   function initOptions(type: DecisionMode): Option[] {
