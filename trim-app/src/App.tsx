@@ -298,11 +298,12 @@ function App() {
   };
 
   const handleTrimDecision = (decisionId: string) => {
-    setDecisions(decisions.map((d) => 
-      d.id === decisionId
-        ? { ...d, resolved: true, resolvedAt: new Date().toISOString() }
-        : d
-    ));
+    setDecisions(decisions.map((d) => {
+      if (d.id !== decisionId) return d;
+      // trim 시 isExample 제거 → 재시작 시 템플릿으로 원상복구되지 않음
+      const { isExample, ...rest } = d;
+      return { ...rest, resolved: true, resolvedAt: new Date().toISOString() };
+    }));
   };
 
   const handleReopenDecision = (decisionId: string) => {
