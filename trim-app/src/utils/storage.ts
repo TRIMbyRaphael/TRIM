@@ -152,15 +152,32 @@ export function injectSampleDecisions(existingDecisions: Decision[], lang: strin
     const samples = createSampleDecisions(lang);
     const sampleIdSet = new Set(SAMPLE_DECISION_IDS);
 
-    // ── Dev: always replace samples with latest template ──
+    // ── Dev: replace pristine samples with latest template, but preserve user-modified ones ──
     if (isDev) {
+      const deletedIds = getDeletedSampleIds();
+      const existingById = new Map(existingDecisions.map(d => [d.id, d]));
+
+      const samplesToInject: Decision[] = [];
+      for (const sample of samples) {
+        if (deletedIds.has(sample.id)) continue; // user deleted → skip
+
+        const existing = existingById.get(sample.id);
+        if (existing && (!existing.isExample || existing.resolved)) {
+          // User modified (isExample removed) or trimmed (resolved) → keep their version
+          samplesToInject.push(existing);
+        } else {
+          // Pristine or missing → use latest template
+          samplesToInject.push(sample);
+        }
+      }
+
       const userDecisions = existingDecisions.filter(d => !sampleIdSet.has(d.id));
-      const maxSampleOrder = Math.max(0, ...samples.filter(s => !s.parentId).map(s => s.order));
+      const maxSampleOrder = Math.max(0, ...samplesToInject.filter(s => !s.parentId).map(s => s.order));
       const shifted = userDecisions.map(d => ({
         ...d,
         order: d.parentId ? (d.order ?? 0) : (d.order ?? 0) + maxSampleOrder + 1,
       }));
-      return applyFirstViewDeadlines([...samples, ...shifted]);
+      return applyFirstViewDeadlines([...samplesToInject, ...shifted]);
     }
 
     // ── Production: smart sync ──
