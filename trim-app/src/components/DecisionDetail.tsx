@@ -1890,8 +1890,12 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 </>
               )}
             </div>
+              )}
+            </SortableItemWrapper>
             );
           })}
+            </SortableContext>
+          </DndContext>
 
           {/* Add Option Button - 숨김: do_or_not 모드 */}
           {currentMode !== 'do_or_not' && (
