@@ -263,9 +263,15 @@ function App() {
   };
 
   const handleUpdateDecision = (updatedDecision: Decision) => {
-    setDecisions(decisions.map((d) => 
-      d.id === updatedDecision.id ? updatedDecision : d
-    ));
+    setDecisions(decisions.map((d) => {
+      if (d.id !== updatedDecision.id) return d;
+      // 샘플을 유저가 수정하면 isExample 제거 → 재시작 시 템플릿으로 덮어쓰지 않음
+      if (updatedDecision.isExample) {
+        const { isExample, ...rest } = updatedDecision;
+        return rest as Decision;
+      }
+      return updatedDecision;
+    }));
   };
 
   const handleDeleteDecision = (decisionId: string) => {
