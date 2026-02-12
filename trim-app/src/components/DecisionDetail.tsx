@@ -1823,6 +1823,31 @@ export default function DecisionDetail({ decision, decisions, categories, initia
               </div>
               </div>
 
+              {/* Long press 삭제 팝업 */}
+              {showLongPressPopup && (
+                <div 
+                  className="absolute -top-12 left-4 z-50 select-none"
+                  onPointerDown={(e) => e.stopPropagation()}
+                  onPointerUp={(e) => e.stopPropagation()}
+                >
+                  <div className="bg-cardBg rounded-xl shadow-xl border border-stretchLimo/10 overflow-hidden min-w-[140px]">
+                    <button
+                      onClick={() => {
+                        handleDeleteOption(option.id);
+                        setLongPressOptionId(null);
+                        deletePopupShownAtRef.current = null;
+                      }}
+                      className="w-full flex items-center gap-3 px-4 py-3 text-scarletSmile hover:bg-scarletSmile hover:bg-opacity-5 transition-colors text-sm font-medium select-none"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                      <span>{t.delete}</span>
+                    </button>
+                  </div>
+                  {/* 말풍선 꼬리 */}
+                  <div className="absolute -bottom-1.5 left-6 w-3 h-3 bg-cardBg transform rotate-45" />
+                </div>
+              )}
+
               {/* Option Links */}
               {option.links && option.links.length > 0 && (
                 <div className="mt-3 space-y-2">
