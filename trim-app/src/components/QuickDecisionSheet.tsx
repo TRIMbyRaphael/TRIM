@@ -353,6 +353,7 @@ export default function QuickDecisionSheet({
                       />
                       {options.length > 2 && (
                         <button
+                          onMouseDown={preventBlur}
                           onClick={() => handleRemoveOption(option.id)}
                           className="p-1 rounded hover:bg-stretchLimo100 transition-colors flex-shrink-0"
                         >
