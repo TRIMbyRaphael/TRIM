@@ -19,12 +19,16 @@ const SAMPLE_FORCE_VERSION_KEY = 'trim-sample-force-version';
  * Used to start sample decision timers from first view, not from creation.
  */
 function getOrSetFirstDashboardView(): string {
-  let firstView = localStorage.getItem(FIRST_DASHBOARD_VIEW_KEY);
-  if (!firstView) {
-    firstView = new Date().toISOString();
-    localStorage.setItem(FIRST_DASHBOARD_VIEW_KEY, firstView);
+  try {
+    let firstView = localStorage.getItem(FIRST_DASHBOARD_VIEW_KEY);
+    if (!firstView) {
+      firstView = new Date().toISOString();
+      localStorage.setItem(FIRST_DASHBOARD_VIEW_KEY, firstView);
+    }
+    return firstView;
+  } catch {
+    return new Date().toISOString();
   }
-  return firstView;
 }
 
 /** Get the list of sample IDs the user has explicitly deleted. */
@@ -40,11 +44,15 @@ function getDeletedSampleIds(): Set<string> {
 
 /** Record that the user deleted a sample decision (so it won't be re-injected). */
 export function markSampleAsDeleted(decisionId: string): void {
-  const sampleIds = new Set(SAMPLE_DECISION_IDS);
-  if (!sampleIds.has(decisionId)) return; // not a sample, ignore
-  const deleted = getDeletedSampleIds();
-  deleted.add(decisionId);
-  localStorage.setItem(DELETED_SAMPLES_KEY, JSON.stringify([...deleted]));
+  try {
+    const sampleIds = new Set(SAMPLE_DECISION_IDS);
+    if (!sampleIds.has(decisionId)) return;
+    const deleted = getDeletedSampleIds();
+    deleted.add(decisionId);
+    localStorage.setItem(DELETED_SAMPLES_KEY, JSON.stringify([...deleted]));
+  } catch {
+    // e.g. Safari 시크릿 모드에서는 localStorage 사용 불가
+  }
 }
 
 /**
@@ -52,13 +60,16 @@ export function markSampleAsDeleted(decisionId: string): void {
  * Returns true if this is a fresh force-sync.
  */
 function checkAndApplyForceSync(): boolean {
-  const stored = localStorage.getItem(SAMPLE_FORCE_VERSION_KEY);
-  if (stored === SAMPLE_FORCE_VERSION) return false;
-  // Version changed or first time → force sync: reset deleted list & first-view
-  localStorage.removeItem(DELETED_SAMPLES_KEY);
-  localStorage.removeItem(FIRST_DASHBOARD_VIEW_KEY);
-  localStorage.setItem(SAMPLE_FORCE_VERSION_KEY, SAMPLE_FORCE_VERSION);
-  return true;
+  try {
+    const stored = localStorage.getItem(SAMPLE_FORCE_VERSION_KEY);
+    if (stored === SAMPLE_FORCE_VERSION) return false;
+    localStorage.removeItem(DELETED_SAMPLES_KEY);
+    localStorage.removeItem(FIRST_DASHBOARD_VIEW_KEY);
+    localStorage.setItem(SAMPLE_FORCE_VERSION_KEY, SAMPLE_FORCE_VERSION);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 export function saveDecisions(decisions: Decision[]): void {
