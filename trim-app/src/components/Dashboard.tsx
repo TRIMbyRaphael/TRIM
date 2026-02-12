@@ -350,8 +350,9 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
               onClick={() => toggleSection('sampleDecisions')}
               className="w-full flex items-center justify-between mb-3 hover:opacity-70 transition-opacity"
             >
-              <div className="flex items-center gap-2 w-full">
-                <h2 className="flex-1 text-left text-lg font-semibold text-stretchLimo/80">{t.sampleDecisionsSection}</h2>
+              <div className="flex items-center gap-2">
+                <span className="w-6 shrink-0 text-center text-lg leading-none">💡</span>
+                <h2 className="text-lg font-semibold text-stretchLimo/80" style={{ minWidth: sectionTitleMinWidth }}>{t.sampleDecisionsSection}</h2>
                 <span className="text-sm text-stretchLimo/50">{sampleDecisionsArr.length}</span>
                 {expandedSections.sampleDecisions ? (
                   <ChevronDown className="w-5 h-5 text-stretchLimo/50" />
