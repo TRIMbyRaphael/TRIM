@@ -9,6 +9,23 @@ import { formatTimeRemaining } from '../utils/timeFormat';
 import { t } from '../i18n';
 import logoButtonActive from '../assets/logo-button-active.svg';
 import logoButtonInactive from '../assets/logo-button-inactive.svg';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 interface DecisionDetailProps {
   decision: Decision;
