@@ -1688,7 +1688,16 @@ export default function DecisionDetail({ decision, decisions, categories, initia
           <div className={`space-y-3 ${
             (currentMode === 'choose_best' || currentMode === 'no_clear_options') ? 'mb-3' : 'mb-5'
           }`}>
-          {/* 스와이프 닫기: 다른 곳 터치 시 열린 스와이프 닫기 */}
+          {/* Long press 삭제 팝업 배경 오버레이 */}
+          {longPressOptionId && (
+            <div 
+              className="fixed inset-0 z-30"
+              onClick={() => {
+                setLongPressOptionId(null);
+                deletePopupShownAtRef.current = null;
+              }}
+            />
+          )}
           <DndContext
             sensors={dndSensors}
             collisionDetection={closestCenter}
