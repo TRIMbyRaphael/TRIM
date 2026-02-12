@@ -1012,76 +1012,22 @@ export default function DecisionDetail({ decision, decisions, categories, initia
   };
 
   // Drag and drop handlers for sub-decisions
-  const handleDragStart = (e: React.DragEvent, subDecisionId: string) => {
-    if (localDecision.resolved) {
-      e.preventDefault();
-      return;
-    }
-    setDraggedSubDecisionId(subDecisionId);
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/plain', subDecisionId);
-    // Add visual feedback
-    if (e.currentTarget instanceof HTMLElement) {
-      e.currentTarget.style.opacity = '0.5';
-    }
-  };
+  // @dnd-kit: 서브디시전 드래그 종료 핸들러
+  const handleSubDecisionDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
 
-  const handleDragEnd = (e: React.DragEvent) => {
-    setDraggedSubDecisionId(null);
-    setDragOverSubDecisionId(null);
-    // Remove visual feedback
-    if (e.currentTarget instanceof HTMLElement) {
-      e.currentTarget.style.opacity = '1';
-    }
-  };
-
-  const handleDragOver = (e: React.DragEvent, subDecisionId: string) => {
-    if (localDecision.resolved || draggedSubDecisionId === subDecisionId) {
-      return;
-    }
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
-    setDragOverSubDecisionId(subDecisionId);
-  };
-
-  const handleDragLeave = () => {
-    setDragOverSubDecisionId(null);
-  };
-
-  const handleDrop = (e: React.DragEvent, targetSubDecisionId: string) => {
-    e.preventDefault();
-    if (localDecision.resolved || !draggedSubDecisionId || draggedSubDecisionId === targetSubDecisionId) {
-      setDragOverSubDecisionId(null);
-      return;
-    }
-
-    // Get all sub-decisions sorted by order
     const subDecisions = decisions
       .filter(d => d.parentId === localDecision.id)
       .sort((a, b) => (a.order || 0) - (b.order || 0));
 
-    // Find indices
-    const draggedIndex = subDecisions.findIndex(d => d.id === draggedSubDecisionId);
-    const targetIndex = subDecisions.findIndex(d => d.id === targetSubDecisionId);
+    const oldIndex = subDecisions.findIndex(d => d.id === active.id);
+    const newIndex = subDecisions.findIndex(d => d.id === over.id);
 
-    if (draggedIndex === -1 || targetIndex === -1) {
-      setDragOverSubDecisionId(null);
-      return;
+    if (oldIndex !== -1 && newIndex !== -1) {
+      const reordered = arrayMove(subDecisions, oldIndex, newIndex);
+      onReorderSubDecisions(localDecision.id, reordered.map(d => d.id));
     }
-
-    // Reorder array
-    const reordered = [...subDecisions];
-    const [removed] = reordered.splice(draggedIndex, 1);
-    reordered.splice(targetIndex, 0, removed);
-
-    // Get reordered IDs
-    const reorderedIds = reordered.map(d => d.id);
-
-    // Update order
-    onReorderSubDecisions(localDecision.id, reorderedIds);
-
-    setDraggedSubDecisionId(null);
-    setDragOverSubDecisionId(null);
   };
 
   // Long press handler for delete popup
