@@ -554,6 +554,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
     setLinkDescription('');
     setLinkImage('');
     setLinkSiteName('');
+    setLinkFavicon('');
   };
 
   const handleDeleteDecisionLink = (linkId: string) => {
