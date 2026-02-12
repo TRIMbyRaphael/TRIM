@@ -122,7 +122,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
     })
   );
 
-  const toggleSection = (section: 'overdue' | 'active' | 'resolved') => {
+  const toggleSection = (section: 'overdue' | 'sampleDecisions' | 'active' | 'resolved') => {
     setExpandedSections({
       ...expandedSections,
       [section]: !expandedSections[section],
