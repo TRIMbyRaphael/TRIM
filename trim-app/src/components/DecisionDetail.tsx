@@ -1366,7 +1366,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block rounded-lg overflow-hidden border border-stretchLimo/10 hover:bg-stretchLimo50 transition-colors group"
+                  className="block rounded-lg overflow-hidden border border-stretchLimo/10 hover:bg-stretchLimo50 transition-colors group relative"
                 >
                   <div className="flex">
                     {/* 좌측: 텍스트 정보 */}
