@@ -194,11 +194,11 @@ export function injectSampleDecisions(existingDecisions: Decision[], lang: strin
 
       const existing = existingById.get(sample.id);
       if (existing) {
-        if (existing.isExample) {
-          // User hasn't modified → replace with latest template
+        if (existing.isExample && !existing.resolved) {
+          // User hasn't modified and hasn't trimmed → replace with latest template
           samplesToInject.push(sample);
         }
-        // else: user modified (isExample removed) → keep their version (already in existingDecisions)
+        // else: user modified (isExample removed) or trimmed (resolved) → keep their version
       } else {
         // New sample or force-synced → inject
         samplesToInject.push(sample);
