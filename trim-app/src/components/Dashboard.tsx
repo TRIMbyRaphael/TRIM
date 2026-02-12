@@ -347,7 +347,6 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
             >
               <div className="flex items-center gap-2">
                 <h2 className="text-lg font-semibold text-stretchLimo/80">{t.sampleDecisionsSection}</h2>
-                <span className="text-sm text-stretchLimo/50">{sampleDecisionsArr.length}</span>
                 {expandedSections.sampleDecisions ? (
                   <ChevronDown className="w-5 h-5 text-stretchLimo/50" />
                 ) : (
