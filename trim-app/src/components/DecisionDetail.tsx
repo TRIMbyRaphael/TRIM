@@ -444,6 +444,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
       setLinkDescription(existingLink.description || '');
       setLinkImage(existingLink.image || '');
       setLinkSiteName(existingLink.siteName || '');
+      setLinkFavicon(existingLink.favicon || '');
     } else {
       // 새 링크 추가 모드
       setEditingLinkId(null);
@@ -452,6 +453,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
       setLinkDescription('');
       setLinkImage('');
       setLinkSiteName('');
+      setLinkFavicon('');
     }
     
     setIsLoadingPreview(false);
