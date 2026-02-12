@@ -1743,7 +1743,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                       resetSwipe(option.id);
                     }}
                   >
-                    <ScissorsLineDashed className="w-5 h-5 text-white" />
+                    <ScissorsLineDashed className="w-5 h-5 text-white" style={{ transform: 'scaleX(-1)' }} />
                   </button>
                   {/* 삭제 버튼 (우측) */}
                   <button
