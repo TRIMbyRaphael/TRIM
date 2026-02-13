@@ -262,8 +262,8 @@ export default function CategoryManagementModal({
       >
         <div className="bg-cardBg rounded-2xl w-full max-w-md shadow-lg border border-stretchLimo/10 overflow-hidden">
           {/* Header */}
-          <div className="flex items-center justify-center px-5 pt-3.5 pb-3">
-            <h3 className="text-lg font-bold text-stretchLimo">{t.manageCategoriesTitle}</h3>
+          <div className="flex items-center justify-center px-5 py-3">
+            <h3 className="text-lg font-bold text-stretchLimo mt-0.5">{t.manageCategoriesTitle}</h3>
           </div>
 
           {/* Categories List */}
