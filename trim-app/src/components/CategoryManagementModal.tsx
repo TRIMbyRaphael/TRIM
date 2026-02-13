@@ -24,6 +24,7 @@ interface CategoryManagementModalProps {
   onSave: (categories: string[]) => void;
   onClose: () => void;
   decisions: any[]; // To check if category is in use
+  anchorRef?: RefObject<HTMLDivElement | null>;
 }
 
 // Sortable Category Item Component
