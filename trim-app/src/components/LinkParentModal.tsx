@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react';
-import { X } from 'lucide-react';
+import { X, Check } from 'lucide-react';
 import { Decision } from '../types/decision';
 import { t } from '../i18n';
 
