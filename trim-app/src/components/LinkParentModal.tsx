@@ -203,7 +203,7 @@ export default function LinkParentModal({
 
               {/* 구분선 */}
               {hasChangeOptions && (
-                <div className="flex items-center gap-3 mb-3">
+                <div className="flex items-center gap-3 mb-1.5">
                   <div className="flex-1 h-px bg-stretchLimo/10" />
                   <span className="text-xs text-micron">{t.changeParent}</span>
                   <div className="flex-1 h-px bg-stretchLimo/10" />

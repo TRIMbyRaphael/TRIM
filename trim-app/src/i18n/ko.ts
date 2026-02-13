@@ -171,7 +171,7 @@ const ko: Translations = {
   // Link Parent Modal
   linkToParent: '상위 사안 연결',
   currentParent: '현재 연결된 상위 사안',
-  changeParent: '또는 변경:',
+  changeParent: '변경',
   selectParent: '상위 사안 선택',
   removeLink: '연결 해제',
   noAvailableDecisions: '연결 가능한 사안이 없습니다',
