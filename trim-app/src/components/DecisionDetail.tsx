@@ -1306,6 +1306,15 @@ export default function DecisionDetail({ decision, decisions, categories, initia
           {showKebabMenu && (
             <div className="absolute top-full right-0 mt-1 bg-cardBg rounded-lg shadow-lg border border-stretchLimo/10 overflow-hidden z-10">
               <button
+                onClick={() => {
+                  setShowKebabMenu(false);
+                  setShowLinkParentModal(true);
+                }}
+                className="block w-full px-6 py-2 text-left hover:bg-stretchLimo100 text-stretchLimo whitespace-nowrap"
+              >
+                {t.linkToParent}
+              </button>
+              <button
                 onClick={handleDelete}
                 className="block w-full px-6 py-2 text-left hover:bg-stretchLimo100 text-scarletSmile whitespace-nowrap"
               >
