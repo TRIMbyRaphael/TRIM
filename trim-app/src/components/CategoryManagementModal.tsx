@@ -251,7 +251,13 @@ export default function CategoryManagementModal({
       />
 
       {/* Modal */}
-      <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
+      <div
+        className="fixed z-50 flex justify-center"
+        style={anchorTop !== null
+          ? { top: `${anchorTop}px`, left: 0, right: 0, padding: '0 16px' }
+          : { inset: 0, display: 'flex', alignItems: 'center', padding: '16px' }
+        }
+      >
         <div className="bg-cardBg rounded-2xl w-full max-w-md shadow-lg border border-stretchLimo/10 overflow-hidden">
           {/* Header */}
           <div className="flex items-center px-5 py-4 border-b border-stretchLimo/10">
