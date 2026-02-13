@@ -214,10 +214,16 @@ export default function LinkParentModal({
 
           {/* 트리 구조 목록 */}
           {(currentParent ? hasChangeOptions : rootDecisions.length > 0) ? (
-            <div className="space-y-0.5">
-              {(currentParent ? changeRoots : rootDecisions).map(d =>
-                renderDecisionItem(d, 0)
-              )}
+            <div>
+              {(currentParent ? changeRoots : rootDecisions).map((d, idx, arr) => (
+                <div key={d.id}>
+                  {renderDecisionItem(d, 0)}
+                  {/* 루트 묶음 사이 구분선 */}
+                  {idx < arr.length - 1 && (
+                    <div className="my-1.5 mx-2 h-px bg-stretchLimo/8" />
+                  )}
+                </div>
+              ))}
             </div>
           ) : (
             !currentParent && (
