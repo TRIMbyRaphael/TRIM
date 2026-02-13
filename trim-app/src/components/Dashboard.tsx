@@ -27,6 +27,8 @@ import { SAMPLE_DECISION_IDS } from '../data/sampleDecisions';
 interface DashboardProps {
   decisions: Decision[];
   categories: string[];
+  selectedCategory: string;
+  onSelectedCategoryChange: (category: string) => void;
   onCreateDecision: () => void;
   onSelectDecision: (decisionId: string) => void;
   onDeleteDecision: (decisionId: string) => void;
