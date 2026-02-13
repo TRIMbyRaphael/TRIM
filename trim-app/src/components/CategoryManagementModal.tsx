@@ -270,9 +270,9 @@ export default function CategoryManagementModal({
             <h3 className="flex-1 text-lg font-bold text-stretchLimo text-center">{t.manageCategoriesTitle}</h3>
             <button
               onClick={handleSave}
-              className="p-1 hover:bg-stretchLimo100 rounded-lg transition-colors text-stretchLimo"
+              className="p-2 rounded-lg transition-colors bg-stretchLimo text-white hover:bg-opacity-90"
             >
-              <Check className="w-5 h-5" />
+              <Check className="w-4 h-4" />
             </button>
           </div>
 

@@ -177,13 +177,13 @@ export default function LinkParentModal({
           <button
             onClick={handleConfirm}
             disabled={selectedParentId === currentParentId}
-            className={`p-1 rounded-lg transition-colors ${
+            className={`p-2 rounded-lg transition-colors ${
               selectedParentId !== currentParentId
-                ? 'hover:bg-stretchLimo100 text-stretchLimo'
-                : 'text-stretchLimo300 cursor-not-allowed'
+                ? 'bg-stretchLimo text-white hover:bg-opacity-90'
+                : 'bg-stretchLimo100 text-stretchLimo300 cursor-not-allowed'
             }`}
           >
-            <Check className="w-5 h-5" />
+            <Check className="w-4 h-4" />
           </button>
         </div>
 
