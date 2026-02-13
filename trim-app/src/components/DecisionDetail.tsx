@@ -1304,6 +1304,8 @@ export default function DecisionDetail({ decision, decisions, categories, initia
           </button>
 
           {showKebabMenu && (
+            <>
+            <div className="fixed inset-0 z-[9]" onClick={() => setShowKebabMenu(false)} />
             <div className="absolute top-full right-0 mt-1 bg-cardBg rounded-lg shadow-lg border border-stretchLimo/10 overflow-hidden z-10">
               <button
                 onClick={() => {
@@ -1323,6 +1325,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                 {t.delete}
               </button>
             </div>
+            </>
           )}
         </div>
       </header>
