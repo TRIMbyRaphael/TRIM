@@ -12,6 +12,21 @@ interface LinkParentModalProps {
   onSelectParent: (parentId: string | null) => void;
 }
 
+// 특정 사안의 모든 하위 사안 ID를 재귀적으로 수집 (순환 참조 방지)
+function getDescendantIds(decisionId: string, decisions: Decision[]): Set<string> {
+  const ids = new Set<string>();
+  const collect = (parentId: string) => {
+    decisions
+      .filter(d => d.parentId === parentId)
+      .forEach(d => {
+        ids.add(d.id);
+        collect(d.id);
+      });
+  };
+  collect(decisionId);
+  return ids;
+}
+
 export default function LinkParentModal({
   isOpen,
   onClose,
@@ -24,12 +39,24 @@ export default function LinkParentModal({
 
   if (!isOpen) return null;
 
-  // 필터링: 자기 자신 제외
-  const availableDecisions = decisions.filter(d => d.id !== currentDecisionId);
-
   const currentParent = currentParentId
     ? decisions.find(d => d.id === currentParentId)
     : null;
+
+  // 순환 참조 방지: 자기 자신 + 자신의 모든 하위 사안 제외
+  const descendantIds = getDescendantIds(currentDecisionId, decisions);
+
+  // 필터링: 자기 자신 제외, resolved 제외, 자신의 하위 사안 제외
+  const availableDecisions = decisions.filter(
+    d => d.id !== currentDecisionId && !d.resolved && !descendantIds.has(d.id)
+  );
+
+  // 트리 구조 구축: 루트 사안 (parentId 없음 또는 parentId가 필터링된 목록에 없는 경우)
+  const availableIdSet = new Set(availableDecisions.map(d => d.id));
+
+  const rootDecisions = availableDecisions
+    .filter(d => !d.parentId || !availableIdSet.has(d.parentId))
+    .sort((a, b) => (a.order || 0) - (b.order || 0));
 
   const handleConfirm = () => {
     onSelectParent(selectedParentId);
@@ -42,10 +69,93 @@ export default function LinkParentModal({
     onClose();
   };
 
-  // Case 1에서 "Or change to:" 목록은 현재 부모 제외
-  const changeOptions = currentParentId
-    ? availableDecisions.filter(d => d.id !== currentParentId)
-    : availableDecisions;
+  // Case 1에서 "Or change to:" 목록은 현재 부모도 제외
+  const filterCurrentParent = (items: Decision[]) =>
+    currentParentId ? items.filter(d => d.id !== currentParentId) : items;
+
+  const changeRoots = filterCurrentParent(rootDecisions);
+
+  // 재귀 렌더링: 사안 + 하위 사안을 대시보드와 동일한 트리 구조로
+  const renderDecisionItem = (decision: Decision, level: number = 0) => {
+    const children = availableDecisions
+      .filter(d => d.parentId === decision.id)
+      .sort((a, b) => (a.order || 0) - (b.order || 0));
+
+    // Case 1일 때 현재 부모는 제외
+    const isHiddenByCurrentParent = currentParentId === decision.id;
+    if (isHiddenByCurrentParent) {
+      // 현재 부모 자체는 숨기되, 그 자식들은 보여줌 (부모가 제외되므로 루트로 승격)
+      return children.map(child => renderDecisionItem(child, level));
+    }
+
+    const isSelected = selectedParentId === decision.id;
+
+    return (
+      <div key={decision.id}>
+        <label
+          className={`flex items-center gap-3 p-2.5 rounded-lg cursor-pointer transition-colors relative ${
+            isSelected ? 'bg-stretchLimo100' : 'hover:bg-stretchLimo50'
+          }`}
+          style={{ paddingLeft: `${12 + level * 20}px` }}
+        >
+          {/* "ㄴ" 연결선 for child items */}
+          {level > 0 && (
+            <>
+              {/* 세로선 */}
+              <div
+                className="absolute"
+                style={{
+                  left: `${level * 20}px`,
+                  top: '0',
+                  width: '2px',
+                  height: '14px',
+                  backgroundColor: 'rgba(26, 26, 26, 0.30)',
+                }}
+              />
+              {/* 가로선 */}
+              <div
+                className="absolute"
+                style={{
+                  left: `${level * 20}px`,
+                  top: '14px',
+                  width: '10px',
+                  height: '2px',
+                  backgroundColor: 'rgba(26, 26, 26, 0.30)',
+                }}
+              />
+            </>
+          )}
+
+          {/* 라디오 버튼 */}
+          <div
+            className={`w-4 h-4 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${
+              isSelected
+                ? 'border-stretchLimo bg-stretchLimo'
+                : 'border-stretchLimo300'
+            }`}
+          >
+            {isSelected && (
+              <div className="w-1.5 h-1.5 rounded-full bg-white" />
+            )}
+          </div>
+
+          {/* 제목 */}
+          <span className="text-sm text-black truncate flex-1">
+            {decision.title || t.untitledCard}
+          </span>
+        </label>
+
+        {/* 하위 사안 재귀 렌더링 */}
+        {children.length > 0 && (
+          <div>
+            {children.map(child => renderDecisionItem(child, level + 1))}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const hasChangeOptions = changeRoots.length > 0;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -91,51 +201,22 @@ export default function LinkParentModal({
               </div>
 
               {/* 구분선 */}
-              {changeOptions.length > 0 && (
-                <>
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="flex-1 h-px bg-stretchLimo/10" />
-                    <span className="text-xs text-micron">{t.changeParent}</span>
-                    <div className="flex-1 h-px bg-stretchLimo/10" />
-                  </div>
-                </>
+              {hasChangeOptions && (
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="flex-1 h-px bg-stretchLimo/10" />
+                  <span className="text-xs text-micron">{t.changeParent}</span>
+                  <div className="flex-1 h-px bg-stretchLimo/10" />
+                </div>
               )}
             </>
           )}
 
-          {/* Case 2: 부모가 없는 경우 - 또는 Case 1의 변경 목록 */}
-          {changeOptions.length > 0 ? (
-            <div className="space-y-1">
-              {changeOptions.map(d => (
-                <label
-                  key={d.id}
-                  className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors ${
-                    selectedParentId === d.id
-                      ? 'bg-stretchLimo100'
-                      : 'hover:bg-stretchLimo50'
-                  }`}
-                >
-                  <div
-                    className={`w-4 h-4 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${
-                      selectedParentId === d.id
-                        ? 'border-stretchLimo bg-stretchLimo'
-                        : 'border-stretchLimo300'
-                    }`}
-                  >
-                    {selectedParentId === d.id && (
-                      <div className="w-1.5 h-1.5 rounded-full bg-white" />
-                    )}
-                  </div>
-                  <span className="text-sm text-black truncate">
-                    {d.title || t.untitledCard}
-                  </span>
-                  {d.resolved && (
-                    <span className="text-[10px] text-micron bg-stretchLimo100 px-1.5 py-0.5 rounded-full flex-shrink-0">
-                      {t.resolvedText}
-                    </span>
-                  )}
-                </label>
-              ))}
+          {/* 트리 구조 목록 */}
+          {(currentParent ? hasChangeOptions : rootDecisions.length > 0) ? (
+            <div className="space-y-0.5">
+              {(currentParent ? changeRoots : rootDecisions).map(d =>
+                renderDecisionItem(d, 0)
+              )}
             </div>
           ) : (
             !currentParent && (
