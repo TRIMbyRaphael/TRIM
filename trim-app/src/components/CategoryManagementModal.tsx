@@ -159,6 +159,11 @@ export default function CategoryManagementModal({
     return decisions.filter(d => d.category === category).length;
   };
 
+  const persistCategories = (updated: string[]) => {
+    if (updated.length === 0) return;
+    onSave(updated);
+  };
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
 
@@ -168,7 +173,9 @@ export default function CategoryManagementModal({
     const newIndex = localCategories.indexOf(over.id as string);
 
     if (oldIndex !== -1 && newIndex !== -1) {
-      setLocalCategories(arrayMove(localCategories, oldIndex, newIndex));
+      const updated = arrayMove(localCategories, oldIndex, newIndex);
+      setLocalCategories(updated);
+      persistCategories(updated);
     }
   };
 
@@ -260,25 +267,8 @@ export default function CategoryManagementModal({
       >
         <div className="bg-cardBg rounded-2xl w-full max-w-md shadow-lg border border-stretchLimo/10 overflow-hidden">
           {/* Header */}
-          <div className="flex items-center px-5 py-4 border-b border-stretchLimo/10">
-            <button
-              onClick={onClose}
-              className="p-2 rounded-lg transition-colors bg-stretchLimo text-white hover:bg-opacity-90"
-            >
-              <X className="w-4 h-4" />
-            </button>
-            <h3 className="flex-1 text-lg font-bold text-stretchLimo text-center">{t.manageCategoriesTitle}</h3>
-            <button
-              onClick={handleSave}
-              disabled={JSON.stringify(localCategories) === JSON.stringify(categories)}
-              className={`p-2 rounded-lg transition-colors ${
-                JSON.stringify(localCategories) !== JSON.stringify(categories)
-                  ? 'bg-stretchLimo text-white hover:bg-opacity-90'
-                  : 'bg-stretchLimo100 text-stretchLimo300 cursor-not-allowed'
-              }`}
-            >
-              <Check className="w-4 h-4" />
-            </button>
+          <div className="flex items-center justify-center px-5 py-4 border-b border-stretchLimo/10">
+            <h3 className="text-lg font-bold text-stretchLimo">{t.manageCategoriesTitle}</h3>
           </div>
 
           {/* Categories List */}
