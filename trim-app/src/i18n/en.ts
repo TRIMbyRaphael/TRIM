@@ -169,7 +169,7 @@ const en = {
   // Link Parent Modal
   linkToParent: 'Link to Parent Decision',
   currentParent: 'Current Parent',
-  changeParent: 'Or change to:',
+  changeParent: 'Change',
   selectParent: 'Select a parent decision',
   removeLink: 'Remove link',
   noAvailableDecisions: 'No available decisions',
