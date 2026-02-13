@@ -14,6 +14,7 @@ function App() {
   const [categories, setCategories] = useState<string[]>([]);
   const [currentView, setCurrentView] = useState<View>('dashboard');
   const [currentDecisionId, setCurrentDecisionId] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   // Track initial sub-decision count for each decision
   const [initialSubDecisionCounts, setInitialSubDecisionCounts] = useState<Record<string, number>>({});
