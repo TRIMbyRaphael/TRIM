@@ -314,20 +314,6 @@ export default function CategoryManagementModal({
             </button>
           </div>
 
-          {/* Actions */}
-          <div className="flex gap-3">
-            <button
-              onClick={onClose}
-              className="flex-1 bg-cardBg text-stretchLimo shadow border border-stretchLimo/10 rounded-lg py-3 text-base font-bold hover:bg-cloudDancer/30 transition-colors"
-            >
-              {t.cancel}
-            </button>
-            <button
-              onClick={handleSave}
-              className="flex-1 bg-stretchLimo text-white rounded-lg py-3 text-base font-bold hover:bg-opacity-90 transition-colors"
-            >
-              {t.save}
-            </button>
           </div>
         </div>
       </div>
