@@ -92,7 +92,8 @@ export default function LinkParentModal({
 
     return (
       <div key={decision.id}>
-        <label
+        <div
+          onClick={() => setSelectedParentId(decision.id)}
           className={`flex items-center gap-3 p-2.5 rounded-lg cursor-pointer transition-colors relative ${
             isSelected ? 'bg-stretchLimo100' : 'hover:bg-stretchLimo50'
           }`}
@@ -143,7 +144,7 @@ export default function LinkParentModal({
           <span className="text-sm text-black truncate flex-1">
             {decision.title || t.untitledCard}
           </span>
-        </label>
+        </div>
 
         {/* 하위 사안 재귀 렌더링 */}
         {children.length > 0 && (
