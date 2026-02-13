@@ -270,7 +270,12 @@ export default function CategoryManagementModal({
             <h3 className="flex-1 text-lg font-bold text-stretchLimo text-center">{t.manageCategoriesTitle}</h3>
             <button
               onClick={handleSave}
-              className="p-2 rounded-lg transition-colors bg-stretchLimo text-white hover:bg-opacity-90"
+              disabled={JSON.stringify(localCategories) === JSON.stringify(categories)}
+              className={`p-2 rounded-lg transition-colors ${
+                JSON.stringify(localCategories) !== JSON.stringify(categories)
+                  ? 'bg-stretchLimo text-white hover:bg-opacity-90'
+                  : 'bg-stretchLimo100 text-stretchLimo300 cursor-not-allowed'
+              }`}
             >
               <Check className="w-4 h-4" />
             </button>
