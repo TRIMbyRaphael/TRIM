@@ -65,7 +65,7 @@ function SortableCategoryItem({
   };
 
   return (
-    <div ref={setNodeRef} style={style} className="flex items-center gap-2 p-3 bg-cloudDancer/30 rounded-lg">
+    <div ref={setNodeRef} style={style} className="flex items-center gap-2 p-3 bg-cloudDancer/30 border border-stretchLimo/15 rounded-lg">
       {!isEditing && (
         <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing">
           <GripVertical className="w-4 h-4 text-micron" />
