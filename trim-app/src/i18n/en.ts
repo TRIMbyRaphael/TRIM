@@ -165,6 +165,14 @@ const en = {
 
   // Sample Decisions Section
   sampleDecisionsSection: 'Sample Decisions 💡',
+
+  // Link Parent Modal
+  linkToParent: 'Link to Parent Decision',
+  currentParent: 'Current Parent',
+  changeParent: 'Or change to:',
+  selectParent: 'Select a parent decision',
+  removeLink: 'Remove link',
+  noAvailableDecisions: 'No available decisions',
 };
 
 export type Translations = typeof en;
