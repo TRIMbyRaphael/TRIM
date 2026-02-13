@@ -263,9 +263,9 @@ export default function CategoryManagementModal({
           <div className="flex items-center px-5 py-4 border-b border-stretchLimo/10">
             <button
               onClick={onClose}
-              className="p-1 hover:bg-stretchLimo100 rounded-lg transition-colors"
+              className="p-2 rounded-lg transition-colors bg-stretchLimo text-white hover:bg-opacity-90"
             >
-              <X className="w-5 h-5 text-stretchLimo" />
+              <X className="w-4 h-4" />
             </button>
             <h3 className="flex-1 text-lg font-bold text-stretchLimo text-center">{t.manageCategoriesTitle}</h3>
             <button
