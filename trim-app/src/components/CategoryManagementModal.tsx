@@ -242,19 +242,26 @@ export default function CategoryManagementModal({
 
       {/* Modal */}
       <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
-        <div className="bg-cardBg rounded-2xl w-full max-w-md p-6 shadow-lg border border-stretchLimo/10">
+        <div className="bg-cardBg rounded-2xl w-full max-w-md shadow-lg border border-stretchLimo/10 overflow-hidden">
           {/* Header */}
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-bold text-stretchLimo">{t.manageCategoriesTitle}</h3>
+          <div className="flex items-center px-5 py-4 border-b border-stretchLimo/10">
             <button
               onClick={onClose}
-              className="p-1 hover:bg-cloudDancer/50 rounded transition-colors"
+              className="p-1 hover:bg-stretchLimo100 rounded-lg transition-colors"
             >
-              <X className="w-5 h-5 text-micron" />
+              <X className="w-5 h-5 text-stretchLimo" />
+            </button>
+            <h3 className="flex-1 text-lg font-bold text-stretchLimo text-center">{t.manageCategoriesTitle}</h3>
+            <button
+              onClick={handleSave}
+              className="p-1 hover:bg-stretchLimo100 rounded-lg transition-colors text-stretchLimo"
+            >
+              <Check className="w-5 h-5" />
             </button>
           </div>
 
           {/* Categories List */}
+          <div className="p-6">
           <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
