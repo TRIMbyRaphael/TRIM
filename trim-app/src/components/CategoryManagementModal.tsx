@@ -127,8 +127,17 @@ export default function CategoryManagementModal({
   onSave,
   onClose,
   decisions,
+  anchorRef,
 }: CategoryManagementModalProps) {
   const [localCategories, setLocalCategories] = useState<string[]>(categories);
+  const [anchorTop, setAnchorTop] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (anchorRef?.current) {
+      const rect = anchorRef.current.getBoundingClientRect();
+      setAnchorTop(rect.bottom + 8); // 카테고리 필터 바로 아래 + 8px gap
+    }
+  }, [anchorRef]);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [editingValue, setEditingValue] = useState('');
   const [newCategoryName, setNewCategoryName] = useState('');
