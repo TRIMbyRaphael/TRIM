@@ -100,8 +100,7 @@ function SortableDecisionCard({
   );
 }
 
-export default function Dashboard({ decisions, categories, onCreateDecision, onSelectDecision, onDeleteDecision, onReorderDecisions, onUpdateDecision, onTrimDecision, onReopenDecision, onUpdateCategories }: DashboardProps) {
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+export default function Dashboard({ decisions, categories, selectedCategory, onSelectedCategoryChange: setSelectedCategory, onCreateDecision, onSelectDecision, onDeleteDecision, onReorderDecisions, onUpdateDecision, onTrimDecision, onReopenDecision, onUpdateCategories }: DashboardProps) {
   const [showCategoryManagement, setShowCategoryManagement] = useState(false);
   const categoryFilterRef = useRef<HTMLDivElement>(null);
   const sampleIdSet = new Set(SAMPLE_DECISION_IDS);
