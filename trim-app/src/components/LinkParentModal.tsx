@@ -166,13 +166,24 @@ export default function LinkParentModal({
       {/* Modal */}
       <div className="relative bg-cardBg rounded-2xl shadow-xl w-[90%] max-w-md max-h-[80vh] flex flex-col overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-stretchLimo/10">
-          <h2 className="text-lg font-semibold text-black">{t.linkToParent}</h2>
+        <div className="flex items-center px-5 py-4 border-b border-stretchLimo/10">
           <button
             onClick={onClose}
             className="p-1 hover:bg-stretchLimo100 rounded-lg transition-colors"
           >
             <X className="w-5 h-5 text-stretchLimo" />
+          </button>
+          <h2 className="flex-1 text-lg font-semibold text-black text-center">{t.linkToParent}</h2>
+          <button
+            onClick={handleConfirm}
+            disabled={selectedParentId === currentParentId}
+            className={`p-1 rounded-lg transition-colors ${
+              selectedParentId !== currentParentId
+                ? 'hover:bg-stretchLimo100 text-stretchLimo'
+                : 'text-stretchLimo300 cursor-not-allowed'
+            }`}
+          >
+            <Check className="w-5 h-5" />
           </button>
         </div>
 
@@ -234,26 +245,7 @@ export default function LinkParentModal({
           )}
         </div>
 
-        {/* Footer */}
-        <div className="px-5 py-4 border-t border-stretchLimo/10 flex gap-3">
-          <button
-            onClick={onClose}
-            className="flex-1 py-2.5 rounded-lg text-sm font-medium border border-stretchLimo/20 text-stretchLimo hover:bg-stretchLimo50 transition-colors"
-          >
-            {t.cancel}
-          </button>
-          <button
-            onClick={handleConfirm}
-            disabled={selectedParentId === currentParentId}
-            className={`flex-1 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-              selectedParentId !== currentParentId
-                ? 'bg-stretchLimo text-white hover:bg-opacity-90'
-                : 'bg-stretchLimo100 text-stretchLimo300 cursor-not-allowed'
-            }`}
-          >
-            {t.confirm}
-          </button>
-        </div>
+        
       </div>
     </div>
   );
