@@ -220,7 +220,7 @@ export default function LinkParentModal({
                   {renderDecisionItem(d, 0)}
                   {/* 루트 묶음 사이 구분선 */}
                   {idx < arr.length - 1 && (
-                    <div className="my-1.5 mx-2 h-px bg-stretchLimo/8" />
+                    <div className="my-1.5 mx-2 h-px" style={{ backgroundColor: 'rgba(26, 26, 26, 0.08)' }} />
                   )}
                 </div>
               ))}
