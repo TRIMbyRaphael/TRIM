@@ -261,7 +261,7 @@ export default function CategoryManagementModal({
           </div>
 
           {/* Categories List */}
-          <div className="p-6">
+          <div className="px-5 pt-3 pb-4">
           <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
@@ -271,7 +271,7 @@ export default function CategoryManagementModal({
               items={localCategories}
               strategy={verticalListSortingStrategy}
             >
-              <div className="space-y-2 mb-4 max-h-64 overflow-y-auto">
+              <div className="space-y-2 mb-3 max-h-64 overflow-y-auto">
                 {localCategories.map((category, index) => (
                   <SortableCategoryItem
                     key={category}
@@ -291,7 +291,7 @@ export default function CategoryManagementModal({
           </DndContext>
 
           {/* Add Category */}
-          <div className="flex items-center gap-2 mb-6">
+          <div className="flex items-center gap-2">
             <input
               type="text"
               value={newCategoryName}
