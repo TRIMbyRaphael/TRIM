@@ -383,6 +383,8 @@ function App() {
       <Dashboard
         decisions={decisions}
         categories={categories}
+        selectedCategory={selectedCategory}
+        onSelectedCategoryChange={setSelectedCategory}
         onCreateDecision={handleCreateDecision}
         onSelectDecision={handleSelectDecision}
         onDeleteDecision={handleDeleteDecision}
