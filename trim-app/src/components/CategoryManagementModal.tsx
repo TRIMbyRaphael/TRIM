@@ -267,7 +267,7 @@ export default function CategoryManagementModal({
           </div>
 
           {/* Categories List */}
-          <div className="px-5 pt-1.5 pb-4">
+          <div className="px-5 pt-0.5 pb-4">
           <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
