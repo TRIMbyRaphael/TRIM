@@ -127,6 +127,7 @@ export default function DecisionDetail({ decision, decisions, categories, initia
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
+  const [showLinkParentModal, setShowLinkParentModal] = useState(false);
   const [showChunkingInfo, setShowChunkingInfo] = useState(false);
   const [showChunkingInfoExpanded, setShowChunkingInfoExpanded] = useState(false);
   // Framing question collapse state - persisted per decision
