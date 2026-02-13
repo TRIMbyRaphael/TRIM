@@ -2780,6 +2780,20 @@ export default function DecisionDetail({ decision, decisions, categories, initia
           </div>
         </>
       )}
+
+      {/* Link Parent Modal */}
+      <LinkParentModal
+        isOpen={showLinkParentModal}
+        onClose={() => setShowLinkParentModal(false)}
+        currentDecisionId={localDecision.id}
+        currentParentId={localDecision.parentId || null}
+        decisions={decisions}
+        onSelectParent={(parentId) => {
+          const updated = { ...localDecision, parentId: parentId || undefined };
+          setLocalDecision(updated);
+          onUpdate(updated);
+        }}
+      />
     </div>
   );
 }
