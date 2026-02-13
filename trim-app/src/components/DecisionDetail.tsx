@@ -1310,14 +1310,16 @@ export default function DecisionDetail({ decision, decisions, categories, initia
                   setShowKebabMenu(false);
                   setShowLinkParentModal(true);
                 }}
-                className="block w-full px-6 py-2 text-left hover:bg-stretchLimo100 text-stretchLimo whitespace-nowrap"
+                className="flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-stretchLimo100 text-stretchLimo whitespace-nowrap"
               >
+                <LinkIcon className="w-4 h-4" />
                 {t.linkToParent}
               </button>
               <button
                 onClick={handleDelete}
-                className="block w-full px-6 py-2 text-left hover:bg-stretchLimo100 text-scarletSmile whitespace-nowrap"
+                className="flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-stretchLimo100 text-scarletSmile whitespace-nowrap"
               >
+                <Trash2 className="w-4 h-4" />
                 {t.delete}
               </button>
             </div>
