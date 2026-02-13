@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { X } from 'lucide-react';
 import { Decision } from '../types/decision';
 import { t } from '../i18n';
@@ -76,7 +76,7 @@ export default function LinkParentModal({
   const changeRoots = filterCurrentParent(rootDecisions);
 
   // 재귀 렌더링: 사안 + 하위 사안을 대시보드와 동일한 트리 구조로
-  const renderDecisionItem = (decision: Decision, level: number = 0) => {
+  const renderDecisionItem = (decision: Decision, level: number = 0): ReactNode => {
     const children = availableDecisions
       .filter(d => d.parentId === decision.id)
       .sort((a, b) => (a.order || 0) - (b.order || 0));
