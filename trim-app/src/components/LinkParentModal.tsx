@@ -177,7 +177,7 @@ export default function LinkParentModal({
         </div>
 
         {/* Body */}
-        <div className="flex-1 overflow-y-auto px-5 py-4">
+        <div className="flex-1 overflow-y-auto px-5 pt-1.5 pb-4">
           {/* Case 1: 현재 부모가 있는 경우 */}
           {currentParent && (
             <>
