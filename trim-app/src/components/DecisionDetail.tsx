@@ -9,6 +9,7 @@ import { formatTimeRemaining } from '../utils/timeFormat';
 import { t } from '../i18n';
 import logoButtonActive from '../assets/logo-button-active.svg';
 import logoButtonInactive from '../assets/logo-button-inactive.svg';
+import LinkParentModal from './LinkParentModal';
 import {
   DndContext,
   closestCenter,
