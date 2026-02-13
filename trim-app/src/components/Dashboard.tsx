@@ -101,6 +101,7 @@ function SortableDecisionCard({
 export default function Dashboard({ decisions, categories, onCreateDecision, onSelectDecision, onDeleteDecision, onReorderDecisions, onUpdateDecision, onTrimDecision, onReopenDecision, onUpdateCategories }: DashboardProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [showCategoryManagement, setShowCategoryManagement] = useState(false);
+  const categoryFilterRef = useRef<HTMLDivElement>(null);
   const sampleIdSet = new Set(SAMPLE_DECISION_IDS);
 
   const [expandedSections, setExpandedSections] = useState({
@@ -268,7 +269,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
       {/* Main Container */}
       <div className="max-w-2xl mx-auto px-4 pb-8">
         {/* Category Filter */}
-        <div className="flex items-center gap-2 mb-6">
+        <div ref={categoryFilterRef} className="flex items-center gap-2 mb-6">
           <div className="flex-1 flex gap-2">
             <button
               onClick={() => setSelectedCategory('All')}
@@ -487,6 +488,7 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
         <CategoryManagementModal
           categories={categories}
           decisions={decisions}
+          anchorRef={categoryFilterRef}
           onSave={(newCategories) => {
             onUpdateCategories(newCategories);
             setShowCategoryManagement(false);
