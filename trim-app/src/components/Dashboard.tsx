@@ -491,7 +491,6 @@ export default function Dashboard({ decisions, categories, onCreateDecision, onS
           anchorRef={categoryFilterRef}
           onSave={(newCategories) => {
             onUpdateCategories(newCategories);
-            setShowCategoryManagement(false);
           }}
           onClose={() => setShowCategoryManagement(false)}
         />

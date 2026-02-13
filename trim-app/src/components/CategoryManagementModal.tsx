@@ -200,6 +200,7 @@ export default function CategoryManagementModal({
     setLocalCategories(updated);
     setEditingIndex(null);
     setEditingValue('');
+    persistCategories(updated);
   };
 
   const handleCancelEdit = () => {
@@ -225,6 +226,7 @@ export default function CategoryManagementModal({
 
     const updated = localCategories.filter((_, i) => i !== index);
     setLocalCategories(updated);
+    persistCategories(updated);
   };
 
   const handleAddCategory = () => {
@@ -236,17 +238,10 @@ export default function CategoryManagementModal({
       return;
     }
 
-    setLocalCategories([...localCategories, trimmed]);
+    const updated = [...localCategories, trimmed];
+    setLocalCategories(updated);
     setNewCategoryName('');
-  };
-
-  const handleSave = () => {
-    if (localCategories.length === 0) {
-      alert(t.needAtLeastOneCategory);
-      return;
-    }
-    onSave(localCategories);
-    onClose();
+    persistCategories(updated);
   };
 
   return (
