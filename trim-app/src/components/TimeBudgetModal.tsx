@@ -172,9 +172,16 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
               </div>
             </div>
 
+            {/* OR Divider */}
+            <div className="flex items-center gap-3 my-6">
+              <div className="flex-1 border-t border-stretchLimo/15" />
+              <span className="text-sm font-medium text-micron tracking-widest">OR</span>
+              <div className="flex-1 border-t border-stretchLimo/15" />
+            </div>
+
             {/* Deadline Section */}
             <div className="mb-6 bg-cloudDancer rounded-xl p-4">
-              <h3 className="text-lg font-bold text-stretchLimo mb-4">{t.deadline}</h3>
+              <h3 className="text-lg font-bold text-stretchLimo mb-4 uppercase tracking-wide">{t.deadline}</h3>
 
               {/* Month Selector */}
               <div className="flex items-center justify-between mb-4">
