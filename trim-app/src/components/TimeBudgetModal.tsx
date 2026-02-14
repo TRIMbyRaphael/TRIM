@@ -176,14 +176,14 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
             <div className="border-t border-stretchLimo/10 my-6" />
 
             {/* Deadline Section */}
-            <div className="mb-6">
+            <div className="mb-6 bg-cloudDancer rounded-xl p-4">
               <h3 className="text-lg font-bold text-stretchLimo mb-4">{t.deadline}</h3>
 
               {/* Month Selector */}
               <div className="flex items-center justify-between mb-4">
                 <button
                   onClick={() => handleMonthChange(-1)}
-                  className="p-2 hover:bg-cloudDancer/50 rounded-lg transition-colors"
+                  className="p-2 hover:bg-white/50 rounded-lg transition-colors"
                 >
                   <ChevronLeft className="w-5 h-5 text-stretchLimo" />
                 </button>
@@ -192,7 +192,7 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
                 </span>
                 <button
                   onClick={() => handleMonthChange(1)}
-                  className="p-2 hover:bg-cloudDancer/50 rounded-lg transition-colors"
+                  className="p-2 hover:bg-white/50 rounded-lg transition-colors"
                 >
                   <ChevronRight className="w-5 h-5 text-stretchLimo" />
                 </button>
@@ -214,7 +214,7 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
                       day === deadline.getDate()
                         ? 'bg-stretchLimo text-white font-bold'
                         : day
-                        ? 'text-stretchLimo hover:bg-cloudDancer/50'
+                        ? 'text-stretchLimo hover:bg-white/50'
                         : ''
                     }`}
                   >
@@ -226,7 +226,7 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
               {/* Time Selector */}
               <button
                 onClick={() => setShowTimePicker(true)}
-                className="w-full flex items-center justify-between px-4 py-3 bg-cloudDancer/30 rounded-lg hover:bg-cloudDancer/50 transition-colors"
+                className="w-full flex items-center justify-between px-4 py-3 bg-white/40 rounded-lg hover:bg-white/60 transition-colors"
               >
                 <span className="text-base text-stretchLimo">{t.time}</span>
                 <div className="flex items-center gap-2">
