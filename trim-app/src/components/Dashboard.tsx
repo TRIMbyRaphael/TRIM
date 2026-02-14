@@ -272,10 +272,10 @@ export default function Dashboard({ decisions, categories, selectedCategory, onS
         {/* Category Filter */}
         <div ref={categoryFilterRef} className="flex items-center gap-2 mb-6">
           <div className="flex-1 overflow-x-auto scrollbar-hide min-w-0">
-            <div className="flex gap-2">
+            <div className="flex gap-2 w-max min-w-full">
               <button
                 onClick={() => setSelectedCategory('All')}
-                className={`shrink-0 py-2 px-4 rounded-lg font-medium whitespace-nowrap transition-colors ${
+                className={`flex-1 py-2 px-4 rounded-lg font-medium whitespace-nowrap transition-colors ${
                   selectedCategory === 'All'
                     ? 'bg-stretchLimo text-white'
                     : 'bg-cardBg text-stretchLimo shadow border border-stretchLimo/10 hover:shadow-md hover:bg-cloudDancer/30'
@@ -287,7 +287,7 @@ export default function Dashboard({ decisions, categories, selectedCategory, onS
                 <button
                   key={category}
                   onClick={() => setSelectedCategory(category)}
-                  className={`shrink-0 py-2 px-4 rounded-lg font-medium whitespace-nowrap transition-colors ${
+                  className={`flex-1 py-2 px-4 rounded-lg font-medium whitespace-nowrap transition-colors ${
                     selectedCategory === category
                       ? 'bg-stretchLimo text-white'
                       : 'bg-cardBg text-stretchLimo shadow border border-stretchLimo/10 hover:shadow-md hover:bg-cloudDancer/30'
