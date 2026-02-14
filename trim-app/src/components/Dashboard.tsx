@@ -274,7 +274,7 @@ export default function Dashboard({ decisions, categories, selectedCategory, onS
           <div className="flex-1 flex flex-wrap gap-1.5 min-w-0">
             <button
               onClick={() => setSelectedCategory('All')}
-              className={`grow py-1.5 px-3 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
+              className={`py-1.5 px-3 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
                 selectedCategory === 'All'
                   ? 'bg-stretchLimo text-white'
                   : 'bg-cardBg text-stretchLimo shadow border border-stretchLimo/10 hover:shadow-md hover:bg-cloudDancer/30'
