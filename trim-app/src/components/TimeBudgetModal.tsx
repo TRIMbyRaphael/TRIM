@@ -249,13 +249,6 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
               </button>
             </div>
 
-            {/* Confirm Button */}
-            <button
-              onClick={handleConfirm}
-              className="w-full bg-stretchLimo text-white rounded-lg py-3 text-base font-bold hover:bg-opacity-90 transition-colors"
-            >
-              {t.confirm}
-            </button>
           </div>
         </div>
       </div>
