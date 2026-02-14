@@ -270,11 +270,11 @@ export default function Dashboard({ decisions, categories, selectedCategory, onS
       {/* Main Container */}
       <div className="max-w-2xl mx-auto px-4 pb-8">
         {/* Category Filter */}
-        <div ref={categoryFilterRef} className="flex items-start gap-2 mb-6">
-          <div className="flex-1 flex flex-wrap gap-1.5 min-w-0">
+        <div ref={categoryFilterRef} className="flex items-center gap-2 mb-6">
+          <div className="flex-1 flex gap-2">
             <button
               onClick={() => setSelectedCategory('All')}
-              className={`py-1.5 px-3 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
+              className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
                 selectedCategory === 'All'
                   ? 'bg-stretchLimo text-white'
                   : 'bg-cardBg text-stretchLimo shadow border border-stretchLimo/10 hover:shadow-md hover:bg-cloudDancer/30'
@@ -286,7 +286,7 @@ export default function Dashboard({ decisions, categories, selectedCategory, onS
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`grow py-1.5 px-3 rounded-lg text-sm font-medium transition-colors truncate max-w-[120px] ${
+                className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
                   selectedCategory === category
                     ? 'bg-stretchLimo text-white'
                     : 'bg-cardBg text-stretchLimo shadow border border-stretchLimo/10 hover:shadow-md hover:bg-cloudDancer/30'
@@ -298,7 +298,7 @@ export default function Dashboard({ decisions, categories, selectedCategory, onS
           </div>
           <button
             onClick={() => setShowCategoryManagement(true)}
-            className="flex-shrink-0 p-2 bg-cardBg rounded-lg shadow border border-stretchLimo/10 hover:shadow-md hover:bg-cloudDancer/30 transition-all"
+            className="p-2 bg-cardBg rounded-lg shadow border border-stretchLimo/10 hover:shadow-md hover:bg-cloudDancer/30 transition-all"
             title={t.manageCategoriesTitle}
           >
             <Settings className="w-5 h-5 text-stretchLimo" />
