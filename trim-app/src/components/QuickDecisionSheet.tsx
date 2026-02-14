@@ -8,6 +8,7 @@ interface QuickDecisionSheetProps {
   isOpen: boolean;
   decisionType: 'do_or_not' | 'choose_best';
   categories: string[];
+  defaultCategory?: string;
   onClose: () => void;
   onComplete: (decision: Partial<Decision>) => void;
   onExpand: (decision: Partial<Decision>) => void;
