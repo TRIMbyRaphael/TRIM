@@ -12,7 +12,7 @@ const en = {
 
   // Default data
   defaultCategory: 'Life',
-  defaultCategories: ['Personal', 'Work'],
+  defaultCategories: ['Life', 'Work'],
 
   // Decision Modes (keyed by DecisionMode value)
   decisionModes: {
