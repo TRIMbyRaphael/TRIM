@@ -413,6 +413,7 @@ function App() {
           isOpen={!!quickEditorType}
           decisionType={quickEditorType}
           categories={categories}
+          defaultCategory={getPresetCategory()}
           onClose={() => setQuickEditorType(null)}
           onComplete={handleQuickComplete}
           onExpand={handleQuickExpand}
