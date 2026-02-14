@@ -270,31 +270,33 @@ export default function Dashboard({ decisions, categories, selectedCategory, onS
       {/* Main Container */}
       <div className="max-w-2xl mx-auto px-4 pb-8">
         {/* Category Filter */}
-        <div ref={categoryFilterRef} className="flex flex-wrap items-center gap-2 mb-6">
-          <div className="flex flex-wrap gap-2 flex-1 min-w-0">
-            <button
-              onClick={() => setSelectedCategory('All')}
-              className={`flex-auto py-2 px-4 rounded-lg font-medium whitespace-nowrap transition-colors ${
-                selectedCategory === 'All'
-                  ? 'bg-stretchLimo text-white'
-                  : 'bg-cardBg text-stretchLimo shadow border border-stretchLimo/10 hover:shadow-md hover:bg-cloudDancer/30'
-              }`}
-            >
-              {t.all}
-            </button>
-            {categories.map((category) => (
+        <div ref={categoryFilterRef} className="flex items-center gap-2 mb-6">
+          <div className="flex-1 overflow-x-auto scrollbar-hide min-w-0">
+            <div className="flex gap-2">
               <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                className={`flex-auto py-2 px-4 rounded-lg font-medium whitespace-nowrap transition-colors ${
-                  selectedCategory === category
+                onClick={() => setSelectedCategory('All')}
+                className={`shrink-0 py-2 px-4 rounded-lg font-medium whitespace-nowrap transition-colors ${
+                  selectedCategory === 'All'
                     ? 'bg-stretchLimo text-white'
                     : 'bg-cardBg text-stretchLimo shadow border border-stretchLimo/10 hover:shadow-md hover:bg-cloudDancer/30'
                 }`}
               >
-                {category}
+                {t.all}
               </button>
-            ))}
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  className={`shrink-0 py-2 px-4 rounded-lg font-medium whitespace-nowrap transition-colors ${
+                    selectedCategory === category
+                      ? 'bg-stretchLimo text-white'
+                      : 'bg-cardBg text-stretchLimo shadow border border-stretchLimo/10 hover:shadow-md hover:bg-cloudDancer/30'
+                  }`}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
           </div>
           <button
             onClick={() => setShowCategoryManagement(true)}
