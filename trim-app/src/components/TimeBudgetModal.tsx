@@ -172,9 +172,6 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
               </div>
             </div>
 
-            {/* Divider */}
-            <div className="border-t border-stretchLimo/10 my-6" />
-
             {/* Deadline Section */}
             <div className="mb-6 bg-cloudDancer rounded-xl p-4">
               <h3 className="text-lg font-bold text-stretchLimo mb-4">{t.deadline}</h3>
