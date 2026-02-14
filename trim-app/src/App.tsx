@@ -112,6 +112,11 @@ function App() {
     }
   };
 
+  // 대시보드에서 선택 중인 카테고리를 프리셋으로 사용
+  // 'All'이면 첫 번째 카테고리, 특정 카테고리면 그 카테고리를 사용
+  const getPresetCategory = () =>
+    selectedCategory !== 'All' ? selectedCategory : (categories[0] || t.defaultCategory);
+
   // 모드와 함께 Decision 생성 (전체 편집기용)
   const createDecisionWithMode = (mode: DecisionMode) => {
     const now = new Date();
@@ -144,7 +149,7 @@ function App() {
     const newDecision: Decision = {
       id: baseId.toString(),
       title: '',
-      category: categories[0] || t.defaultCategory,
+      category: getPresetCategory(),
       importance: 'MEDIUM',
       timeBudget: timeBudgetVal,
       deadline: deadlineVal.toISOString(),
