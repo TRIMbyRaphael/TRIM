@@ -121,10 +121,15 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
             >
               <X className="w-4 h-4" />
             </button>
-            <h2 className="flex-1 text-lg font-semibold text-black text-center">{t.timeBudget}</h2>
+            <div className="flex-1" />
             <button
               onClick={handleConfirm}
-              className="p-2 rounded-lg transition-colors bg-stretchLimo text-white hover:bg-opacity-90"
+              disabled={!hasChanges}
+              className={`p-2 rounded-lg transition-colors ${
+                hasChanges
+                  ? 'bg-stretchLimo text-white hover:bg-opacity-90'
+                  : 'bg-stretchLimo100 text-stretchLimo300 cursor-not-allowed'
+              }`}
             >
               <Check className="w-4 h-4" />
             </button>
