@@ -18,13 +18,14 @@ export default function QuickDecisionSheet({
   isOpen,
   decisionType,
   categories,
+  defaultCategory,
   onClose,
   onComplete,
   onExpand,
 }: QuickDecisionSheetProps) {
   const [title, setTitle] = useState('');
   const [options, setOptions] = useState<Option[]>(() => initOptions(decisionType));
-  const [category, setCategory] = useState(categories[0] || t.defaultCategory);
+  const [category, setCategory] = useState(defaultCategory || categories[0] || t.defaultCategory);
   const [importance, setImportance] = useState<ImportanceLevel>('MEDIUM');
   const [timeBudget, setTimeBudget] = useState(IMPORTANCE_LEVELS.MEDIUM.minutes);
   // deadline은 사용자가 TimeBudgetModal에서 직접 설정한 경우에만 저장
