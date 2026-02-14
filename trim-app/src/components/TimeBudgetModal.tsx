@@ -87,6 +87,10 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
     onClose();
   };
 
+  // Check if any value has been changed from initial
+  const currentTotalMinutes = days * 1440 + hours * 60 + minutes;
+  const hasChanges = currentTotalMinutes !== initialTimeBudget || deadline.toISOString() !== initialDeadline;
+
   // Calendar logic
   const year = deadline.getFullYear();
   const month = deadline.getMonth();
