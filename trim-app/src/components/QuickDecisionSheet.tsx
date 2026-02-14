@@ -400,17 +400,17 @@ export default function QuickDecisionSheet({
             </div>
 
             {/* Bottom Controls Bar */}
-            <div className="flex items-center gap-2 pt-2 border-t border-stretchLimo/[0.06]">
+            <div className="flex items-center gap-1 pt-2 border-t border-stretchLimo/[0.06]">
               {/* Category Selector (compact) */}
-              <div className="relative" ref={categoryDropdownRef}>
+              <div className="relative min-w-0" ref={categoryDropdownRef}>
                 <button
                   onMouseDown={preventBlur}
                   onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm text-stretchLimo hover:bg-stretchLimo50 transition-colors"
+                  className="flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs text-stretchLimo hover:bg-stretchLimo50 transition-colors"
                 >
-                  <FolderOpen className="w-4 h-4" />
-                  <span className="max-w-[60px] truncate">{category}</span>
-                  <ChevronDown className="w-3 h-3" />
+                  <FolderOpen className="w-3.5 h-3.5 flex-shrink-0" />
+                  <span className="max-w-[52px] truncate">{category}</span>
+                  <ChevronDown className="w-3 h-3 flex-shrink-0" />
                 </button>
 
                 {showCategoryDropdown && (
