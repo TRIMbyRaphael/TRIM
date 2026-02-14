@@ -126,7 +126,7 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
           <div className="p-6">
             {/* Time Budget Section */}
             <div className="mb-6">
-              <h3 className="text-lg font-bold text-stretchLimo mb-4">{t.timeBudget}</h3>
+              <h3 className="text-lg font-bold text-stretchLimo mb-4 uppercase tracking-wide">{t.timeBudget}</h3>
               <div className="flex justify-center gap-4">
                 {/* Days */}
                 <div className="flex flex-col items-center">
