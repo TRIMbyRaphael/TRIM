@@ -114,12 +114,19 @@ export default function TimeBudgetModal({ initialDeadline, initialTimeBudget, on
       <div className="fixed inset-x-0 bottom-0 md:inset-0 md:flex md:items-center md:justify-center z-50">
         <div className="bg-cardBg rounded-t-2xl md:rounded-2xl w-full md:max-w-lg md:max-h-[90vh] overflow-y-auto shadow-lg border border-stretchLimo/10">
           {/* Header */}
-          <div className="flex justify-end p-4 shadow-sm">
+          <div className="flex items-center px-5 py-4 border-b border-stretchLimo/10">
             <button
               onClick={onClose}
-              className="p-2 hover:bg-cloudDancer/50 rounded-lg transition-colors"
+              className="p-2 rounded-lg transition-colors bg-stretchLimo text-white hover:bg-opacity-90"
             >
-              <X className="w-5 h-5 text-stretchLimo" />
+              <X className="w-4 h-4" />
+            </button>
+            <h2 className="flex-1 text-lg font-semibold text-black text-center">{t.timeBudget}</h2>
+            <button
+              onClick={handleConfirm}
+              className="p-2 rounded-lg transition-colors bg-stretchLimo text-white hover:bg-opacity-90"
+            >
+              <Check className="w-4 h-4" />
             </button>
           </div>
 
